@@ -1,0 +1,68 @@
+import java.text.SimpleDateFormat
+
+apply plugin: 'com.android.application'
+def versionMajor = 2
+def versionMinor = 0
+def versionPatch = 6
+def versionBuild = 3
+def propertiesFileName = "app.properties"
+
+def buildTime() {
+    def df = new SimpleDateFormat("yyyyMMdd HH:mm")
+
+    return df.format(new Date())
+}
+
+android {
+    compileSdkVersion 23
+    buildToolsVersion '23.0.1'
+
+    defaultConfig {
+        generatedDensities = []
+        applicationId "com.sumauto.app"
+        minSdkVersion 15
+        targetSdkVersion 23
+        versionCode versionMajor * 10000 + versionMinor * 1000 + versionPatch * 100 + versionBuild
+        versionName "${versionMajor}.${versionMinor}.${versionPatch}"
+        resValue "string", "app_version_name", "${versionName}"
+        buildConfigField "String", "BUILD_TIME", "\"${buildTime()}\""
+
+        //noinspection GroovyAssignabilityCheck
+        def propertiesFile = file(propertiesFileName)
+        if (!propertiesFile.exists()) {
+            def commentMessage = "put your settings here"
+            ant.propertyfile(file: propertiesFileName, comment: commentMessage) {
+                //the keys added here are invalid, just placeholders to make builds pass
+                entry(key: "host", value: "www.sina.com")
+            }
+        }
+        Properties properties = new Properties();
+        properties.load(new FileInputStream(file(propertiesFileName)));
+        buildConfigField "String", "HOST", "\"${properties.getProperty("host")}\""
+    }
+
+    aaptOptions {
+        additionalParameters "--no-version-vectors"
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+}
+
+
+def androidSupportVersion = "23.0.1"
+
+dependencies {
+    //noinspection GroovyAssignabilityCheck
+    compile fileTree(dir: 'libs', include: ['*.jar'])
+    testCompile 'junit:junit:4.12'
+    compile('com.android.support:design:' + androidSupportVersion,
+            'com.jakewharton:butterknife:7.0.1'
+    )
+    compile project(':SLibrary')
+    compile 'com.eftimoff:android-pathview:1.0.8@aar'
+}
