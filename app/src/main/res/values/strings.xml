@@ -10,8 +10,13 @@
 
     <string name="friends_feed">好友动态</string>
     <string name="shequ_feed">社区动态</string>
+    <string name="my_circle">我的圈子</string>
 
     <string name="title_activity_fullscreen">FullscreenActivity</string>
     <string name="dummy_button">Dummy Button</string>
     <string name="dummy_content">DUMMY\nCONTENT</string>
+    <string name="attention">关注</string>
+    <string name="comment">评论</string>
+    <string name="collection">收藏</string>
+    <string name="more">更多</string>
 </resources>

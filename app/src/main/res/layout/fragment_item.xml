@@ -3,15 +3,17 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:background="@color/white"
     android:layout_height="wrap_content"
-    android:orientation="horizontal">
+    android:background="@color/white"
+    android:orientation="horizontal"
+    android:paddingBottom="@dimen/dimen_10"
+    android:paddingTop="@dimen/dimen_10">
 
     <ImageView
-        android:id="@+id/image"
+        android:id="@+id/iv_image"
         android:layout_width="match_parent"
-        android:layout_height="190dp"
-        android:layout_marginTop="@dimen/avatar_size_reduce_10dp"
+        android:layout_height="@dimen/dimen_291"
+        android:layout_marginTop="@dimen/dimen_41"
         android:scaleType="centerCrop"
         android:src="@drawable/test_image_01"/>
 
@@ -20,36 +22,44 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center_vertical"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        android:paddingLeft="@dimen/dimen_10"
+        android:paddingRight="@dimen/dimen_10">
 
         <com.sumauto.widget.CircleImageView
-            android:layout_width="@dimen/avatar_size"
-            android:layout_height="@dimen/avatar_size"
+            android:id="@+id/iv_avatar"
+            android:layout_width="@dimen/dimen_51"
+            android:layout_height="@dimen/dimen_51"
             android:src="@drawable/test_image_01"
             app:border_color="@color/white"
-            app:border_width="2dp"/>
+            app:border_width="3dp"/>
 
         <TextView
+            android:id="@+id/tv_nick"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="4dp"
+            android:layout_marginLeft="@dimen/dimen_10"
             android:text="法院频道"
-            android:textColor="@color/textBlack"/>
+            android:textColor="@color/textBlack"
+            android:textSize="@dimen/text_14"/>
 
         <TextView
+            android:id="@+id/tv_from"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="20dp"
             android:text="1小时前 来自 江西小区"
-            android:textColor="@color/textGray"/>
+            android:textColor="@color/textGray"
+            android:textSize="@dimen/text_11"/>
     </LinearLayout>
 
     <TextView
         android:id="@+id/tv_content"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/image"
-        android:layout_marginTop="5dp"
+        android:layout_below="@+id/iv_image"
+        android:layout_marginLeft="@dimen/dimen_10"
+        android:layout_marginTop="@dimen/dimen_16"
         android:singleLine="true"
         android:text="哦 i 啊是对佛 i 啊说好的发生地护肤品请问二平后11 苏打粉"/>
 
@@ -57,29 +67,45 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/tv_content"
+        android:layout_marginLeft="@dimen/dimen_10"
+        android:layout_marginRight="@dimen/dimen_10"
+        android:layout_marginTop="@dimen/dimen_10"
+        android:gravity="center_vertical"
         android:orientation="horizontal">
 
         <ImageView
-            android:layout_width="wrap_content"
+            android:contentDescription="@string/attention"
+            android:id="@+id/iv_heart"
+            android:layout_width="@dimen/dimen_23"
             android:layout_height="wrap_content"
-            android:src="@drawable/ic_menu_orientation"/>
+            android:src="@mipmap/ic_heart"/>
 
         <ImageView
-            android:layout_width="wrap_content"
+            android:contentDescription="@string/comment"
+            android:id="@+id/iv_comment"
+            android:layout_width="@dimen/dimen_23"
             android:layout_height="wrap_content"
-            android:src="@drawable/ic_menu_orientation"/>
+            android:layout_marginLeft="@dimen/dimen_33"
+            android:layout_marginRight="@dimen/dimen_33"
+            android:src="@mipmap/ic_comment"/>
 
         <ImageView
-            android:layout_width="wrap_content"
+            android:contentDescription="@string/collection"
+            android:id="@+id/iv_collect"
+            android:layout_width="@dimen/dimen_23"
             android:layout_height="wrap_content"
-            android:src="@drawable/ic_menu_orientation"/>
+            android:src="@mipmap/ic_collect"/>
+
         <android.support.v4.widget.Space
             android:layout_width="0dp"
-            android:layout_weight="1"
-            android:layout_height="match_parent"/>
+            android:layout_height="match_parent"
+            android:layout_weight="1"/>
+
         <ImageView
-            android:layout_width="wrap_content"
+            android:contentDescription="@string/more"
+            android:id="@+id/iv_more"
+            android:layout_width="@dimen/dimen_23"
             android:layout_height="wrap_content"
-            android:src="@drawable/ic_menu_close_cancel"/>
+            android:src="@mipmap/ic_more"/>
     </LinearLayout>
 </RelativeLayout>

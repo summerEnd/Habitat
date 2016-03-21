@@ -1,4 +1,4 @@
-package com.sumauto.habitat;
+package com.sumauto.habitat.activity;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -8,6 +8,7 @@ import android.widget.CheckBox;
 import android.widget.CompoundButton;
 
 import com.sumauto.common.util.ActivityDismissUtils;
+import com.sumauto.habitat.R;
 
 public class SecondActivity extends AppCompatActivity {
 

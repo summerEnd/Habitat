@@ -19,14 +19,14 @@
     <LinearLayout
         android:id="@+id/bottom_ll"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="@dimen/dimen_49"
         android:layout_alignParentBottom="true"
         android:background="@drawable/Translucent_white"
-        android:gravity="bottom"
+        android:gravity="center"
         android:orientation="horizontal"
-        android:paddingLeft="16dp"
-        android:paddingRight="16dp"
-        android:paddingTop="3dp">
+        android:paddingLeft="@dimen/dimen_33"
+        android:paddingRight="@dimen/dimen_33"
+        >
 
         <com.sumauto.widget.CheckableLinearLayout
             android:id="@+id/tab_main_home"
@@ -35,7 +35,7 @@
             <ImageView
                 style="@style/main_tab_item_image"
                 android:contentDescription="@string/home"
-                android:src="@drawable/ic_menu_orientation"/>
+                android:src="@drawable/tab_home"/>
 
         </com.sumauto.widget.CheckableLinearLayout>
 
@@ -49,7 +49,7 @@
             <ImageView
                 style="@style/main_tab_item_image"
                 android:contentDescription="@string/search"
-                android:src="@drawable/ic_menu_orientation"/>
+                android:src="@drawable/tab_search"/>
 
         </com.sumauto.widget.CheckableLinearLayout>
 
@@ -61,10 +61,10 @@
             style="@style/main_tab_item">
 
             <ImageView
-                android:layout_width="60dp"
-                android:layout_height="60dp"
+                android:layout_width="@dimen/dimen_44"
+                android:layout_height="@dimen/dimen_38"
                 android:contentDescription="@string/publish"
-                android:src="@drawable/ic_camera"/>
+                android:src="@drawable/tab_publish"/>
 
         </com.sumauto.widget.CheckableLinearLayout>
 
@@ -78,7 +78,7 @@
             <ImageView
                 style="@style/main_tab_item_image"
                 android:contentDescription="@string/news_feed"
-                android:src="@drawable/ic_menu_orientation"/>
+                android:src="@drawable/tab_news"/>
 
         </com.sumauto.widget.CheckableLinearLayout>
 
@@ -92,7 +92,7 @@
             <ImageView
                 style="@style/main_tab_item_image"
                 android:contentDescription="@string/mine"
-                android:src="@drawable/ic_menu_orientation"/>
+                android:src="@drawable/tab_mine"/>
 
         </com.sumauto.widget.CheckableLinearLayout>
 

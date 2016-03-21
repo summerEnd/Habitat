@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/tv_window_shequ"
+        android:text="@string/shequ_feed"
+        style="@style/window_main_tab_select_item"/>
+
+    <View style="@style/horizontal_line"/>
+
+    <TextView
+        android:id="@+id/tv_window_myCircle"
+        style="@style/window_main_tab_select_item"
+        android:text="@string/my_circle"
+        android:textColor="@color/textGray"/>
+</LinearLayout>

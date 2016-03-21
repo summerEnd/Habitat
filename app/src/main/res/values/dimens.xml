@@ -5,5 +5,25 @@
     <dimen name="text_margin">16dp</dimen>
 
     <dimen name="avatar_size">50dp</dimen>
+    <dimen name="avatar_size_01">40dp</dimen>
     <dimen name="avatar_size_reduce_10dp">40dp</dimen>
+
+    <dimen name="dimen_10">10dp</dimen>
+    <dimen name="dimen_16">16dp</dimen>
+    <dimen name="dimen_20">20dp</dimen>
+    <dimen name="dimen_23">23dp</dimen>
+    <dimen name="dimen_19">19dp</dimen>
+    <dimen name="dimen_29">29dp</dimen>
+    <dimen name="dimen_33">33dp</dimen>
+    <dimen name="dimen_38">38dp</dimen>
+    <dimen name="dimen_41">41dp</dimen>
+    <dimen name="dimen_44">44dp</dimen>
+    <dimen name="dimen_49">49dp</dimen>
+    <dimen name="dimen_50">50dp</dimen>
+    <dimen name="dimen_51">51dp</dimen>
+    <dimen name="dimen_291">291dp</dimen>
+
+    <dimen name="text_11">12sp</dimen>
+    <dimen name="text_13">13sp</dimen>
+    <dimen name="text_14">14sp</dimen>
 </resources>

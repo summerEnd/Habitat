@@ -1,19 +1,17 @@
-package com.sumauto.habitat;
+package com.sumauto.habitat.activity;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
-import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 
-import com.sumauto.habitat.dummy.DummyContent;
+import com.sumauto.habitat.R;
+import com.sumauto.habitat.activity.home.HomeFragment;
 import com.sumauto.widget.CheckableLinearLayout;
 
-import butterknife.ButterKnife;
 
-public class MainActivity extends AppCompatActivity implements ItemFragment.OnListFragmentInteractionListener{
+public class MainActivity extends BaseActivity {
 
     CheckableLinearLayout checkedTab;
 
@@ -21,7 +19,7 @@ public class MainActivity extends AppCompatActivity implements ItemFragment.OnLi
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        ButterKnife.bind(this);
+        findViewById(R.id.tab_main_home).performClick();
     }
 
     public void onTabClick(View v) {
@@ -69,8 +67,5 @@ public class MainActivity extends AppCompatActivity implements ItemFragment.OnLi
         checkedTab = tab;
     }
 
-    @Override
-    public void onListFragmentInteraction(DummyContent.DummyItem item) {
 
-    }
 }

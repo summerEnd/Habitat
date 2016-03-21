@@ -29,8 +29,8 @@
 
     <style name="main_tab_item_image">
         <item name="android:duplicateParentState">true</item>
-        <item name="android:layout_width">wrap_content</item>
-        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_width">@dimen/dimen_29</item>
+        <item name="android:layout_height">@dimen/dimen_29</item>
     </style>
 
     <style name="main_tab_item_text">
@@ -46,6 +46,12 @@
         <item name="android:layout_weight">1</item>
     </style>
 
+    <style name="horizontal_line">
+        <item name="android:background">#e6e6e6</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">1dp</item>
+    </style>
+
     <style name="FullscreenTheme" parent="AppTheme">
         <item name="android:actionBarStyle">@style/FullscreenActionBarStyle</item>
         <item name="android:windowActionBarOverlay">true</item>
@@ -56,6 +62,19 @@
 
     <style name="FullscreenActionBarStyle" parent="Widget.AppCompat.ActionBar">
         <item name="android:background">@color/black_overlay</item>
+    </style>
+
+    <style name="window_main_tab_select_item">
+        <item name="android:background">@drawable/clicked_white</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:drawableRight">@mipmap/ic_clickable</item>
+        <item name="android:paddingBottom">@dimen/dimen_19</item>
+        <item name="android:paddingLeft">@dimen/dimen_16</item>
+        <item name="android:paddingRight">@dimen/dimen_16</item>
+        <item name="android:paddingTop">@dimen/dimen_19</item>
+        <item name="android:textColor">@color/colorPrimary</item>
+        <item name="android:textSize">@dimen/text_13</item>
     </style>
 
 </resources>
