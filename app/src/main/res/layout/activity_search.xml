@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    tools:context="com.sumauto.habitat.activity.search.SearchActivity">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/titleBarHeight"
+        android:background="@drawable/titleBarBackground"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
+        <FrameLayout
+            android:layout_width="0dp"
+            android:layout_marginLeft="@dimen/dimen_10"
+            android:layout_weight="1"
+            android:layout_height="wrap_content">
+            <EditText
+                android:imeOptions="actionSearch"
+                android:id="@+id/edit_search"
+                android:layout_gravity="center_vertical"
+                android:singleLine="true"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/frag_search_edit_background"
+                android:drawableLeft="@mipmap/ic_search"
+                android:drawablePadding="@dimen/dimen_4"
+                android:gravity="center_vertical"
+                android:paddingBottom="@dimen/dimen_7"
+                android:paddingLeft="@dimen/dimen_10"
+                android:paddingRight="@dimen/dimen_10"
+                android:paddingTop="@dimen/dimen_7"
+                android:textSize="@dimen/text_11"
+                android:textColor="@color/textBlack"
+                android:textColorHint="@color/textGray"
+                android:hint="@string/search_neighbour_user"/>
+            <ImageView
+                android:visibility="invisible"
+                android:id="@+id/iv_clearEdit"
+                android:layout_marginRight="@dimen/dimen_7"
+                android:layout_gravity="center_vertical|right"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@mipmap/ic_clear_edit"/>
+        </FrameLayout>
+
+        <TextView
+            android:id="@+id/tv_cancel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/dimen_16"
+            android:layout_marginRight="@dimen/dimen_10"
+            android:contentDescription="@string/add_user"
+            android:src="@mipmap/ic_add_user"
+            android:text="@string/cancel"
+            android:textColor="@color/textBlack"
+            android:textSize="@dimen/text_14"/>
+    </LinearLayout>
+
+    <View style="@style/horizontal_line"/>
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:id="@+id/layout_empty"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/dimen_76"
+            android:gravity="center_horizontal"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/search_user_neighbourhood_note"/>
+
+            <ImageView
+                android:layout_width="@dimen/dimen_171"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/dimen_23"
+                android:contentDescription="@string/empty"
+                android:src="@mipmap/ic_search_empty"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:visibility="invisible"
+            android:id="@+id/layout_pager"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <android.support.design.widget.TabLayout
+                android:id="@+id/tabLayout"
+                app:tabTextAppearance="@style/tabTextAppearance"
+                app:tabTextColor="@color/textBlack"
+                app:tabSelectedTextColor="@color/colorPrimary"
+                android:layout_width="match_parent"
+                app:tabIndicatorColor="@color/colorPrimary"
+                android:layout_height="@dimen/dimen_41"
+                android:background="@color/white"/>
+
+            <View style="@style/horizontal_line"/>
+
+            <android.support.v4.view.ViewPager
+                android:id="@+id/viewPager"
+                android:background="@drawable/windowBackground"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"/>
+        </LinearLayout>
+    </FrameLayout>
+</LinearLayout>

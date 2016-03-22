@@ -53,6 +53,19 @@
         <attr name="border_width" format="dimension" />
         <attr name="border_color" format="color" />
     </declare-styleable>
+    <declare-styleable name="ImageGridView">
+        <attr name="space" format="dimension"/>
+        <attr name="totalColumn" format="integer"/>
+        <attr name="totalRows" format="integer|enum">
+            <enum name="auto" value="-1"/>
+        </attr>
 
+    </declare-styleable>
+    <declare-styleable name="ImageGridView_Layout">
+        <attr name="column" format="integer"/>
+        <attr name="column_span" format="integer"/>
+        <attr name="row" format="integer"/>
+        <attr name="row_span" format="integer"/>
+    </declare-styleable>
 
 </resources>

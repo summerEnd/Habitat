@@ -7,7 +7,7 @@
 
     <TextView
         android:id="@+id/tv_window_shequ"
-        android:text="@string/shequ_feed"
+        android:text="@string/neighbour_feed"
         style="@style/window_main_tab_select_item"/>
 
     <View style="@style/horizontal_line"/>

@@ -10,14 +10,15 @@
     <android.support.design.widget.AppBarLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@drawable/Translucent_white"
+        android:background="#0000"
         app:layout_scrollFlags="scroll|enterAlways">
 
         <FrameLayout
             android:layout_width="match_parent"
-            android:layout_height="@dimen/dimen_49"
+            android:layout_height="@dimen/titleBarHeight"
             android:paddingLeft="@dimen/dimen_10"
             android:paddingRight="@dimen/dimen_10"
+            android:background="@drawable/titleBarBackground"
             app:layout_scrollFlags="scroll|enterAlways">
 
             <ImageView
@@ -39,12 +40,11 @@
 
         <View
             style="@style/horizontal_line"
-            android:background="#b2b2b2"
             />
 
         <com.sumauto.widget.nav.TabLayout
             android:id="@+id/tabLayout"
-            android:background="@drawable/Translucent_white"
+            android:background="#fff"
             android:layout_width="match_parent"
             android:layout_height="@dimen/dimen_41"
             app:indicator="@color/colorPrimary"
@@ -52,13 +52,14 @@
 
             <com.sumauto.widget.nav.TabItem
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:padding="10dp">
+                android:layout_height="match_parent"
+               >
 
                 <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:gravity="center"
+                    android:orientation="horizontal"
                     android:layout_gravity="center">
 
                     <TextView
@@ -66,7 +67,7 @@
                         android:gravity="center"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="@string/shequ_feed"
+                        android:text="@string/neighbour_feed"
                         android:textColor="@color/colorPrimary"
                         android:textSize="@dimen/text_14"/>
                     <ImageView
@@ -81,8 +82,6 @@
             <com.sumauto.widget.nav.TabItem
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                app:itemText="@string/yes"
-                app:itemTextColors="@color/text_color_selectable"
                 app:itemTextSize="@dimen/text_14">
 
                 <TextView
@@ -91,7 +90,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/friends_feed"
-                    android:textColor="@color/text_color_selectable"
+                    android:textColor="@color/textBlack"
                     android:textSize="@dimen/text_14"/>
             </com.sumauto.widget.nav.TabItem>
         </com.sumauto.widget.nav.TabLayout>

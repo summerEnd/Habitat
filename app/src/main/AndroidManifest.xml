@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<manifest package="com.sumauto.habitat"
-          xmlns:android="http://schemas.android.com/apk/res/android">
+<manifest
+    package="com.sumauto.habitat"
+    xmlns:android="http://schemas.android.com/apk/res/android">
 
     <application
         android:name=".HabitatApp"
@@ -23,7 +24,10 @@
             android:theme="@style/Translucent">
         </activity>
         <activity android:name="com.sumauto.activity.PhotoAlbumActivity"/>
-
+        <activity
+            android:name=".activity.search.SearchActivity"
+            android:theme="@style/FullScreen">
+        </activity>
     </application>
 
 </manifest>

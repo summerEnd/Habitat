@@ -1,5 +1,6 @@
 package com.sumauto.common.util;
 
+import android.app.Activity;
 import android.content.Context;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
@@ -61,4 +62,6 @@ public class ViewUtil {
             v.setOnClickListener(l);
         }
     }
+
+
 }

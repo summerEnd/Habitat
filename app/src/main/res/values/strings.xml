@@ -9,14 +9,27 @@
     <string name="mine">我的</string>
 
     <string name="friends_feed">好友动态</string>
-    <string name="shequ_feed">社区动态</string>
+    <string name="neighbour_feed">社区动态</string>
     <string name="my_circle">我的圈子</string>
 
     <string name="title_activity_fullscreen">FullscreenActivity</string>
     <string name="dummy_button">Dummy Button</string>
     <string name="dummy_content">DUMMY\nCONTENT</string>
     <string name="attention">关注</string>
+    <string name="attention_already">已关注</string>
     <string name="comment">评论</string>
     <string name="collection">收藏</string>
     <string name="more">更多</string>
+    <string name="add_user">添加用户</string>
+    <string name="search_neighbour_user">搜索小区或用户名</string>
+    <string name="recommend_user">推荐用户</string>
+    <string name="avatar">头像</string>
+    <string name="image">图片</string>
+    <string name="cancel">取消</string>
+    <string name="search_user_neighbourhood_note">你可以搜索到相关的用户、小区和帖子</string>
+    <string name="empty">空</string>
+
+    <string name="user">用户</string>
+    <string name="circle">圈子</string>
+    <string name="content">内容</string>
 </resources>

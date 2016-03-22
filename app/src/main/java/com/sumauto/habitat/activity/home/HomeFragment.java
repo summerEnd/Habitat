@@ -45,7 +45,7 @@ public class HomeFragment extends BaseFragment implements ViewPager.OnPageChange
         mViewPager.setAdapter(new FragmentPagerAdapter(getChildFragmentManager()) {
             @Override
             public CharSequence getPageTitle(int position) {
-                return getString(position == 0 ? R.string.shequ_feed : R.string.friends_feed);
+                return getString(position == 0 ? R.string.neighbour_feed : R.string.friends_feed);
             }
 
             @Override
@@ -128,7 +128,7 @@ public class HomeFragment extends BaseFragment implements ViewPager.OnPageChange
                 tv_window_myCircle.setTextColor(ViewUtil.getColor(v.getContext(), R.color.colorPrimary));
                 tv_window_shequ.setTextColor(ViewUtil.getColor(v.getContext(),R.color.textBlack));
             }else{
-                tv_shequ.setText(R.string.shequ_feed);
+                tv_shequ.setText(R.string.neighbour_feed);
                 tv_window_myCircle.setTextColor(ViewUtil.getColor(v.getContext(), R.color.textBlack));
                 tv_window_shequ.setTextColor(ViewUtil.getColor(v.getContext(), R.color.colorPrimary));
 

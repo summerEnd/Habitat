@@ -4,18 +4,29 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    xmlns:tools="http://schemas.android.com/tools"
     android:background="@color/white"
     android:orientation="horizontal"
     android:paddingBottom="@dimen/dimen_10"
     android:paddingTop="@dimen/dimen_10">
 
-    <ImageView
-        android:id="@+id/iv_image"
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/dimen_291"
+    <com.sumauto.widget.ImageGridView
+        android:id="@+id/image"
         android:layout_marginTop="@dimen/dimen_41"
-        android:scaleType="centerCrop"
-        android:src="@drawable/test_image_01"/>
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:totalColumn="75">
+
+        <ImageView
+            android:contentDescription="@string/image"
+            app:row_span="58"
+            app:column_span="75"
+            android:id="@+id/iv_image"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dimen_291"
+            android:scaleType="centerCrop"
+            android:src="@drawable/test_image_01"/>
+    </com.sumauto.widget.ImageGridView>
 
     <LinearLayout
         android:id="@+id/info_layout"
@@ -39,7 +50,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="@dimen/dimen_10"
-            android:text="法院频道"
+            tools:text="法院频道"
             android:textColor="@color/textBlack"
             android:textSize="@dimen/text_14"/>
 
@@ -48,7 +59,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="20dp"
-            android:text="1小时前 来自 江西小区"
+            tools:text="1小时前 来自 江西小区"
             android:textColor="@color/textGray"
             android:textSize="@dimen/text_11"/>
     </LinearLayout>
@@ -57,11 +68,11 @@
         android:id="@+id/tv_content"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/iv_image"
+        android:layout_below="@+id/image"
         android:layout_marginLeft="@dimen/dimen_10"
         android:layout_marginTop="@dimen/dimen_16"
         android:singleLine="true"
-        android:text="哦 i 啊是对佛 i 啊说好的发生地护肤品请问二平后11 苏打粉"/>
+        tools:text="哦 i 啊是对佛 i 啊说好的发生地护肤品请问二平后11 苏打粉"/>
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -74,26 +85,26 @@
         android:orientation="horizontal">
 
         <ImageView
-            android:contentDescription="@string/attention"
             android:id="@+id/iv_heart"
             android:layout_width="@dimen/dimen_23"
             android:layout_height="wrap_content"
+            android:contentDescription="@string/attention"
             android:src="@mipmap/ic_heart"/>
 
         <ImageView
-            android:contentDescription="@string/comment"
             android:id="@+id/iv_comment"
             android:layout_width="@dimen/dimen_23"
             android:layout_height="wrap_content"
             android:layout_marginLeft="@dimen/dimen_33"
             android:layout_marginRight="@dimen/dimen_33"
+            android:contentDescription="@string/comment"
             android:src="@mipmap/ic_comment"/>
 
         <ImageView
-            android:contentDescription="@string/collection"
             android:id="@+id/iv_collect"
             android:layout_width="@dimen/dimen_23"
             android:layout_height="wrap_content"
+            android:contentDescription="@string/collection"
             android:src="@mipmap/ic_collect"/>
 
         <android.support.v4.widget.Space
@@ -102,10 +113,10 @@
             android:layout_weight="1"/>
 
         <ImageView
-            android:contentDescription="@string/more"
             android:id="@+id/iv_more"
             android:layout_width="@dimen/dimen_23"
             android:layout_height="wrap_content"
+            android:contentDescription="@string/more"
             android:src="@mipmap/ic_more"/>
     </LinearLayout>
 </RelativeLayout>
