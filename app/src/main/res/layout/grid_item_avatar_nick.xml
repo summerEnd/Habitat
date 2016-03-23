@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center"
+    android:paddingTop="@dimen/dimen_7"
+    android:paddingBottom="@dimen/dimen_7"
+    android:orientation="vertical">
+    <com.sumauto.habitat.widget.AvatarView
+        android:src="@drawable/test_image_01"
+        android:layout_width="@dimen/dimen_36"
+        android:layout_height="@dimen/dimen_36"/>
+    <TextView
+        android:layout_marginTop="@dimen/dimen_3"
+        android:text="小丸子"
+        android:singleLine="true"
+        android:textSize="@dimen/text_9"
+        android:textColor="@color/textBlack"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+</LinearLayout>

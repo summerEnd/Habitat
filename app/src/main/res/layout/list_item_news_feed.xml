@@ -37,7 +37,7 @@
         android:paddingLeft="@dimen/dimen_10"
         android:paddingRight="@dimen/dimen_10">
 
-        <com.sumauto.widget.CircleImageView
+        <com.sumauto.habitat.widget.AvatarView
             android:id="@+id/iv_avatar"
             android:layout_width="@dimen/dimen_51"
             android:layout_height="@dimen/dimen_51"
@@ -66,6 +66,8 @@
 
     <TextView
         android:id="@+id/tv_content"
+        android:textColor="@color/textBlack"
+        android:textSize="@dimen/text_14"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/image"

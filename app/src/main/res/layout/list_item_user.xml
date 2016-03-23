@@ -11,7 +11,7 @@
     android:paddingRight="@dimen/dimen_13"
     android:paddingTop="@dimen/dimen_13">
 
-    <com.sumauto.widget.CircleImageView
+    <com.sumauto.habitat.widget.AvatarView
         android:layout_width="@dimen/dimen_41"
         android:layout_height="@dimen/dimen_41"
         android:src="@drawable/test_image_01"/>

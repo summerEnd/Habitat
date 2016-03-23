@@ -11,7 +11,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.sumauto.habitat.R;
-import com.sumauto.habitat.adapter.NewsFeedAdapter;
+import com.sumauto.habitat.adapter.TrendAdapter;
 
 
 public class FeedListFragment extends Fragment {
@@ -27,7 +27,7 @@ public class FeedListFragment extends Fragment {
             Context context = view.getContext();
             RecyclerView recyclerView = (RecyclerView) view;
             recyclerView.setLayoutManager(new LinearLayoutManager(context));
-            recyclerView.setAdapter(new NewsFeedAdapter());
+            recyclerView.setAdapter(new TrendAdapter());
             recyclerView.addItemDecoration(new RecyclerView.ItemDecoration() {
                 @Override
                 public void getItemOffsets(Rect outRect, View view, RecyclerView parent, RecyclerView.State state) {

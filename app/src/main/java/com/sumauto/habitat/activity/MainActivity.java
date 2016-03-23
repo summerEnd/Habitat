@@ -43,7 +43,7 @@ public class MainActivity extends BaseActivity {
                     fragment = new SearchFragment();
                     break;
                 case R.id.tab_main_newsFeed:
-                    fragment = new NewsFeedFragment();
+                    fragment = new TrendFragment();
                     break;
                 case R.id.tab_main_mine:
                     fragment = new MineFragment();

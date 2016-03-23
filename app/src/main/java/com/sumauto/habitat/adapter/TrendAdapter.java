@@ -6,28 +6,28 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.sumauto.habitat.R;
-import com.sumauto.habitat.adapter.holders.NewsFeedHolder;
+import com.sumauto.habitat.adapter.holders.TrendHolder;
 import com.sumauto.habitat.bean.FeedBean;
 
 import java.util.ArrayList;
 
-public class NewsFeedAdapter extends RecyclerView.Adapter<NewsFeedHolder> {
+public class TrendAdapter extends RecyclerView.Adapter<TrendHolder> {
 
     private ArrayList<FeedBean> beans=new ArrayList<>();
-    public NewsFeedAdapter() {
+    public TrendAdapter() {
         for (int i = 0; i < 20; i++) {
             beans.add(new FeedBean());
         }
     }
 
     @Override
-    public NewsFeedHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public TrendHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.list_item_news_feed, parent, false);
-        return new NewsFeedHolder(view);
+        return new TrendHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(final NewsFeedHolder holder, int position) {
+    public void onBindViewHolder(final TrendHolder holder, int position) {
         FeedBean feedBean = beans.get(position);
         holder.init(feedBean);
 

@@ -20,6 +20,7 @@ import com.sp.lib.R;
 
 /**
  * Created by Lincoln on 16/3/20.
+ * 圆形
  */
 public class CircleImageView extends ImageView {
 

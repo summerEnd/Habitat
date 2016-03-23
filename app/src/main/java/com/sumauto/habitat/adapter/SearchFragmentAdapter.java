@@ -5,7 +5,7 @@ import android.view.LayoutInflater;
 import android.view.ViewGroup;
 
 import com.sumauto.habitat.R;
-import com.sumauto.habitat.adapter.holders.NewsFeedHolder;
+import com.sumauto.habitat.adapter.holders.TrendHolder;
 import com.sumauto.habitat.adapter.holders.SearchHeaderHolder;
 import com.sumauto.habitat.bean.FeedBean;
 import com.sumauto.habitat.bean.SearchHeaderBean;
@@ -31,15 +31,15 @@ public class SearchFragmentAdapter extends RecyclerView.Adapter {
         if (viewType==0){
             return new SearchHeaderHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.list_item_search_header,parent,false));
         }else{
-            return new NewsFeedHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.list_item_news_feed,parent,false));
+            return new TrendHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.list_item_news_feed,parent,false));
 
         }
     }
 
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
-        if (holder instanceof NewsFeedHolder){
-            ((NewsFeedHolder) holder).init(beans.get(position-1));
+        if (holder instanceof TrendHolder){
+            ((TrendHolder) holder).init(beans.get(position-1));
         }else if (holder instanceof SearchHeaderHolder){
             ((SearchHeaderHolder) holder).init(mSearchHeader);
         }

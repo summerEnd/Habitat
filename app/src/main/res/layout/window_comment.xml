@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="#f7f7f7"
+    android:orientation="vertical"
+    android:padding="@dimen/dimen_10">
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/dimen_7">
+
+        <TextView
+            android:id="@+id/tv_cancel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="left"
+            android:text="@string/cancel"
+            android:textColor="@color/textBlack"
+            android:textSize="@dimen/text_13"/>
+
+        <TextView
+            android:id="@+id/tv_yes"
+
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="right"
+            android:text="@string/publish"
+            android:textColor="@color/clickable_blue_text"
+            android:textSize="@dimen/text_13"/>
+    </FrameLayout>
+
+    <EditText
+        android:id="@+id/edit_comment"
+        android:hint="@string/say_something"
+        android:gravity="top"
+        android:padding="@dimen/dimen_15"
+        android:textSize="@dimen/text_15"
+        android:textColor="@color/textBlack"
+        android:background="@drawable/bg_edit_comment"
+        android:layout_marginTop="@dimen/dimen_10"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dimen_89"/>
+</LinearLayout>

@@ -1,6 +1,8 @@
 package com.sumauto.habitat.adapter.holders;
 
+import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -16,5 +18,12 @@ public class BaseViewHolder extends RecyclerView.ViewHolder{
 
     public BaseViewHolder(View itemView) {
         super(itemView);
+    }
+
+    public Intent intentActivity(Class<? extends Activity> activity){
+        return new Intent(itemView.getContext(),activity);
+    }
+    public void startActivity(Intent intent){
+        itemView.getContext().startActivity(intent);
     }
 }

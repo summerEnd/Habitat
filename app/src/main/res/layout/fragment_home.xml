@@ -31,7 +31,7 @@
                 android:textColor="@color/textBlack"
                 />
 
-            <com.sumauto.widget.CircleImageView
+            <com.sumauto.habitat.widget.AvatarView
                 android:layout_width="@dimen/dimen_33"
                 android:layout_height="@dimen/dimen_33"
                 android:layout_gravity="right|center_vertical"

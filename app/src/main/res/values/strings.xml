@@ -34,4 +34,7 @@
     <string name="content">内容</string>
     <string name="go_back">返回</string>
     <string name="address_book">通讯录</string>
+    <string name="write_your_comment">写评论，发表观点</string>
+    <string name="like">赞</string>
+    <string name="say_something">说点什么吧…</string>
 </resources>

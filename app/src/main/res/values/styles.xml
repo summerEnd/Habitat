@@ -7,6 +7,7 @@
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
         <item name="android:windowBackground">@drawable/windowBackground</item>
+        <item name="android:textColorHint">@color/textGray</item>
     </style>
 
     <style name="Translucent" parent="AppTheme">
@@ -69,6 +70,9 @@
 
     <style name="tabTextAppearance">
         <item name="android:textSize">@dimen/text_14</item>
+    </style>
+    <style name="tabTextAppearanceSmal">
+        <item name="android:textSize">@dimen/text_12</item>
     </style>
     <style name="titleTextAppearance">
         <item name="android:text">@string/app_name</item>

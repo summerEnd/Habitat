@@ -9,7 +9,7 @@ import android.view.ViewGroup;
 import com.sumauto.habitat.R;
 
 
-public class NewsFeedFragment extends Fragment {
+public class TrendFragment extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
