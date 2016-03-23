@@ -33,6 +33,7 @@
             android:text="@string/search_neighbour_user"/>
 
         <ImageView
+            android:id="@+id/iv_addUser"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="@dimen/dimen_16"

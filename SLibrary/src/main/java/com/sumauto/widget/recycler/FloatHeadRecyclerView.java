@@ -1,6 +1,7 @@
 package com.sumauto.widget.recycler;
 
 import android.content.Context;
+import android.support.annotation.NonNull;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.RecyclerView.ViewHolder;
@@ -13,9 +14,8 @@ public class FloatHeadRecyclerView extends FrameLayout {
 
     public static final String TAG = "headView";
     private RecyclerView mRecyclerView;
-    private ViewHolder   mHeaderHolder;
-    private Callback     callback;
-
+    private ViewHolder mHeaderHolder;
+    private Callback callback;
     public FloatHeadRecyclerView(Context context) {
         this(context, null);
     }
@@ -35,52 +35,73 @@ public class FloatHeadRecyclerView extends FrameLayout {
                 moveHeader();
             }
         });
+
         addView(mRecyclerView);
 
     }
 
     private void moveHeader() {
-        if (mHeaderHolder == null) return;
-        if (mRecyclerView.getChildCount()==0)return;
-        View mHeaderView = mHeaderHolder.itemView;
+        if (mHeaderHolder == null || mRecyclerView.getChildCount() == 0 || callback == null) return;
 
         View firstChild = mRecyclerView.getChildAt(0);
         View secondChild = mRecyclerView.getChildAt(1);
-        int adapterPosition = mRecyclerView.getChildAdapterPosition(firstChild);
-        if (callback != null) callback.invalidateHeader(mHeaderHolder, adapterPosition);
+        View mHeaderView = mHeaderHolder.itemView;
+        callback.invalidateHeader(mHeaderHolder, mRecyclerView.getChildAdapterPosition(firstChild));
 
-        if (secondChild != null) {
-            int top = secondChild.getTop();
-
-            int height = mHeaderView.getHeight();
-            Log.d(TAG, String.format("height:%d top:%d", height, top));
-            if (top < height) mHeaderView.setTranslationY(top - height);
-            else mHeaderView.setTranslationY(0);
+        if (secondChild==null){
+            mHeaderView.setTranslationY(0);
+            return;
         }
-        else {
+
+        if (!callback.shouldMoveHeader(this,firstChild,secondChild)) {
+
+            mHeaderView.setTranslationY(0);
+            return;
+        }
+
+        int top = secondChild.getTop();
+
+        int height = mHeaderView.getHeight();
+        Log.d(TAG, String.format("height:%d top:%d", height, top));
+        if (top < height) {
+            mHeaderView.setTranslationY(top - height);
+        } else {
             mHeaderView.setTranslationY(0);
         }
     }
+
+
 
     public RecyclerView getRecyclerView() {
         return mRecyclerView;
     }
 
-    public void setHeaderViewHolder(ViewHolder headerHolder) {
-        this.mHeaderHolder = headerHolder;
+    public void setCallback(Callback callback) {
         if (mHeaderHolder != null) {
             removeView(mHeaderHolder.itemView);
         }
-        addView(headerHolder.itemView);
+
+        this.mHeaderHolder = callback.getHeaderHolder(this);
+        this.callback = callback;
+
+        addView(mHeaderHolder.itemView);
+
         moveHeader();
     }
 
-    public void setCallback(Callback callback) {
-        this.callback = callback;
+    int getScrollPosition(){
+        View firstChild = mRecyclerView.getChildAt(0);
+        if (firstChild==null)return -1;
+        return mRecyclerView.getChildAdapterPosition(firstChild);
     }
 
     public interface Callback {
         void invalidateHeader(ViewHolder holder, int position);
+
+        boolean shouldMoveHeader(FloatHeadRecyclerView parent,View firstListItem, View secondListItem);
+
+        @NonNull
+        ViewHolder getHeaderHolder(FloatHeadRecyclerView parent);
     }
 
 }

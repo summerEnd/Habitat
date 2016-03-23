@@ -42,6 +42,12 @@ public class SearchFragment extends BaseFragment {
             }
         });
 
+        view.findViewById(R.id.iv_addUser).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(getActivity(), AddressBookActivity.class));
 
+            }
+        });
     }
 }

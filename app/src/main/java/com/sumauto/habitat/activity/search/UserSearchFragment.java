@@ -1,5 +1,6 @@
 package com.sumauto.habitat.activity.search;
 
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
@@ -8,9 +9,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.sumauto.common.util.DisplayUtil;
 import com.sumauto.habitat.R;
 import com.sumauto.habitat.activity.BaseFragment;
 import com.sumauto.habitat.adapter.UserAdapter;
+import com.sumauto.widget.recycler.DividerDecoration;
 
 /**
  * Created by Lincoln on 16/3/22.
@@ -30,5 +33,10 @@ public class UserSearchFragment extends BaseFragment {
         recyclerView= (RecyclerView) view.findViewById(R.id.recyclerView);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         recyclerView.setAdapter(new UserAdapter());
+        recyclerView.addItemDecoration(new DividerDecoration(Color.parseColor("#e5e5e5")));
+        ViewGroup.LayoutParams lp = recyclerView.getLayoutParams();
+        if (lp!=null&&lp instanceof ViewGroup.MarginLayoutParams){
+            ((ViewGroup.MarginLayoutParams) lp).topMargin= (int) DisplayUtil.dp(3,getResources());
+        }
     }
 }

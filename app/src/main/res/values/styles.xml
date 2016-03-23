@@ -1,7 +1,7 @@
 <resources>
 
     <!-- Base application theme. -->
-    <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+    <style name="AppTheme" parent="Theme.AppCompat.NoActionBar">
         <!-- Customize your theme here. -->
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
@@ -15,9 +15,6 @@
         <item name="android:windowIsTranslucent">true</item>
     </style>
 
-    <style name="FullScreen" parent="AppTheme">
-        <item name="windowNoTitle">true</item>
-    </style>
 
     <style name="main_tab_item">
         <item name="android:onClick">onTabClick</item>
@@ -72,5 +69,35 @@
 
     <style name="tabTextAppearance">
         <item name="android:textSize">@dimen/text_14</item>
+    </style>
+    <style name="titleTextAppearance">
+        <item name="android:text">@string/app_name</item>
+        <item name="android:id">@id/toolBar_title</item>
+        <item name="android:layout_gravity">center</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:textStyle">normal</item>
+        <item name="android:textColor">@color/textBlack</item>
+        <item name="android:textSize">@dimen/text_18</item>
+    </style>
+
+    <style name="title_back_button">
+        <item name="android:id">@id/toolBar_back</item>
+        <item name="android:text">@string/go_back</item>
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_gravity">left</item>
+        <item name="android:layout_marginLeft">@dimen/dimen_10</item>
+        <item name="android:drawableLeft">@mipmap/ic_back</item>
+        <item name="android:drawablePadding">@dimen/dimen_7</item>
+        <item name="android:textColor">@color/textBlack</item>
+        <item name="android:textSize">@dimen/text_14</item>
+    </style>
+
+    <style name="toolBarStyle">
+        <item name="android:id">@id/toolBar</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">@dimen/dimen_51</item>
+        <item name="android:background">@drawable/titleBarBackground</item>
     </style>
 </resources>

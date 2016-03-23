@@ -81,4 +81,5 @@ dependencies {
     )
     compile project(':SLibrary')
     compile 'com.eftimoff:android-pathview:1.0.8@aar'
+    compile 'com.android.support:support-v4:23.2.1'
 }

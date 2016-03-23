@@ -1,0 +1,168 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.design.widget.CoordinatorLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <android.support.design.widget.AppBarLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#0000"
+        app:layout_scrollFlags="scroll|enterAlways">
+
+        <android.support.v7.widget.Toolbar
+            style="@style/toolBarStyle">
+
+            <TextView style="@style/title_back_button"/>
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="@dimen/dimen_20"
+                android:layout_gravity="center"
+                android:contentDescription="@string/app_name"
+                android:gravity="center"
+                android:src="@mipmap/ic_logo"
+                android:text="@string/app_name"
+                android:textColor="@color/textBlack"
+                />
+
+            <com.sumauto.widget.CircleImageView
+                android:layout_width="@dimen/dimen_33"
+                android:layout_height="@dimen/dimen_33"
+                android:layout_gravity="right"
+                android:layout_marginRight="@dimen/dimen_10"
+                android:src="@drawable/test_image_01"/>
+        </android.support.v7.widget.Toolbar>
+
+        <View
+            style="@style/horizontal_line"
+            />
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/white"
+            android:orientation="horizontal"
+            android:paddingBottom="@dimen/dimen_10"
+            android:paddingTop="@dimen/dimen_10">
+
+            <com.sumauto.widget.ImageGridView
+                android:id="@+id/image"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/dimen_41"
+                app:totalColumn="75">
+
+                <ImageView
+                    android:id="@+id/iv_image"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/dimen_291"
+                    android:contentDescription="@string/image"
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/test_image_01"
+                    app:column_span="75"
+                    app:row_span="58"/>
+            </com.sumauto.widget.ImageGridView>
+
+            <LinearLayout
+                android:id="@+id/info_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:paddingLeft="@dimen/dimen_10"
+                android:paddingRight="@dimen/dimen_10">
+
+                <com.sumauto.widget.CircleImageView
+                    android:id="@+id/iv_avatar"
+                    android:layout_width="@dimen/dimen_51"
+                    android:layout_height="@dimen/dimen_51"
+                    android:src="@drawable/test_image_01"
+                    app:border_color="@color/white"
+                    app:border_width="3dp"/>
+
+                <TextView
+                    android:id="@+id/tv_nick"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/dimen_10"
+                    android:textColor="@color/textBlack"
+                    android:textSize="@dimen/text_14"
+                    tools:text="法院频道"/>
+
+                <TextView
+                    android:id="@+id/tv_from"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="20dp"
+                    android:textColor="@color/textGray"
+                    android:textSize="@dimen/text_11"
+                    tools:text="1小时前 来自 江西小区"/>
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/tv_content_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/image"
+                android:layout_marginLeft="@dimen/dimen_10"
+                android:layout_marginRight="@dimen/dimen_10"
+                android:layout_marginTop="@dimen/dimen_16"
+                android:singleLine="true"
+                android:textColor="@color/textBlack"
+                android:textSize="@dimen/text_15"
+                tools:text="生地护肤品请问二平后11 苏打粉"/>
+
+            <TextView
+                android:id="@+id/tv_content"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/tv_content_title"
+                android:layout_marginLeft="@dimen/dimen_10"
+                android:layout_marginRight="@dimen/dimen_10"
+                android:layout_marginTop="@dimen/dimen_10"
+                android:textColor="#595959"
+                android:textSize="@dimen/text_12"
+                tools:text="哦 i 啊是对佛 i 啊说好的发生地护肤品请问二平后11啊说好的发生地护肤品请问二平后11 苏打粉"/>
+
+        </RelativeLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dimen_33"
+            android:background="@drawable/windowBackground"
+            android:orientation="horizontal">
+
+            <android.support.design.widget.TabLayout
+                android:id="@+id/tabLayout"
+                android:layout_width="wrap_content"
+                android:layout_gravity="bottom"
+                android:layout_height="match_parent">
+
+            </android.support.design.widget.TabLayout>
+
+            <android.support.v4.widget.Space
+                style="@style/horizontal_space"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                tools:text="热度45"
+                android:layout_gravity="center_vertical"
+                android:textColor="#8c8c8c"
+                android:textSize="@dimen/text_13"/>
+        </LinearLayout>
+    </android.support.design.widget.AppBarLayout>
+
+
+    <android.support.v4.view.ViewPager
+        android:id="@+id/viewPager"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="@dimen/dimen_3"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior"/>
+
+</android.support.design.widget.CoordinatorLayout>

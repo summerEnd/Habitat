@@ -32,4 +32,6 @@
     <string name="user">用户</string>
     <string name="circle">圈子</string>
     <string name="content">内容</string>
+    <string name="go_back">返回</string>
+    <string name="address_book">通讯录</string>
 </resources>

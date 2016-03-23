@@ -6,6 +6,7 @@
     <dimen name="titleBarHeight">@dimen/dimen_49</dimen>
 
     <dimen name="dimen_1">1dp</dimen>
+    <dimen name="dimen_3">3dp</dimen>
     <dimen name="dimen_4">4dp</dimen>
     <dimen name="dimen_5">5dp</dimen>
     <dimen name="dimen_7">7dp</dimen>
@@ -19,6 +20,7 @@
     <dimen name="dimen_19">19dp</dimen>
     <dimen name="dimen_29">29dp</dimen>
     <dimen name="dimen_33">33dp</dimen>
+    <dimen name="dimen_35">35dp</dimen>
     <dimen name="dimen_38">38dp</dimen>
     <dimen name="dimen_41">41dp</dimen>
     <dimen name="dimen_44">44dp</dimen>
@@ -33,4 +35,6 @@
     <dimen name="text_12">12.5sp</dimen>
     <dimen name="text_13">13sp</dimen>
     <dimen name="text_14">14sp</dimen>
+    <dimen name="text_15">15sp</dimen>
+    <dimen name="text_18">17sp</dimen>
 </resources>

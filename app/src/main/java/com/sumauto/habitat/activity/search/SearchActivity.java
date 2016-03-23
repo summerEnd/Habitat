@@ -1,5 +1,6 @@
 package com.sumauto.habitat.activity.search;
 
+import android.inputmethodservice.Keyboard;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
@@ -15,6 +16,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import com.sumauto.common.util.ContextUtil;
+import com.sumauto.common.util.ViewUtil;
 import com.sumauto.habitat.R;
 import com.sumauto.habitat.activity.BaseActivity;
 import com.sumauto.habitat.activity.home.FeedListFragment;
@@ -66,6 +68,7 @@ public class SearchActivity extends BaseActivity {
                 if (actionId == EditorInfo.IME_ACTION_SEARCH) {
                     v.clearFocus();
                     findViewById(R.id.layout_pager).setVisibility(View.VISIBLE);
+                    ViewUtil.closeKeyboard(edit_search);
                 }
                 return false;
             }
