@@ -41,4 +41,11 @@
     <string name="say_something">说点什么吧…</string>
     <string name="who_can_see">谁可以看</string>
     <string name="notice_who_see">提醒谁看</string>
+    <string name="_content_">正 文</string>
+    <string name="please_input_content">请输入内容</string>
+    <string name="anybody_can_see">所有人可见</string>
+    <string name="please_choose">请选择</string>
+    <string name="click">点击</string>
+    <string name="partly_can_see">部分不可见</string>
+    <string name="only_self_see">仅自己可见</string>
 </resources>

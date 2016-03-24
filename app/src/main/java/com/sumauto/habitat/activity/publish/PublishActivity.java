@@ -1,10 +1,14 @@
 package com.sumauto.habitat.activity.publish;
 
+import android.app.Dialog;
+import android.content.Context;
 import android.graphics.Rect;
+import android.graphics.drawable.ColorDrawable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.Gravity;
 import android.view.View;
 
 import com.sumauto.common.util.DisplayUtil;
@@ -57,5 +61,54 @@ public class PublishActivity extends AppCompatActivity {
                 outRect.set(size, size, size, size);
             }
         });
+
+        findViewById(R.id.v_notice_who_see).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                new NoticeWhoSee(PublishActivity.this).show();
+            }
+        });
+
+        findViewById(R.id.v_who_can_see).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
     }
+
+    private class NoticeWhoSee extends Dialog implements View.OnClickListener {
+        public NoticeWhoSee(Context context) {
+            super(context);
+            setContentView(R.layout.window_notice_who_see);
+            getWindow().getAttributes().gravity = Gravity.BOTTOM;
+            getWindow().getAttributes().width = DisplayUtil.getScreenWidth(context);
+            this.getWindow().setBackgroundDrawable(new ColorDrawable());
+            findViewById(R.id.anybody_can_see).setOnClickListener(this);
+            findViewById(R.id.only_self_see).setOnClickListener(this);
+            findViewById(R.id.partly_can_see).setOnClickListener(this);
+            findViewById(R.id.partly_can_see).setOnClickListener(this);
+            findViewById(R.id.tv_cancel).setOnClickListener(this);
+        }
+
+        @Override
+        public void onClick(View v) {
+            switch (v.getId()) {
+                case R.id.anybody_can_see: {
+                    break;
+                }
+                case R.id.only_self_see: {
+                    break;
+                }
+                case R.id.partly_can_see: {
+                    break;
+                }
+                case R.id.tv_cancel: {
+                    dismiss();
+                    break;
+                }
+            }
+        }
+    }
+
 }

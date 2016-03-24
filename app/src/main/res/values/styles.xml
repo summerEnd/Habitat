@@ -8,6 +8,7 @@
         <item name="colorAccent">@color/colorAccent</item>
         <item name="android:windowBackground">@drawable/windowBackground</item>
         <item name="android:textColorHint">@color/textGray</item>
+        <item name="android:dialogTheme">@style/Theme_App_Dialog</item>
     </style>
 
     <style name="Translucent" parent="AppTheme">
@@ -16,6 +17,16 @@
         <item name="android:windowIsTranslucent">true</item>
     </style>
 
+    <style name="Theme_App_Dialog" parent="Theme.AppCompat.Dialog">
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:windowAnimationStyle">@style/dialog_anim_style</item>
+    </style>
+
+    <style name="dialog_anim_style">
+        <item name="android:windowEnterAnimation">@anim/slide_up_in</item>
+        <item name="android:windowExitAnimation">@anim/slide_down_out</item>
+
+    </style>
 
     <style name="main_tab_item">
         <item name="android:onClick">onTabClick</item>
@@ -103,5 +114,15 @@
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">@dimen/dimen_51</item>
         <item name="android:background">@drawable/titleBarBackground</item>
+    </style>
+
+    <style name="ios_dialog_item">
+        <item name="android:gravity">center</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textSize">@dimen/text_17</item>
+        <item name="android:paddingTop">@dimen/dimen_16</item>
+        <item name="android:paddingBottom">@dimen/dimen_16</item>
+        <item name="android:textColor">@color/clickable_blue_text</item>
     </style>
 </resources>

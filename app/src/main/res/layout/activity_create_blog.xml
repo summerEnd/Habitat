@@ -44,17 +44,17 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="正  文"
+                android:text="@string/_content_"
                 android:textColor="@color/textBlack"
                 android:textSize="@dimen/text_17"/>
 
             <EditText
-                android:background="#0000"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="@dimen/dimen_13"
+                android:background="#0000"
                 android:gravity="top"
-                android:hint="请输入内容"
+                android:hint="@string/please_input_content"
                 android:minHeight="@dimen/dimen_89"
                 android:textColor="@color/textBlack"
                 android:textColorHint="@color/textGray"
@@ -70,42 +70,87 @@
             android:visibility="gone"/>
 
     </LinearLayout>
-    <View style="@style/horizontal_line"/>
-    <View style="@style/horizontal_line"
-          android:layout_marginTop="@dimen/dimen_10"/>
 
-    <TextView
-        android:drawablePadding="@dimen/dimen_9"
-        android:paddingLeft="@dimen/dimen_10"
-        android:paddingRight="@dimen/dimen_26"
-        android:paddingTop="@dimen/dimen_15"
-        android:paddingBottom="@dimen/dimen_15"
-        android:gravity="center_vertical"
-        android:text="@string/who_can_see"
-        android:textSize="@dimen/text_17"
-        android:textColor="@color/textBlack"
-        android:drawableLeft="@mipmap/ic_unlock"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:drawableRight="@mipmap/ic_nav_right"
-        android:background="@drawable/clicked_white"/>
     <View style="@style/horizontal_line"/>
 
-    <TextView
-        android:drawablePadding="@dimen/dimen_9"
-        android:paddingLeft="@dimen/dimen_10"
-        android:paddingRight="@dimen/dimen_26"
-        android:paddingTop="@dimen/dimen_15"
-        android:paddingBottom="@dimen/dimen_15"
-        android:gravity="center_vertical"
-        android:text="@string/notice_who_see"
-        android:textSize="@dimen/text_17"
-        android:textColor="@color/textBlack"
-        android:drawableLeft="@mipmap/ic_alert"
+    <View
+        style="@style/horizontal_line"
+        android:layout_marginTop="@dimen/dimen_10"/>
+
+    <LinearLayout
+        android:id="@+id/v_who_can_see"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:drawableRight="@mipmap/ic_nav_right"
-        android:background="@drawable/clicked_white"/>
+        android:background="@drawable/clicked_white"
+        android:gravity="center_vertical"
+        android:paddingBottom="@dimen/dimen_15"
+        android:paddingLeft="@dimen/dimen_10"
+        android:paddingRight="@dimen/dimen_26"
+        android:paddingTop="@dimen/dimen_15">
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:drawableLeft="@mipmap/ic_unlock"
+            android:drawablePadding="@dimen/dimen_9"
+            android:text="@string/who_can_see"
+            android:textColor="@color/textBlack"
+            android:textSize="@dimen/text_17"
+            />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/anybody_can_see"
+            android:textColor="@color/textGray"/>
+
+        <ImageView
+            android:contentDescription="@string/click"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/dimen_4"
+            android:src="@mipmap/ic_nav_right"/>
+    </LinearLayout>
+
+    <View style="@style/horizontal_line"/>
+    <LinearLayout
+        android:id="@+id/v_notice_who_see"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/clicked_white"
+        android:gravity="center_vertical"
+        android:paddingBottom="@dimen/dimen_15"
+        android:paddingLeft="@dimen/dimen_10"
+        android:paddingRight="@dimen/dimen_26"
+        android:paddingTop="@dimen/dimen_15">
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:drawableLeft="@mipmap/ic_alert"
+            android:drawablePadding="@dimen/dimen_9"
+            android:text="@string/notice_who_see"
+            android:textColor="@color/textBlack"
+            android:textSize="@dimen/text_17"
+            />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/please_choose"
+            android:textColor="@color/textGray"/>
+
+        <ImageView
+            android:contentDescription="@string/click"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/dimen_4"
+            android:src="@mipmap/ic_nav_right"/>
+    </LinearLayout>
+
+
     <View style="@style/horizontal_line"/>
 
 </LinearLayout>
