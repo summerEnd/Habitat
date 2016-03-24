@@ -23,8 +23,7 @@ import java.net.URL;
  * 对图片操作的工具类
  */
 @SuppressWarnings("unused")
-public class ImageUtil
-{
+public class ImageUtil {
 
     /**
      * 对图片进行base64编码
@@ -32,18 +31,15 @@ public class ImageUtil
      * @param bitmap 用来进行编码的bitmap，如果为null则返回null
      * @return base64编码的bitmap
      */
-    public static String base64Encode(Bitmap bitmap)
-    {
+    public static String base64Encode(Bitmap bitmap) {
         ByteArrayOutputStream bos = new ByteArrayOutputStream();
         bitmap.compress(Bitmap.CompressFormat.PNG, 100, bos);
         byte[] bytes = bos.toByteArray();
 
-        try
-        {
+        try {
             bos.flush();
             bos.close();
-        } catch (IOException e)
-        {
+        } catch (IOException e) {
             e.printStackTrace();
         }
         return "data:image/png;base64," + Base64.encodeToString(bytes, Base64.DEFAULT);
@@ -56,12 +52,10 @@ public class ImageUtil
      * @param radius 单位px
      * @return 处理后的推按
      */
-    public static Bitmap roundBitmap(Bitmap src, int radius)
-    {
+    public static Bitmap roundBitmap(Bitmap src, int radius) {
 
         int output_size = radius * 2;
-        if (src == null)
-        {
+        if (src == null) {
             //如果图片不存在，就创建一个色块
             ColorDrawable drawable = new ColorDrawable(Color.GRAY);
             src = Bitmap.createBitmap(output_size, output_size, drawable.getOpacity() != PixelFormat.OPAQUE ? Bitmap.Config.ARGB_8888 : Bitmap.Config.RGB_565);
@@ -101,8 +95,7 @@ public class ImageUtil
     }
 
 
-    public static Bitmap convertView2Bitmap(View v)
-    {
+    public static Bitmap convertView2Bitmap(View v) {
         final Paint paint = new Paint();
         paint.setAntiAlias(true);
         Bitmap result = Bitmap.createBitmap(100, 100, Bitmap.Config.ARGB_8888);
@@ -117,36 +110,45 @@ public class ImageUtil
      * @param url 网络图片的url
      * @return bitmap
      */
-    public static Bitmap getImageFromWeb(String url)
-    {
-        try
-        {
+    public static Bitmap getImageFromWeb(String url) {
+        try {
             HttpURLConnection connection = (HttpURLConnection) new URL(url).openConnection();
             connection.setRequestMethod("GET");
             InputStream is = connection.getInputStream();
             return BitmapFactory.decodeStream(is);
-        } catch (IOException e)
-        {
+        } catch (IOException e) {
             e.printStackTrace();
         }
         return null;
     }
 
-    public static Bitmap getBitmap(String path, long maxSize)
-    {
+    public static Bitmap getBitmap(String path, long maxSize) {
 
         File file = new File(path);
 
         long fileSize = file.length();
-        if (fileSize <= maxSize)
-        {
+        if (fileSize <= maxSize) {
             return BitmapFactory.decodeFile(path);
-        }
-        else
-        {
+        } else {
             BitmapFactory.Options options = new BitmapFactory.Options();
             options.inSampleSize = (int) Math.ceil(fileSize / (float) maxSize);
             return BitmapFactory.decodeFile(path, options);
         }
+    }
+
+    public static Bitmap createSampleBitmap(String logo, int width, int height, int textColor, int bgColor) {
+        Bitmap bitmap = Bitmap.createBitmap(width, height, Bitmap.Config.RGB_565);
+        Canvas canvas = new Canvas(bitmap);
+        Paint p = new Paint();
+        p.setTextSize((float) (Math.sqrt(width * width + height * height) / 2f));
+        p.setStrokeWidth(4);
+        p.setTextAlign(Paint.Align.CENTER);
+        p.setColor(bgColor);
+        p.setStyle(Paint.Style.FILL);
+        canvas.drawRect(0, 0, width, height, p);
+        p.setColor(textColor);
+        p.setStyle(Paint.Style.STROKE);
+        canvas.drawText(logo, width / 2, height*2 / 3, p);
+        return bitmap;
     }
 }

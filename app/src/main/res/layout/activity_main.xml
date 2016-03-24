@@ -7,14 +7,12 @@
     android:orientation="vertical"
     tools:context="com.sumauto.app.MainActivity">
 
-    <FrameLayout
-        android:id="@+id/layout_fragment_container"
+    <android.support.v4.view.ViewPager
+        android:id="@+id/viewPager"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_alignParentTop="true"
-        >
-
-    </FrameLayout>
+        />
 
     <LinearLayout
         android:id="@+id/bottom_ll"
@@ -72,7 +70,7 @@
             style="@style/horizontal_space"/>
 
         <com.sumauto.widget.CheckableLinearLayout
-            android:id="@+id/tab_main_newsFeed"
+            android:id="@+id/tab_main_trend"
             style="@style/main_tab_item">
 
             <ImageView

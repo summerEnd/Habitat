@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+             android:layout_width="@dimen/dimen_76"
+             android:layout_height="@dimen/dimen_76"
+             xmlns:app="http://schemas.android.com/apk/res-auto">
+    <com.sumauto.widget.RoundCornerImageView
+        android:id="@+id/iv_image"
+        app:x_radius="@dimen/dimen_5"
+        app:y_radius="@dimen/dimen_5"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scaleType="centerCrop"
+        android:src="@drawable/test_image_01"/>
+
+    <ImageView
+        android:id="@+id/iv_delete"
+        android:layout_margin="@dimen/dimen_4"
+        android:layout_gravity="right|top"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@mipmap/ic_delete_image"/>
+    <TextView
+        android:id="@+id/v_cover"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#8000"
+        android:layout_gravity="bottom"
+        android:layout_marginBottom="@dimen/dimen_10"
+        android:textColor="@color/white"
+        android:textSize="@dimen/text_11"
+        android:gravity="center"
+        android:text="封面"/>
+</FrameLayout>

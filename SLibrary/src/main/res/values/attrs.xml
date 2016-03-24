@@ -68,4 +68,9 @@
         <attr name="row_span" format="integer"/>
     </declare-styleable>
 
+    <declare-styleable name="RoundCornerImageView">
+        <attr name="x_radius" format="dimension"/>
+        <attr name="y_radius" format="dimension"/>
+    </declare-styleable>
+
 </resources>

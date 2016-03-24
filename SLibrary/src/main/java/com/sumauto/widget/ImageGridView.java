@@ -148,6 +148,9 @@ public class ImageGridView extends ViewGroup{
 
             a.recycle();
         }
+        public LayoutParams() {
+            super(WRAP_CONTENT, WRAP_CONTENT);
+        }
 
         public LayoutParams(int width, int height) {
             super(width, height);

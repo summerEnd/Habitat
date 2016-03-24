@@ -1,4 +1,4 @@
-package com.sumauto.habitat.activity.home;
+package com.sumauto.habitat.activity.trend;
 
 import android.content.Context;
 import android.graphics.Rect;
@@ -14,7 +14,7 @@ import com.sumauto.habitat.R;
 import com.sumauto.habitat.adapter.TrendAdapter;
 
 
-public class FeedListFragment extends Fragment {
+public class AboutMeListFragment extends Fragment {
 
 
 

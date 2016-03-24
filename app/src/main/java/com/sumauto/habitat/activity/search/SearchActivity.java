@@ -1,6 +1,5 @@
 package com.sumauto.habitat.activity.search;
 
-import android.inputmethodservice.Keyboard;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
@@ -15,11 +14,10 @@ import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
 import android.widget.TextView;
 
-import com.sumauto.common.util.ContextUtil;
 import com.sumauto.common.util.ViewUtil;
 import com.sumauto.habitat.R;
 import com.sumauto.habitat.activity.BaseActivity;
-import com.sumauto.habitat.activity.home.FeedListFragment;
+import com.sumauto.habitat.activity.home.TrendListFragment;
 
 public class SearchActivity extends BaseActivity {
 
@@ -103,9 +101,9 @@ public class SearchActivity extends BaseActivity {
             if (position==0){
                 return new UserSearchFragment();
             }else if (position==1){
-                return new FeedListFragment();
+                return new TrendListFragment();
             }else{
-                return new FeedListFragment();
+                return new TrendListFragment();
             }
         }
 

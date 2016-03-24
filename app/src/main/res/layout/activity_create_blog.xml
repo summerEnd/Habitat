@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".activity.publish.PublishActivity">
+
+    <android.support.v7.widget.Toolbar
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dimen_51"
+        android:background="@drawable/titleBarBackground">
+
+        <TextView
+            style="@style/title_back_button"
+            android:drawableLeft="@mipmap/ic_cancel"
+            android:text="@string/cancel"/>
+
+        <TextView style="@style/titleTextAppearance"/>
+
+    </android.support.v7.widget.Toolbar>
+
+    <View style="@style/horizontal_line"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+        android:orientation="vertical"
+        android:paddingBottom="@dimen/dimen_10"
+        android:paddingLeft="@dimen/dimen_16"
+
+        android:paddingRight="@dimen/dimen_16"
+        android:paddingTop="@dimen/dimen_16">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="top"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="正  文"
+                android:textColor="@color/textBlack"
+                android:textSize="@dimen/text_17"/>
+
+            <EditText
+                android:background="#0000"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/dimen_13"
+                android:gravity="top"
+                android:hint="请输入内容"
+                android:minHeight="@dimen/dimen_89"
+                android:textColor="@color/textBlack"
+                android:textColorHint="@color/textGray"
+                android:textSize="@dimen/text_15"
+                />
+
+        </LinearLayout>
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/recyclerView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:visibility="gone"/>
+
+    </LinearLayout>
+    <View style="@style/horizontal_line"/>
+    <View style="@style/horizontal_line"
+          android:layout_marginTop="@dimen/dimen_10"/>
+
+    <TextView
+        android:drawablePadding="@dimen/dimen_9"
+        android:paddingLeft="@dimen/dimen_10"
+        android:paddingRight="@dimen/dimen_26"
+        android:paddingTop="@dimen/dimen_15"
+        android:paddingBottom="@dimen/dimen_15"
+        android:gravity="center_vertical"
+        android:text="@string/who_can_see"
+        android:textSize="@dimen/text_17"
+        android:textColor="@color/textBlack"
+        android:drawableLeft="@mipmap/ic_unlock"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:drawableRight="@mipmap/ic_nav_right"
+        android:background="@drawable/clicked_white"/>
+    <View style="@style/horizontal_line"/>
+
+    <TextView
+        android:drawablePadding="@dimen/dimen_9"
+        android:paddingLeft="@dimen/dimen_10"
+        android:paddingRight="@dimen/dimen_26"
+        android:paddingTop="@dimen/dimen_15"
+        android:paddingBottom="@dimen/dimen_15"
+        android:gravity="center_vertical"
+        android:text="@string/notice_who_see"
+        android:textSize="@dimen/text_17"
+        android:textColor="@color/textBlack"
+        android:drawableLeft="@mipmap/ic_alert"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:drawableRight="@mipmap/ic_nav_right"
+        android:background="@drawable/clicked_white"/>
+    <View style="@style/horizontal_line"/>
+
+</LinearLayout>

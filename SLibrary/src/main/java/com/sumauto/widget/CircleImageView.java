@@ -98,9 +98,13 @@ public class CircleImageView extends ImageView {
             return;
         }
 
-        canvas.drawCircle(getWidth() / 2, getHeight() / 2, mDrawableRadius, mBitmapPaint);
+        drawShape(canvas,mBitmapPaint);
         if (getBorderWidth() != 0)
             canvas.drawCircle(getWidth() / 2, getHeight() / 2, mBorderRadius, mBorderPaint);
+    }
+
+    protected void drawShape(Canvas canvas,Paint bitmapPaint){
+        canvas.drawCircle(getWidth() / 2, getHeight() / 2, mDrawableRadius, bitmapPaint);
     }
 
     @Override

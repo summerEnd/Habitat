@@ -51,7 +51,7 @@ public class HomeFragment extends BaseFragment implements ViewPager.OnPageChange
             @Override
             public Fragment getItem(int position) {
 
-                return new FeedListFragment();
+                return new TrendListFragment();
             }
 
             @Override

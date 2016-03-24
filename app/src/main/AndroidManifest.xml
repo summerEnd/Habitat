@@ -25,6 +25,10 @@
         </activity>
         <activity android:name=".activity.trend.TrendDetailActivity">
         </activity>
+        <activity
+            android:windowSoftInputMode="stateHidden"
+            android:name=".activity.publish.PublishActivity">
+        </activity>
     </application>
 
 </manifest>

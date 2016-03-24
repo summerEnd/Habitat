@@ -10,6 +10,8 @@
 
     <string name="friends_feed">好友动态</string>
     <string name="neighbour_feed">社区动态</string>
+    <string name="my_attentions">我关注的</string>
+    <string name="about_me">关于我的</string>
     <string name="my_circle">我的圈子</string>
 
     <string name="title_activity_fullscreen">FullscreenActivity</string>
@@ -37,4 +39,6 @@
     <string name="write_your_comment">写评论，发表观点</string>
     <string name="like">赞</string>
     <string name="say_something">说点什么吧…</string>
+    <string name="who_can_see">谁可以看</string>
+    <string name="notice_who_see">提醒谁看</string>
 </resources>
