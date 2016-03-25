@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 import com.sumauto.habitat.R;
 import com.sumauto.habitat.bean.SearchHeaderBean;
 import com.sumauto.habitat.bean.UserInfoBean;
+import com.sumauto.widget.recycler.ItemPaddingDecoration;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -15,16 +16,17 @@ import java.util.List;
 /**
  * Created by Lincoln on 16/3/22.
  */
-public class SearchHeaderHolder extends RecyclerView.ViewHolder{
+public class SearchHeaderHolder extends BaseViewHolder{
     public final RecyclerView rv_recommend_user;
     private SearchHeaderBean bean;
     private final UserAdapter adapter;
     List<UserInfoBean> userInfoBeans = new ArrayList<>();
 
-    public SearchHeaderHolder(View itemView) {
-        super(itemView);
+    public SearchHeaderHolder(ViewGroup parent) {
+        super(parent,R.layout.list_item_search_header);
         rv_recommend_user= (RecyclerView) itemView.findViewById(R.id.rv_recommend_user);
         adapter = new UserAdapter();
+        rv_recommend_user.addItemDecoration(new ItemPaddingDecoration(3,3,3,3));
         rv_recommend_user.setAdapter(adapter);
 
     }

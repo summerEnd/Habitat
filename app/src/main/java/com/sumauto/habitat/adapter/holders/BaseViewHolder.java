@@ -26,4 +26,5 @@ public class BaseViewHolder extends RecyclerView.ViewHolder{
     public void startActivity(Intent intent){
         itemView.getContext().startActivity(intent);
     }
+
 }

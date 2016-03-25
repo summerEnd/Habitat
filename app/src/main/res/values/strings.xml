@@ -48,4 +48,5 @@
     <string name="click">点击</string>
     <string name="partly_can_see">部分不可见</string>
     <string name="only_self_see">仅自己可见</string>
+    <string name="recent_contacts">最近联系</string>
 </resources>

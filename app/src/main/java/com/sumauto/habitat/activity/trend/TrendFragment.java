@@ -10,12 +10,15 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.sumauto.habitat.R;
+import com.sumauto.habitat.activity.BaseFragment;
+import com.sumauto.habitat.activity.ListFragment;
+import com.sumauto.habitat.callback.Scrollable;
 
 
-public class TrendFragment extends Fragment {
+public class TrendFragment extends ListFragment {
     private TabLayout mTabLayout;
     private ViewPager mViewPager;
-    Fragment[] fragments = new Fragment[]{new MyAttentionListFragment(), new AboutMeListFragment()};
+    ListFragment[] fragments = new ListFragment[]{new MyAttentionListFragment(), new AboutMeListFragment()};
 
 
     @Override
@@ -51,4 +54,9 @@ public class TrendFragment extends Fragment {
     }
 
 
+    @Override
+    public void scrollToPosition(int position) {
+        ListFragment fragment = fragments[mViewPager.getCurrentItem()];
+        fragment.scrollToPosition(position);
+    }
 }

@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/clicked_white"
+    android:gravity="center_vertical"
+    android:orientation="horizontal"
+    android:paddingBottom="@dimen/dimen_13"
+    android:paddingLeft="@dimen/dimen_13"
+    android:paddingRight="@dimen/dimen_13"
+    android:paddingTop="@dimen/dimen_13">
+
+    <com.sumauto.habitat.widget.AvatarView
+        android:layout_width="@dimen/dimen_41"
+        android:layout_height="@dimen/dimen_41"
+        android:src="@drawable/test_image_01"/>
+
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/dimen_13"
+        android:layout_weight="1"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/tv_nick"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="一地鸡哈哈哈哈毛"
+            android:textColor="@color/textBlack"
+            android:textSize="@dimen/text_14"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/dimen_7"
+            android:text="一地鸡毛"
+            android:textColor="@color/textGray"
+            android:textSize="@dimen/text_12"/>
+    </LinearLayout>
+
+    <android.support.v7.widget.AppCompatCheckBox
+        android:layout_width="wrap_content"
+        android:id="@+id/cb_select"
+        android:layout_height="wrap_content"
+        android:button="@drawable/app_check_mark"/>
+
+</LinearLayout>

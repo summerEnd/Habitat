@@ -35,7 +35,6 @@ public class TrendHolder extends BaseViewHolder implements View.OnClickListener{
         ViewUtil.registerOnClickListener(this, itemView,iv_image, iv_heart, iv_comment, iv_collect, iv_more);
         iv_heart.setImageResource(bean.isAttention()?R.mipmap.ic_heart_checked:R.mipmap.ic_heart);
         iv_collect.setImageResource(bean.isCollection()?R.mipmap.ic_collect_checked:R.mipmap.ic_collect);
-        tv_content.setText(R.string.appbar_scrolling_view_behavior);
     }
 
     @Override

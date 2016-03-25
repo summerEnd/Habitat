@@ -5,6 +5,7 @@ package com.sumauto.habitat.bean;
  * 用户信息
  */
 public class UserInfoBean {
+    private String nick;
     private boolean isAttention;
     private String nameFirstLetter;//名称首字母
     public boolean isAttention() {
@@ -22,6 +23,15 @@ public class UserInfoBean {
 
     public UserInfoBean setNameFirstLetter(String nameFirstLetter) {
         this.nameFirstLetter = nameFirstLetter;
+        return this;
+    }
+
+    public String getNick() {
+        return nick;
+    }
+
+    public UserInfoBean setNick(String nick) {
+        this.nick = nick;
         return this;
     }
 }

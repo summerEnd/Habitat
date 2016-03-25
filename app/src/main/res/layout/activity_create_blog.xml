@@ -9,10 +9,7 @@
     tools:context=".activity.publish.PublishActivity">
 
     <android.support.v7.widget.Toolbar
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/dimen_51"
-        android:background="@drawable/titleBarBackground">
-
+        style="@style/toolBarStyle">
         <TextView
             style="@style/title_back_button"
             android:drawableLeft="@mipmap/ic_cancel"
@@ -100,6 +97,7 @@
             />
 
         <TextView
+            android:id="@+id/tv_who_can_see"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/anybody_can_see"

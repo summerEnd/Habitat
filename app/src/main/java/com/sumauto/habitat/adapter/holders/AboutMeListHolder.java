@@ -1,7 +1,6 @@
 package com.sumauto.habitat.adapter.holders;
 
 import android.graphics.drawable.Drawable;
-import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
@@ -10,26 +9,23 @@ import com.sumauto.common.util.ViewUtil;
 import com.sumauto.habitat.R;
 import com.sumauto.habitat.bean.UserInfoBean;
 import com.sumauto.widget.CheckableLinearLayout;
-import com.sumauto.widget.recycler.adapter.BaseHolder;
 
 /**
  * Created by Lincoln on 16/3/22.
  * 用户item
  */
-public class UserListHolder extends BaseViewHolder implements View.OnClickListener {
+public class AboutMeListHolder extends BaseViewHolder implements View.OnClickListener {
     public final TextView tv_attention;
     private UserInfoBean bean;
     Drawable d;
     private final CheckableLinearLayout btn_attention;
 
-    public UserListHolder(ViewGroup parent) {
-        super(parent, R.layout.list_item_user);
+    public AboutMeListHolder(ViewGroup parent) {
+        super(parent,R.layout.list_item_about_me_attention);
         tv_attention = (TextView) itemView.findViewById(R.id.tv_attention);
         btn_attention = (CheckableLinearLayout) itemView.findViewById(R.id.btn_attention);
         d = ViewUtil.getDrawable(itemView.getContext(), R.drawable.btn_attention_bg);
-
     }
-
 
     public void init(UserInfoBean bean) {
         this.bean = bean;

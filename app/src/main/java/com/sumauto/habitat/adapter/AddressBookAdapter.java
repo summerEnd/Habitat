@@ -42,7 +42,7 @@ public class AddressBookAdapter extends RecyclerView.Adapter {
             return new AddressBookTitleHolder(parent);
 
         } else {
-            return new UserListHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.list_item_user, parent, false));
+            return new UserListHolder(parent);
         }
     }
 

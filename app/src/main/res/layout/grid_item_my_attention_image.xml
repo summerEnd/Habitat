@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.sumauto.widget.RoundCornerImageView
+    app:x_radius="@dimen/dimen_5"
+    app:y_radius="@dimen/dimen_5"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="@dimen/dimen_51"
+    android:layout_height="@dimen/dimen_51"
+    android:orientation="vertical"
+    android:scaleType="centerCrop"
+    android:src="@drawable/test_image_01"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+</com.sumauto.widget.RoundCornerImageView>

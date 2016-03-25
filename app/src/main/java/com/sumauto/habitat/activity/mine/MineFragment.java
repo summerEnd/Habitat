@@ -2,18 +2,13 @@ package com.sumauto.habitat.activity.mine;
 
 
 import android.os.Bundle;
-import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentPagerAdapter;
-import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.sumauto.habitat.R;
 import com.sumauto.habitat.activity.BaseFragment;
-import com.sumauto.habitat.activity.trend.AboutMeListFragment;
-import com.sumauto.habitat.activity.trend.MyAttentionListFragment;
 
 
 /**

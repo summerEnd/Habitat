@@ -18,29 +18,30 @@ import java.util.ArrayList;
  */
 public class SearchFragmentAdapter extends RecyclerView.Adapter {
 
-    private ArrayList<FeedBean> beans=new ArrayList<>();
-    private SearchHeaderBean mSearchHeader=new SearchHeaderBean();
+    private ArrayList<FeedBean> beans = new ArrayList<>();
+    private SearchHeaderBean mSearchHeader = new SearchHeaderBean();
+
     public SearchFragmentAdapter() {
-        for (int i = 0; i < 20; i++) {
+        for (int i = 0; i < 8; i++) {
             beans.add(new FeedBean());
         }
     }
 
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        if (viewType==0){
-            return new SearchHeaderHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.list_item_search_header,parent,false));
-        }else{
-            return new TrendHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.list_item_news_feed,parent,false));
+        if (viewType == 0) {
+            return new SearchHeaderHolder(parent);
+        } else {
+            return new TrendHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.list_item_news_feed, parent, false));
 
         }
     }
 
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
-        if (holder instanceof TrendHolder){
-            ((TrendHolder) holder).init(beans.get(position-1));
-        }else if (holder instanceof SearchHeaderHolder){
+        if (holder instanceof TrendHolder) {
+            ((TrendHolder) holder).init(beans.get(position - 1));
+        } else if (holder instanceof SearchHeaderHolder) {
             ((SearchHeaderHolder) holder).init(mSearchHeader);
         }
 
@@ -48,7 +49,7 @@ public class SearchFragmentAdapter extends RecyclerView.Adapter {
 
     @Override
     public int getItemCount() {
-        return beans.size()+1;
+        return beans.size() + 1;
     }
 
     @Override

@@ -1,8 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ImageView
+<com.sumauto.widget.RoundCornerImageView
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="@dimen/dimen_76"
     android:layout_height="@dimen/dimen_76"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:scaleType="centerCrop"
+    app:x_radius="@dimen/dimen_5"
+    app:y_radius="@dimen/dimen_5"
     android:src="@drawable/test_image_01"
     android:contentDescription="@string/avatar"/>
 

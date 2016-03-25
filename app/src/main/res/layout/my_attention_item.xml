@@ -3,11 +3,12 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:paddingTop="@dimen/dimen_13"
     android:paddingLeft="@dimen/dimen_15"
     android:paddingBottom="@dimen/dimen_10"
     android:background="@color/white"
-    android:paddingRight="@dimen/dimen_41"
+    android:paddingRight="@dimen/dimen_33"
     android:layout_height="wrap_content"
     android:orientation="horizontal">
     <com.sumauto.habitat.widget.AvatarView
@@ -42,56 +43,11 @@
             android:layout_height="wrap_content"
             android:text="25分钟"
             android:textColor="#999999"/>
-        <com.sumauto.widget.ImageGridView
-            android:id="@+id/imageGrid_1"
-            android:layout_marginTop="@dimen/dimen_13"
+        <android.support.v7.widget.RecyclerView
             android:layout_width="match_parent"
-            app:totalColumn="5"
-            app:space="@dimen/dimen_3"
-            app:totalRows="auto"
-            android:layout_height="wrap_content">
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@drawable/test_image_01"/>
-            <ImageView
-                app:column="1"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@drawable/test_image_01"/>
-            <ImageView
-                app:column="2"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@drawable/test_image_01"/>
-            <ImageView
-                app:column="3"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@drawable/test_image_01"/>
-            <ImageView
-                app:column="4"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@drawable/test_image_01"/>
-        </com.sumauto.widget.ImageGridView>
-        <com.sumauto.widget.ImageGridView
-            android:id="@+id/imageGrid_2"
-            android:layout_marginTop="@dimen/dimen_7"
-            android:layout_width="match_parent"
-            app:totalColumn="5"
-            app:space="@dimen/dimen_3"
-            app:totalRows="auto"
-            android:layout_height="wrap_content">
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@drawable/test_image_01"/>
-            <ImageView
-                app:column="1"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@drawable/test_image_01"/>
-        </com.sumauto.widget.ImageGridView>
+            app:layoutManager="GridLayoutManager"
+            tools:listitem="@layout/grid_item_avatar_nick"
+            android:layout_height="wrap_content"
+            android:id="@+id/rv_images"/>
     </LinearLayout>
 </LinearLayout>

@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="com.sumauto.habitat.activity.search.AddressBookActivity">
+
+    <android.support.v7.widget.Toolbar
+        style="@style/toolBarStyle">
+
+        <TextView
+            style="@style/title_back_button"/>
+
+        <TextView
+            style="@style/titleTextAppearance"
+            />
+
+        <TextView
+            android:id="@+id/item_yes"
+            android:layout_marginRight="@dimen/dimen_10"
+            android:layout_gravity="right"
+            style="@style/toolBar_clickedItem"
+            android:text="@string/yes"/>
+    </android.support.v7.widget.Toolbar>
+
+    <View style="@style/horizontal_line"/>
+
+    <com.sumauto.widget.recycler.FloatHeadRecyclerView
+        android:id="@+id/floatRecyclerView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
+
+</LinearLayout>

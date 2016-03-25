@@ -26,8 +26,11 @@
         <activity android:name=".activity.trend.TrendDetailActivity">
         </activity>
         <activity
-            android:windowSoftInputMode="stateHidden"
-            android:name=".activity.publish.PublishActivity">
+            android:name=".activity.publish.PublishActivity"
+            android:windowSoftInputMode="stateHidden">
+        </activity>
+        <activity android:name=".activity.publish.NoticeFriendListActivity"
+            android:label="@string/notice_who_see">
         </activity>
     </application>
 

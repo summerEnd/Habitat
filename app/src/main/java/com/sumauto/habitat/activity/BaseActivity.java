@@ -32,6 +32,10 @@ public class BaseActivity extends AppCompatActivity implements View.OnClickListe
         tintManager.setStatusBarTintResource(R.drawable.titleBarBackground);//状态栏无背景
     }
 
+    protected void initToolBar(){
+        initToolBar(R.id.toolBar);
+    }
+
     protected void initToolBar(int toolbarId) {
         Toolbar toolbar = (Toolbar) findViewById(toolbarId);
         setSupportActionBar(toolbar);

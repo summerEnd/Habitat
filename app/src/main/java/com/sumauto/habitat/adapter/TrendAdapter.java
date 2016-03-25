@@ -15,7 +15,7 @@ public class TrendAdapter extends RecyclerView.Adapter<TrendHolder> {
 
     private ArrayList<FeedBean> beans=new ArrayList<>();
     public TrendAdapter() {
-        for (int i = 0; i < 20; i++) {
+        for (int i = 0; i < 8; i++) {
             beans.add(new FeedBean());
         }
     }

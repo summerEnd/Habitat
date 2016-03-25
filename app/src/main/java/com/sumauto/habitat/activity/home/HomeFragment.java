@@ -17,6 +17,8 @@ import android.widget.TextView;
 import com.sumauto.common.util.ViewUtil;
 import com.sumauto.habitat.R;
 import com.sumauto.habitat.activity.BaseFragment;
+import com.sumauto.habitat.activity.ListFragment;
+import com.sumauto.habitat.callback.Scrollable;
 import com.sumauto.widget.nav.TabItem;
 import com.sumauto.widget.nav.TabLayout;
 
@@ -24,14 +26,14 @@ import static android.view.ViewGroup.LayoutParams.MATCH_PARENT;
 import static android.view.ViewGroup.LayoutParams.WRAP_CONTENT;
 
 
-public class HomeFragment extends BaseFragment implements ViewPager.OnPageChangeListener {
+public class HomeFragment extends ListFragment implements ViewPager.OnPageChangeListener{
 
     TextView tv_shequ, tv_friend;
     ImageView iv_triangle;
     private TabLayout mTabLayout;
     private ViewPager mViewPager;
     private FeedSelectWindow mFeedSelectWindow;
-
+    private final TrendListFragment FRAGMENTS[]=new TrendListFragment[]{new TrendListFragment(),new TrendListFragment()};
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -51,12 +53,12 @@ public class HomeFragment extends BaseFragment implements ViewPager.OnPageChange
             @Override
             public Fragment getItem(int position) {
 
-                return new TrendListFragment();
+                return FRAGMENTS[position];
             }
 
             @Override
             public int getCount() {
-                return 2;
+                return FRAGMENTS.length;
             }
         });
 
@@ -136,5 +138,10 @@ public class HomeFragment extends BaseFragment implements ViewPager.OnPageChange
             mViewPager.setCurrentItem(0);
             dismiss();
         }
+    }
+
+    @Override
+    public void scrollToPosition(int position) {
+        FRAGMENTS[mViewPager.getCurrentItem()].scrollToPosition(position);
     }
 }

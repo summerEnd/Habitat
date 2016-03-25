@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@drawable/clicked_white"
+    android:gravity="center_vertical"
+    android:orientation="horizontal"
+    android:paddingBottom="@dimen/dimen_13"
+    android:paddingLeft="@dimen/dimen_13"
+    android:paddingRight="@dimen/dimen_13"
+    android:paddingTop="@dimen/dimen_13">
+
+    <com.sumauto.habitat.widget.AvatarView
+        android:id="@+id/iv_avatar"
+        android:layout_width="@dimen/dimen_41"
+        android:layout_height="@dimen/dimen_41"
+        android:src="@drawable/test_image_01"/>
+
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/dimen_13"
+        android:layout_weight="1"
+        android:orientation="vertical">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:orientation="horizontal"
+            android:layout_height="wrap_content">
+            <TextView
+                android:id="@+id/tv_nick"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="一地鸡哈哈哈哈毛"
+                android:textColor="@color/textBlack"
+                android:textSize="@dimen/text_15"/>
+
+            <TextView
+                android:layout_marginLeft="@dimen/dimen_9"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="赞了我的帖子"
+                android:textColor="@color/textGray"
+                android:textSize="@dimen/text_13"/>
+
+        </LinearLayout>
+
+
+        <TextView
+            android:id="@+id/tv_time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/dimen_7"
+            android:text="12分钟前"
+            android:textColor="@color/textGray"
+            android:textSize="@dimen/text_12"/>
+    </LinearLayout>
+
+    <com.sumauto.widget.RoundCornerImageView
+        app:x_radius="@dimen/dimen_5"
+        app:y_radius="@dimen/dimen_5"
+        android:src="@drawable/test_image_01"
+        android:layout_width="@dimen/dimen_51"
+        android:layout_height="@dimen/dimen_51"/>
+
+</LinearLayout>

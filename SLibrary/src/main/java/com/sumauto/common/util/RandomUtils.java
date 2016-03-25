@@ -21,6 +21,12 @@ public class RandomUtils {
         return sb.toString();
     }
 
+    /**
+     * 随机一个蒸熟
+     * @param start 开始 ，包括在内
+     * @param end 结束， 包括在内
+     * @return
+     */
     public static int randomInt(int start,int end){
         if (start>end){
             end=start;

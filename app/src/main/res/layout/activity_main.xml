@@ -22,8 +22,8 @@
         android:background="@drawable/Translucent_white"
         android:gravity="center"
         android:orientation="horizontal"
-        android:paddingLeft="@dimen/dimen_33"
-        android:paddingRight="@dimen/dimen_33"
+        android:paddingLeft="@dimen/dimen_23"
+        android:paddingRight="@dimen/dimen_23"
         >
 
         <com.sumauto.widget.CheckableLinearLayout
