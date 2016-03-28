@@ -3,39 +3,66 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical">
+    >
 
     <android.support.design.widget.AppBarLayout
         android:layout_width="match_parent"
+        android:id="@+id/appbarLayout"
         android:layout_height="wrap_content"
-        android:background="#0000"
-        app:layout_scrollFlags="scroll|enterAlways">
+        >
 
-        <android.support.v7.widget.Toolbar
+        <android.support.design.widget.CollapsingToolbarLayout
+            android:id="@+id/collapsing_toolbar"
             android:layout_width="match_parent"
-            android:layout_height="@dimen/dimen_51"
-            android:background="@drawable/titleBarBackground">
+            android:layout_height="match_parent"
+            app:collapsedTitleGravity="center"
+            app:contentScrim="@color/titleBarBackground"
+            app:layout_scrollFlags="scroll|exitUntilCollapsed"
+            app:title="个人中心">
 
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="@dimen/dimen_20"
-                android:layout_gravity="center"
-                android:contentDescription="@string/app_name"
-                android:src="@mipmap/ic_logo"
-                />
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="200dp">
 
-            <com.sumauto.habitat.widget.AvatarView
-                android:layout_width="@dimen/dimen_33"
-                android:layout_height="@dimen/dimen_33"
-                android:layout_gravity="right|center_vertical"
-                android:layout_marginRight="@dimen/dimen_10"
-                android:src="@drawable/test_image_01"/>
-        </android.support.v7.widget.Toolbar>
+                <ImageView
+                    android:id="@+id/iv_mine_bg"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:fitsSystemWindows="true"
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/test_image_01"
+                    android:transitionName="mu"
+                    app:layout_collapseMode="parallax"/>
+            </FrameLayout>
 
-        <View
-            style="@style/horizontal_line"
-            />
 
+            <android.support.v7.widget.Toolbar
+                android:id="@+id/toolBar"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/titleBarHeight"
+                app:layout_collapseMode="pin"
+                >
+
+                <TextView
+                    android:id="@+id/tv_back"
+                    style="@style/title_back_button"
+                    android:drawableLeft="@mipmap/ic_back_white"
+                    android:textColor="@color/white"/>
+
+                <TextView
+                    style="@style/toolBar_clickedItem"
+                    android:layout_gravity="right"
+                    android:layout_marginRight="@dimen/dimen_10"
+                    android:text="查看资料"
+                    android:textColor="@color/white"/>
+
+            </android.support.v7.widget.Toolbar>
+        </android.support.design.widget.CollapsingToolbarLayout>
     </android.support.design.widget.AppBarLayout>
 
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/recycler_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior"/>
 </android.support.design.widget.CoordinatorLayout>

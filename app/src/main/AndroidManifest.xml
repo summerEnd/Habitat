@@ -2,6 +2,10 @@
 <manifest package="com.sumauto.habitat"
           xmlns:android="http://schemas.android.com/apk/res/android">
 
+    <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
+    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+
     <application
         android:name=".HabitatApp"
         android:allowBackup="true"
@@ -29,8 +33,11 @@
             android:name=".activity.publish.PublishActivity"
             android:windowSoftInputMode="stateHidden">
         </activity>
-        <activity android:name=".activity.publish.NoticeFriendListActivity"
+        <activity
+            android:name=".activity.publish.NoticeFriendListActivity"
             android:label="@string/notice_who_see">
+        </activity>
+        <activity android:name=".activity.mine.UserHomeActivity">
         </activity>
     </application>
 

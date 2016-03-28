@@ -100,11 +100,19 @@ public class MainActivity extends BaseActivity implements ViewPager.OnPageChange
     public void onPageSelected(int position) {
 
         int id;
-        if (position == 0) id = R.id.tab_main_home;
-        else if (position == 1) id = R.id.tab_main_search;
-        else if (position == 2) id = R.id.tab_main_trend;
-        else if (position == 3) id = R.id.tab_main_mine;
-        else {
+        if (position == 0) {
+            id = R.id.tab_main_home;
+
+        } else if (position == 1) {
+            id = R.id.tab_main_search;
+
+        } else if (position == 2) {
+            id = R.id.tab_main_trend;
+
+        } else if (position == 3) {
+            id = R.id.tab_main_mine;
+
+        } else {
             return;
         }
         showTab((CheckableLinearLayout) findViewById(id));
@@ -124,7 +132,7 @@ public class MainActivity extends BaseActivity implements ViewPager.OnPageChange
     @Override
     public int getListBottomSpace() {
         int height = findViewById(R.id.bottom_ll).getHeight();
-        Log.d("height","height="+height);
+        Log.d("height", "height=" + height);
         return height;
     }
 }

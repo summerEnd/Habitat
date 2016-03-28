@@ -1,6 +1,7 @@
 package com.sumauto.habitat.activity;
 
 import android.graphics.Rect;
+import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
@@ -13,6 +14,16 @@ import com.sumauto.habitat.callback.ListCallback;
  */
 @SuppressWarnings("unchecked")
 public class BaseFragment extends Fragment{
+
+    protected String TAG="";
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        TAG=getClass().getSimpleName();
+        super.onCreate(savedInstanceState);
+
+    }
+
     protected <T extends View> T findViewWithOnClick(View finder,int id,View.OnClickListener l){
         T v = (T) finder.findViewById(id);
         v.setOnClickListener(l);

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <color name="colorPrimary">#36B3E9</color>
-    <color name="colorPrimaryDark">#303F9F</color>
+    <color name="colorPrimaryDark">#000000</color>
     <color name="colorPrimaryLight">#46C3F9</color>
     <color name="colorAccent">#FF4081</color>
 
@@ -9,6 +9,8 @@
     <drawable name="Translucent_white">#bbffffff</drawable>
     <drawable name="windowBackground">#f5f5f5</drawable>
     <drawable name="titleBarBackground">@color/titleBarBackground</drawable>
+    <drawable name="no_color">#0000</drawable>
+
     <color name="titleBarBackground">#fbfbfb</color>
     <color name="textBlack">#333333</color>
     <color name="textBlack49">#494949</color>

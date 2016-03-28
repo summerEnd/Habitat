@@ -15,21 +15,22 @@ import com.sumauto.habitat.R;
  * 基类
  */
 public class BaseActivity extends AppCompatActivity implements View.OnClickListener{
+    protected String TAG=getClass().getSimpleName();
+    private SystemStatusManager tintManager;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        setTranslucentStatus();
+        tintManager = new SystemStatusManager(this);
+
+        tintManager.setStatusBarTintEnabled(true);
+        tintManager.setStatusBarTintResource(R.drawable.titleBarBackground);
     }
 
-    /**
-     * 设置状态栏背景状态
-     */
-    private void setTranslucentStatus() {
 
-        SystemStatusManager tintManager = new SystemStatusManager(this);
-        tintManager.setStatusBarTintEnabled(true);
-        tintManager.setStatusBarTintResource(R.drawable.titleBarBackground);//状态栏无背景
+    public SystemStatusManager getTintManager() {
+        return tintManager;
     }
 
     protected void initToolBar(){

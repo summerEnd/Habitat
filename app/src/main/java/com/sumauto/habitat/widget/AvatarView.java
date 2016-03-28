@@ -1,13 +1,16 @@
 package com.sumauto.habitat.widget;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.util.AttributeSet;
+import android.view.View;
 import android.widget.ImageView;
 
 import com.sumauto.common.util.DisplayUtil;
+import com.sumauto.habitat.activity.mine.UserHomeActivity;
 import com.sumauto.widget.CircleImageView;
 
 /**
@@ -32,9 +35,15 @@ public class AvatarView extends CircleImageView {
 
     void init(){
         mBorderPaint.setColor(Color.parseColor("#dfdfdf"));
-        mBorderPaint.setStrokeWidth(DisplayUtil.dp(1,getResources()));
+        mBorderPaint.setStrokeWidth(DisplayUtil.dp(1, getResources()));
         mBorderPaint.setAntiAlias(true);
         mBorderPaint.setStyle(Paint.Style.STROKE);
+        setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                getContext().startActivity(new Intent(getContext(), UserHomeActivity.class));
+            }
+        });
     }
 
     @Override

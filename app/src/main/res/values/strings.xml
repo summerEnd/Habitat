@@ -49,4 +49,7 @@
     <string name="partly_can_see">部分不可见</string>
     <string name="only_self_see">仅自己可见</string>
     <string name="recent_contacts">最近联系</string>
+    <string name="see_detail">查看资料</string>
+    <string name="dong_tai">动态</string>
+    <string name="pictures">照片</string>
 </resources>
