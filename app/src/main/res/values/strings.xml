@@ -52,4 +52,10 @@
     <string name="see_detail">查看资料</string>
     <string name="dong_tai">动态</string>
     <string name="pictures">照片</string>
+    <string name="fans">粉丝</string>
+    <string name="my_collect">我的收藏</string>
+    <string name="complete_data">完善资料</string>
+    <string name="create_circle">创建小区圈子</string>
+    <string name="share_place">分享栖息地</string>
+    <string name="settings">设置</string>
 </resources>

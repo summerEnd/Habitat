@@ -2,6 +2,7 @@ package com.sumauto.habitat.activity.mine;
 
 import android.os.Bundle;
 import android.support.design.widget.AppBarLayout;
+import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -64,8 +65,11 @@ public class UserHomeActivity extends BaseActivity implements AppBarLayout.OnOff
 
     @Override
     public void onOffsetChanged(AppBarLayout appBarLayout, int i) {
-        Log.d(TAG, String.format("i:%d toolbar_bottom:%d tablayout_top:%d",i,toolbar.getBottom(),tabLayout.getTop()));
-        if (Math.abs(toolbar.getBottom()-tabLayout.getTop())<10) {
+        int toolBarHeight=toolbar.getHeight();
+        int appBarHeight=appBarLayout.getHeight();
+        int tabLayoutHeight=tabLayout.getHeight();
+        Log.d(TAG, String.format("appbar:%d i:%d toolbar:%d tablayout:%d",appBarHeight,i,toolBarHeight,tabLayoutHeight));
+        if (appBarHeight+i==toolBarHeight+tabLayoutHeight) {
             if (isBlack)return;
             tv_back_text.setTextColor(ViewUtil.getColor(this, R.color.textBlack));
             tv_check_detail.setTextColor(ViewUtil.getColor(this, R.color.textBlack));
