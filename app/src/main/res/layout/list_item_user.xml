@@ -33,7 +33,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/dimen_7"
+            android:layout_marginTop="@dimen/view_spacing_2"
             android:text="一地鸡毛"
             android:textColor="@color/textGray"
             android:textSize="@dimen/text_12"/>

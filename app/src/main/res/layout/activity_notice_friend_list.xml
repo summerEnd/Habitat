@@ -19,7 +19,7 @@
 
         <TextView
             android:id="@+id/item_yes"
-            android:layout_marginRight="@dimen/dimen_10"
+            android:layout_marginRight="@dimen/dp_10_in_xhdpi"
             android:layout_gravity="right"
             style="@style/toolBar_clickedItem"
             android:text="@string/yes"/>

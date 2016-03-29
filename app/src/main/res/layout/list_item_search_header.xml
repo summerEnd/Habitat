@@ -42,9 +42,9 @@
         <android.support.v7.widget.RecyclerView
             android:id="@+id/rv_recommend_user"
             android:layout_width="match_parent"
-            android:layout_marginBottom="@dimen/dimen_10"
+            android:layout_marginBottom="@dimen/dp_10_in_xhdpi"
             android:layout_height="@dimen/dimen_76"
-            android:layout_marginTop="@dimen/dimen_10"
+            android:layout_marginTop="@dimen/dp_10_in_xhdpi"
             android:orientation="horizontal"
             app:layoutManager="LinearLayoutManager"
             tools:listitem="@layout/grid_item_recommend_user"/>

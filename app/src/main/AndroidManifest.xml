@@ -39,6 +39,8 @@
         </activity>
         <activity android:name=".activity.mine.UserHomeActivity">
         </activity>
+        <activity android:name=".activity.mine.CompeteDataActivity">
+        </activity>
     </application>
 
 </manifest>

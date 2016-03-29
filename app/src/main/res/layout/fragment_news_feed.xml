@@ -28,7 +28,7 @@
                 android:layout_width="@dimen/dimen_33"
                 android:layout_height="@dimen/dimen_33"
                 android:layout_gravity="right|center_vertical"
-                android:layout_marginRight="@dimen/dimen_10"
+                android:layout_marginRight="@dimen/dp_10_in_xhdpi"
                 android:src="@drawable/test_image_01"/>
         </android.support.v7.widget.Toolbar>
 
@@ -52,7 +52,7 @@
         android:id="@+id/viewPager"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginTop="@dimen/dimen_3"
+        android:layout_marginTop="3dp"
         app:layout_behavior="@string/appbar_scrolling_view_behavior"/>
 
 </android.support.design.widget.CoordinatorLayout>

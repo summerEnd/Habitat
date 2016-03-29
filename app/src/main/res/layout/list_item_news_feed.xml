@@ -7,8 +7,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:background="@color/white"
     android:orientation="horizontal"
-    android:paddingBottom="@dimen/dimen_10"
-    android:paddingTop="@dimen/dimen_10">
+    android:paddingBottom="@dimen/dp_10_in_xhdpi"
+    android:paddingTop="@dimen/dp_10_in_xhdpi">
 
     <com.sumauto.widget.ImageGridView
         android:id="@+id/image"
@@ -34,8 +34,8 @@
         android:layout_height="wrap_content"
         android:gravity="center_vertical"
         android:orientation="horizontal"
-        android:paddingLeft="@dimen/dimen_10"
-        android:paddingRight="@dimen/dimen_10">
+        android:paddingLeft="@dimen/dp_10_in_xhdpi"
+        android:paddingRight="@dimen/dp_10_in_xhdpi">
 
         <com.sumauto.habitat.widget.AvatarView
             android:id="@+id/iv_avatar"
@@ -49,7 +49,7 @@
             android:id="@+id/tv_nick"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="@dimen/dimen_10"
+            android:layout_marginLeft="@dimen/dp_10_in_xhdpi"
             android:text="法院频道"
             android:textColor="@color/textBlack"
             android:textSize="@dimen/text_14"/>
@@ -71,7 +71,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/image"
-        android:layout_marginLeft="@dimen/dimen_10"
+        android:layout_marginLeft="@dimen/dp_10_in_xhdpi"
         android:layout_marginTop="@dimen/dimen_16"
         android:singleLine="true"
         android:text="哦 i 啊是对佛 i 啊说好的发生地护肤品请问二平后11 苏打粉"/>
@@ -80,9 +80,9 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/tv_content"
-        android:layout_marginLeft="@dimen/dimen_10"
-        android:layout_marginRight="@dimen/dimen_10"
-        android:layout_marginTop="@dimen/dimen_10"
+        android:layout_marginLeft="@dimen/dp_10_in_xhdpi"
+        android:layout_marginRight="@dimen/dp_10_in_xhdpi"
+        android:layout_marginTop="@dimen/dp_10_in_xhdpi"
         android:gravity="center_vertical"
         android:orientation="horizontal">
 

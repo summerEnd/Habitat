@@ -9,7 +9,7 @@
 
     <TextView
         android:id="@+id/tv_title"
-        android:layout_margin="@dimen/dimen_10"
+        android:layout_margin="@dimen/dp_10_in_xhdpi"
         android:textSize="@dimen/text_12"
         android:textColor="#666666"
         tools:text="A"

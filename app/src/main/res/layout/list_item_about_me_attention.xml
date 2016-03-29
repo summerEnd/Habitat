@@ -36,7 +36,7 @@
                 android:textSize="@dimen/text_15"/>
 
             <TextView
-                android:layout_marginLeft="@dimen/dimen_9"
+                android:layout_marginLeft="9dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="关注了我"
@@ -50,7 +50,7 @@
             android:id="@+id/tv_time"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/dimen_7"
+            android:layout_marginTop="@dimen/view_spacing_2"
             android:text="12分钟前"
             android:textColor="@color/textGray"
             android:textSize="@dimen/text_12"/>

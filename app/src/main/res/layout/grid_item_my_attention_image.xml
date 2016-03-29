@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <com.sumauto.widget.RoundCornerImageView
-    app:x_radius="@dimen/dimen_5"
-    app:y_radius="@dimen/dimen_5"
+    app:x_radius="@dimen/round_corner_avatar"
+    app:y_radius="@dimen/round_corner_avatar"
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="@dimen/dimen_51"
     android:layout_height="@dimen/dimen_51"

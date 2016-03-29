@@ -5,8 +5,8 @@
     android:layout_height="@dimen/dimen_76"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:scaleType="centerCrop"
-    app:x_radius="@dimen/dimen_5"
-    app:y_radius="@dimen/dimen_5"
+    app:x_radius="@dimen/round_corner_avatar"
+    app:y_radius="@dimen/round_corner_avatar"
     android:src="@drawable/test_image_01"
     android:contentDescription="@string/avatar"/>
 

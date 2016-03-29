@@ -15,7 +15,7 @@ import com.sumauto.habitat.activity.BaseFragment;
  * A simple {@link Fragment} subclass.
  * 我的
  */
-public class MineFragment extends BaseFragment {
+public class MineFragment extends BaseFragment implements View.OnClickListener{
 
 
 
@@ -28,8 +28,33 @@ public class MineFragment extends BaseFragment {
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-
+        view.findViewById(R.id.vg_my_collect).setOnClickListener(this);
+        view.findViewById(R.id.vg_complete_data).setOnClickListener(this);
+        view.findViewById(R.id.vg_create_circle).setOnClickListener(this);
+        view.findViewById(R.id.vg_share_place).setOnClickListener(this);
+        view.findViewById(R.id.vg_setting).setOnClickListener(this);
     }
 
 
+    @Override
+    public void onClick(View v) {
+        int id=v.getId();
+        switch (id){
+            case R.id.vg_complete_data:{
+                break;
+            }
+            case R.id.vg_create_circle:{
+                break;
+            }
+            case R.id.vg_my_collect:{
+                break;
+            }
+            case R.id.vg_share_place:{
+                break;
+            }
+            case R.id.vg_setting:{
+                break;
+            }
+        }
+    }
 }

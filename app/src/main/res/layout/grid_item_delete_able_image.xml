@@ -5,8 +5,8 @@
              xmlns:app="http://schemas.android.com/apk/res-auto">
     <com.sumauto.widget.RoundCornerImageView
         android:id="@+id/iv_image"
-        app:x_radius="@dimen/dimen_5"
-        app:y_radius="@dimen/dimen_5"
+        app:x_radius="@dimen/round_corner_avatar"
+        app:y_radius="@dimen/round_corner_avatar"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:scaleType="centerCrop"
@@ -14,7 +14,7 @@
 
     <ImageView
         android:id="@+id/iv_delete"
-        android:layout_margin="@dimen/dimen_4"
+        android:layout_margin="@dimen/view_spacing_1"
         android:layout_gravity="right|top"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -25,7 +25,7 @@
         android:layout_height="wrap_content"
         android:background="#8000"
         android:layout_gravity="bottom"
-        android:layout_marginBottom="@dimen/dimen_10"
+        android:layout_marginBottom="@dimen/dp_10_in_xhdpi"
         android:textColor="@color/white"
         android:textSize="@dimen/text_11"
         android:gravity="center"

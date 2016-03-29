@@ -31,7 +31,7 @@ public class MyAttentionHolder extends BaseViewHolder {
         super(parent, R.layout.my_attention_item);
         rv_images = (RecyclerView) itemView.findViewById(R.id.rv_images);
 
-        itemPaddings = itemView.getResources().getDimensionPixelSize(R.dimen.dimen_3) / 2;
+        itemPaddings = (int) DisplayUtil.dp(3,itemView.getResources());
 
         WrapContentGridLayoutManager manager = new WrapContentGridLayoutManager(parent.getContext(), 5);
         manager.setVerticalSpacing(itemPaddings*2);

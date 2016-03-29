@@ -14,8 +14,6 @@
 
     </style>
 
-
-
     <style name="Theme_App_Dialog" parent="Theme.AppCompat.Dialog">
         <item name="android:windowNoTitle">true</item>
         <item name="android:windowAnimationStyle">@style/dialog_anim_style</item>
@@ -28,8 +26,8 @@
     </style>
 
     <style name="main_tab_item">
-        <item name="android:paddingRight">@dimen/dimen_10</item>
-        <item name="android:paddingLeft">@dimen/dimen_10</item>
+        <item name="android:paddingRight">@dimen/dp_10_in_xhdpi</item>
+        <item name="android:paddingLeft">@dimen/dp_10_in_xhdpi</item>
         <item name="android:onClick">onTabClick</item>
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
@@ -103,9 +101,9 @@
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:layout_gravity">left</item>
-        <item name="android:layout_marginLeft">@dimen/dimen_10</item>
+        <item name="android:layout_marginLeft">@dimen/dp_10_in_xhdpi</item>
         <item name="android:drawableLeft">@mipmap/ic_back</item>
-        <item name="android:drawablePadding">@dimen/dimen_7</item>
+        <item name="android:drawablePadding">7dp</item>
         <item name="android:textColor">@color/textBlack</item>
         <item name="android:textSize">@dimen/text_14</item>
     </style>
@@ -141,8 +139,8 @@
     </style>
 
     <style name="center_info_text">
-        <item name="android:paddingTop">@dimen/dimen_4</item>
-        <item name="android:paddingBottom">@dimen/dimen_4</item>
+        <item name="android:paddingTop">@dimen/view_spacing_1</item>
+        <item name="android:paddingBottom">@dimen/view_spacing_1</item>
         <item name="android:layout_width">0dp</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:layout_weight">1</item>
@@ -173,11 +171,12 @@
         <item name="android:textSize">@dimen/text_13</item>
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
-        <item name="android:layout_marginTop">@dimen/dimen_7</item>
+        <item name="android:layout_marginTop">@dimen/view_spacing_2</item>
         <item name="android:textColor">@color/textGray</item>
     </style>
 
     <style name="mine_click_item">
+        <item name="android:clickable">true</item>
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:background">@drawable/clicked_white</item>
@@ -197,7 +196,7 @@
     <style name="mine_click_item_text">
         <item name="android:layout_width">0dp</item>
         <item name="android:layout_height">wrap_content</item>
-        <item name="android:layout_marginLeft">@dimen/dimen_7</item>
+        <item name="android:layout_marginLeft">@dimen/view_spacing_2</item>
         <item name="android:layout_weight">1</item>
         <item name="android:textColor">#555555</item>
         <item name="android:textSize">@dimen/text_15</item>

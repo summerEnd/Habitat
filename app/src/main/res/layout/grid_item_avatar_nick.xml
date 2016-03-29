@@ -4,15 +4,15 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:gravity="center"
-    android:paddingTop="@dimen/dimen_7"
-    android:paddingBottom="@dimen/dimen_7"
+    android:paddingTop="@dimen/view_spacing_2"
+    android:paddingBottom="@dimen/view_spacing_2"
     android:orientation="vertical">
     <com.sumauto.habitat.widget.AvatarView
         android:src="@drawable/test_image_01"
         android:layout_width="@dimen/dimen_36"
         android:layout_height="@dimen/dimen_36"/>
     <TextView
-        android:layout_marginTop="@dimen/dimen_3"
+        android:layout_marginTop="3dp"
         android:text="小丸子"
         android:singleLine="true"
         android:textSize="@dimen/text_9"

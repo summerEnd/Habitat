@@ -63,7 +63,7 @@
                 <LinearLayout
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="@dimen/dimen_10"
+                    android:layout_marginLeft="@dimen/dp_10_in_xhdpi"
                     android:layout_weight="1"
                     android:orientation="vertical">
 
@@ -77,7 +77,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/dimen_7"
+                        android:layout_marginTop="@dimen/view_spacing_2"
                         android:text="长沙中级人民法院"
                         android:textColor="@color/textGray"
                         android:textSize="@dimen/text_11"/>
@@ -137,6 +137,7 @@
                 android:layout_height="@dimen/dimen_7"/>
 
             <LinearLayout
+                android:id="@+id/vg_my_collect"
                 style="@style/mine_click_item">
 
                 <ImageView
@@ -153,6 +154,7 @@
             </LinearLayout>
 
             <LinearLayout
+                android:id="@+id/vg_complete_data"
                 style="@style/mine_click_item">
 
                 <ImageView
@@ -168,6 +170,7 @@
             </LinearLayout>
 
             <LinearLayout
+                android:id="@+id/vg_create_circle"
                 style="@style/mine_click_item">
 
                 <ImageView
@@ -187,6 +190,7 @@
                 android:layout_height="@dimen/dimen_7"/>
 
             <LinearLayout
+                android:id="@+id/vg_share_place"
                 style="@style/mine_click_item">
 
                 <ImageView
@@ -202,6 +206,7 @@
             </LinearLayout>
 
             <LinearLayout
+                android:id="@+id/vg_setting"
                 style="@style/mine_click_item">
 
                 <ImageView

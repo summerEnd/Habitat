@@ -15,15 +15,15 @@
 
         <FrameLayout
             android:layout_width="match_parent"
-            android:layout_height="@dimen/titleBarHeight"
-            android:paddingLeft="@dimen/dimen_10"
-            android:paddingRight="@dimen/dimen_10"
+            android:layout_height="@dimen/toolbarHeight"
+            android:paddingLeft="@dimen/toolbar_horizontal_padding"
+            android:paddingRight="@dimen/toolbar_horizontal_padding"
             android:background="@drawable/titleBarBackground"
             app:layout_scrollFlags="scroll|enterAlways">
 
             <ImageView
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/dimen_20"
+                android:layout_height="@dimen/toolbar_logo_height"
                 android:src="@mipmap/ic_logo"
                 android:layout_gravity="center"
                 android:gravity="center"
@@ -46,9 +46,9 @@
             android:id="@+id/tabLayout"
             android:background="#fff"
             android:layout_width="match_parent"
-            android:layout_height="@dimen/dimen_41"
+            android:layout_height="@dimen/tab_height"
             app:indicator="@color/colorPrimary"
-            app:tabIndicatorHeight="3dp">
+            app:tabIndicatorHeight="@dimen/tab_indicator_height">
 
             <com.sumauto.widget.nav.TabItem
                 android:layout_width="wrap_content"
@@ -98,7 +98,7 @@
     </android.support.design.widget.AppBarLayout>
 
     <android.support.v4.view.ViewPager
-        android:layout_marginTop="@dimen/dimen_3"
+        android:layout_marginTop="3dp"
         android:id="@+id/viewPager"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
