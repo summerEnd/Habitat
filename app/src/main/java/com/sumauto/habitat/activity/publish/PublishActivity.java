@@ -16,6 +16,7 @@ import com.sumauto.common.util.DisplayUtil;
 import com.sumauto.habitat.R;
 import com.sumauto.habitat.activity.BaseActivity;
 import com.sumauto.habitat.adapter.PublishImageAdapter;
+import com.sumauto.habitat.widget.IosListDialog;
 
 public class PublishActivity extends BaseActivity {
 
@@ -75,8 +76,27 @@ public class PublishActivity extends BaseActivity {
         findViewById(R.id.v_who_can_see).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                new WhoCanSee(PublishActivity.this).show();
-
+                new IosListDialog(PublishActivity.this)
+                        .listener(new IosListDialog.Listener() {
+                            @Override
+                            public void onClick(IosListDialog dialog, int position) {
+                                switch (position) {
+                                    case 0: {
+                                        tv_who_can_see.setText(R.string.anybody_can_see);
+                                        break;
+                                    }
+                                    case 1: {
+                                        tv_who_can_see.setText(R.string.only_self_see);
+                                        break;
+                                    }
+                                    case 2: {
+                                        tv_who_can_see.setText(R.string.partly_can_see);
+                                        break;
+                                    }
+                                }
+                            }
+                        })
+                        .show(R.string.anybody_can_see, R.string.only_self_see, R.string.partly_can_see);
             }
         });
     }

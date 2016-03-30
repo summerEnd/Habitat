@@ -58,4 +58,9 @@
     <string name="create_circle">创建小区圈子</string>
     <string name="share_place">分享栖息地</string>
     <string name="settings">设置</string>
+    <string name="nick">昵称</string>
+    <string name="gender">性别</string>
+    <string name="birthday">生日</string>
+    <string name="zone_name">小区名称</string>
+    <string name="my_sign">个性签名</string>
 </resources>

@@ -61,7 +61,7 @@
         app:x_radius="@dimen/round_corner_avatar"
         app:y_radius="@dimen/round_corner_avatar"
         android:src="@drawable/test_image_01"
-        android:layout_width="@dimen/dimen_51"
-        android:layout_height="@dimen/dimen_51"/>
+        android:layout_width="@dimen/avatarSize"
+        android:layout_height="@dimen/avatarSize"/>
 
 </LinearLayout>

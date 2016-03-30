@@ -39,8 +39,8 @@
 
         <com.sumauto.habitat.widget.AvatarView
             android:id="@+id/iv_avatar"
-            android:layout_width="@dimen/dimen_51"
-            android:layout_height="@dimen/dimen_51"
+            android:layout_width="@dimen/avatarSize"
+            android:layout_height="@dimen/avatarSize"
             android:src="@drawable/test_image_01"
             app:border_color="@color/white"
             app:border_width="3dp"/>

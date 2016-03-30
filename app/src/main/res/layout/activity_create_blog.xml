@@ -11,11 +11,11 @@
     <android.support.v7.widget.Toolbar
         style="@style/toolBarStyle">
         <TextView
-            style="@style/title_back_button"
+            style="@style/toolbar_back_button"
             android:drawableLeft="@mipmap/ic_cancel"
             android:text="@string/cancel"/>
 
-        <TextView style="@style/titleTextAppearance"/>
+        <TextView style="@style/toolbar_title_style"/>
 
     </android.support.v7.widget.Toolbar>
 

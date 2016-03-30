@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".activity.mine.PhotoActivity">
+
+    <android.support.v7.widget.Toolbar
+        style="@style/toolBarStyle"
+        android:background="#252932">
+
+        <TextView
+            style="@style/toolbar_back_button"
+            android:drawableLeft="@mipmap/ic_cancel_white"
+            android:text="@string/cancel"
+            android:textColor="@color/white"/>
+
+        <TextView
+            style="@style/toolbar_title_style"
+            android:text="相册名称"
+            android:drawableRight="@mipmap/ic_down_arrow"
+            android:textColor="@color/white"/>
+
+        <TextView
+            style="@style/toolBar_clickedItem"
+            android:layout_gravity="right"
+            android:text="立即发布"
+            android:layout_marginRight="10dp"
+            />
+    </android.support.v7.widget.Toolbar>
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/recyclerView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
+
+</LinearLayout>

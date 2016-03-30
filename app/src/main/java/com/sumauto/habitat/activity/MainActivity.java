@@ -11,6 +11,7 @@ import android.view.View;
 import com.sumauto.habitat.R;
 import com.sumauto.habitat.activity.home.HomeFragment;
 import com.sumauto.habitat.activity.mine.MineFragment;
+import com.sumauto.habitat.activity.mine.PhotoActivity;
 import com.sumauto.habitat.activity.publish.PublishActivity;
 import com.sumauto.habitat.activity.search.SearchFragment;
 import com.sumauto.habitat.activity.trend.TrendFragment;
@@ -46,6 +47,7 @@ public class MainActivity extends BaseActivity implements ViewPager.OnPageChange
         viewPager.addOnPageChangeListener(this);
         checkedTab = (CheckableLinearLayout) findViewById(R.id.tab_main_home);
         checkedTab.setChecked(true);
+        startActivity(new Intent(this,PhotoActivity.class));
     }
 
     public void onTabClick(View v) {

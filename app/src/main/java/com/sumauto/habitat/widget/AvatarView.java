@@ -38,12 +38,6 @@ public class AvatarView extends CircleImageView {
         mBorderPaint.setStrokeWidth(DisplayUtil.dp(1, getResources()));
         mBorderPaint.setAntiAlias(true);
         mBorderPaint.setStyle(Paint.Style.STROKE);
-        setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                getContext().startActivity(new Intent(getContext(), UserHomeActivity.class));
-            }
-        });
     }
 
     @Override

@@ -1,0 +1,4 @@
+<TextView
+    style="@style/ios_dialog_item"
+    android:text="@string/only_self_see"
+    xmlns:android="http://schemas.android.com/apk/res/android"/>

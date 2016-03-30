@@ -12,10 +12,7 @@
     >
 
     <android.support.v7.widget.Toolbar
-        android:id="@+id/toolBar"
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/titleBarHeight"
-        android:background="@color/titleBarBackground"
+        style="@style/toolBarStyle"
         >
 
         <ImageView
@@ -56,8 +53,8 @@
                 android:paddingTop="@dimen/dimen_20">
 
                 <com.sumauto.habitat.widget.AvatarView
-                    android:layout_width="@dimen/dimen_51"
-                    android:layout_height="@dimen/dimen_51"
+                    android:layout_width="@dimen/avatarSize"
+                    android:layout_height="@dimen/avatarSize"
                     android:src="@drawable/test_image_01"/>
 
                 <LinearLayout
@@ -134,7 +131,7 @@
 
             <View
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/dimen_7"/>
+                android:layout_height="@dimen/view_spacing_2"/>
 
             <LinearLayout
                 android:id="@+id/vg_my_collect"
@@ -187,7 +184,7 @@
 
             <View
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/dimen_7"/>
+                android:layout_height="@dimen/view_spacing_2"/>
 
             <LinearLayout
                 android:id="@+id/vg_share_place"

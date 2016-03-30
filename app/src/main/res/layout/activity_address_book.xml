@@ -11,10 +11,10 @@
         style="@style/toolBarStyle">
 
         <TextView
-            style="@style/title_back_button"/>
+            style="@style/toolbar_back_button"/>
 
         <TextView
-            style="@style/titleTextAppearance"
+            style="@style/toolbar_title_style"
             />
 
     </android.support.v7.widget.Toolbar>

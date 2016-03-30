@@ -41,7 +41,9 @@
 
     <com.sumauto.widget.CheckableLinearLayout
         android:id="@+id/btn_attention"
-        android:layout_width="@dimen/dimen_51"
+        android:layout_width="wrap_content"
+        android:paddingLeft="@dimen/dimen_13"
+        android:paddingRight="@dimen/dimen_13"
         android:layout_height="@dimen/dimen_26"
         android:background="@drawable/btn_attention_bg"
         android:gravity="center">

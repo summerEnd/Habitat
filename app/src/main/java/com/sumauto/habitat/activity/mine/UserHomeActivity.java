@@ -36,7 +36,6 @@ public class UserHomeActivity extends BaseActivity implements AppBarLayout.OnOff
         getTintManager().setStatusBarTintResource(R.drawable.no_color);
         setContentView(R.layout.activity_user_home);
         toolbar = (Toolbar) findViewById(R.id.toolBar);
-        initToolBar();
         iv_mine_bg = (ImageView) findViewById(R.id.iv_mine_bg);
         iv_back_icon = (ImageView) findViewById(R.id.iv_back_icon);
         iv_logo = (ImageView) findViewById(R.id.iv_logo);

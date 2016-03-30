@@ -128,9 +128,7 @@
             </FrameLayout>
 
             <android.support.v7.widget.Toolbar
-                android:id="@+id/toolBar"
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/toolbarHeight"
+                style="@style/toolBarStyle"
                 app:layout_collapseMode="pin"
                 >
 
@@ -152,7 +150,7 @@
 
                     <TextView
                         android:id="@+id/tv_back_text"
-                        style="@style/title_back_button"
+                        style="@style/toolbar_back_button"
                         android:drawableLeft="@null"
                         android:textColor="@color/white"/>
 

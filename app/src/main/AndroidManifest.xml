@@ -41,6 +41,9 @@
         </activity>
         <activity android:name=".activity.mine.CompeteDataActivity">
         </activity>
+        <activity android:name=".activity.mine.PhotoActivity">
+        </activity>
+
     </application>
 
 </manifest>

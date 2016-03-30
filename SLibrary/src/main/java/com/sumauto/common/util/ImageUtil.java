@@ -1,5 +1,7 @@
 package com.sumauto.common.util;
 
+import android.content.Context;
+import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
@@ -9,7 +11,10 @@ import android.graphics.PixelFormat;
 import android.graphics.PorterDuff;
 import android.graphics.PorterDuffXfermode;
 import android.graphics.drawable.ColorDrawable;
+import android.provider.MediaStore;
+import android.provider.MediaStore.Images.Media;
 import android.util.Base64;
+import android.util.Log;
 import android.view.View;
 
 import java.io.ByteArrayOutputStream;
@@ -18,6 +23,10 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * 对图片操作的工具类
@@ -148,7 +157,63 @@ public class ImageUtil {
         canvas.drawRect(0, 0, width, height, p);
         p.setColor(textColor);
         p.setStyle(Paint.Style.STROKE);
-        canvas.drawText(logo, width / 2, height*2 / 3, p);
+        canvas.drawText(logo, width / 2, height * 2 / 3, p);
         return bitmap;
+    }
+
+    /**
+     * 获取所有的图片目录
+     */
+    public static List<Map<String, Object>> loadFolders(Context context) {
+
+        String FOLDER_NAME = Media.BUCKET_DISPLAY_NAME;
+        final String[] projectionPhotos = {
+                FOLDER_NAME,
+                Media.DATA,
+                Media.DATE_TAKEN,
+                Media.IS_PRIVATE,
+                "count("+Media._ID+")"
+        };
+
+        List<Map<String, Object>> data = new ArrayList<>();
+
+        Cursor cursor = Media.query(context.getContentResolver(), Media.EXTERNAL_CONTENT_URI
+                , projectionPhotos, FOLDER_NAME + " IS NOT NULL) GROUP BY (" + FOLDER_NAME, null, Media.DATE_TAKEN + " DESC");
+        while (cursor.moveToNext()) {
+            Map<String, Object> folder = new HashMap<>();
+            folder.put(FOLDER_NAME, cursor.getString(0));
+            folder.put(Media.DATA, cursor.getString(1));
+            folder.put(Media.DATE_TAKEN, cursor.getString(2));
+            folder.put(Media.IS_PRIVATE, cursor.getString(3));
+            folder.put(Media._COUNT, cursor.getString(4));
+            data.add(folder);
+        }
+        return data;
+    }
+
+    /**
+     * 列出一个图片目录下所有的图片
+     *
+     * @param context 用来查询
+     * @param folder  文件夹名
+     */
+    public static List<Map<String, Object>> listPhotos(Context context, String folder) {
+        final String[] projectionPhotos = {
+                Media.BUCKET_DISPLAY_NAME,
+                Media.DATA,
+                Media.DATE_TAKEN,
+        };
+        List<Map<String, Object>> data = new ArrayList<>();
+
+        Cursor cursor = Media.query(context.getContentResolver(), Media.EXTERNAL_CONTENT_URI
+                , projectionPhotos, Media.BUCKET_DISPLAY_NAME + "=?", new String[]{folder}, Media.DATE_TAKEN + " DESC");
+        while (cursor.moveToNext()) {
+            Map<String, Object> photo = new HashMap<>();
+            photo.put(Media.BUCKET_DISPLAY_NAME, cursor.getString(0));
+            photo.put(Media.DATA, cursor.getString(1));
+            photo.put(Media.DATE_TAKEN, 2);
+            data.add(photo);
+        }
+        return data;
     }
 }

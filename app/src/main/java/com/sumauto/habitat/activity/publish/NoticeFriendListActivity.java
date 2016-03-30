@@ -35,7 +35,6 @@ public class NoticeFriendListActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_notice_friend_list);
-        initToolBar();
         FloatHeadRecyclerView floatRecyclerView = (FloatHeadRecyclerView) findViewById(R.id.floatRecyclerView);
         RecyclerView recyclerView = floatRecyclerView.getRecyclerView();
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
