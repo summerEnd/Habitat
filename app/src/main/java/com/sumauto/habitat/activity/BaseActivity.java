@@ -1,5 +1,7 @@
 package com.sumauto.habitat.activity;
 
+import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
@@ -88,5 +90,9 @@ public class BaseActivity extends AppCompatActivity implements View.OnClickListe
     public void setContentView(View view, ViewGroup.LayoutParams params) {
         super.setContentView(view, params);
         initToolBar();
+    }
+
+    public void to(Class<? extends Activity> activityClass){
+        startActivity(new Intent(this,activityClass));
     }
 }

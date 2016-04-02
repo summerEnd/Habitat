@@ -14,7 +14,6 @@
 
     </style>
 
-
     <style name="Theme_App_Dialog" parent="Theme.AppCompat.Dialog">
         <item name="android:windowNoTitle">true</item>
         <item name="android:windowAnimationStyle">@style/dialog_anim_style</item>
@@ -234,6 +233,23 @@
         <item name="android:layout_marginRight">@dimen/dp_10_in_xhdpi</item>
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
+    </style>
+
+    <style name="edit_register_style">
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_weight">1</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginLeft">@dimen/view_spacing_2</item>
+        <item name="android:background">#0000</item>
+        <item name="android:textColor">@color/textBlack</item>
+        <item name="android:textColorHint">@color/textGray</item>
+        <item name="android:textSize">@dimen/text_15</item>
+    </style>
+
+    <style name="register_icon">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">25dp</item>
+        <item name="android:contentDescription">@string/app_name</item>
     </style>
 
 

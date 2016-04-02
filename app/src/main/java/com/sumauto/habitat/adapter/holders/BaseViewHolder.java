@@ -8,10 +8,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.sumauto.widget.recycler.adapter.BaseHolder;
+
 /**
  * Created by Lincoln on 16/3/22.
  */
-public class BaseViewHolder extends RecyclerView.ViewHolder{
+public class BaseViewHolder extends BaseHolder{
     public BaseViewHolder(ViewGroup parent,int resId) {
         super(LayoutInflater.from(parent.getContext()).inflate(resId,parent,false));
     }

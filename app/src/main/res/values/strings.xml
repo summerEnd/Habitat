@@ -63,4 +63,8 @@
     <string name="birthday">生日</string>
     <string name="zone_name">小区名称</string>
     <string name="my_sign">个性签名</string>
+    <string name="hint_input_phone">请输入11位手机号码</string>
+    <string name="hint_sms_code">请输入短信验证码</string>
+    <string name="hint_password">请输入 6-16 位字母和数字密码</string>
+    <string name="re_send">重新发送</string>
 </resources>

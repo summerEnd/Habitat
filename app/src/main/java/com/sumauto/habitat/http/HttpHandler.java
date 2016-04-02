@@ -1,6 +1,10 @@
 package com.sumauto.habitat.http;
 
+import android.text.TextUtils;
+
 import com.loopj.android.http.JsonHttpResponseHandler;
+import com.sumauto.common.util.ContextUtil;
+import com.sumauto.common.util.SLog;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -12,16 +16,22 @@ import cz.msebera.android.httpclient.Header;
  * Created by Lincoln on 16/3/25.
  * http请求处理
  */
-public class HttpHandler extends JsonHttpResponseHandler{
-    HttpClient.HttpResponse mResponse=new HttpClient.HttpResponse();
-    HttpClient.HttpRequest mRequest;
+public abstract class HttpHandler extends JsonHttpResponseHandler {
+    HttpResponse mResponse = new HttpResponse();
+    String requestUrl;
 
-    public HttpClient.HttpRequest getRequest() {
-        return mRequest;
+    private boolean showErrorMessage;
+
+    public HttpHandler() {
+        this(true);
     }
 
-    public HttpHandler setRequest(HttpClient.HttpRequest mRequest) {
-        this.mRequest = mRequest;
+    public HttpHandler(boolean showErrorMessage) {
+        this.showErrorMessage = showErrorMessage;
+    }
+
+    public HttpHandler setRequestUrl(String requestUrl) {
+        this.requestUrl = requestUrl;
         return this;
     }
 
@@ -29,54 +39,89 @@ public class HttpHandler extends JsonHttpResponseHandler{
     public final void onSuccess(int statusCode, Header[] headers, JSONObject response) {
         super.onSuccess(statusCode, headers, response);
         try {
-            JSONObject jsonResponse=response.getJSONObject("response");
-            mResponse.code=jsonResponse.optString("code");
-            mResponse.msg=jsonResponse.optString("msg");
-            mResponse.data=jsonResponse.optString("data");
+            JSONObject jsonResponse = response.getJSONObject("response");
+            mResponse.code = jsonResponse.optString("code");
+            mResponse.msg = jsonResponse.optString("msg");
+            mResponse.data = jsonResponse.optString("data");
+
         } catch (JSONException e) {
             e.printStackTrace();
         }
-
-        onSuccess(mResponse,mRequest);
+        SLog.log(HttpManager.TAG, "请求结束--->" + requestUrl + ":" + response.toString());
+        if ("100".equals(mResponse.code)){
+            dispatchSuccess();
+        }else{
+            if (showErrorMessage&& !TextUtils.isEmpty(mResponse.msg)){
+                ContextUtil.toast(mResponse.msg);
+            }
+            dispatchFail();
+        }
     }
 
     @Override
     public final void onSuccess(int statusCode, Header[] headers, JSONArray response) {
         super.onSuccess(statusCode, headers, response);
-        onSuccess(mResponse, mRequest);
+        dispatchFail();
     }
 
     @Override
     public final void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
         super.onFailure(statusCode, headers, throwable, errorResponse);
-        onFailure(mResponse, mRequest);
+        dispatchFail();
     }
 
     @Override
     public final void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONArray errorResponse) {
         super.onFailure(statusCode, headers, throwable, errorResponse);
-        onFailure(mResponse, mRequest);
+        dispatchFail();
     }
 
     @Override
     public final void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
         super.onFailure(statusCode, headers, responseString, throwable);
-        onFailure(mResponse, mRequest);
-
+        dispatchFail();
     }
 
     @Override
     public final void onSuccess(int statusCode, Header[] headers, String responseString) {
         super.onSuccess(statusCode, headers, responseString);
-        onFailure(mResponse,mRequest);
+        dispatchFail();
     }
 
+    private void dispatchSuccess() {
+        try {
+            onSuccess(mResponse);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+    }
 
-    public void onSuccess(HttpClient.HttpResponse response,HttpClient.HttpRequest request){
+    private void dispatchFail() {
+
+        onFailure(mResponse);
+    }
+
+    public abstract void onSuccess(HttpResponse response) throws JSONException;
+
+    public void onFailure(HttpResponse response) {
 
     }
 
-    public void onFailure(HttpClient.HttpResponse response,HttpClient.HttpRequest request){
+    /**
+     * Created by Lincoln on 16/3/28.
+     */
+    public static class HttpResponse {
+        public String data;
+        public String code;
+        public String msg;
 
+        @Override
+        public String toString() {
+            return "HttpResponse{" +
+                    "data='" + data + '\'' +
+                    ", code='" + code + '\'' +
+                    ", msg='" + msg + '\'' +
+                    '}';
+        }
     }
 }

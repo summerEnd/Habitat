@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@mipmap/bg_register"
+    android:orientation="vertical"
+    tools:context="com.sumauto.habitat.activity.RegisterActivity"
+    tools:ignore="ContentDescription">
+
+    <android.support.v7.widget.Toolbar
+        style="@style/toolBarStyle"
+        android:background="#0000">
+
+        <TextView
+            style="@style/toolbar_back_button"
+            android:drawableLeft="@mipmap/ic_back_white"
+            android:textColor="@color/white"
+            />
+
+    </android.support.v7.widget.Toolbar>
+
+    <android.support.v4.widget.Space
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        />
+
+    <android.support.v7.widget.LinearLayoutCompat
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/dp_10_in_xhdpi"
+        android:layout_marginRight="@dimen/dp_10_in_xhdpi"
+        android:background="@drawable/round_corner"
+        android:orientation="vertical"
+        app:divider="@drawable/line"
+        app:showDividers="middle">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:padding="14dp">
+
+            <ImageView
+                style="@style/register_icon"
+                android:src="@mipmap/ic_user_name"/>
+
+            <EditText
+                android:id="@+id/edit_phone"
+                android:inputType="phone"
+                style="@style/edit_register_style"
+                android:hint="@string/hint_input_phone"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:padding="14dp">
+
+            <ImageView
+                style="@style/register_icon"
+                android:src="@mipmap/ic_sms_code"/>
+
+            <EditText
+                android:id="@+id/edit_sms_code"
+                style="@style/edit_register_style"
+                android:hint="@string/hint_sms_code"/>
+
+            <com.sumauto.habitat.widget.SmsButton
+                android:id="@+id/btn_sms"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/re_send"
+                android:textColor="@color/textBlack"
+                app:maxTime="5"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:padding="14dp">
+
+            <ImageView
+                style="@style/register_icon"
+                android:src="@mipmap/ic_password"/>
+
+            <EditText
+                android:id="@+id/edit_password"
+                android:inputType="textPassword"
+                style="@style/edit_register_style"
+                android:hint="@string/hint_password"/>
+        </LinearLayout>
+
+    </android.support.v7.widget.LinearLayoutCompat>
+
+    <TextView
+        android:id="@+id/btn_register"
+        style="@style/Widget.AppCompat.Button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/dp_10_in_xhdpi"
+        android:layout_marginRight="@dimen/dp_10_in_xhdpi"
+        android:layout_marginTop="30dp"
+        android:background="@drawable/bg_blue_button"
+        android:text="注 册"
+        android:textColor="@color/white"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="50dp"
+        android:layout_marginTop="23dp"
+        android:layout_marginLeft="@dimen/dp_10_in_xhdpi"
+        android:layout_marginRight="@dimen/dp_10_in_xhdpi"
+        android:text="注册代表您同意《栖息地用户协议》"
+        android:textColor="@color/white"/>
+</LinearLayout>

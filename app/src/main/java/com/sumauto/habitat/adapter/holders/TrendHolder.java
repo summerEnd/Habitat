@@ -1,6 +1,7 @@
 package com.sumauto.habitat.adapter.holders;
 
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -18,17 +19,17 @@ public class TrendHolder extends BaseViewHolder implements View.OnClickListener{
     public final ImageView iv_avatar, iv_image, iv_heart, iv_comment, iv_collect, iv_more;
     private FeedBean feedBean;
 
-    public TrendHolder(View view) {
-        super(view);
-        tv_content = (TextView) view.findViewById(R.id.tv_content);
-        iv_avatar = (ImageView) view.findViewById(R.id.iv_avatar);
-        iv_image = (ImageView) view.findViewById(R.id.iv_image);
-        iv_heart = (ImageView) view.findViewById(R.id.iv_heart);
-        iv_comment = (ImageView) view.findViewById(R.id.iv_comment);
-        iv_collect = (ImageView) view.findViewById(R.id.iv_collect);
-        iv_more = (ImageView) view.findViewById(R.id.iv_more);
-
+    public TrendHolder(ViewGroup parent) {
+        super(parent, R.layout.list_item_news_feed);
+        tv_content = (TextView) itemView.findViewById(R.id.tv_content);
+        iv_avatar = (ImageView) itemView.findViewById(R.id.iv_avatar);
+        iv_image = (ImageView) itemView.findViewById(R.id.iv_image);
+        iv_heart = (ImageView) itemView.findViewById(R.id.iv_heart);
+        iv_comment = (ImageView) itemView.findViewById(R.id.iv_comment);
+        iv_collect = (ImageView) itemView.findViewById(R.id.iv_collect);
+        iv_more = (ImageView) itemView.findViewById(R.id.iv_more);
     }
+
 
     public void init(FeedBean bean){
         this.feedBean=bean;

@@ -32,7 +32,7 @@ public class SearchFragmentAdapter extends RecyclerView.Adapter {
         if (viewType == 0) {
             return new SearchHeaderHolder(parent);
         } else {
-            return new TrendHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.list_item_news_feed, parent, false));
+            return new TrendHolder(parent);
 
         }
     }

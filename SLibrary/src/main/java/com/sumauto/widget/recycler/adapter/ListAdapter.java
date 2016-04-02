@@ -22,20 +22,6 @@ public abstract class ListAdapter extends BaseAdapter {
         this.data = data;
     }
 
-//    public ListAdapter(Context context, Object... objects) {
-//        super(context);
-//        data = new ArrayList<>();
-//        if (objects instanceof Bean[]) {
-//            Collections.addAll(data, (Bean[]) objects);
-//        }
-//        else {
-//            for (Object object : objects) {
-//                data.add(new DemoBean(object.toString()));
-//            }
-//        }
-//    }
-
-
     public List getDataList() {
         return data;
     }
