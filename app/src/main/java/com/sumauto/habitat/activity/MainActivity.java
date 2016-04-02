@@ -47,7 +47,6 @@ public class MainActivity extends BaseActivity implements ViewPager.OnPageChange
         viewPager.addOnPageChangeListener(this);
         checkedTab = (CheckableLinearLayout) findViewById(R.id.tab_main_home);
         checkedTab.setChecked(true);
-        startActivity(new Intent(this,PhotoActivity.class));
     }
 
     public void onTabClick(View v) {

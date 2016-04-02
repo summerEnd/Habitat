@@ -15,8 +15,8 @@ import com.sumauto.habitat.R;
  * Created by Lincoln on 16/3/21.
  * 基类
  */
-public class BaseActivity extends AppCompatActivity implements View.OnClickListener{
-    protected String TAG=getClass().getSimpleName();
+public class BaseActivity extends AppCompatActivity implements View.OnClickListener {
+    protected String TAG = getClass().getSimpleName();
     private SystemStatusManager tintManager;
 
     @Override
@@ -34,33 +34,37 @@ public class BaseActivity extends AppCompatActivity implements View.OnClickListe
         return tintManager;
     }
 
-    protected void initToolBar(){
+    protected void initToolBar() {
         initToolBar(R.id.toolBar);
     }
 
     protected void initToolBar(int toolbarId) {
         Toolbar toolbar = (Toolbar) findViewById(toolbarId);
-        setSupportActionBar(toolbar);
+        if (toolbar != null) {
+            setSupportActionBar(toolbar);
+            //返回按钮
+            View back = toolbar.findViewById(R.id.toolBar_back);
+            if (back != null) {
+                back.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        finish();
+                    }
+                });
+            }
+            //标题
+            TextView tv_title = (TextView) toolbar.findViewById(R.id.toolBar_title);
+            if (tv_title != null) {
+                tv_title.setText(getTitle());
+            }
+        }
         ActionBar actionBar = getSupportActionBar();
 
-        if (actionBar == null) return;
+        if (actionBar != null) {
+            actionBar.setDisplayShowTitleEnabled(false);
+        }
 
-        actionBar.setDisplayShowTitleEnabled(false);
-        //返回按钮
-        View back = toolbar.findViewById(R.id.toolBar_back);
-        if (back != null) {
-            back.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    finish();
-                }
-            });
-        }
-        //标题
-        TextView tv_title = (TextView) toolbar.findViewById(R.id.toolBar_title);
-        if (tv_title != null) {
-            tv_title.setText(getTitle());
-        }
+
     }
 
     @Override

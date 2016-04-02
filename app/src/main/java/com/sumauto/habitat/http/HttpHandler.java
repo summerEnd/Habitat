@@ -1,7 +1,6 @@
 package com.sumauto.habitat.http;
 
 import com.loopj.android.http.JsonHttpResponseHandler;
-import com.sumauto.common.util.SLog;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -14,14 +13,14 @@ import cz.msebera.android.httpclient.Header;
  * http请求处理
  */
 public class HttpHandler extends JsonHttpResponseHandler{
-    HttpResponse mResponse=new HttpResponse();
-    HttpRequest mRequest;
+    HttpClient.HttpResponse mResponse=new HttpClient.HttpResponse();
+    HttpClient.HttpRequest mRequest;
 
-    public HttpRequest getRequest() {
+    public HttpClient.HttpRequest getRequest() {
         return mRequest;
     }
 
-    public HttpHandler setRequest(HttpRequest mRequest) {
+    public HttpHandler setRequest(HttpClient.HttpRequest mRequest) {
         this.mRequest = mRequest;
         return this;
     }
@@ -73,11 +72,11 @@ public class HttpHandler extends JsonHttpResponseHandler{
     }
 
 
-    public void onSuccess(HttpResponse response,HttpRequest request){
+    public void onSuccess(HttpClient.HttpResponse response,HttpClient.HttpRequest request){
 
     }
 
-    public void onFailure(HttpResponse response,HttpRequest request){
+    public void onFailure(HttpClient.HttpResponse response,HttpClient.HttpRequest request){
 
     }
 }

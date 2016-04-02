@@ -1,10 +1,8 @@
 package com.sumauto.habitat.activity.publish;
 
 import android.graphics.Color;
-import android.support.annotation.NonNull;
-import android.support.v4.util.ArrayMap;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
@@ -12,7 +10,6 @@ import android.view.View;
 
 import com.sumauto.habitat.R;
 import com.sumauto.habitat.activity.BaseActivity;
-import com.sumauto.habitat.adapter.AddressBookAdapter;
 import com.sumauto.habitat.adapter.ChooseUserAdapter;
 import com.sumauto.habitat.adapter.holders.AddressBookTitleHolder;
 import com.sumauto.habitat.bean.UserInfoBean;
@@ -21,8 +18,6 @@ import com.sumauto.widget.recycler.DividerDecoration;
 import com.sumauto.widget.recycler.FloatHeadRecyclerView;
 
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
