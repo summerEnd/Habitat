@@ -1,0 +1,182 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@mipmap/bg_register"
+    android:orientation="vertical"
+    tools:context="com.sumauto.habitat.activity.RegisterActivity"
+    tools:ignore="ContentDescription">
+
+
+    <android.support.v7.widget.Toolbar
+        style="@style/toolBarStyle"
+        android:background="#0000">
+
+        <TextView
+            style="@style/toolbar_back_button"
+            android:drawableLeft="@mipmap/ic_back_white"
+            android:text="@string/guangguang_xian"
+            android:textColor="@color/white"
+            />
+
+    </android.support.v7.widget.Toolbar>
+
+    <android.support.v4.widget.Space
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        />
+
+    <android.support.v7.widget.LinearLayoutCompat
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/dp_10_in_xhdpi"
+        android:layout_marginRight="@dimen/dp_10_in_xhdpi"
+        android:background="@drawable/round_corner"
+        android:orientation="vertical"
+        app:divider="@drawable/line"
+        app:showDividers="middle">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:padding="14dp">
+
+            <ImageView
+                style="@style/register_icon"
+                android:src="@mipmap/ic_user_name"/>
+
+            <EditText
+                android:id="@+id/edit_phone"
+                style="@style/edit_register_style"
+                android:hint="@string/hint_user_name"
+                android:inputType="phone"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:padding="14dp">
+
+            <ImageView
+                style="@style/register_icon"
+                android:src="@mipmap/ic_password"/>
+
+            <EditText
+                android:id="@+id/edit_password"
+                style="@style/edit_register_style"
+                android:hint="@string/hint_login_password"
+                android:inputType="textPassword"/>
+        </LinearLayout>
+
+    </android.support.v7.widget.LinearLayoutCompat>
+
+    <TextView
+       android:onClick="onLoginClick"
+        style="@style/Widget.AppCompat.Button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/dp_10_in_xhdpi"
+        android:layout_marginRight="@dimen/dp_10_in_xhdpi"
+        android:layout_marginTop="30dp"
+        android:background="@drawable/bg_blue_button"
+        android:text="@string/login_"
+        android:textColor="@color/white"/>
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/dp_10_in_xhdpi"
+        android:layout_marginRight="@dimen/dp_10_in_xhdpi"
+        android:layout_marginTop="@dimen/dimen_20"
+        >
+
+        <TextView
+            android:onClick="onForgetPasswordClick"
+            android:clickable="true"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/forget_password"
+            android:textColor="@color/white"
+            android:textSize="@dimen/text_14"/>
+
+        <TextView
+            android:onClick="onRegisterClick"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="right"
+            android:text="@string/register_now"
+            android:textColor="@color/white"
+            android:textSize="@dimen/text_14"/>
+    </FrameLayout>
+
+    <LinearLayout
+        android:paddingLeft="@dimen/dp_10_in_xhdpi"
+        android:paddingRight="@dimen/dp_10_in_xhdpi"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/dimen_23"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
+
+        <View
+            android:layout_width="0dp"
+            android:layout_height="1dp"
+            android:layout_weight="1"
+            android:background="#d9d9d9"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/dimen_20"
+            android:layout_marginRight="@dimen/dimen_20"
+            android:text="@string/third_login"
+            android:textColor="#bfbfbf"/>
+
+        <View
+            android:layout_width="0dp"
+            android:layout_height="1dp"
+            android:layout_weight="1"
+            android:background="#d9d9d9"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_marginBottom="@dimen/dimen_23"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/dimen_26"
+        android:gravity="center"
+        android:orientation="horizontal">
+
+        <ImageView
+            android:clickable="true"
+            android:onClick="onWeiboClick"
+            android:layout_width="@dimen/dimen_36"
+            android:layout_height="@dimen/dimen_36"
+            android:scaleType="centerCrop"
+            android:src="@mipmap/ic_weibo"/>
+
+        <ImageView
+            android:clickable="true"
+            android:onClick="onQQClick"
+            android:layout_width="@dimen/dimen_36"
+            android:layout_height="@dimen/dimen_36"
+            android:layout_marginLeft="@dimen/dimen_76"
+            android:layout_marginRight="@dimen/dimen_76"
+            android:scaleType="centerCrop"
+            android:src="@mipmap/ic_qq"/>
+
+        <ImageView
+            android:clickable="true"
+            android:onClick="onWeiXinClick"
+            android:layout_width="@dimen/dimen_36"
+            android:layout_height="@dimen/dimen_36"
+            android:scaleType="centerCrop"
+            android:src="@mipmap/ic_weixin"/>
+    </LinearLayout>
+</LinearLayout>

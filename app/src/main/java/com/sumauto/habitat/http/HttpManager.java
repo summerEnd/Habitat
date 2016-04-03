@@ -43,7 +43,7 @@ public class HttpManager {
         post(context, HOST + api, params, httpHandler);
     }
 
-    public void post(Context context, String url, RequestParams params, HttpHandler httpHandler) {
+    private void post(Context context, String url, RequestParams params, HttpHandler httpHandler) {
 
         String time = String.valueOf(System.currentTimeMillis());
         String uuid = ContextUtil.getUUID();
@@ -70,6 +70,7 @@ public class HttpManager {
      * pagesize：每页显示数据的数量（pagesize默认为3）
      */
     public static final String getCommunity = "getCommunity";
+
     /**
      * 参数说明：
      * phone:请求发送验证码的手机号码
@@ -84,5 +85,19 @@ public class HttpManager {
      * pwd:用户填写的登录密码
      */
     public static final String getRegister = "getRegister";
+
+    /**
+     * 参数说明
+     * phone:用户注册的手机号码
+     * pwd:用户填写的登录密码
+     */
+    public static final String getLogin = "getLogin";
+    /**
+     * 参数说明
+     * phone:用户的手机号码
+     * code:用户获取到的短信验证码
+     * newuserpwd:用户设置的新密码
+     */
+    public static final String setNewPwd = "setNewPwd";
 
 }

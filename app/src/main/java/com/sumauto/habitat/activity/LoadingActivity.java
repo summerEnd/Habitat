@@ -28,7 +28,7 @@ public class LoadingActivity extends BaseActivity {
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
-              to(RegisterActivity.class);
+              to(LoginActivity.class);
             }
         },2000);
     }

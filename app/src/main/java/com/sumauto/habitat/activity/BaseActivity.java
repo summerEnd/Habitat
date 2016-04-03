@@ -69,6 +69,12 @@ public class BaseActivity extends AppCompatActivity implements View.OnClickListe
 
     }
 
+//    @Override
+//    public void onClick(View v) {
+//        switch (v.getId()){
+//            case R.id.haha:{break;}
+//        }
+//    }
     @Override
     public void onClick(View v) {
 

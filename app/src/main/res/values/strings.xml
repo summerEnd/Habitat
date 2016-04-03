@@ -67,4 +67,14 @@
     <string name="hint_sms_code">请输入短信验证码</string>
     <string name="hint_password">请输入 6-16 位字母和数字密码</string>
     <string name="re_send">重新发送</string>
+    <string name="hint_user_name">请输入您的用户名</string>
+    <string name="guangguang_xian">先逛逛</string>
+    <string name="forget_password">忘记密码</string>
+    <string name="register_now">立即注册</string>
+    <string name="third_login">第三方登录</string>
+    <string name="hint_login_password">请输入您的登录密码</string>
+    <string name="login_">登 录</string>
+    <string name="register_">注 册</string>
+    <string name="hint_new_password">请输入新密码</string>
+    <string name="find_password">找回密码</string>
 </resources>
