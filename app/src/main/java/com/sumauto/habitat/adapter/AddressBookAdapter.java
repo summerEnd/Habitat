@@ -1,17 +1,14 @@
 package com.sumauto.habitat.adapter;
 
 import android.support.v7.widget.RecyclerView;
-import android.view.LayoutInflater;
 import android.view.ViewGroup;
 
-import com.sumauto.habitat.R;
 import com.sumauto.habitat.adapter.holders.AddressBookTitleHolder;
 import com.sumauto.habitat.adapter.holders.UserListHolder;
 import com.sumauto.habitat.bean.UserInfoBean;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
 /**
  * Created by Lincoln on 16/3/22.

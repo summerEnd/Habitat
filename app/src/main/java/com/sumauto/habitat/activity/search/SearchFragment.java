@@ -2,7 +2,6 @@ package com.sumauto.habitat.activity.search;
 
 
 import android.content.Intent;
-import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Rect;
 import android.os.Bundle;
@@ -14,12 +13,9 @@ import android.view.ViewGroup;
 
 import com.sumauto.common.util.DisplayUtil;
 import com.sumauto.habitat.R;
-import com.sumauto.habitat.activity.BaseFragment;
 import com.sumauto.habitat.activity.ListFragment;
 import com.sumauto.habitat.adapter.SearchFragmentAdapter;
-import com.sumauto.habitat.callback.ListCallback;
 import com.sumauto.widget.recycler.DividerDecoration;
-import com.sumauto.widget.recycler.ItemPaddingDecoration;
 
 
 /**

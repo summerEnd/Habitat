@@ -1,16 +1,13 @@
 package com.sumauto.habitat.activity.search;
 
 import android.graphics.Color;
-import android.support.annotation.NonNull;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.view.View;
 
-import com.sumauto.common.util.ViewUtil;
 import com.sumauto.habitat.R;
 import com.sumauto.habitat.activity.BaseActivity;
 import com.sumauto.habitat.adapter.AddressBookAdapter;

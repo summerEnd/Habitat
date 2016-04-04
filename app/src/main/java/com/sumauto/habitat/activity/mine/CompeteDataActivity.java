@@ -5,14 +5,10 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
 
-import com.bigkoo.pickerview.TimePickerView;
 import com.sumauto.common.util.ContextUtil;
 import com.sumauto.habitat.R;
 import com.sumauto.habitat.activity.BaseActivity;
 import com.sumauto.habitat.widget.IosListDialog;
-import com.sumauto.habitat.widget.PickCity;
-
-import java.util.Date;
 
 public class CompeteDataActivity extends BaseActivity {
     TextView tv_gender;

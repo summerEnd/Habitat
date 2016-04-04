@@ -6,7 +6,6 @@ import android.view.ViewGroup;
 import com.sumauto.common.util.RandomUtils;
 import com.sumauto.habitat.adapter.holders.MyAttentionHolder;
 import com.sumauto.habitat.bean.AttentionBean;
-import com.sumauto.habitat.bean.DemoBean;
 
 import java.util.ArrayList;
 import java.util.List;

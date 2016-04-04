@@ -1,4 +1,4 @@
-package com.sumauto.habitat.activity.publish;
+package com.sumauto.habitat.activity;
 
 import android.graphics.Color;
 import android.os.Bundle;
@@ -9,7 +9,6 @@ import android.text.TextUtils;
 import android.view.View;
 
 import com.sumauto.habitat.R;
-import com.sumauto.habitat.activity.BaseActivity;
 import com.sumauto.habitat.adapter.ChooseUserAdapter;
 import com.sumauto.habitat.adapter.holders.AddressBookTitleHolder;
 import com.sumauto.habitat.bean.UserInfoBean;

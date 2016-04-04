@@ -1,15 +1,9 @@
 package com.sumauto.habitat.activity.mine;
 
 import android.content.Context;
-import android.content.DialogInterface;
-import android.graphics.drawable.ColorDrawable;
-import android.graphics.drawable.ShapeDrawable;
-import android.graphics.drawable.shapes.RoundRectShape;
-import android.graphics.drawable.shapes.Shape;
 import android.net.Uri;
-import android.provider.MediaStore;
-import android.support.v7.app.AlertDialog;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -34,7 +28,6 @@ import com.sumauto.widget.recycler.ItemPaddingDecoration;
 
 import java.io.File;
 import java.util.ArrayList;
-import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 

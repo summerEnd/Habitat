@@ -1,16 +1,12 @@
 package com.sumauto.habitat.widget;
 
 import android.content.Context;
-import android.content.Intent;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.util.AttributeSet;
-import android.view.View;
-import android.widget.ImageView;
 
 import com.sumauto.common.util.DisplayUtil;
-import com.sumauto.habitat.activity.mine.UserHomeActivity;
 import com.sumauto.widget.CircleImageView;
 
 /**

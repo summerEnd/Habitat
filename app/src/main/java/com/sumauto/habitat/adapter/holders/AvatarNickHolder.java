@@ -1,10 +1,8 @@
 package com.sumauto.habitat.adapter.holders;
 
-import android.view.View;
 import android.view.ViewGroup;
 
 import com.sumauto.habitat.R;
-import com.sumauto.widget.recycler.adapter.BaseHolder;
 
 /**
  * Created by Lincoln on 16/3/23.

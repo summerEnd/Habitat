@@ -10,9 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.sumauto.habitat.R;
-import com.sumauto.habitat.activity.BaseFragment;
 import com.sumauto.habitat.activity.ListFragment;
-import com.sumauto.habitat.callback.Scrollable;
 
 
 public class TrendFragment extends ListFragment {

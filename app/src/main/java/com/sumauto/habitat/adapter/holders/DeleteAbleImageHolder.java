@@ -5,7 +5,6 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 
 import com.sumauto.habitat.R;
-import com.sumauto.widget.recycler.adapter.BaseHolder;
 
 /**
  * Created by Lincoln on 16/3/24.

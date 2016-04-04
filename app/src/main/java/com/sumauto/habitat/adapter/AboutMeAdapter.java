@@ -4,7 +4,6 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.RecyclerView.ViewHolder;
 import android.view.ViewGroup;
 
-import com.sumauto.common.util.RandomUtils;
 import com.sumauto.habitat.adapter.holders.AboutMeLikeHolder;
 import com.sumauto.habitat.adapter.holders.AboutMeListHolder;
 

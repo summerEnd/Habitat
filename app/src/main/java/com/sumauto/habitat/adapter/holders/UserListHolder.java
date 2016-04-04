@@ -1,7 +1,6 @@
 package com.sumauto.habitat.adapter.holders;
 
 import android.graphics.drawable.Drawable;
-import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
@@ -10,7 +9,6 @@ import com.sumauto.common.util.ViewUtil;
 import com.sumauto.habitat.R;
 import com.sumauto.habitat.bean.UserInfoBean;
 import com.sumauto.widget.CheckableLinearLayout;
-import com.sumauto.widget.recycler.adapter.BaseHolder;
 
 /**
  * Created by Lincoln on 16/3/22.

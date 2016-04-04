@@ -1,21 +1,14 @@
 package com.sumauto.habitat.adapter.holders;
 
 import android.graphics.Rect;
-import android.graphics.RectF;
-import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
-import android.view.View.MeasureSpec;
 import android.view.ViewGroup;
 
 import com.sumauto.common.util.DisplayUtil;
 import com.sumauto.habitat.R;
 import com.sumauto.habitat.bean.AttentionBean;
-import com.sumauto.habitat.bean.DemoBean;
 import com.sumauto.widget.recycler.WrapContentGridLayoutManager;
-
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Created by Lincoln on 16/3/23.

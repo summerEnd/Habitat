@@ -1,12 +1,10 @@
 package com.sumauto.habitat.adapter;
 
 import android.support.v7.widget.RecyclerView;
-import android.view.LayoutInflater;
 import android.view.ViewGroup;
 
-import com.sumauto.habitat.R;
-import com.sumauto.habitat.adapter.holders.TrendHolder;
 import com.sumauto.habitat.adapter.holders.SearchHeaderHolder;
+import com.sumauto.habitat.adapter.holders.TrendHolder;
 import com.sumauto.habitat.bean.FeedBean;
 import com.sumauto.habitat.bean.SearchHeaderBean;
 

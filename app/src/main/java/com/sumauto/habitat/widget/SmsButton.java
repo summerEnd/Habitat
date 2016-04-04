@@ -10,9 +10,6 @@ import android.widget.TextView;
 
 import com.sumauto.habitat.R;
 
-import java.util.Timer;
-import java.util.TimerTask;
-
 /**
  * Created by Lincoln on 16/4/2.
  * 发短信按钮

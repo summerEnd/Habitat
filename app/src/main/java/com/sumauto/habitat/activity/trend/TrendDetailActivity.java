@@ -1,12 +1,10 @@
 package com.sumauto.habitat.activity.trend;
 
 import android.os.Bundle;
-import android.support.design.widget.Snackbar;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
-import android.view.Gravity;
 import android.view.MotionEvent;
 import android.view.View;
 

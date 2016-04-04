@@ -12,7 +12,6 @@ import com.sumauto.habitat.http.HttpManager;
 import com.sumauto.widget.recycler.adapter.BaseHolder;
 import com.sumauto.widget.recycler.adapter.LoadMoreAdapter;
 
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 

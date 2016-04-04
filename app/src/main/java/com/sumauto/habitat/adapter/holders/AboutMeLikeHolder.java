@@ -9,7 +9,6 @@ import android.widget.TextView;
 import com.sumauto.common.util.ViewUtil;
 import com.sumauto.habitat.R;
 import com.sumauto.habitat.bean.UserInfoBean;
-import com.sumauto.widget.CheckableLinearLayout;
 
 /**
  * Created by Lincoln on 16/3/22.

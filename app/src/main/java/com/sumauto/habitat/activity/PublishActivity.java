@@ -1,4 +1,4 @@
-package com.sumauto.habitat.activity.publish;
+package com.sumauto.habitat.activity;
 
 import android.app.Dialog;
 import android.content.Context;
@@ -14,7 +14,6 @@ import android.widget.TextView;
 
 import com.sumauto.common.util.DisplayUtil;
 import com.sumauto.habitat.R;
-import com.sumauto.habitat.activity.BaseActivity;
 import com.sumauto.habitat.adapter.PublishImageAdapter;
 import com.sumauto.habitat.widget.IosListDialog;
 

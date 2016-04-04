@@ -16,9 +16,7 @@ import android.widget.TextView;
 
 import com.sumauto.common.util.ViewUtil;
 import com.sumauto.habitat.R;
-import com.sumauto.habitat.activity.BaseFragment;
 import com.sumauto.habitat.activity.ListFragment;
-import com.sumauto.habitat.callback.Scrollable;
 import com.sumauto.widget.nav.TabItem;
 import com.sumauto.widget.nav.TabLayout;
 

@@ -1,10 +1,8 @@
 package com.sumauto.habitat.adapter;
 
 import android.support.v7.widget.RecyclerView;
-import android.view.LayoutInflater;
 import android.view.ViewGroup;
 
-import com.sumauto.habitat.R;
 import com.sumauto.habitat.adapter.holders.UserListHolder;
 import com.sumauto.habitat.bean.UserInfoBean;
 

@@ -10,7 +10,6 @@ import android.view.ViewGroup;
 
 import com.sumauto.habitat.R;
 import com.sumauto.habitat.activity.BaseFragment;
-import com.sumauto.habitat.adapter.LikeGridAdapter;
 import com.sumauto.habitat.adapter.UserPictureAdapter;
 import com.sumauto.widget.recycler.ItemPaddingDecoration;
 

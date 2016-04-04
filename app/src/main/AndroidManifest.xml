@@ -32,11 +32,11 @@
         <activity android:name=".activity.trend.TrendDetailActivity">
         </activity>
         <activity
-            android:name=".activity.publish.PublishActivity"
+            android:name=".activity.PublishActivity"
             android:windowSoftInputMode="stateHidden">
         </activity>
         <activity
-            android:name=".activity.publish.NoticeFriendListActivity"
+            android:name=".activity.NoticeFriendListActivity"
             android:label="@string/notice_who_see">
         </activity>
         <activity android:name=".activity.mine.UserHomeActivity">

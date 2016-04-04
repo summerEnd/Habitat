@@ -6,7 +6,6 @@ import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.TextView;
 
-import com.sumauto.common.util.ViewUtil;
 import com.sumauto.habitat.R;
 import com.sumauto.habitat.bean.UserInfoBean;
 
