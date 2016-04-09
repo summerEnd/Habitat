@@ -6,11 +6,11 @@
     xmlns:tools="http://schemas.android.com/tools"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical">
-    <com.sumauto.widget.ImageGridView
+    <com.sumauto.widget.SupperLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:totalColumn="75"
-        app:totalRows="-1"
+        app:layout_width_units="75"
+        app:layout_height_units="-1"
         >
 
         <ImageView
@@ -20,9 +20,8 @@
             android:contentDescription="@string/image"
             android:scaleType="centerCrop"
             android:src="@drawable/test_image_01"
-            app:column_span="75"
-            app:row_span="34"/>
-    </com.sumauto.widget.ImageGridView>
+            app:heightUnits="34"/>
+    </com.sumauto.widget.SupperLayout>
 
     <LinearLayout
         android:layout_width="match_parent"

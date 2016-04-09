@@ -1,33 +1,44 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-             android:layout_width="@dimen/dimen_76"
-             android:layout_height="@dimen/dimen_76"
-             xmlns:app="http://schemas.android.com/apk/res-auto">
+<com.sumauto.widget.SupperLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    app:layout_width_units="100"
+    app:layout_height_units="100"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
     <com.sumauto.widget.RoundCornerImageView
         android:id="@+id/iv_image"
-        app:x_radius="@dimen/round_corner_avatar"
-        app:y_radius="@dimen/round_corner_avatar"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:scaleType="centerCrop"
-        android:src="@drawable/test_image_01"/>
+        android:src="@drawable/test_image_01"
+        app:x_radius="@dimen/round_corner_avatar"
+        app:y_radius="@dimen/round_corner_avatar"/>
 
     <ImageView
+        app:x="68"
+        app:y="10"
+        app:widthUnits="22"
+        app:heightUnits="22"
         android:id="@+id/iv_delete"
-        android:layout_margin="@dimen/view_spacing_1"
-        android:layout_gravity="right|top"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_gravity="right|top"
+        android:layout_margin="@dimen/view_spacing_1"
         android:src="@mipmap/ic_delete_image"/>
+
     <TextView
+        app:y="80"
+        app:heightUnits="20"
         android:id="@+id/v_cover"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="#8000"
         android:layout_gravity="bottom"
         android:layout_marginBottom="@dimen/dp_10_in_xhdpi"
-        android:textColor="@color/white"
-        android:textSize="@dimen/text_11"
+        android:background="#8000"
         android:gravity="center"
-        android:text="封面"/>
-</FrameLayout>
+        android:text="封面"
+        android:textColor="@color/white"
+        android:textSize="@dimen/text_11"/>
+</com.sumauto.widget.SupperLayout>

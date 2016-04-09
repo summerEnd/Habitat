@@ -10,23 +10,22 @@
     android:paddingBottom="@dimen/dp_10_in_xhdpi"
     android:paddingTop="@dimen/dp_10_in_xhdpi">
 
-    <com.sumauto.widget.ImageGridView
+    <com.sumauto.widget.SupperLayout
         android:id="@+id/image"
         android:layout_marginTop="@dimen/dimen_41"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:totalColumn="75">
+        app:layout_width_units="75">
 
         <ImageView
             android:contentDescription="@string/image"
-            app:row_span="58"
-            app:column_span="75"
+            app:heightUnits="58"
             android:id="@+id/iv_image"
             android:layout_width="match_parent"
             android:layout_height="@dimen/dimen_291"
             android:scaleType="centerCrop"
             android:src="@drawable/test_image_01"/>
-    </com.sumauto.widget.ImageGridView>
+    </com.sumauto.widget.SupperLayout>
 
     <LinearLayout
         android:id="@+id/info_layout"

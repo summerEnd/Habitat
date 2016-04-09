@@ -31,6 +31,7 @@ public class WrapContentGridLayoutManager extends GridLayoutManager{
         return this;
     }
 
+
     @Override
     public void onMeasure(RecyclerView.Recycler recycler, RecyclerView.State state, int widthSpec, int heightSpec) {
         //super.onMeasure(recycler, state, widthSpec, heightSpec);

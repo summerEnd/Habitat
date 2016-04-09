@@ -1,8 +1,12 @@
 package com.sumauto.habitat.activity.mine;
 
+import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
+import android.os.SystemClock;
 import android.provider.MediaStore;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
@@ -18,6 +22,8 @@ import android.widget.TextView;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.assist.ImageScaleType;
+import com.sumauto.common.support.IntentFactory;
+import com.sumauto.common.util.ContextUtil;
 import com.sumauto.common.util.DisplayUtil;
 import com.sumauto.common.util.ImageUtil;
 import com.sumauto.common.util.ViewUtil;
@@ -30,37 +36,54 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
 public class PhotoActivity extends BaseActivity {
-    TextView toolBar_title;
-    RecyclerView recyclerView;
-    private List<Map<String, Object>> adapterData = new ArrayList<>();
-    private String[] folderNames;
-    private Adapter adapter;
-    private List<Map<String, Object>> folders;
-    private FolderListWindow folderListWindow;
+    public static final int CAPTURE = 1001;
+    public static final int CROP = 1002;
 
+    TextView mToolBarTitle;
+    RecyclerView mRecyclerView;
+    private FolderListWindow mFolderListWindow;
+
+    private List<Map<String, Object>> mFolders;
+    private List<Map<String, Object>> mAdapterData = new ArrayList<>();
+    private String[] mFolderNames;
+    private Adapter mAdapter;
+    private Uri outUri;
+    private int width;
+    private int height;
+
+    public static void start(Activity context, int width, int height, int requestCode) {
+        Intent starter = new Intent(context, PhotoActivity.class);
+        starter.putExtra("width", width);
+        starter.putExtra("height", height);
+        context.startActivityForResult(starter, requestCode);
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_photo);
-        recyclerView = (RecyclerView) findViewById(R.id.recyclerView);
-        toolBar_title = (TextView) findViewById(R.id.toolBar_title);
-        recyclerView.setLayoutManager(new GridLayoutManager(this, 3));
-        recyclerView.addItemDecoration(new ItemPaddingDecoration(1, 1, 1, 1));
-        adapter = new Adapter();
-        recyclerView.setAdapter(adapter);
+        mRecyclerView = (RecyclerView) findViewById(R.id.recyclerView);
+        mToolBarTitle = (TextView) findViewById(R.id.toolBar_title);
+        mRecyclerView.setLayoutManager(new GridLayoutManager(this, 3));
+        mRecyclerView.addItemDecoration(new ItemPaddingDecoration(1, 1, 1, 1));
 
+        mAdapter = new Adapter();
+        mRecyclerView.setAdapter(mAdapter);
+        width = getIntent().getIntExtra("width", 100);
+        height = getIntent().getIntExtra("height", 100);
         listFolderNames();
-        toolBar_title.setOnClickListener(new View.OnClickListener() {
+
+        mToolBarTitle.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (folderListWindow == null)
-                    folderListWindow = new FolderListWindow(v.getContext());
+                if (mFolderListWindow == null)
+                    mFolderListWindow = new FolderListWindow(v.getContext());
                 int location[] = new int[2];
                 v.getLocationInWindow(location);
-                folderListWindow.showAtLocation(v, Gravity.TOP, 0, location[1] + v.getHeight());
+                mFolderListWindow.showAtLocation(v, Gravity.TOP, 0, location[1] + v.getHeight());
             }
         });
 
@@ -71,32 +94,72 @@ public class PhotoActivity extends BaseActivity {
      *
      * @param folderName 目录名称
      */
-    void displayFolder(String folderName) {
-        toolBar_title.setText(folderName);
-        adapterData.clear();
-        adapterData.addAll(ImageUtil.listPhotos(PhotoActivity.this, folderName));
-        adapter.notifyDataSetChanged();
+    private void displayFolder(String folderName) {
+        mToolBarTitle.setText(folderName);
+        mAdapterData.clear();
+        mAdapterData.addAll(ImageUtil.listPhotos(PhotoActivity.this, folderName));
+        mAdapter.notifyDataSetChanged();
     }
 
     /**
      * 加载所有的目录
      */
     private void listFolderNames() {
-        folders = ImageUtil.loadFolders(PhotoActivity.this);
+        mFolders = ImageUtil.loadFolders(PhotoActivity.this);
 
-        if (folders == null || folders.size() == 0) return;
+        if (mFolders == null || mFolders.size() == 0) return;
 
         ArrayList<String> itemsArray = new ArrayList<>();
-        for (Map<String, Object> map : folders) {
+        for (Map<String, Object> map : mFolders) {
             itemsArray.add(map.get(MediaStore.Images.Media.BUCKET_DISPLAY_NAME).toString());
         }
-        folderNames = new String[itemsArray.size()];
-        itemsArray.toArray(folderNames);
-        displayFolder(folderNames[0]);
+        mFolderNames = new String[itemsArray.size()];
+        itemsArray.toArray(mFolderNames);
+        displayFolder(mFolderNames[0]);
     }
 
+    private Uri getSaveFileUri() {
 
-    class Adapter extends RecyclerView.Adapter<ViewHolder> {
+        if (outUri != null) {
+            return outUri;
+        }
+
+        if (Environment.MEDIA_MOUNTED.equals(Environment.getExternalStorageState())) {
+            File dir = new File(getExternalFilesDir(Environment.DIRECTORY_PICTURES), "my_photos");
+            if (!dir.exists()) {
+                //noinspection ResultOfMethodCallIgnored
+                dir.mkdirs();
+            }
+            outUri = Uri.fromFile(new File(dir, SystemClock.uptimeMillis() + ".png"));
+            return outUri;
+        }
+
+        throw new RuntimeException("create file failed!");
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (resultCode == RESULT_OK) {
+            Uri uri = getSaveFileUri();
+
+            switch (requestCode) {
+                case CAPTURE: {
+                    startActivityForResult(IntentFactory.cropImageUri(uri, width, height), CROP);
+                    break;
+                }
+                case CROP: {
+                    Intent intent = getIntent();
+                    intent.setData(getSaveFileUri());
+                    setResult(RESULT_OK, intent);
+                    finish();
+                    break;
+                }
+            }
+        }
+    }
+
+    class Adapter extends RecyclerView.Adapter<PictureHolder> {
         DisplayImageOptions options;
 
         public Adapter() {
@@ -107,50 +170,57 @@ public class PhotoActivity extends BaseActivity {
         }
 
         @Override
-        public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        public PictureHolder onCreateViewHolder(ViewGroup parent, int viewType) {
             View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.grid_item_photo, parent, false);
-            return viewType == 0 ? new CameraHolder(itemView) : new ViewHolder(itemView);
+            return new PictureHolder(itemView);
         }
 
         @Override
-        public void onBindViewHolder(ViewHolder holder, int position) {
+        public void onBindViewHolder(PictureHolder holder, int position) {
             int listPosition = position - 1;
+            ImageView imageView = holder.imageView;
             if (listPosition >= 0) {
-                String uri = (String) adapterData.get(listPosition).get(MediaStore.Images.Media.DATA);
-                ImageLoader.getInstance().displayImage(Uri.fromFile(new File(uri)).toString(), holder.imageView, options);
+                imageView.setBackgroundColor(0);
+                imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
+
+                String uri = (String) mAdapterData.get(listPosition).get(MediaStore.Images.Media.DATA);
+                ImageLoader.getInstance().displayImage(Uri.fromFile(new File(uri)).toString(), imageView, options);
+                holder.imageView.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+
+                    }
+                });
+            } else {
+                imageView.setImageResource(R.mipmap.ic_camera);
+                imageView.setBackgroundColor(0xff3E4963);
+                imageView.setScaleType(ImageView.ScaleType.CENTER_INSIDE);
+                holder.itemView.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        startActivityForResult(IntentFactory.capture(getSaveFileUri()), CAPTURE);
+                    }
+                });
             }
         }
 
         @Override
-        public int getItemViewType(int position) {
-            return position == 0 ? 0 : 1;
-        }
-
-        @Override
         public int getItemCount() {
-            return adapterData.size() + 1;
+            return mAdapterData.size() + 1;
         }
     }
 
-    class ViewHolder extends RecyclerView.ViewHolder {
+    private class PictureHolder extends RecyclerView.ViewHolder {
         ImageView imageView;
 
-        public ViewHolder(View itemView) {
+        public PictureHolder(View itemView) {
             super(itemView);
             imageView = (ImageView) itemView.findViewById(R.id.iv_image);
         }
     }
 
-    class CameraHolder extends ViewHolder {
-        public CameraHolder(View itemView) {
-            super(itemView);
-            imageView.setImageResource(R.mipmap.ic_camera);
-            imageView.setBackgroundColor(0xff3E4963);
-            imageView.setScaleType(ImageView.ScaleType.CENTER_INSIDE);
-        }
-    }
 
-    class FolderListWindow extends PopupWindow {
+    private class FolderListWindow extends PopupWindow {
         public FolderListWindow(Context context) {
             super(context);
             RecyclerView recyclerView = new RecyclerView(context);
@@ -165,7 +235,7 @@ public class PhotoActivity extends BaseActivity {
         }
     }
 
-    class FolderAdapter extends RecyclerView.Adapter<FolderHolder> {
+    private class FolderAdapter extends RecyclerView.Adapter<FolderHolder> {
         @Override
         public FolderHolder onCreateViewHolder(ViewGroup parent, int viewType) {
             return new FolderHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.list_item_photo_folder, parent, false));
@@ -173,17 +243,17 @@ public class PhotoActivity extends BaseActivity {
 
         @Override
         public void onBindViewHolder(FolderHolder holder, int position) {
-            Map<String, Object> folder = folders.get(position);
+            Map<String, Object> folder = mFolders.get(position);
             holder.init(folder);
         }
 
         @Override
         public int getItemCount() {
-            return folders.size();
+            return mFolders.size();
         }
     }
 
-    class FolderHolder extends RecyclerView.ViewHolder {
+    private class FolderHolder extends RecyclerView.ViewHolder {
         public final TextView tv_photo_count, tv_folder_name;
         public Map<String, Object> folder;
 
@@ -194,8 +264,8 @@ public class PhotoActivity extends BaseActivity {
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    if (null != folderListWindow) {
-                        folderListWindow.dismiss();
+                    if (null != mFolderListWindow) {
+                        mFolderListWindow.dismiss();
                     }
                     displayFolder(folder.get(MediaStore.Images.Media.BUCKET_DISPLAY_NAME).toString());
                 }

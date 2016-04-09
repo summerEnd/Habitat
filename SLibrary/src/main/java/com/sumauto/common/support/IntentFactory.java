@@ -7,13 +7,25 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
+import android.graphics.Bitmap;
+import android.hardware.Camera;
+import android.hardware.camera2.CameraManager;
 import android.net.Uri;
+import android.provider.MediaStore;
 
 import com.sp.lib.R;
 
+import java.net.URI;
 import java.util.List;
 
 public class IntentFactory {
+
+    public static Intent capture(Uri output) {
+        Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+        intent.putExtra(MediaStore.EXTRA_OUTPUT, output);
+        return intent;
+    }
+
     /**
      * 打电话
      *
@@ -45,15 +57,6 @@ public class IntentFactory {
                 PackageManager.COMPONENT_ENABLED_STATE_DEFAULT);
     }
 
-    /**
-     *  * 需要以下权限：
-     * <!-- 添加快捷方式 -->
-     * <uses-permission android:name="com.android.launcher.permission.INSTALL_SHORTCUT" />
-     * <!-- 移除快捷方式 -->
-     * <uses-permission android:name="com.android.launcher.permission.UNINSTALL_SHORTCUT" />
-     * <!-- 查询快捷方式 -->
-     * <uses-permission android:name="com.android.launcher.permission.READ_SETTINGS" />
-     */
     public static void addShortcut(Context context, String name, Class<? extends Activity> activityClass) {
         Intent addShortcutIntent = new Intent("com.android.launcher.action.INSTALL_SHORTCUT");
 
@@ -84,4 +87,22 @@ public class IntentFactory {
         context.sendBroadcast(addShortcutIntent);
     }
 
+    /**
+     * 剪裁图片
+     * intent.putExtra("circleCrop","true");//圆形剪裁
+     */
+    public static Intent cropImageUri(Uri uri, int outputX, int outputY) {
+        Intent intent = new Intent("com.android.camera.action.CROP");
+        intent.setDataAndType(uri, "image/*");
+        intent.putExtra("crop", "true");
+        intent.putExtra("outputX", outputX);
+        intent.putExtra("outputY", outputY);
+        intent.putExtra("scale", true);
+        intent.putExtra(MediaStore.EXTRA_OUTPUT, uri);
+        intent.putExtra("return-data", false);
+
+        intent.putExtra("outputFormat", Bitmap.CompressFormat.JPEG.toString());
+        intent.putExtra("noFaceDetection", true); // no face detection
+        return intent;
+    }
 }

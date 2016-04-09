@@ -28,6 +28,7 @@ public class LoadingActivity extends BaseActivity {
             @Override
             public void run() {
               to(LoginActivity.class);
+                finish();
             }
         },2000);
     }

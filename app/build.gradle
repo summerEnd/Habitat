@@ -25,9 +25,8 @@ android {
     compileSdkVersion 23
     buildToolsVersion '23.0.1'
     defaultConfig {
-        generatedDensities = []
         applicationId "com.sumauto.app"
-        minSdkVersion 15
+        minSdkVersion 21
         targetSdkVersion 23
         versionName "${versionMajor}.${versionMinor}.${versionPatch}"
         buildConfigField "String", "BUILD_TIME", "\"${buildTime()}\""

@@ -1,4 +1,4 @@
-package com.sumauto.habitat.activity.home;
+package com.sumauto.habitat.activity;
 
 import android.content.Context;
 import android.graphics.drawable.ColorDrawable;
@@ -16,7 +16,6 @@ import android.widget.TextView;
 
 import com.sumauto.common.util.ViewUtil;
 import com.sumauto.habitat.R;
-import com.sumauto.habitat.activity.ListFragment;
 import com.sumauto.widget.nav.TabItem;
 import com.sumauto.widget.nav.TabLayout;
 

@@ -15,7 +15,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import cn.finalteam.galleryfinal.model.PhotoFolderInfo;
 
 /**
  * Created by Lincoln on 16/3/30.

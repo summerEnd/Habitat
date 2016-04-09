@@ -53,19 +53,20 @@
         <attr name="border_width" format="dimension" />
         <attr name="border_color" format="color" />
     </declare-styleable>
-    <declare-styleable name="ImageGridView">
+
+    <declare-styleable name="SupperLayout">
         <attr name="space" format="dimension"/>
-        <attr name="totalColumn" format="integer"/>
-        <attr name="totalRows" format="integer|enum">
+        <attr name="layout_width_units" format="integer"/>
+        <attr name="layout_height_units" format="integer|enum">
             <enum name="auto" value="-1"/>
         </attr>
 
     </declare-styleable>
-    <declare-styleable name="ImageGridView_Layout">
-        <attr name="column" format="integer"/>
-        <attr name="column_span" format="integer"/>
-        <attr name="row" format="integer"/>
-        <attr name="row_span" format="integer"/>
+    <declare-styleable name="SupperLayout_Layout">
+        <attr name="x" format="integer"/>
+        <attr name="widthUnits" format="integer"/>
+        <attr name="y" format="integer"/>
+        <attr name="heightUnits" format="integer"/>
     </declare-styleable>
 
     <declare-styleable name="RoundCornerImageView">

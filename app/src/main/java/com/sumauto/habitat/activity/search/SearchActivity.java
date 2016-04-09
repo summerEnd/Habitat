@@ -17,7 +17,7 @@ import android.widget.TextView;
 import com.sumauto.common.util.ViewUtil;
 import com.sumauto.habitat.R;
 import com.sumauto.habitat.activity.BaseActivity;
-import com.sumauto.habitat.activity.home.TrendListFragment;
+import com.sumauto.habitat.activity.TrendListFragment;
 
 public class SearchActivity extends BaseActivity {
 

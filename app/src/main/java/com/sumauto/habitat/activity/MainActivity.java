@@ -9,7 +9,6 @@ import android.util.Log;
 import android.view.View;
 
 import com.sumauto.habitat.R;
-import com.sumauto.habitat.activity.home.HomeFragment;
 import com.sumauto.habitat.activity.mine.MineFragment;
 import com.sumauto.habitat.activity.search.SearchFragment;
 import com.sumauto.habitat.activity.trend.TrendFragment;

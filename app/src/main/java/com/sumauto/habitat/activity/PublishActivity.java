@@ -1,74 +1,72 @@
 package com.sumauto.habitat.activity;
 
-import android.app.Dialog;
-import android.content.Context;
 import android.content.Intent;
 import android.graphics.Rect;
-import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.view.Gravity;
 import android.view.View;
 import android.widget.TextView;
 
 import com.sumauto.common.util.DisplayUtil;
 import com.sumauto.habitat.R;
+import com.sumauto.habitat.activity.mine.PhotoActivity;
 import com.sumauto.habitat.adapter.PublishImageAdapter;
 import com.sumauto.habitat.widget.IosListDialog;
 
 public class PublishActivity extends BaseActivity {
 
-    private RecyclerView recyclerView;
+    private RecyclerView mRecyclerView;
     private TextView tv_who_can_see;
+    private PublishImageAdapter adapter;
+    private int mImagePaddings;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create_blog);
         initToolBar(R.id.toolBar);
-        tv_who_can_see= (TextView) findViewById(R.id.tv_who_can_see);
-        recyclerView = (RecyclerView) findViewById(R.id.recyclerView);
-        recyclerView.setVisibility(View.VISIBLE);
-        recyclerView.setLayoutManager(new GridLayoutManager(this, 4) {
+        tv_who_can_see = (TextView) findViewById(R.id.tv_who_can_see);
+        mRecyclerView = (RecyclerView) findViewById(R.id.recyclerView);
+
+        mRecyclerView.setVisibility(View.VISIBLE);
+        mRecyclerView.setLayoutManager(new GridLayoutManager(this, 4) {
             @Override
             public void onMeasure(RecyclerView.Recycler recycler, RecyclerView.State state, int widthSpec, int heightSpec) {
                 //super.onMeasure(recycler, state, widthSpec, heightSpec);
-                View child = null;
-                try {
-                    child = recycler.getViewForPosition(0);
-                } catch (Exception e) {
-                    //运行删除动画时，0这个位置偏移量为－1，会抛出异常
-                    child = recycler.getViewForPosition(1);
-                }
-                if (child != null) {
-                    measureChild(child, widthSpec, heightSpec);
-                    //后面加3为了缩小由于误差带来的错误
-                    int itemHeight = child.getMeasuredHeight() + (int) DisplayUtil.dp(5, getResources()) / 2 + 3;
-                    int count = getItemCount();
+                int itemPadding=mImagePaddings*2;
+                int width = View.MeasureSpec.getSize(widthSpec);
+                int itemWidth = (width - getPaddingLeft() - getPaddingRight() - itemPadding * getSpanCount())/getSpanCount();
+                int height = itemWidth + itemPadding;
 
-                    setMeasuredDimension(
-                            View.MeasureSpec.getSize(widthSpec), count <= 4
-                                    ? itemHeight
-                                    : itemHeight * 2);
+                if (getItemCount() > getSpanCount()) {
+                    height *= 2;
                 }
+                setMeasuredDimension(width, height+getPaddingTop()+getPaddingBottom());
 
             }
         });
-        recyclerView.setAdapter(new PublishImageAdapter());
+        adapter = new PublishImageAdapter(new PublishImageAdapter.ItemClickListener() {
+            @Override
+            public void onAddImage() {
+                PhotoActivity.start(PublishActivity.this, 300, 300, 100);
+            }
+        });
+        mRecyclerView.setAdapter(adapter);
 
-        recyclerView.addItemDecoration(new RecyclerView.ItemDecoration() {
+        mRecyclerView.addItemDecoration(new RecyclerView.ItemDecoration() {
             @Override
             public void getItemOffsets(Rect outRect, View view, RecyclerView parent, RecyclerView.State state) {
-                int size = (int) DisplayUtil.dp(5, getResources()) / 2;
+                mImagePaddings = (int) DisplayUtil.dp(5, getResources()) / 2;
 
-                outRect.set(size, size, size, size);
+                outRect.set(mImagePaddings, mImagePaddings, mImagePaddings, mImagePaddings);
             }
         });
 
         findViewById(R.id.v_notice_who_see).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(PublishActivity.this,NoticeFriendListActivity.class));
+                startActivity(new Intent(PublishActivity.this, NoticeFriendListActivity.class));
             }
         });
 
@@ -100,42 +98,12 @@ public class PublishActivity extends BaseActivity {
         });
     }
 
-    private class WhoCanSee extends Dialog implements View.OnClickListener {
-        public WhoCanSee(Context context) {
-            super(context);
-            setContentView(R.layout.window_notice_who_see);
-            getWindow().getAttributes().gravity = Gravity.BOTTOM;
-            getWindow().getAttributes().width = DisplayUtil.getScreenWidth(context);
-            this.getWindow().setBackgroundDrawable(new ColorDrawable());
-            findViewById(R.id.anybody_can_see).setOnClickListener(this);
-            findViewById(R.id.only_self_see).setOnClickListener(this);
-            findViewById(R.id.partly_can_see).setOnClickListener(this);
-            findViewById(R.id.partly_can_see).setOnClickListener(this);
-            findViewById(R.id.tv_cancel).setOnClickListener(this);
-        }
 
-        @Override
-        public void onClick(View v) {
-            dismiss();
-
-            switch (v.getId()) {
-                case R.id.anybody_can_see: {
-                    tv_who_can_see.setText(R.string.anybody_can_see);
-                    break;
-                }
-                case R.id.only_self_see: {
-                    tv_who_can_see.setText(R.string.only_self_see);
-                    break;
-                }
-                case R.id.partly_can_see: {
-                    tv_who_can_see.setText(R.string.partly_can_see);
-                    break;
-                }
-                case R.id.tv_cancel: {
-                    break;
-                }
-            }
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (resultCode == RESULT_OK) {
+            adapter.addImage(data.getData());
         }
     }
-
 }

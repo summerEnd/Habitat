@@ -24,6 +24,10 @@ public class LoginActivity extends BaseActivity {
         setContentView(R.layout.activity_login);
         edit_phone = (EditText) findViewById(R.id.edit_phone);
         edit_password = (EditText) findViewById(R.id.edit_password);
+
+        edit_phone.setText("18761844602");
+        edit_password.setText("123456");
+        onLoginClick(null);
     }
 
 
@@ -48,7 +52,7 @@ public class LoginActivity extends BaseActivity {
 
     //忘记密码
     public void onForgetPasswordClick(View v){
-        to(ForgetPassword.class);
+        //to(ForgetPassword.class);
     }
     //注册
     public void onRegisterClick(View v){}

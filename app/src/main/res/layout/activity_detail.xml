@@ -57,12 +57,12 @@
                 android:paddingTop="@dimen/dp_10_in_xhdpi"
                 app:layout_scrollFlags="scroll">
 
-                <com.sumauto.widget.ImageGridView
+                <com.sumauto.widget.SupperLayout
                     android:id="@+id/image"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/dimen_41"
-                    app:totalColumn="75">
+                    app:layout_width_units="75">
 
                     <ImageView
                         android:id="@+id/iv_image"
@@ -71,9 +71,8 @@
                         android:contentDescription="@string/image"
                         android:scaleType="centerCrop"
                         android:src="@drawable/test_image_01"
-                        app:column_span="75"
-                        app:row_span="58"/>
-                </com.sumauto.widget.ImageGridView>
+                        app:heightUnits="58"/>
+                </com.sumauto.widget.SupperLayout>
 
                 <LinearLayout
                     android:id="@+id/info_layout"

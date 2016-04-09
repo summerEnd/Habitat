@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.sumauto.widget.ImageGridView
+<com.sumauto.widget.SupperLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    app:totalColumn="1"
+    app:layout_width_units="1"
     android:layout_height="match_parent"
     android:orientation="vertical">
     <ImageView
@@ -11,4 +11,4 @@
         android:scaleType="centerCrop"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"/>
-</com.sumauto.widget.ImageGridView>
+</com.sumauto.widget.SupperLayout>
