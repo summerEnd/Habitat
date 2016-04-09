@@ -3,7 +3,7 @@ package com.sumauto.habitat.bean;
 /**
  * Created by Lincoln on 2016/3/14.
  */
-public class DemoBean implements Bean{
+public class DemoBean {
     String name;
     String content;
 

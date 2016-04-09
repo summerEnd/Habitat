@@ -36,11 +36,11 @@ public class HabitatApp extends SApplication {
                 f.setAccessible(true);
                 String name = f.getName();
                 try {
-                    f.set(mUser,sp.getString(name,""));
-                } catch (IllegalAccessException e) {
+                    if (!name.startsWith("$")) //instance run 的 bug
+                        f.set(mUser,sp.getString(name,""));
+                } catch (Exception e) {
                     e.printStackTrace();
                 }
-
             }
         }
         return mUser;
@@ -55,11 +55,26 @@ public class HabitatApp extends SApplication {
             String name = f.getName();
             try {
                 editor.putString(name, (String) f.get(user));
-            } catch (IllegalAccessException e) {
+            } catch (Exception e) {
                 e.printStackTrace();
             }
         }
         editor.commit();
         this.mUser=user;
+    }
+
+    public String getPassword(){
+       return getSharedPreferences(PREF_NAME,MODE_PRIVATE).getString("password","");
+    }
+
+    public void setPassword(String password){
+        getSharedPreferences(PREF_NAME,MODE_PRIVATE).edit().putString("password",password).apply();
+    }
+    public String getAccount(){
+        return getSharedPreferences(PREF_NAME,MODE_PRIVATE).getString("account","");
+    }
+
+    public void setAccount(String account){
+        getSharedPreferences(PREF_NAME,MODE_PRIVATE).edit().putString("account",account).apply();
     }
 }

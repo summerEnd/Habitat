@@ -48,11 +48,11 @@ public abstract class HttpHandler extends JsonHttpResponseHandler {
             e.printStackTrace();
         }
         SLog.log(HttpManager.TAG, "请求结束--->" + requestUrl + ":" + response.toString());
-        if ("100".equals(mResponse.code)){
+        if ("100".equals(mResponse.code)) {
             dispatchSuccess();
-        }else{
-            if (showErrorMessage&& !TextUtils.isEmpty(mResponse.msg)){
-                ContextUtil.toast(mResponse.msg);
+        } else {
+            if (showErrorMessage) {
+                onShowMessage(mResponse);
             }
             dispatchFail();
         }
@@ -88,6 +88,12 @@ public abstract class HttpHandler extends JsonHttpResponseHandler {
         dispatchFail();
     }
 
+    @Override
+    public void onUserException(Throwable error) {
+        super.onUserException(error);
+        dispatchFail();
+    }
+
     private void dispatchSuccess() {
         try {
             onSuccess(mResponse);
@@ -101,10 +107,15 @@ public abstract class HttpHandler extends JsonHttpResponseHandler {
         onFailure(mResponse);
     }
 
+    public void onShowMessage(HttpResponse response) {
+        if (!TextUtils.isEmpty(response.msg)) {
+            ContextUtil.toast(response.msg);
+        }
+    }
+
     public abstract void onSuccess(HttpResponse response) throws JSONException;
 
     public void onFailure(HttpResponse response) {
-
     }
 
     /**

@@ -26,6 +26,8 @@ public class PublishActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create_blog);
         initToolBar(R.id.toolBar);
+        startPhotoActivity();
+
         tv_who_can_see = (TextView) findViewById(R.id.tv_who_can_see);
         mRecyclerView = (RecyclerView) findViewById(R.id.recyclerView);
 
@@ -49,7 +51,7 @@ public class PublishActivity extends BaseActivity {
         adapter = new PublishImageAdapter(new PublishImageAdapter.ItemClickListener() {
             @Override
             public void onAddImage() {
-                PhotoActivity.start(PublishActivity.this, 300, 300, 100);
+                startPhotoActivity();
             }
         });
         mRecyclerView.setAdapter(adapter);
@@ -96,6 +98,10 @@ public class PublishActivity extends BaseActivity {
                         .show(R.string.anybody_can_see, R.string.only_self_see, R.string.partly_can_see);
             }
         });
+    }
+
+    private void startPhotoActivity() {
+        PhotoActivity.start(PublishActivity.this, 300, 300, 100);
     }
 
 

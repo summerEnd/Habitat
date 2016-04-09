@@ -102,14 +102,23 @@ public abstract class LoadMoreAdapter extends ListAdapter implements SwipeRefres
         this.currentPage = currentPage;
     }
 
+    public void refreshData(List newData){
+        getDataList().clear();
+        getDataList().addAll(newData);
+        setCurrentPage(1);
+        notifyDataSetChanged();
+    }
+
     public void addPage(List newData) {
 
         if (newData != null && newData.size() > 0) {
             currentPage++;
-            getDataList().addAll(newData);
+            List dataList = getDataList();
+            int startPosition= dataList.size();
+            dataList.addAll(newData);
             setHasMoreData(true);
             try {
-                notifyDataSetChanged();
+                notifyItemRangeInserted(startPosition,dataList.size());
             } catch (Exception ignored) {
 
             }

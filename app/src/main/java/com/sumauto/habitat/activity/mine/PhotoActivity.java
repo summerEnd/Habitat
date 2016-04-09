@@ -21,22 +21,21 @@ import android.widget.TextView;
 
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
-import com.nostra13.universalimageloader.core.assist.ImageScaleType;
 import com.sumauto.common.support.IntentFactory;
-import com.sumauto.common.util.ContextUtil;
 import com.sumauto.common.util.DisplayUtil;
 import com.sumauto.common.util.ImageUtil;
 import com.sumauto.common.util.ViewUtil;
 import com.sumauto.habitat.R;
 import com.sumauto.habitat.activity.BaseActivity;
+import com.sumauto.habitat.utils.ImageOptions;
 import com.sumauto.widget.recycler.DividerDecoration;
 import com.sumauto.widget.recycler.ItemPaddingDecoration;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Objects;
 
 public class PhotoActivity extends BaseActivity {
     public static final int CAPTURE = 1001;
@@ -46,6 +45,7 @@ public class PhotoActivity extends BaseActivity {
     RecyclerView mRecyclerView;
     private FolderListWindow mFolderListWindow;
 
+    private List<Map<String, Object>> mLocaleImages = new ArrayList<>();
     private List<Map<String, Object>> mFolders;
     private List<Map<String, Object>> mAdapterData = new ArrayList<>();
     private String[] mFolderNames;
@@ -53,6 +53,8 @@ public class PhotoActivity extends BaseActivity {
     private Uri outUri;
     private int width;
     private int height;
+
+    private File IMAGES_DIR;
 
     public static void start(Activity context, int width, int height, int requestCode) {
         Intent starter = new Intent(context, PhotoActivity.class);
@@ -64,6 +66,7 @@ public class PhotoActivity extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         setContentView(R.layout.activity_photo);
         mRecyclerView = (RecyclerView) findViewById(R.id.recyclerView);
         mToolBarTitle = (TextView) findViewById(R.id.toolBar_title);
@@ -74,7 +77,8 @@ public class PhotoActivity extends BaseActivity {
         mRecyclerView.setAdapter(mAdapter);
         width = getIntent().getIntExtra("width", 100);
         height = getIntent().getIntExtra("height", 100);
-        listFolderNames();
+
+        initDirs();
 
         mToolBarTitle.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -89,24 +93,17 @@ public class PhotoActivity extends BaseActivity {
 
     }
 
-    /**
-     * 打开一个图片目录
-     *
-     * @param folderName 目录名称
-     */
-    private void displayFolder(String folderName) {
-        mToolBarTitle.setText(folderName);
-        mAdapterData.clear();
-        mAdapterData.addAll(ImageUtil.listPhotos(PhotoActivity.this, folderName));
-        mAdapter.notifyDataSetChanged();
-    }
+    private void initDirs() {
+        //加载本程序拍摄的照片
+        IMAGES_DIR = new File(getFilesDir(), "my_photos");
+        loadImages(IMAGES_DIR);
+        if (Environment.MEDIA_MOUNTED.equals(Environment.getExternalStorageState())) {
+            IMAGES_DIR = new File(getExternalFilesDir(Environment.DIRECTORY_PICTURES), "my_photos");
+            loadImages(IMAGES_DIR);
+        }
 
-    /**
-     * 加载所有的目录
-     */
-    private void listFolderNames() {
-        mFolders = ImageUtil.loadFolders(PhotoActivity.this);
-
+        //加载系统图片
+        mFolders = ImageUtil.loadFolders(this);
         if (mFolders == null || mFolders.size() == 0) return;
 
         ArrayList<String> itemsArray = new ArrayList<>();
@@ -115,26 +112,46 @@ public class PhotoActivity extends BaseActivity {
         }
         mFolderNames = new String[itemsArray.size()];
         itemsArray.toArray(mFolderNames);
-        displayFolder(mFolderNames[0]);
+        if (mLocaleImages.size()>0){
+            displayFolder(getString(R.string.app_name), mLocaleImages);
+        }else{
+            displayFolder(mFolderNames[0], ImageUtil.listPhotos(this, mFolderNames[0]));
+        }
+    }
+
+    private void loadImages(File dir) {
+        if (!dir.exists()) {
+            //noinspection ResultOfMethodCallIgnored
+            dir.mkdirs();
+        } else {
+            File[] files = dir.listFiles();
+            if (files != null) {
+                for (File f : files) {
+                    Map<String, Object> photo = new HashMap<>();
+                    photo.put(MediaStore.Images.Media.DATA, f.getAbsolutePath());
+                    mLocaleImages.add(photo);
+                }
+            }
+        }
+    }
+
+    /**
+     * 打开一个图片目录
+     *
+     * @param folderName 目录名称
+     */
+    private void displayFolder(String folderName, List<Map<String, Object>> photos) {
+        mToolBarTitle.setText(folderName);
+        mAdapterData.clear();
+        mAdapterData.addAll(photos);
+        mAdapter.notifyDataSetChanged();
     }
 
     private Uri getSaveFileUri() {
-
-        if (outUri != null) {
-            return outUri;
+        if (outUri == null) {
+            outUri = Uri.fromFile(new File(IMAGES_DIR, SystemClock.uptimeMillis() + ".png"));
         }
-
-        if (Environment.MEDIA_MOUNTED.equals(Environment.getExternalStorageState())) {
-            File dir = new File(getExternalFilesDir(Environment.DIRECTORY_PICTURES), "my_photos");
-            if (!dir.exists()) {
-                //noinspection ResultOfMethodCallIgnored
-                dir.mkdirs();
-            }
-            outUri = Uri.fromFile(new File(dir, SystemClock.uptimeMillis() + ".png"));
-            return outUri;
-        }
-
-        throw new RuntimeException("create file failed!");
+        return outUri;
     }
 
     @Override
@@ -159,14 +176,14 @@ public class PhotoActivity extends BaseActivity {
         }
     }
 
+    /**
+     * 图片列表
+     */
     class Adapter extends RecyclerView.Adapter<PictureHolder> {
         DisplayImageOptions options;
 
         public Adapter() {
-            options = new DisplayImageOptions.Builder()
-                    .delayBeforeLoading(500)
-                    .imageScaleType(ImageScaleType.IN_SAMPLE_INT)
-                    .build();
+            options = ImageOptions.options();
         }
 
         @Override
@@ -235,6 +252,9 @@ public class PhotoActivity extends BaseActivity {
         }
     }
 
+    /**
+     * 弹窗 图片目录列表
+     */
     private class FolderAdapter extends RecyclerView.Adapter<FolderHolder> {
         @Override
         public FolderHolder onCreateViewHolder(ViewGroup parent, int viewType) {
@@ -243,19 +263,24 @@ public class PhotoActivity extends BaseActivity {
 
         @Override
         public void onBindViewHolder(FolderHolder holder, int position) {
-            Map<String, Object> folder = mFolders.get(position);
-            holder.init(folder);
+            if (position == 0) {
+                holder.tv_photo_count.setText(String.valueOf(mLocaleImages.size()));
+                holder.tv_folder_name.setText(R.string.app_name);
+            } else {
+                Map<String, Object> folder = mFolders.get(position-1);
+                holder.tv_folder_name.setText(folder.get(MediaStore.Images.Media.BUCKET_DISPLAY_NAME).toString());
+                holder.tv_photo_count.setText(folder.get(MediaStore.Images.Media._COUNT).toString());
+            }
         }
 
         @Override
         public int getItemCount() {
-            return mFolders.size();
+            return mFolders.size() + 1;
         }
     }
 
     private class FolderHolder extends RecyclerView.ViewHolder {
         public final TextView tv_photo_count, tv_folder_name;
-        public Map<String, Object> folder;
 
         public FolderHolder(View itemView) {
             super(itemView);
@@ -267,15 +292,15 @@ public class PhotoActivity extends BaseActivity {
                     if (null != mFolderListWindow) {
                         mFolderListWindow.dismiss();
                     }
-                    displayFolder(folder.get(MediaStore.Images.Media.BUCKET_DISPLAY_NAME).toString());
+                    String folderName = tv_folder_name.getText().toString();
+
+                    if (getAdapterPosition() == 0) {
+                        displayFolder(folderName, mLocaleImages);
+                    } else {
+                        displayFolder(folderName, ImageUtil.listPhotos(PhotoActivity.this, folderName));
+                    }
                 }
             });
-        }
-
-        public void init(Map<String, Object> folder) {
-            this.folder = folder;
-            tv_folder_name.setText(folder.get(MediaStore.Images.Media.BUCKET_DISPLAY_NAME).toString());
-            tv_photo_count.setText(folder.get(MediaStore.Images.Media._COUNT).toString());
         }
     }
 }

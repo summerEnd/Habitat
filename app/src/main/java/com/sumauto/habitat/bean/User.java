@@ -62,4 +62,5 @@ public class User {
     public void setHeadimg(String headimg) {
         this.headimg = headimg;
     }
+
 }

@@ -39,6 +39,10 @@ public class HttpManager {
         return this;
     }
 
+    public void post(Context context,JsonHttpHandler httpHandler){
+        post(context,httpHandler.getUrl(),httpHandler.getRequestParams(),httpHandler);
+    }
+
     public void postApi(Context context, String api, RequestParams params, HttpHandler httpHandler) {
         post(context, HOST + api, params, httpHandler);
     }
@@ -63,13 +67,6 @@ public class HttpManager {
 
     private static String HOST = "http://120.76.138.41/qixidi/Api/";
 
-    /**
-     * 参数说明：
-     * commid：用户所在社区的社区ID
-     * pageid:分页起始页数（首页已经加载了pageid=0的前3条，所以此时调用pageid从1开始）
-     * pagesize：每页显示数据的数量（pagesize默认为3）
-     */
-    public static final String getCommunity = "getCommunity";
 
     /**
      * 参数说明：

@@ -10,6 +10,9 @@ import com.sumauto.habitat.R;
 import com.sumauto.habitat.bean.User;
 import com.sumauto.habitat.http.HttpHandler;
 import com.sumauto.habitat.http.HttpManager;
+import com.sumauto.habitat.http.HttpRequest;
+import com.sumauto.habitat.http.JsonHttpHandler;
+import com.sumauto.habitat.http.Requests;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -25,29 +28,23 @@ public class LoginActivity extends BaseActivity {
         edit_phone = (EditText) findViewById(R.id.edit_phone);
         edit_password = (EditText) findViewById(R.id.edit_password);
 
-        edit_phone.setText("18761844602");
-        edit_password.setText("123456");
-        onLoginClick(null);
     }
-
 
     //登录
     public void onLoginClick(View v){
         final String phone = edit_phone.getText().toString();
         final String pwd = edit_password.getText().toString();
-
-        RequestParams requestParams = new RequestParams();
-        requestParams.put("phone", phone);
-        requestParams.put("pwd", pwd);
-        HttpManager.getInstance().postApi(this, HttpManager.getLogin, requestParams, new HttpHandler() {
+        Requests.GetLogin request=new Requests.GetLogin(phone,pwd);
+        HttpManager.getInstance().post(this, new JsonHttpHandler<User>(request) {
             @Override
-            public void onSuccess(HttpResponse response) throws JSONException {
-                User user = new User().initWith(new JSONObject(response.data).getJSONObject("login"));
-                ((HabitatApp) getApplication()).setUser(user);
+            public void onSuccess(HttpResponse response, HttpRequest<User> request, User user) {
                 to(MainActivity.class);
+                HabitatApp.getInstance().setPassword(pwd);
+                HabitatApp.getInstance().setAccount(phone);
                 finish();
             }
         });
+
     }
 
     //忘记密码
