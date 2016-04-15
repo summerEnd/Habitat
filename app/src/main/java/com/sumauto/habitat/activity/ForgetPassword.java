@@ -6,7 +6,7 @@ import android.view.View;
 import android.widget.EditText;
 
 import com.loopj.android.http.RequestParams;
-import com.sumauto.common.util.ContextUtil;
+import com.sumauto.common.util.ToastUtil;
 import com.sumauto.habitat.R;
 import com.sumauto.habitat.http.HttpHandler;
 import com.sumauto.habitat.http.HttpManager;
@@ -36,7 +36,7 @@ public class ForgetPassword extends AppCompatActivity {
         HttpManager.getInstance().postApi(this, HttpManager.setNewPwd, requestParams, new HttpHandler() {
             @Override
             public void onSuccess(HttpResponse response) throws JSONException {
-                ContextUtil.toast(response.msg);
+                ToastUtil.toast(response.msg);
                 finish();
             }
         });
@@ -49,7 +49,7 @@ public class ForgetPassword extends AppCompatActivity {
         HttpManager.getInstance().postApi(this, HttpManager.getValidateCode, requestParams, new HttpHandler() {
             @Override
             public void onSuccess(HttpResponse response) throws JSONException {
-                ContextUtil.toast(response.msg);
+                ToastUtil.toast(response.msg);
             }
         });
     }

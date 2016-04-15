@@ -1,13 +1,11 @@
 package com.sumauto.habitat.adapter;
 
-import android.graphics.Color;
 import android.net.Uri;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.nostra13.universalimageloader.core.ImageLoader;
-import com.sumauto.common.util.ImageUtil;
 import com.sumauto.habitat.R;
 import com.sumauto.habitat.adapter.holders.DeleteAbleImageHolder;
 import com.sumauto.habitat.utils.ImageOptions;

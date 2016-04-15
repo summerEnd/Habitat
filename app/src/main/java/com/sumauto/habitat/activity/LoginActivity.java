@@ -4,18 +4,13 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
 
-import com.loopj.android.http.RequestParams;
 import com.sumauto.habitat.HabitatApp;
 import com.sumauto.habitat.R;
 import com.sumauto.habitat.bean.User;
-import com.sumauto.habitat.http.HttpHandler;
 import com.sumauto.habitat.http.HttpManager;
 import com.sumauto.habitat.http.HttpRequest;
 import com.sumauto.habitat.http.JsonHttpHandler;
 import com.sumauto.habitat.http.Requests;
-
-import org.json.JSONException;
-import org.json.JSONObject;
 
 public class LoginActivity extends BaseActivity {
     private EditText edit_phone;

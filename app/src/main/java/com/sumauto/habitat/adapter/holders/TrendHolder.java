@@ -5,7 +5,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.sumauto.common.util.ContextUtil;
+import com.sumauto.common.util.ToastUtil;
 import com.sumauto.common.util.ViewUtil;
 import com.sumauto.habitat.R;
 import com.sumauto.habitat.activity.trend.TrendDetailActivity;
@@ -40,7 +40,7 @@ public class TrendHolder extends BaseViewHolder implements View.OnClickListener{
 
     @Override
     public void onClick(View v) {
-        ContextUtil.toast(v.getContentDescription());
+        ToastUtil.toast(v.getContentDescription());
         if (v==itemView){
             startActivity(intentActivity(TrendDetailActivity.class));
             return;

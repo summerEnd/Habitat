@@ -10,7 +10,6 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.List;
-import java.util.Objects;
 
 /*
  * Copyright:	炫彩互动网络科技有限公司
@@ -115,12 +114,13 @@ public class Requests {
      * code:用户获取到的短信验证码
      * newuserpwd:用户设置的新密码
      */
-    public static HttpRequest<?> setNewPwd(String phone, String code, String newuserpwd) {
-        return new SimpleHttpRequest<Object>("setNewPwd",
+    public static HttpRequest<User> setNewPwd(String phone, String code, String newuserpwd) {
+        return new SimpleHttpRequest<User>("setNewPwd",
                 "phone", phone, "code", code, "newuserpwd", newuserpwd) {
             @Override
-            public Object parser(String jsonString) throws JSONException {
-                return null;
+            public User parser(String jsonString) throws JSONException {
+                User user=JsonUtil.get(jsonString,User.class);
+                return user;
             }
         };
     }

@@ -64,14 +64,14 @@ public class JsonUtil {
 
     public static void debugJsonObject(JSONObject object) {
         if (object == null) {
-            SLog.debug("null");
+            SLog.d("null");
         }else{
             Iterator<String> keys = object.keys();
             while (keys.hasNext()){
                 try {
                     String key = keys.next();
                     Object o = object.get(key);
-                    SLog.debug_format("key->%s value->%s",key,String.valueOf(o));
+                    SLog.d("key->%s value->%s",key,String.valueOf(o));
 
                 } catch (JSONException e) {
                     e.printStackTrace();

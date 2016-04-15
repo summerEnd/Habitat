@@ -21,7 +21,7 @@ import android.widget.TextView;
 
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
-import com.sumauto.common.support.IntentFactory;
+import com.sumauto.common.util.IntentFactory;
 import com.sumauto.common.util.DisplayUtil;
 import com.sumauto.common.util.ImageUtil;
 import com.sumauto.common.util.ViewUtil;

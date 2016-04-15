@@ -11,13 +11,12 @@ import com.nostra13.universalimageloader.cache.memory.impl.LruMemoryCache;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 import com.nostra13.universalimageloader.core.assist.QueueProcessingType;
+import com.sumauto.exception.ExceptionHandler;
+import com.sumauto.exception.SlibInitialiseException;
 import com.sumauto.common.preference.AppInfo;
-import com.sumauto.common.exception.ExceptionHandler;
-import com.sumauto.common.exception.SlibInitialiseException;
-import com.sumauto.common.support.cache.CacheManager;
-import com.sumauto.common.util.ContextUtil;
-import com.sumauto.common.util.FileUtil;
 import com.sumauto.common.preference.PreferenceUtil;
+import com.sumauto.common.support.cache.CacheManager;
+import com.sumauto.common.util.FileUtil;
 
 import java.io.File;
 import java.util.List;
@@ -25,15 +24,15 @@ import java.util.List;
 public class SApplication extends Application {
     //锁屏的时间间隔
     private final int BACK_DURATION = 1000;
-
+    public static Context CONTEXT;
     @Override
     public void onCreate() {
         super.onCreate();
         Context context = getApplicationContext();
         try {
+            CONTEXT=this;
             initImageLoader(context);
             ExceptionHandler.init();
-            ContextUtil.init(context);
             //初始化缓存框架
             CacheManager.init(context);
         } catch (SlibInitialiseException e) {
@@ -77,9 +76,9 @@ public class SApplication extends Application {
      *
      * @return Slib缓存的大小
      */
-    public final long getCacheSize() {
+    public final long getCacheSize(Context context) {
 
-        return FileUtil.getSize(ContextUtil.getContext().getCacheDir()) + CacheManager.getCacheSize();
+        return FileUtil.getSize(context.getCacheDir()) + CacheManager.getCacheSize();
     }
 
     /**
@@ -109,7 +108,7 @@ public class SApplication extends Application {
      * 设置当前app是否进入后台
      */
     public void setEnterBackground(boolean background) {
-        SharedPreferences.Editor editor = PreferenceUtil.getPreference(AppInfo.class).edit();
+        SharedPreferences.Editor editor = PreferenceUtil.getPreference(this, AppInfo.class).edit();
         editor.putBoolean(AppInfo.background, background);
         if (background) {
             editor.putLong(AppInfo.enterBackgroundTimeMillis, System.currentTimeMillis());
@@ -123,7 +122,7 @@ public class SApplication extends Application {
      * @return true 锁屏
      */
     public boolean shouldLockScreen() {
-        SharedPreferences appInfo = PreferenceUtil.getPreference(AppInfo.class);
+        SharedPreferences appInfo = PreferenceUtil.getPreference(this, AppInfo.class);
         boolean background = appInfo.getBoolean(AppInfo.background, false);
 
         if (background) {
@@ -137,8 +136,9 @@ public class SApplication extends Application {
         return getSharedPreferences("config", MODE_PRIVATE).getBoolean("is_first_login", true);
     }
 
-    public void setIsFirstStartApplication(boolean isFirstStartApplication){
-        getSharedPreferences("config", MODE_PRIVATE).edit().putBoolean("is_first_login",isFirstStartApplication).commit();
+    public void setIsFirstStartApplication(boolean isFirstStartApplication) {
+        getSharedPreferences("config", MODE_PRIVATE).edit().putBoolean("is_first_login", isFirstStartApplication).commit();
     }
+
 
 }

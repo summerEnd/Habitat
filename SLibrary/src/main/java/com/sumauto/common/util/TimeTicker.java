@@ -1,4 +1,4 @@
-package com.sumauto.common.util.time;
+package com.sumauto.common.util;
 
 import android.os.Handler;
 import android.os.Looper;

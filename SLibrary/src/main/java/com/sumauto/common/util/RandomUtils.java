@@ -4,6 +4,7 @@ import java.util.Random;
 
 
 public class RandomUtils {
+
     public static String randomString(int length) {
         Random random = new Random();
         StringBuilder sb = new StringBuilder();
@@ -25,7 +26,6 @@ public class RandomUtils {
      * 随机一个蒸熟
      * @param start 开始 ，包括在内
      * @param end 结束， 包括在内
-     * @return
      */
     public static int randomInt(int start,int end){
         if (start>end){

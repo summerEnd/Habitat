@@ -2,32 +2,33 @@ package com.sumauto.common.util;
 
 import android.util.Log;
 
+import com.nostra13.universalimageloader.core.ImageLoader;
+import com.nostra13.universalimageloader.utils.L;
 import com.sumauto.SApplication;
 
 public class SLog {
     private static String TAG = "SLOG";
 
-    public static void debug_format(String pattern, Object... value) {
-        debug(String.format(pattern, value));
+    public static void d(String pattern, Object... values) {
+        d(TAG, pattern, values);
     }
 
-    public static void debug(Object value) {
-        log(TAG, String.valueOf(value));
-    }
-
-    public static void log(String tag, String value) {
+    public static void d(String tag, String pattern, Object... values) {
+        String msg;
+        if (values != null && values.length > 0) {
+            msg = String.format(pattern, values);
+        } else {
+            msg = pattern;
+        }
         if (SApplication.DEBUG) {
-            Log.d(tag, String.valueOf(value));
+            Log.d(tag, msg);
         }
     }
 
-    public static void error(Object value) {
-        error(TAG, String.valueOf(value));
+    public static int e(String tag, String msg, Throwable tr) {
+        return Log.e(tag, msg, tr);
     }
-
-    public static void error(String tag, String value) {
-        if (SApplication.DEBUG) {
-            Log.e(tag, String.valueOf(value));
-        }
+    public static int e(String tag, String msg) {
+        return e(tag, msg,null);
     }
 }

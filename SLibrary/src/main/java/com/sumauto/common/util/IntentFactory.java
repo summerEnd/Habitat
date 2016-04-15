@@ -1,4 +1,4 @@
-package com.sumauto.common.support;
+package com.sumauto.common.util;
 
 
 import android.app.Activity;
@@ -8,14 +8,11 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
 import android.graphics.Bitmap;
-import android.hardware.Camera;
-import android.hardware.camera2.CameraManager;
 import android.net.Uri;
 import android.provider.MediaStore;
 
 import com.sp.lib.R;
 
-import java.net.URI;
 import java.util.List;
 
 public class IntentFactory {

@@ -1,11 +1,8 @@
 package com.sumauto.habitat.http;
 
-import com.google.gson.Gson;
 import com.loopj.android.http.RequestParams;
-import com.sumauto.habitat.bean.User;
 
 import org.json.JSONException;
-import org.json.JSONObject;
 
 /*
  * Copyright:	炫彩互动网络科技有限公司
@@ -17,7 +14,7 @@ public abstract class JsonHttpHandler<B> extends HttpHandler{
 
     private HttpRequest<B> mHttpRequest;
 
-    public JsonHttpHandler(HttpRequest<B> request) {
+    public  JsonHttpHandler(HttpRequest<B> request) {
         this(request,true);
     }
 
@@ -31,7 +28,7 @@ public abstract class JsonHttpHandler<B> extends HttpHandler{
         onSuccess(response,mHttpRequest,mHttpRequest.parser(response.data));
     }
 
-    public abstract void onSuccess(HttpResponse response,HttpRequest<B> request,B b) ;
+    public abstract void onSuccess(HttpResponse response,HttpRequest<B> request,B bean) ;
 
     public String getUrl() {
         return mHttpRequest.getUrl();

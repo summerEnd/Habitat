@@ -9,7 +9,6 @@ import android.widget.ImageView;
 import com.sumauto.habitat.HabitatApp;
 import com.sumauto.habitat.R;
 import com.sumauto.habitat.bean.User;
-import com.sumauto.habitat.http.HttpHandler;
 import com.sumauto.habitat.http.HttpManager;
 import com.sumauto.habitat.http.HttpRequest;
 import com.sumauto.habitat.http.JsonHttpHandler;
@@ -40,6 +39,7 @@ public class LoadingActivity extends BaseActivity {
         }else{
             HttpRequest<User> request= Requests.getLogin(account,password);
             HttpManager.getInstance().post(this, new JsonHttpHandler<User>(request) {
+
                 @Override
                 public void onSuccess(HttpResponse response, HttpRequest<User> request, User user) {
                     HabitatApp.getInstance().setUser(user);

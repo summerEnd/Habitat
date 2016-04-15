@@ -5,9 +5,9 @@ import android.content.Context;
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.RequestParams;
 import com.loopj.android.http.SyncHttpClient;
-import com.sumauto.common.admin.Md5;
-import com.sumauto.common.util.ContextUtil;
+import com.sumauto.common.Md5;
 import com.sumauto.common.util.SLog;
+import com.sumauto.common.util.SUtils;
 
 /**
  * Created by Lincoln on 16/4/2.
@@ -50,18 +50,18 @@ public class HttpManager {
     private void post(Context context, String url, RequestParams params, HttpHandler httpHandler) {
 
         String time = String.valueOf(System.currentTimeMillis());
-        String uuid = ContextUtil.getUUID();
+        String uuid = SUtils.getUUID(context);
 
         params.put("time", time);
         params.put("uuid", uuid);
         params.put("secret", Md5.md5(uuid + time + "JM9m07ufm2lj43GFva"));
         httpHandler.setRequestUrl(url);
+        SLog.d(TAG, "请求开始--->" + url + ":" + params.toString());
         if (async) {
             client.post(context, url, params, httpHandler);
         } else {
             syncHttpClient.post(context, url, params, httpHandler);
         }
-        SLog.log(TAG, "请求开始--->" + url + ":" + params.toString());
     }
 
 

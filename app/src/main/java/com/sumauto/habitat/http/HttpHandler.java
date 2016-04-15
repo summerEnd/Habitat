@@ -3,8 +3,8 @@ package com.sumauto.habitat.http;
 import android.text.TextUtils;
 
 import com.loopj.android.http.JsonHttpResponseHandler;
-import com.sumauto.common.util.ContextUtil;
 import com.sumauto.common.util.SLog;
+import com.sumauto.common.util.ToastUtil;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -47,7 +47,7 @@ public abstract class HttpHandler extends JsonHttpResponseHandler {
         } catch (JSONException e) {
             e.printStackTrace();
         }
-        SLog.log(HttpManager.TAG, "请求结束--->" + requestUrl + ":" + response.toString());
+        SLog.d(HttpManager.TAG, "请求结束--->" + requestUrl + ":" + response.toString());
         if ("100".equals(mResponse.code)) {
             dispatchSuccess();
         } else {
@@ -109,7 +109,7 @@ public abstract class HttpHandler extends JsonHttpResponseHandler {
 
     public void onShowMessage(HttpResponse response) {
         if (!TextUtils.isEmpty(response.msg)) {
-            ContextUtil.toast(response.msg);
+            ToastUtil.toast(response.msg);
         }
     }
 

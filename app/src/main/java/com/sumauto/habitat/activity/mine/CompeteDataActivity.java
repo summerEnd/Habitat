@@ -5,7 +5,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
 
-import com.sumauto.common.util.ContextUtil;
+import com.sumauto.common.util.ToastUtil;
 import com.sumauto.habitat.R;
 import com.sumauto.habitat.activity.BaseActivity;
 import com.sumauto.habitat.widget.IosListDialog;
@@ -20,12 +20,12 @@ public class CompeteDataActivity extends BaseActivity {
     }
 
     public void onAvatarClick(View v){
-        ContextUtil.toast("avatar");
+        ToastUtil.toast("avatar");
         startActivity(new Intent(this,PhotoActivity.class));
     }
 
     public void onGenderClick(View v) {
-        ContextUtil.toast("onGenderClick");
+        ToastUtil.toast("onGenderClick");
         new IosListDialog(this).listener(new IosListDialog.Listener() {
             @Override
             public void onClick(IosListDialog dialog, int position) {
@@ -40,7 +40,7 @@ public class CompeteDataActivity extends BaseActivity {
     }
 
     public void onBirthdayClick(View v) {
-        ContextUtil.toast("onBirthdayClick");
+        ToastUtil.toast("onBirthdayClick");
 
     }
 }

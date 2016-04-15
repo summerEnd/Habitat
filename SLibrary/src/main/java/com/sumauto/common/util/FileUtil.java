@@ -2,6 +2,7 @@ package com.sumauto.common.util;
 
 import java.io.File;
 
+@SuppressWarnings("ResultOfMethodCallIgnored")
 public class FileUtil {
 
     /**

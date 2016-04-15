@@ -3,7 +3,7 @@ package com.sumauto.common.support.cache;
 
 import android.content.Context;
 
-import com.sumauto.common.exception.SlibInitialiseException;
+import com.sumauto.exception.SlibInitialiseException;
 
 import java.io.File;
 import java.util.List;

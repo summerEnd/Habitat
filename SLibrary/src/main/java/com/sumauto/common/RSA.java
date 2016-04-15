@@ -1,4 +1,4 @@
-package com.sumauto.common.admin;
+package com.sumauto.common;
 
 import java.math.BigInteger;
 import java.security.KeyFactory;

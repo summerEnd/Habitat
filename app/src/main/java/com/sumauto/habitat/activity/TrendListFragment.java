@@ -12,7 +12,6 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.sumauto.habitat.R;
-import com.sumauto.habitat.activity.ListFragment;
 import com.sumauto.habitat.adapter.TrendAdapter;
 import com.sumauto.widget.recycler.DividerDecoration;
 

@@ -1,4 +1,4 @@
-package com.sumauto.common.admin;
+package com.sumauto.common;
 
 
 import android.text.TextUtils;
@@ -7,7 +7,7 @@ import android.view.animation.AnimationUtils;
 import android.widget.TextView;
 
 import com.sp.lib.R;
-import com.sumauto.common.util.ContextUtil;
+import com.sumauto.common.util.ToastUtil;
 
 import java.util.ArrayList;
 import java.util.regex.Pattern;
@@ -197,7 +197,7 @@ public class LoginManager {
                 }
                 textView.startAnimation(shake);
                 textView.requestFocus();
-                ContextUtil.toast(failNotice);
+                ToastUtil.toast(failNotice);
                 return false;
             }
             return true;

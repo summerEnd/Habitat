@@ -1,4 +1,4 @@
-package com.sumauto.common.image.drawable;
+package com.sumauto.common.image;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapShader;

@@ -1,4 +1,4 @@
-package com.sumauto.common.image.gif;
+package com.sumauto.common.util;
 
 import android.content.res.Resources;
 import android.graphics.Bitmap;

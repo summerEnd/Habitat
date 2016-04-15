@@ -3,20 +3,14 @@ package com.sumauto.habitat.adapter;
 import android.content.Context;
 import android.view.ViewGroup;
 
-import com.loopj.android.http.RequestParams;
-import com.sumauto.common.util.JsonUtil;
 import com.sumauto.habitat.adapter.holders.TrendHolder;
 import com.sumauto.habitat.bean.ArticleEntity;
-import com.sumauto.habitat.http.HttpHandler;
 import com.sumauto.habitat.http.HttpManager;
 import com.sumauto.habitat.http.HttpRequest;
 import com.sumauto.habitat.http.JsonHttpHandler;
 import com.sumauto.habitat.http.Requests;
 import com.sumauto.widget.recycler.adapter.BaseHolder;
 import com.sumauto.widget.recycler.adapter.LoadMoreAdapter;
-
-import org.json.JSONException;
-import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;

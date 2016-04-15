@@ -1,8 +1,8 @@
 package com.sumauto.common.support.cache;
 
-import com.sumauto.common.exception.SlibInitialiseException;
+import com.sumauto.common.Md5;
+import com.sumauto.exception.SlibInitialiseException;
 import com.sumauto.common.util.FileUtil;
-import com.sumauto.common.admin.Md5;
 
 import java.io.File;
 import java.io.IOException;

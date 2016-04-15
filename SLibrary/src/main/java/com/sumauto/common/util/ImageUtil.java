@@ -11,10 +11,8 @@ import android.graphics.PixelFormat;
 import android.graphics.PorterDuff;
 import android.graphics.PorterDuffXfermode;
 import android.graphics.drawable.ColorDrawable;
-import android.provider.MediaStore;
 import android.provider.MediaStore.Images.Media;
 import android.util.Base64;
-import android.util.Log;
 import android.view.View;
 
 import java.io.ByteArrayOutputStream;

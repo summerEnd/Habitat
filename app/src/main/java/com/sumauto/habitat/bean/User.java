@@ -19,6 +19,13 @@ public class User {
     private String phone;
     private String nickname;
     private String headimg;
+    private String snsaccount;
+    private String addtime;
+    private String sort;
+    private String commid;
+    private String isdel;
+    private String type;
+    private String password;
 
     public User() {
     }
@@ -63,4 +70,59 @@ public class User {
         this.headimg = headimg;
     }
 
+    public String getSnsaccount() {
+        return snsaccount;
+    }
+
+    public void setSnsaccount(String snsaccount) {
+        this.snsaccount = snsaccount;
+    }
+
+    public String getAddtime() {
+        return addtime;
+    }
+
+    public void setAddtime(String addtime) {
+        this.addtime = addtime;
+    }
+
+    public String getSort() {
+        return sort;
+    }
+
+    public void setSort(String sort) {
+        this.sort = sort;
+    }
+
+    public String getCommid() {
+        return commid;
+    }
+
+    public void setCommid(String commid) {
+        this.commid = commid;
+    }
+
+    public String getIsdel() {
+        return isdel;
+    }
+
+    public void setIsdel(String isdel) {
+        this.isdel = isdel;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
 }

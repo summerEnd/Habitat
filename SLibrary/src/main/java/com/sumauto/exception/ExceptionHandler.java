@@ -1,4 +1,4 @@
-package com.sumauto.common.exception;
+package com.sumauto.exception;
 
 import android.util.Log;
 

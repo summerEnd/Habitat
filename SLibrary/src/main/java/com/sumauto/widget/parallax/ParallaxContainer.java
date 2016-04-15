@@ -11,7 +11,6 @@ import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 
-
 import com.sp.lib.R;
 
 import java.util.ArrayList;

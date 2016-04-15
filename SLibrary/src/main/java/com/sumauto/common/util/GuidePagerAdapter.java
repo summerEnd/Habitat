@@ -1,9 +1,11 @@
-package com.sumauto.common.support.adapter;
+package com.sumauto.common.util;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.res.Resources;
 import android.support.v4.view.PagerAdapter;
 import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -13,11 +15,11 @@ public class GuidePagerAdapter extends PagerAdapter {
 
     private int[] resIds;
 
-    private Activity activity;
+    private Context context;
 
-    public GuidePagerAdapter(Activity activity, int[] resIds) {
+    public GuidePagerAdapter(Context context, int[] resIds) {
         this.resIds = resIds;
-        this.activity = activity;
+        this.context = context;
     }
 
     @Override
@@ -37,16 +39,16 @@ public class GuidePagerAdapter extends PagerAdapter {
         View v;
 
         try {
-            String type = activity.getResources().getResourceTypeName(resId);
+            String type = context.getResources().getResourceTypeName(resId);
             if ("layout".equals(type)) {
-                v = activity.getLayoutInflater().inflate(resId, null);
+                v = LayoutInflater.from(context).inflate(resId, null);
             } else if ("drawable".equals(type) || "color".equals(type)) {
-                ImageView imageView = new ImageView(activity);
+                ImageView imageView = new ImageView(context);
                 imageView.setImageResource(resId);
                 imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
                 v = imageView;
             } else if ("string".equals(type)) {
-                TextView tv = new TextView(activity);
+                TextView tv = new TextView(context);
                 tv.setGravity(Gravity.CENTER);
                 tv.setText(resId);
                 v = tv;
@@ -54,7 +56,7 @@ public class GuidePagerAdapter extends PagerAdapter {
                 throw new RuntimeException("unSupport type:"+type);
             }
         } catch (Resources.NotFoundException e) {
-            ImageView imageView = new ImageView(activity);
+            ImageView imageView = new ImageView(context);
             imageView.setBackgroundColor(resId);
             v = imageView;
         }

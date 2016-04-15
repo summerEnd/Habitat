@@ -7,8 +7,6 @@ import android.net.Uri;
 import android.os.Environment;
 import android.text.TextUtils;
 
-import com.sumauto.common.util.ContextUtil;
-
 import java.io.BufferedInputStream;
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -35,7 +33,7 @@ public class Downloader {
      * @param notifyCationTitle   通知的标题
      * @param notifyCationMessage 通知的消息
      */
-    public long downloadWithNotification(String downloadUrl, File saveDir, String fileName, String notifyCationTitle, String notifyCationMessage) {
+    public long downloadWithNotification(Context context,String downloadUrl, File saveDir, String fileName, String notifyCationTitle, String notifyCationMessage) {
 
         Uri uri = Uri.parse(downloadUrl);
 
@@ -56,7 +54,7 @@ public class Downloader {
 
         if (!TextUtils.isEmpty(fileName))
             request.setDestinationUri(Uri.fromFile(new File(saveDir, fileName)));
-        DownloadManager manager = (DownloadManager) ContextUtil.getContext().getSystemService(Context.DOWNLOAD_SERVICE);
+        DownloadManager manager = (DownloadManager) context.getSystemService(Context.DOWNLOAD_SERVICE);
         return manager.enqueue(request);
     }
 
@@ -65,8 +63,8 @@ public class Downloader {
      * @param title 通知的标题
      * @param desc  通知的消息
      */
-    public long downloadWithNotification(String url, String title, String desc) {
-        return downloadWithNotification(url, null, null, title, desc);
+    public long downloadWithNotification(Context context,String url, String title, String desc) {
+        return downloadWithNotification( context,url, null, null, title, desc);
     }
 
     /**
