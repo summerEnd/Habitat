@@ -42,7 +42,8 @@ public class TrendAdapter extends LoadMoreAdapter {
     @Override
     public void onRefresh() {
         super.onRefresh();
-        Requests.GetCommunity request = new Requests.GetCommunity(commid,1);
+        HttpRequest<List<ArticleEntity>> request =  Requests.getCommunity(commid,1,5);
+
         HttpManager.getInstance().post(getContext(), new JsonHttpHandler<List<ArticleEntity>>(request) {
             @Override
             public void onSuccess(HttpResponse response, HttpRequest<List<ArticleEntity>> request, List<ArticleEntity> articleEntities) {
@@ -61,7 +62,7 @@ public class TrendAdapter extends LoadMoreAdapter {
     @Override
     public void onLoadMore() {
 
-        Requests.GetCommunity request = new Requests.GetCommunity(commid,getCurrentPage()+1);
+        HttpRequest<List<ArticleEntity>> request =  Requests.getCommunity(commid,getCurrentPage()+1,5);
         HttpManager.getInstance().post(getContext(), new JsonHttpHandler<List<ArticleEntity>>(request) {
             @Override
             public void onSuccess(HttpResponse response, HttpRequest<List<ArticleEntity>> request, List<ArticleEntity> articleEntities) {

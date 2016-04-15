@@ -34,8 +34,7 @@ public class LoginActivity extends BaseActivity {
     public void onLoginClick(View v){
         final String phone = edit_phone.getText().toString();
         final String pwd = edit_password.getText().toString();
-        Requests.GetLogin request=new Requests.GetLogin(phone,pwd);
-        HttpManager.getInstance().post(this, new JsonHttpHandler<User>(request) {
+        HttpManager.getInstance().post(this, new JsonHttpHandler<User>(Requests.getLogin(phone,pwd)) {
             @Override
             public void onSuccess(HttpResponse response, HttpRequest<User> request, User user) {
                 to(MainActivity.class);

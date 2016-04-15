@@ -38,7 +38,7 @@ public class LoadingActivity extends BaseActivity {
             to(LoginActivity.class);
             finish();
         }else{
-            Requests.GetLogin request=new Requests.GetLogin(account,password);
+            HttpRequest<User> request= Requests.getLogin(account,password);
             HttpManager.getInstance().post(this, new JsonHttpHandler<User>(request) {
                 @Override
                 public void onSuccess(HttpResponse response, HttpRequest<User> request, User user) {
