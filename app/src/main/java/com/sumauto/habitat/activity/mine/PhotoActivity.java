@@ -21,7 +21,7 @@ import android.widget.TextView;
 
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
-import com.sumauto.common.util.IntentFactory;
+import com.sumauto.common.util.IntentUtils;
 import com.sumauto.common.util.DisplayUtil;
 import com.sumauto.common.util.ImageUtil;
 import com.sumauto.common.util.ViewUtil;
@@ -162,7 +162,7 @@ public class PhotoActivity extends BaseActivity {
 
             switch (requestCode) {
                 case CAPTURE: {
-                    startActivityForResult(IntentFactory.cropImageUri(uri, width, height), CROP);
+                    startActivityForResult(IntentUtils.cropImageUri(uri, width, height), CROP);
                     break;
                 }
                 case CROP: {
@@ -215,7 +215,7 @@ public class PhotoActivity extends BaseActivity {
                 holder.itemView.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        startActivityForResult(IntentFactory.capture(getSaveFileUri()), CAPTURE);
+                        startActivityForResult(IntentUtils.capture(getSaveFileUri()), CAPTURE);
                     }
                 });
             }

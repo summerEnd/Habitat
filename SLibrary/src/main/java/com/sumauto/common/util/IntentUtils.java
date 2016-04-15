@@ -15,7 +15,7 @@ import com.sp.lib.R;
 
 import java.util.List;
 
-public class IntentFactory {
+public class IntentUtils {
 
     public static Intent capture(Uri output) {
         Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);

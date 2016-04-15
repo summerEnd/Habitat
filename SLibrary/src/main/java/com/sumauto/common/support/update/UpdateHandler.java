@@ -77,7 +77,7 @@ public abstract class UpdateHandler implements UpdateManager.Callback {
     }
 
     protected void doUpdate() {
-        long id = downloader.downloadWithNotification(getDownloadUrl(), null, null, "hello", "hello");
+        long id = downloader.downloadWithNotification(context,getDownloadUrl(), null, null, "hello", "hello");
         context.getContentResolver().registerContentObserver(Uri.parse("content://downloads/my_downloads"), true, new MyObserver(new Handler(), id));
     }
 
