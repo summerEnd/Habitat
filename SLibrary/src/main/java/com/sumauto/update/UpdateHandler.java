@@ -1,4 +1,4 @@
-package com.sumauto.common.update;
+package com.sumauto.update;
 
 import android.app.AlertDialog;
 import android.app.ProgressDialog;

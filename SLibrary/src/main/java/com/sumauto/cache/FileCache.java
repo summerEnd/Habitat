@@ -1,6 +1,7 @@
-package com.sumauto.common;
+package com.sumauto.cache;
 
-import com.sumauto.exception.SlibInitialiseException;
+import com.sumauto.common.Md5;
+import com.sumauto.exception.LibraryInitException;
 import com.sumauto.util.FileUtil;
 
 import java.io.File;
@@ -19,11 +20,11 @@ public abstract class FileCache<D> implements ICache<String, D> {
      */
     public FileCache(File dir) {
         if (dir == null) {
-            throw new SlibInitialiseException(getClass().getName() + "必须要有一个缓存目录！");
+            throw new LibraryInitException(getClass().getName() + "必须要有一个缓存目录！");
         } else {
 
             if (!dir.isDirectory()) {
-                throw new SlibInitialiseException(dir + "不是一个目录！");
+                throw new LibraryInitException(dir + "不是一个目录！");
             }
             cacheDir = new File(dir, Md5.md5(getClass().getSimpleName()));
             if (!cacheDir.isDirectory()) {

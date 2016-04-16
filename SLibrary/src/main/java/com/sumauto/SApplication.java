@@ -12,10 +12,10 @@ import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 import com.nostra13.universalimageloader.core.assist.QueueProcessingType;
 import com.sumauto.exception.ExceptionHandler;
-import com.sumauto.exception.SlibInitialiseException;
+import com.sumauto.exception.LibraryInitException;
 import com.sumauto.common.AppInfo;
 import com.sumauto.common.PreferenceUtil;
-import com.sumauto.common.CacheManager;
+import com.sumauto.cache.CacheManager;
 import com.sumauto.util.FileUtil;
 
 import java.io.File;
@@ -35,7 +35,7 @@ public class SApplication extends Application {
             ExceptionHandler.init();
             //初始化缓存框架
             CacheManager.init(context);
-        } catch (SlibInitialiseException e) {
+        } catch (LibraryInitException e) {
             e.printStackTrace();
         }
     }

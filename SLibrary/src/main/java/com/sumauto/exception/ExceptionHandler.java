@@ -2,7 +2,7 @@ package com.sumauto.exception;
 
 import android.util.Log;
 
-import com.sumauto.common.CacheManager;
+import com.sumauto.cache.CacheManager;
 
 import java.io.PrintWriter;
 import java.io.Serializable;
@@ -12,7 +12,7 @@ import java.util.Date;
 import java.util.LinkedList;
 import java.util.Locale;
 
-import static com.sumauto.common.CacheManager.ERROR_LOGS;
+import static com.sumauto.cache.CacheManager.ERROR_LOGS;
 
 
 public class ExceptionHandler implements Thread.UncaughtExceptionHandler {

@@ -1,4 +1,4 @@
-package com.sumauto.common;
+package com.sumauto.cache;
 
 import android.util.Log;
 

@@ -1,9 +1,9 @@
-package com.sumauto.common;
+package com.sumauto.cache;
 
 
 import android.content.Context;
 
-import com.sumauto.exception.SlibInitialiseException;
+import com.sumauto.exception.LibraryInitException;
 
 import java.io.File;
 import java.util.List;
@@ -65,7 +65,7 @@ public class CacheManager {
 
     private ICache getCache() {
         if (mCache == null) {
-            throw new SlibInitialiseException(CacheManager.class);
+            throw new LibraryInitException(CacheManager.class);
         }
         return mCache;
     }

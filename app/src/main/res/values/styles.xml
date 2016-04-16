@@ -66,7 +66,7 @@
     </style>
 
     <style name="window_main_tab_select_item">
-        <item name="android:background">@drawable/clicked_white</item>
+        <item name="android:background">@drawable/clickable_white</item>
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:drawableRight">@mipmap/ic_clickable</item>
@@ -153,7 +153,7 @@
         <item name="android:layout_width">0dp</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:layout_weight">1</item>
-        <item name="android:background">@drawable/clicked_white</item>
+        <item name="android:background">@drawable/clickable_white</item>
         <item name="android:gravity">center</item>
         <item name="android:orientation">vertical</item>
         <item name="android:paddingBottom">@dimen/dimen_15</item>
@@ -179,7 +179,7 @@
         <item name="android:clickable">true</item>
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
-        <item name="android:background">@drawable/clicked_white</item>
+        <item name="android:background">@drawable/clickable_white</item>
         <item name="android:gravity">center_vertical</item>
         <item name="android:orientation">horizontal</item>
         <item name="android:paddingBottom">@dimen/dimen_15</item>
@@ -213,7 +213,7 @@
         <item name="android:paddingLeft">@dimen/click_item_vertical_spacing</item>
         <item name="android:paddingTop">18dp</item>
         <item name="android:paddingBottom">18dp</item>
-        <item name="android:background">@drawable/clicked_white</item>
+        <item name="android:background">@drawable/clickable_white</item>
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:gravity">center_vertical</item>

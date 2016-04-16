@@ -1,4 +1,4 @@
-package com.sumauto.common.update;
+package com.sumauto.update;
 
 public class DownloadInfo {
     public long downloadId;

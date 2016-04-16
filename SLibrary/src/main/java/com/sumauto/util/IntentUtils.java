@@ -54,7 +54,7 @@ public class IntentUtils {
                 PackageManager.COMPONENT_ENABLED_STATE_DEFAULT);
     }
 
-    public static void addShortcut(Context context, String name, Class<? extends Activity> activityClass) {
+    public static void addShortcut(Activity context, String name,int icon) {
         Intent addShortcutIntent = new Intent("com.android.launcher.action.INSTALL_SHORTCUT");
 
         // 不允许重复创建
@@ -69,12 +69,11 @@ public class IntentUtils {
 
         // 图标
         addShortcutIntent.putExtra(Intent.EXTRA_SHORTCUT_ICON_RESOURCE,
-                Intent.ShortcutIconResource.fromContext(context,
-                        R.drawable.ic_launcher));
+                Intent.ShortcutIconResource.fromContext(context,icon));
 
         // 设置关联程序
         Intent launcherIntent = new Intent(Intent.ACTION_MAIN);
-        launcherIntent.setClass(context, activityClass);
+        launcherIntent.setClass(context, context.getClass());
         launcherIntent.addCategory(Intent.CATEGORY_LAUNCHER);
 
         addShortcutIntent

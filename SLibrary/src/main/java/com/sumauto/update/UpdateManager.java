@@ -1,4 +1,4 @@
-package com.sumauto.common.update;
+package com.sumauto.update;
 
 /**
  * app检查更新
