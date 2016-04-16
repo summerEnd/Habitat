@@ -6,12 +6,9 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.util.AttributeSet;
 
-import com.sumauto.common.util.DisplayUtil;
+import com.sumauto.util.DisplayUtil;
 import com.sumauto.widget.CircleImageView;
 
-/**
- * Created by Lincoln on 16/3/20.
- */
 public class AvatarView extends CircleImageView {
     private final Paint mBorderPaint = new Paint();
     public AvatarView(Context context) {

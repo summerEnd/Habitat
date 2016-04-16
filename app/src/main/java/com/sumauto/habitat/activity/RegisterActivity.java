@@ -8,6 +8,9 @@ import com.loopj.android.http.RequestParams;
 import com.sumauto.habitat.R;
 import com.sumauto.habitat.http.HttpHandler;
 import com.sumauto.habitat.http.HttpManager;
+import com.sumauto.habitat.http.HttpRequest;
+import com.sumauto.habitat.http.JsonHttpHandler;
+import com.sumauto.habitat.http.Requests;
 import com.sumauto.habitat.widget.SmsButton;
 
 import org.json.JSONException;
@@ -39,26 +42,32 @@ public class RegisterActivity extends BaseActivity implements View.OnClickListen
                 RequestParams requestParams = new RequestParams();
                 requestParams.put("action", "reg");
                 requestParams.put("phone", phone);
-                HttpManager.getInstance().postApi(this, HttpManager.getValidateCode, requestParams, new HttpHandler() {
+
+                HttpRequest<String> request = Requests.getValidateCode(phone, "reg");
+
+                HttpManager.getInstance().post(this, new JsonHttpHandler<String>(request) {
                     @Override
-                    public void onSuccess(HttpResponse response) throws JSONException {
+                    public void onSuccess(HttpResponse response, HttpRequest<String> request, String bean) {
 
                     }
                 });
+
                 break;
             }
             case R.id.btn_register: {
                 String phone = edit_phone.getText().toString().trim();
-                RequestParams requestParams = new RequestParams();
-                requestParams.put("code", edit_sms_code.getText().toString().trim());
-                requestParams.put("pwd", edit_password.getText().toString().trim());
-                requestParams.put("phone", phone);
-                HttpManager.getInstance().postApi(this, HttpManager.getRegister, requestParams, new HttpHandler() {
+                String code = edit_sms_code.getText().toString().trim();
+                String pwd = edit_password.getText().toString().trim();
+
+                HttpRequest<String> request = Requests.getRegister(phone, code, pwd);
+
+                HttpManager.getInstance().post(this, new JsonHttpHandler<String>(request) {
                     @Override
-                    public void onSuccess(HttpResponse response) throws JSONException {
+                    public void onSuccess(HttpResponse response, HttpRequest<String> request, String bean) {
 
                     }
                 });
+
                 break;
             }
         }

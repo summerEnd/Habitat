@@ -7,7 +7,7 @@ import android.view.animation.AnimationUtils;
 import android.widget.TextView;
 
 import com.sp.lib.R;
-import com.sumauto.common.util.ToastUtil;
+import com.sumauto.util.ToastUtil;
 
 import java.util.ArrayList;
 import java.util.regex.Pattern;

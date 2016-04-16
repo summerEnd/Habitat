@@ -8,7 +8,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.TextView;
 
-import com.sumauto.common.util.DisplayUtil;
+import com.sumauto.util.DisplayUtil;
 import com.sumauto.habitat.R;
 import com.sumauto.habitat.activity.mine.PhotoActivity;
 import com.sumauto.habitat.adapter.PublishImageAdapter;

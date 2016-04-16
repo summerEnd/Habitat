@@ -1,7 +1,7 @@
 package com.sumauto.habitat.http;
 
 import com.loopj.android.http.RequestParams;
-import com.sumauto.common.util.JsonUtil;
+import com.sumauto.util.JsonUtil;
 import com.sumauto.habitat.HabitatApp;
 import com.sumauto.habitat.bean.ArticleEntity;
 import com.sumauto.habitat.bean.User;
@@ -65,12 +65,12 @@ public class Requests {
      * phone:请求发送验证码的手机号码
      * action:获取验证码的操作页面，注册时action=reg，其他不做要求
      */
-    public static HttpRequest<?> getValidateCode(String phone, String action) {
-        return new SimpleHttpRequest<Object>("getValidateCode",
+    public static HttpRequest<String> getValidateCode(String phone, String action) {
+        return new SimpleHttpRequest<String>("getValidateCode",
                 "phone", phone, "action", action) {
             @Override
-            public Object parser(String jsonString) throws JSONException {
-                return null;
+            public String parser(String jsonString) throws JSONException {
+                return jsonString;
             }
         };
     }
@@ -81,12 +81,12 @@ public class Requests {
      * code:用户填写的短信验证码
      * pwd:用户填写的登录密码
      */
-    public static HttpRequest<?> getRegister(String phone, String code, String pwd) {
-        return new SimpleHttpRequest<Object>("getRegister",
+    public static HttpRequest<String> getRegister(String phone, String code, String pwd) {
+        return new SimpleHttpRequest<String>("getRegister",
                 "phone", phone, "code", code, "pwd", pwd) {
             @Override
-            public Object parser(String jsonString) throws JSONException {
-                return null;
+            public String parser(String jsonString) throws JSONException {
+                return jsonString;
             }
         };
     }

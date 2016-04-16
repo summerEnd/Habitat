@@ -19,7 +19,7 @@ import android.widget.TextView;
 import com.sp.lib.R;
 import com.sumauto.SApplication;
 import com.sumauto.exception.ExceptionHandler;
-import com.sumauto.common.support.cache.CacheManager;
+import com.sumauto.common.CacheManager;
 
 import java.util.LinkedList;
 

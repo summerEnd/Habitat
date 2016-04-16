@@ -20,7 +20,7 @@ import android.widget.PopupWindow;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.sp.lib.R;
-import com.sumauto.common.util.DisplayUtil;
+import com.sumauto.util.DisplayUtil;
 
 import uk.co.senab.photoview.PhotoView;
 import uk.co.senab.photoview.PhotoViewAttacher;

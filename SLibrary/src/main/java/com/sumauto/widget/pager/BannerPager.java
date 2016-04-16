@@ -19,7 +19,7 @@ import android.widget.RadioGroup;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.sp.lib.R;
-import com.sumauto.common.util.DisplayUtil;
+import com.sumauto.util.DisplayUtil;
 import com.sumauto.widget.slide.transform.Transformer;
 
 import java.util.ArrayList;

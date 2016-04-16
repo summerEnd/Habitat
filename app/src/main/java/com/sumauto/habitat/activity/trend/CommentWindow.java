@@ -8,7 +8,7 @@ import android.view.View;
 import android.view.WindowManager;
 import android.widget.EditText;
 
-import com.sumauto.common.util.DisplayUtil;
+import com.sumauto.util.DisplayUtil;
 import com.sumauto.habitat.R;
 
 /**

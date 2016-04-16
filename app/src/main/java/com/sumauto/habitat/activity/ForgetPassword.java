@@ -5,13 +5,13 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.EditText;
 
-import com.loopj.android.http.RequestParams;
-import com.sumauto.common.util.ToastUtil;
+import com.sumauto.util.ToastUtil;
 import com.sumauto.habitat.R;
-import com.sumauto.habitat.http.HttpHandler;
+import com.sumauto.habitat.bean.User;
 import com.sumauto.habitat.http.HttpManager;
-
-import org.json.JSONException;
+import com.sumauto.habitat.http.HttpRequest;
+import com.sumauto.habitat.http.JsonHttpHandler;
+import com.sumauto.habitat.http.Requests;
 
 public class ForgetPassword extends AppCompatActivity {
     EditText edit_phone, edit_sms_code, edit_password;
@@ -23,35 +23,35 @@ public class ForgetPassword extends AppCompatActivity {
         edit_phone = (EditText) findViewById(R.id.edit_phone);
         edit_sms_code = (EditText) findViewById(R.id.edit_sms_code);
         edit_password = (EditText) findViewById(R.id.edit_password);
+
     }
 
     public void onFindPasswordClick(View view) {
         String phone = edit_phone.getText().toString().trim();
         String code = edit_sms_code.getText().toString().trim();
         String pwd = edit_password.getText().toString().trim();
-        RequestParams requestParams = new RequestParams();
-        requestParams.put("phone", phone);
-        requestParams.put("code", code);
-        requestParams.put("newuserpwd", pwd);
-        HttpManager.getInstance().postApi(this, HttpManager.setNewPwd, requestParams, new HttpHandler() {
+
+        HttpManager.getInstance().post(this, new JsonHttpHandler<User>(Requests.setNewPwd(phone, code, pwd)) {
             @Override
-            public void onSuccess(HttpResponse response) throws JSONException {
+            public void onSuccess(HttpResponse response, HttpRequest<User> request, User bean) {
                 ToastUtil.toast(response.msg);
                 finish();
             }
         });
+
+
     }
 
     public void onSmsButtonClick(View v) {
         String phone = edit_phone.getText().toString().trim();
-        RequestParams requestParams = new RequestParams();
-        requestParams.put("phone", phone);
-        HttpManager.getInstance().postApi(this, HttpManager.getValidateCode, requestParams, new HttpHandler() {
+
+        HttpManager.getInstance().post(this, new JsonHttpHandler<String>(Requests.getValidateCode(phone, "")) {
             @Override
-            public void onSuccess(HttpResponse response) throws JSONException {
-                ToastUtil.toast(response.msg);
+            public void onSuccess(HttpResponse response, HttpRequest<String> request, String bean) {
+
             }
         });
     }
+
 
 }

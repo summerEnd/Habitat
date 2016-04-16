@@ -11,7 +11,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.sumauto.common.util.DisplayUtil;
+import com.sumauto.util.DisplayUtil;
 import com.sumauto.habitat.R;
 import com.sumauto.habitat.activity.ListFragment;
 import com.sumauto.habitat.adapter.SearchFragmentAdapter;

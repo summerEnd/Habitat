@@ -3,8 +3,8 @@ package com.sumauto.habitat.http;
 import android.text.TextUtils;
 
 import com.loopj.android.http.JsonHttpResponseHandler;
-import com.sumauto.common.util.SLog;
-import com.sumauto.common.util.ToastUtil;
+import com.sumauto.util.SLog;
+import com.sumauto.util.ToastUtil;
 
 import org.json.JSONArray;
 import org.json.JSONException;

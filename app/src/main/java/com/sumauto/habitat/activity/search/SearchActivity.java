@@ -14,7 +14,7 @@ import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
 import android.widget.TextView;
 
-import com.sumauto.common.util.ViewUtil;
+import com.sumauto.util.ViewUtil;
 import com.sumauto.habitat.R;
 import com.sumauto.habitat.activity.BaseActivity;
 import com.sumauto.habitat.activity.TrendListFragment;

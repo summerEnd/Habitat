@@ -13,10 +13,10 @@ import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 import com.nostra13.universalimageloader.core.assist.QueueProcessingType;
 import com.sumauto.exception.ExceptionHandler;
 import com.sumauto.exception.SlibInitialiseException;
-import com.sumauto.common.preference.AppInfo;
-import com.sumauto.common.preference.PreferenceUtil;
-import com.sumauto.common.support.cache.CacheManager;
-import com.sumauto.common.util.FileUtil;
+import com.sumauto.common.AppInfo;
+import com.sumauto.common.PreferenceUtil;
+import com.sumauto.common.CacheManager;
+import com.sumauto.util.FileUtil;
 
 import java.io.File;
 import java.util.List;

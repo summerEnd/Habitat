@@ -22,10 +22,17 @@ public class HttpTest extends AndroidTestCase {
         //http(Requests.getCommunity("1",0,5));
         //http(Requests.getValidateCode("18761844602",""));
         //http(Requests.getRegister("18761844602","","123456"));
-        http(Requests.getLogin("18761844602", "123456"));
+        //http(Requests.getLogin("18761844602", "1234567"));
         //http(Requests.setNewPwd("18761844602", "123456","123456"));
-        http(Requests.getChangePwd( "123456","123456"));
+        //http(Requests.getChangePwd( "123456","1234567"));
         //http(Requests.setHeadImg("123456"));
+        //http(Requests.collectSubject("1"));
+        //http(Requests.uncollectSubject("1"));
+        //http(Requests.niceSubject("1"));
+        //http(Requests.unniceSubject("1"));
+        //http(Requests.submitComment("1","1","1","1"));
+        //http(Requests.getComment("1",1,5));
+        //http(Requests.delComment("1"));
     }
 
     public void http(HttpRequest<?> request) {

@@ -14,7 +14,7 @@ import android.widget.ImageView;
 import android.widget.PopupWindow;
 import android.widget.TextView;
 
-import com.sumauto.common.util.ViewUtil;
+import com.sumauto.util.ViewUtil;
 import com.sumauto.habitat.R;
 import com.sumauto.widget.nav.TabItem;
 import com.sumauto.widget.nav.TabLayout;

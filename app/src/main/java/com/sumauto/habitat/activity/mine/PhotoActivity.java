@@ -21,10 +21,10 @@ import android.widget.TextView;
 
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
-import com.sumauto.common.util.IntentUtils;
-import com.sumauto.common.util.DisplayUtil;
-import com.sumauto.common.util.ImageUtil;
-import com.sumauto.common.util.ViewUtil;
+import com.sumauto.util.IntentUtils;
+import com.sumauto.util.DisplayUtil;
+import com.sumauto.util.ImageUtil;
+import com.sumauto.util.ViewUtil;
 import com.sumauto.habitat.R;
 import com.sumauto.habitat.activity.BaseActivity;
 import com.sumauto.habitat.utils.ImageOptions;

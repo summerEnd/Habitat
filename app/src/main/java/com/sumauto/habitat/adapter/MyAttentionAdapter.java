@@ -3,7 +3,7 @@ package com.sumauto.habitat.adapter;
 import android.support.v7.widget.RecyclerView;
 import android.view.ViewGroup;
 
-import com.sumauto.common.util.RandomUtils;
+import com.sumauto.util.RandomUtils;
 import com.sumauto.habitat.adapter.holders.MyAttentionHolder;
 import com.sumauto.habitat.bean.AttentionBean;
 

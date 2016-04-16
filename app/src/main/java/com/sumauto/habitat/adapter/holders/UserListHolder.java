@@ -5,7 +5,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.sumauto.common.util.ViewUtil;
+import com.sumauto.util.ViewUtil;
 import com.sumauto.habitat.R;
 import com.sumauto.habitat.bean.UserInfoBean;
 import com.sumauto.widget.CheckableLinearLayout;

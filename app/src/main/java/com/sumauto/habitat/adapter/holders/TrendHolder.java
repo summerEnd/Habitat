@@ -5,8 +5,8 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.sumauto.common.util.ToastUtil;
-import com.sumauto.common.util.ViewUtil;
+import com.sumauto.util.ToastUtil;
+import com.sumauto.util.ViewUtil;
 import com.sumauto.habitat.R;
 import com.sumauto.habitat.activity.trend.TrendDetailActivity;
 import com.sumauto.habitat.bean.FeedBean;

@@ -5,7 +5,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.sumauto.common.util.DisplayUtil;
+import com.sumauto.util.DisplayUtil;
 import com.sumauto.habitat.R;
 import com.sumauto.habitat.bean.AttentionBean;
 import com.sumauto.widget.recycler.WrapContentGridLayoutManager;
