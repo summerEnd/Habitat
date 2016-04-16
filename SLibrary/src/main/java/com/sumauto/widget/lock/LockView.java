@@ -7,7 +7,9 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Path;
+import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
+import android.graphics.drawable.StateListDrawable;
 import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
@@ -66,7 +68,11 @@ public class LockView extends View {
         horizontalSpacing = a.getDimensionPixelOffset(R.styleable.LockView_horizontalSpacing, 0);
         drawable = a.getDrawable(R.styleable.LockView_src);
         if (drawable == null) {
-            drawable = getResources().getDrawable(R.drawable.tab_selector);
+            StateListDrawable d=new StateListDrawable();
+            d.addState(STATUS_SUCCESS,new ColorDrawable(Color.GREEN));
+            d.addState(STATUS_ERROR,new ColorDrawable(Color.RED));
+            d.addState(STATUS_FIRST,new ColorDrawable(Color.GRAY));
+            drawable = d;
         }
         mLayoutSquare = a.getInt(R.styleable.LockView_layoutSquare, LayoutSquare.NONE);
         String password = a.getString(R.styleable.LockView_password);
