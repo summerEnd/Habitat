@@ -1,4 +1,4 @@
-package com.sumauto.habitat.activity.trend;
+package com.sumauto.habitat.activity.fragment;
 
 import android.content.Context;
 import android.graphics.Color;
@@ -10,12 +10,11 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.sumauto.habitat.R;
-import com.sumauto.habitat.activity.ListFragment;
-import com.sumauto.habitat.adapter.AboutMeAdapter;
+import com.sumauto.habitat.adapter.MyAttentionAdapter;
 import com.sumauto.widget.recycler.DividerDecoration;
 
 
-public class AboutMeListFragment extends ListFragment {
+public class MyAttentionListFragment extends ListFragment {
 
 
     private RecyclerView recyclerView;
@@ -23,12 +22,12 @@ public class AboutMeListFragment extends ListFragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.recycler_view, container, false);
-
-
-        Context context = view.getContext();
         recyclerView = (RecyclerView) view.findViewById(R.id.recyclerView);
+
+        // Set the adapter
+        Context context = view.getContext();
         recyclerView.setLayoutManager(new LinearLayoutManager(context));
-        recyclerView.setAdapter(new AboutMeAdapter());
+        recyclerView.setAdapter(new MyAttentionAdapter());
         recyclerView.addItemDecoration(new DividerDecoration(Color.parseColor("#e5e5e5")));
         processListBottomMargins(recyclerView);
         return view;

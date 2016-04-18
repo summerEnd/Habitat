@@ -9,9 +9,11 @@ import android.util.Log;
 import android.view.View;
 
 import com.sumauto.habitat.R;
-import com.sumauto.habitat.activity.mine.MineFragment;
-import com.sumauto.habitat.activity.search.SearchFragment;
-import com.sumauto.habitat.activity.trend.TrendFragment;
+import com.sumauto.habitat.activity.fragment.BaseFragment;
+import com.sumauto.habitat.activity.fragment.HomeFragment;
+import com.sumauto.habitat.activity.fragment.MineFragment;
+import com.sumauto.habitat.activity.fragment.SearchFragment;
+import com.sumauto.habitat.activity.fragment.TrendFragment;
 import com.sumauto.habitat.callback.ListCallback;
 import com.sumauto.habitat.callback.Scrollable;
 import com.sumauto.widget.CheckableLinearLayout;
@@ -19,17 +21,17 @@ import com.sumauto.widget.CheckableLinearLayout;
 
 public class MainActivity extends BaseActivity implements ViewPager.OnPageChangeListener, ListCallback {
 
-    CheckableLinearLayout checkedTab;
+    CheckableLinearLayout mCheckedTab;
     final BaseFragment FRAGMENTS[] = new BaseFragment[]{new HomeFragment(), new SearchFragment(), new TrendFragment(), new MineFragment()};
-    private ViewPager viewPager;
+    private ViewPager mViewPager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        viewPager = (ViewPager) findViewById(R.id.viewPager);
-        viewPager.setOffscreenPageLimit(4);
-        viewPager.setAdapter(new FragmentPagerAdapter(getSupportFragmentManager()) {
+        mViewPager = (ViewPager) findViewById(R.id.viewPager);
+        mViewPager.setOffscreenPageLimit(4);
+        mViewPager.setAdapter(new FragmentPagerAdapter(getSupportFragmentManager()) {
             @Override
             public Fragment getItem(int position) {
                 return FRAGMENTS[position];
@@ -41,9 +43,9 @@ public class MainActivity extends BaseActivity implements ViewPager.OnPageChange
             }
         });
 
-        viewPager.addOnPageChangeListener(this);
-        checkedTab = (CheckableLinearLayout) findViewById(R.id.tab_main_home);
-        checkedTab.setChecked(true);
+        mViewPager.addOnPageChangeListener(this);
+        mCheckedTab = (CheckableLinearLayout) findViewById(R.id.tab_main_home);
+        mCheckedTab.setChecked(true);
     }
 
     public void onTabClick(View v) {
@@ -77,13 +79,13 @@ public class MainActivity extends BaseActivity implements ViewPager.OnPageChange
                 break;
             }
         }
-        if (checkedTab == v) {
+        if (mCheckedTab == v) {
             BaseFragment fragment = FRAGMENTS[position];
             if (fragment instanceof Scrollable) {
                 ((Scrollable) fragment).scrollToPosition(0);//滑动到顶部
             }
         } else {
-            viewPager.setCurrentItem(position);
+            mViewPager.setCurrentItem(position);
             showTab((CheckableLinearLayout) v);
         }
     }
@@ -117,9 +119,9 @@ public class MainActivity extends BaseActivity implements ViewPager.OnPageChange
     }
 
     private void showTab(CheckableLinearLayout tab) {
-        checkedTab.setChecked(false);
+        mCheckedTab.setChecked(false);
         tab.setChecked(true);
-        checkedTab = tab;
+        mCheckedTab = tab;
     }
 
     @Override

@@ -1,4 +1,4 @@
-package com.sumauto.habitat.activity.mine;
+package com.sumauto.habitat.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -7,10 +7,9 @@ import android.widget.TextView;
 
 import com.sumauto.util.ToastUtil;
 import com.sumauto.habitat.R;
-import com.sumauto.habitat.activity.BaseActivity;
 import com.sumauto.habitat.widget.IosListDialog;
 
-public class CompeteDataActivity extends BaseActivity {
+public class EditUserInfoActivity extends BaseActivity {
     TextView tv_gender;
     @Override
     protected void onCreate(Bundle savedInstanceState) {

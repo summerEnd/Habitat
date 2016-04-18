@@ -1,9 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="hello_world">Hello world!</string>
-    <string name="landscape">横屏</string>
-    <string name="portrait">竖屏</string>
     <string name="request_is_failed">请求失败！</string>
     <string name="all">全部</string>
     <string name="other">其他</string>

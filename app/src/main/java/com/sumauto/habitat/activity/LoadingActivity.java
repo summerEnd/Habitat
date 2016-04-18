@@ -25,7 +25,7 @@ public class LoadingActivity extends BaseActivity {
         ImageView imageView=new ImageView(this);
         imageView.setImageResource(R.mipmap.loading);
         imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
-        imageView.setSystemUiVisibility(View.SYSTEM_UI_FLAG_FULLSCREEN|View.SYSTEM_UI_FLAG_HIDE_NAVIGATION|View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
+        imageView.setSystemUiVisibility(View.SYSTEM_UI_FLAG_HIDE_NAVIGATION);
         setContentView(imageView);
         enter();
     }
@@ -35,6 +35,7 @@ public class LoadingActivity extends BaseActivity {
         String password=HabitatApp.getInstance().getPassword();
         if (TextUtils.isEmpty(account)||TextUtils.isEmpty(password)){
             to(LoginActivity.class);
+            overridePendingTransition(R.anim.loading_activity_anim_in,R.anim.loading_activity_anim_out);
             finish();
         }else{
             HttpRequest<User> request= Requests.getLogin(account,password);
@@ -52,6 +53,7 @@ public class LoadingActivity extends BaseActivity {
                         @Override
                         public void run() {
                             to(MainActivity.class);
+                            overridePendingTransition(R.anim.loading_activity_anim_in,R.anim.loading_activity_anim_out);
                             finish();
                         }
                     },1000);
@@ -59,6 +61,5 @@ public class LoadingActivity extends BaseActivity {
             });
 
         }
-
     }
 }

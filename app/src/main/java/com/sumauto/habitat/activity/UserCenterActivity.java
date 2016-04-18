@@ -1,4 +1,4 @@
-package com.sumauto.habitat.activity.mine;
+package com.sumauto.habitat.activity;
 
 import android.os.Bundle;
 import android.support.design.widget.AppBarLayout;
@@ -14,14 +14,14 @@ import android.view.ViewTreeObserver;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.sumauto.habitat.activity.fragment.TrendListFragment;
+import com.sumauto.habitat.activity.fragment.UserPictureListFragment;
 import com.sumauto.util.ViewUtil;
 import com.sumauto.habitat.R;
-import com.sumauto.habitat.activity.BaseActivity;
-import com.sumauto.habitat.activity.TrendListFragment;
 
 import jp.wasabeef.blurry.Blurry;
 
-public class UserHomeActivity extends BaseActivity implements AppBarLayout.OnOffsetChangedListener {
+public class UserCenterActivity extends BaseActivity implements AppBarLayout.OnOffsetChangedListener {
     private  ImageView iv_mine_bg, iv_back_icon,iv_logo;
     private Toolbar toolbar;
     private TextView tv_back_text, tv_check_detail;
@@ -52,7 +52,7 @@ public class UserHomeActivity extends BaseActivity implements AppBarLayout.OnOff
             @Override
             public boolean onPreDraw() {
                 iv_mine_bg.getViewTreeObserver().removeOnPreDrawListener(this);
-                Blurry.with(UserHomeActivity.this).capture(iv_mine_bg).into(iv_mine_bg);
+                Blurry.with(UserCenterActivity.this).capture(iv_mine_bg).into(iv_mine_bg);
                 return true;
             }
         });

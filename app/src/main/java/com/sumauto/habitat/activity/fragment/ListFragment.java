@@ -1,4 +1,4 @@
-package com.sumauto.habitat.activity;
+package com.sumauto.habitat.activity.fragment;
 
 import com.sumauto.habitat.callback.Scrollable;
 

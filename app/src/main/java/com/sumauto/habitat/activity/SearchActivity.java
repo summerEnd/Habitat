@@ -1,4 +1,4 @@
-package com.sumauto.habitat.activity.search;
+package com.sumauto.habitat.activity;
 
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
@@ -14,10 +14,10 @@ import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.sumauto.habitat.activity.fragment.TrendListFragment;
+import com.sumauto.habitat.activity.fragment.UserSearchFragment;
 import com.sumauto.util.ViewUtil;
 import com.sumauto.habitat.R;
-import com.sumauto.habitat.activity.BaseActivity;
-import com.sumauto.habitat.activity.TrendListFragment;
 
 public class SearchActivity extends BaseActivity {
 

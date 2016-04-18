@@ -1,4 +1,4 @@
-package com.sumauto.habitat.activity.mine;
+package com.sumauto.habitat.activity.fragment;
 
 
 import android.content.Intent;
@@ -9,7 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.sumauto.habitat.R;
-import com.sumauto.habitat.activity.BaseFragment;
+import com.sumauto.habitat.activity.EditUserInfoActivity;
 
 
 /**
@@ -42,7 +42,7 @@ public class MineFragment extends BaseFragment implements View.OnClickListener{
         int id=v.getId();
         switch (id){
             case R.id.vg_complete_data:{
-                startActivity(new Intent(getActivity(),CompeteDataActivity.class));
+                startActivity(new Intent(getActivity(),EditUserInfoActivity.class));
                 break;
             }
             case R.id.vg_create_circle:{

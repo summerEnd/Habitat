@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context="com.sumauto.habitat.activity.search.AddressBookActivity">
+    tools:context=".activity.AddressBookActivity">
 
     <android.support.v7.widget.Toolbar
         style="@style/toolBarStyle">

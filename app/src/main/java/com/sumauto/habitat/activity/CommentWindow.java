@@ -1,4 +1,4 @@
-package com.sumauto.habitat.activity.trend;
+package com.sumauto.habitat.activity;
 
 import android.app.Dialog;
 import android.content.Context;

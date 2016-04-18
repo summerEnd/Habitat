@@ -1,4 +1,4 @@
-package com.sumauto.habitat.activity;
+package com.sumauto.habitat.activity.fragment;
 
 import android.content.Context;
 import android.graphics.drawable.ColorDrawable;

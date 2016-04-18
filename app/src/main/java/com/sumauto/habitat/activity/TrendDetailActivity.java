@@ -1,4 +1,4 @@
-package com.sumauto.habitat.activity.trend;
+package com.sumauto.habitat.activity;
 
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
@@ -9,7 +9,8 @@ import android.view.MotionEvent;
 import android.view.View;
 
 import com.sumauto.habitat.R;
-import com.sumauto.habitat.activity.BaseActivity;
+import com.sumauto.habitat.activity.fragment.CommentListFragment;
+import com.sumauto.habitat.activity.fragment.LikeListFragment;
 
 public class TrendDetailActivity extends BaseActivity {
 

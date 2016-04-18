@@ -1,4 +1,4 @@
-package com.sumauto.habitat.activity.search;
+package com.sumauto.habitat.activity;
 
 import android.graphics.Color;
 import android.os.Bundle;

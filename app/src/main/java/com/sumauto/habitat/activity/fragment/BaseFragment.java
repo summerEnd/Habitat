@@ -1,4 +1,4 @@
-package com.sumauto.habitat.activity;
+package com.sumauto.habitat.activity.fragment;
 
 import android.graphics.Rect;
 import android.os.Bundle;

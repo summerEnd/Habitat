@@ -1,4 +1,4 @@
-package com.sumauto.habitat.activity.mine;
+package com.sumauto.habitat.activity;
 
 import android.app.Activity;
 import android.content.Context;
@@ -26,7 +26,6 @@ import com.sumauto.util.DisplayUtil;
 import com.sumauto.util.ImageUtil;
 import com.sumauto.util.ViewUtil;
 import com.sumauto.habitat.R;
-import com.sumauto.habitat.activity.BaseActivity;
 import com.sumauto.habitat.utils.ImageOptions;
 import com.sumauto.widget.recycler.DividerDecoration;
 import com.sumauto.widget.recycler.ItemPaddingDecoration;

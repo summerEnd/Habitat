@@ -8,7 +8,7 @@ import android.widget.TextView;
 import com.sumauto.util.ToastUtil;
 import com.sumauto.util.ViewUtil;
 import com.sumauto.habitat.R;
-import com.sumauto.habitat.activity.trend.TrendDetailActivity;
+import com.sumauto.habitat.activity.TrendDetailActivity;
 import com.sumauto.habitat.bean.FeedBean;
 
 /**
