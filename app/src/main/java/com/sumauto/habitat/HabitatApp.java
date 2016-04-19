@@ -28,12 +28,11 @@ public class HabitatApp extends SApplication {
         setDebug(BuildConfig.DEBUG);
         AnalyticsConfig.setAppkey(this, BuildConfig.APP_KEY);
         AnalyticsConfig.setChannel(BuildConfig.CHANNEL);
-        //微信 appid appsecret
-        PlatformConfig.setWeixin("wx967daebe835fbeac", "5bb696d9ccd75a38c8a0bfe0675559b3");
-        //新浪微博 appkey appsecret
-        PlatformConfig.setSinaWeibo("3921700954", "04b48b094faeb16683c32669824ebdad");
-        // QQ和Qzone appid appkey
-        PlatformConfig.setQQZone("100424468", "c7394704798a158208a74ab60104f0ba");
+
+        PlatformConfig.setWeixin("wx967daebe835fbeac", "5bb696d9ccd75a38c8a0bfe0675559b3");//微信 appid appsecret
+        PlatformConfig.setSinaWeibo("283177913", "76dac8780978535ef7df5e4d62b67847");//新浪微博 appkey appsecret
+        PlatformConfig.setQQZone("1105280086", "vFc4waVtlXDxMUVt");// QQ和Qzone appid appkey
+
     }
 
     public User geUser() {

@@ -14,6 +14,10 @@ import android.widget.ImageView;
 import android.widget.PopupWindow;
 import android.widget.TextView;
 
+import com.nostra13.universalimageloader.core.ImageLoader;
+import com.sumauto.habitat.HabitatApp;
+import com.sumauto.habitat.bean.User;
+import com.sumauto.habitat.utils.ImageOptions;
 import com.sumauto.util.ViewUtil;
 import com.sumauto.habitat.R;
 import com.sumauto.widget.nav.TabItem;
@@ -26,7 +30,7 @@ import static android.view.ViewGroup.LayoutParams.WRAP_CONTENT;
 public class HomeFragment extends ListFragment implements ViewPager.OnPageChangeListener{
 
     TextView tv_shequ, tv_friend;
-    ImageView iv_triangle;
+    ImageView iv_triangle,iv_avatar;
     private TabLayout mTabLayout;
     private ViewPager mViewPager;
     private FeedSelectWindow mFeedSelectWindow;
@@ -78,9 +82,15 @@ public class HomeFragment extends ListFragment implements ViewPager.OnPageChange
         tv_shequ = (TextView) view.findViewById(R.id.tv_shequ);
         tv_friend = (TextView) view.findViewById(R.id.tv_friend);
         iv_triangle = (ImageView) view.findViewById(R.id.iv_triangle);
+        iv_avatar = (ImageView) view.findViewById(R.id.iv_avatar);
         mViewPager.setCurrentItem(0);
+        initData();
     }
 
+    void initData(){
+        User user = HabitatApp.getInstance().geUser();
+        ImageLoader.getInstance().displayImage(user.getHeadimg(),iv_avatar, ImageOptions.options());
+    }
 
     @Override
     public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {

@@ -63,6 +63,12 @@ public class TrendAdapter extends LoadMoreAdapter {
             public void onSuccess(HttpResponse response, HttpRequest<List<ArticleEntity>> request, List<ArticleEntity> articleEntities) {
                 addPage(articleEntities);
             }
+
+            @Override
+            public void onFinish() {
+                super.onFinish();
+                setRefreshDone();
+            }
         });
 
     }

@@ -11,7 +11,9 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.sumauto.common.SystemStatusManager;
+import com.sumauto.habitat.HabitatApp;
 import com.sumauto.habitat.R;
+import com.sumauto.habitat.bean.User;
 import com.sumauto.habitat.callback.OnActivityResultCallback;
 
 /**
@@ -114,4 +116,5 @@ public class BaseActivity extends AppCompatActivity implements View.OnClickListe
             mActivityResultCallback.onActivityResult(requestCode, resultCode, data);
         }
     }
+
 }

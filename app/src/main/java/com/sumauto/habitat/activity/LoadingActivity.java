@@ -7,6 +7,7 @@ import android.text.TextUtils;
 import android.view.View;
 import android.widget.ImageView;
 
+import com.sumauto.habitat.BuildConfig;
 import com.sumauto.habitat.HabitatApp;
 import com.sumauto.habitat.R;
 import com.sumauto.habitat.bean.User;
@@ -28,22 +29,27 @@ public class LoadingActivity extends BaseActivity {
         imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
         imageView.setSystemUiVisibility(View.SYSTEM_UI_FLAG_HIDE_NAVIGATION);
         setContentView(imageView);
-
+        to(MainActivity.class);
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
-                enter();
+                //enter();
             }
-        }, 1000);
+        }, 0);
     }
 
     void enter() {
-        String account = HabitatApp.getInstance().getAccount();
-        String password = HabitatApp.getInstance().getPassword();
+        String account;
+        String password;
 
-        // TODO: 16/4/19
-        account="18652947363";
-        password="123456";
+        if (BuildConfig.USE_DEMO_USER){
+            account="18652947363";
+            password="123456";
+        }else{
+            account = HabitatApp.getInstance().getAccount();
+            password = HabitatApp.getInstance().getPassword();
+        }
+
         if (TextUtils.isEmpty(account) || TextUtils.isEmpty(password)) {
             to(LoginActivity.class);
             finish();

@@ -20,6 +20,7 @@ import com.sumauto.habitat.activity.fragment.TrendListFragment;
 import com.sumauto.habitat.callback.ListCallback;
 import com.sumauto.habitat.callback.Scrollable;
 import com.sumauto.widget.CheckableLinearLayout;
+import com.umeng.socialize.UMShareAPI;
 
 
 public class MainActivity extends BaseActivity implements ViewPager.OnPageChangeListener, ListCallback, TrendListFragment.Callback {
@@ -134,13 +135,21 @@ public class MainActivity extends BaseActivity implements ViewPager.OnPageChange
 
     @Override
     public int getListBottomSpace() {
-        int height = findViewById(R.id.bottom_ll).getHeight();
-        Log.d("height", "height=" + height);
-        return height;
+        View viewById = findViewById(R.id.bottom_ll);
+        if (viewById!=null){
+            return viewById.getHeight();
+        }
+        return 0;
     }
 
     @Override
     public String getComId() {
         return ((HabitatApp) getApplication()).geUser().getCommid();
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        UMShareAPI.get( this ).onActivityResult( requestCode, resultCode, data);
     }
 }

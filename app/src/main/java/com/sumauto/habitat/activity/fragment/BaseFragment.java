@@ -8,6 +8,8 @@ import android.support.v4.app.Fragment;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
+import com.sumauto.habitat.HabitatApp;
+import com.sumauto.habitat.bean.User;
 import com.sumauto.habitat.callback.ListCallback;
 
 /**
@@ -30,6 +32,7 @@ public class BaseFragment extends Fragment{
         v.setOnClickListener(l);
         return v;
     }
+
 
     protected void processListBottomMargins(RecyclerView recyclerView){
         if (getActivity() instanceof ListCallback){
