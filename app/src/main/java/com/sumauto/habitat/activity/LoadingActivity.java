@@ -2,6 +2,7 @@ package com.sumauto.habitat.activity;
 
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.Process;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.ImageView;
@@ -22,23 +23,33 @@ public class LoadingActivity extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        ImageView imageView=new ImageView(this);
+        ImageView imageView = new ImageView(this);
         imageView.setImageResource(R.mipmap.loading);
         imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
         imageView.setSystemUiVisibility(View.SYSTEM_UI_FLAG_HIDE_NAVIGATION);
         setContentView(imageView);
-        enter();
+
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                enter();
+            }
+        }, 1000);
     }
 
-    void enter(){
-        String account=HabitatApp.getInstance().getAccount();
-        String password=HabitatApp.getInstance().getPassword();
-        if (TextUtils.isEmpty(account)||TextUtils.isEmpty(password)){
+    void enter() {
+        String account = HabitatApp.getInstance().getAccount();
+        String password = HabitatApp.getInstance().getPassword();
+
+        // TODO: 16/4/19
+        account="18652947363";
+        password="123456";
+        if (TextUtils.isEmpty(account) || TextUtils.isEmpty(password)) {
             to(LoginActivity.class);
-            overridePendingTransition(R.anim.loading_activity_anim_in,R.anim.loading_activity_anim_out);
             finish();
-        }else{
-            HttpRequest<User> request= Requests.getLogin(account,password);
+            overridePendingTransition(R.anim.loading_activity_anim_in, R.anim.loading_activity_anim_out);
+        } else {
+            HttpRequest<User> request = Requests.getLogin(account, password);
             HttpManager.getInstance().post(this, new JsonHttpHandler<User>(request) {
 
                 @Override
@@ -49,14 +60,9 @@ public class LoadingActivity extends BaseActivity {
                 @Override
                 public void onFinish() {
                     super.onFinish();
-                    new Handler().postDelayed(new Runnable() {
-                        @Override
-                        public void run() {
-                            to(MainActivity.class);
-                            overridePendingTransition(R.anim.loading_activity_anim_in,R.anim.loading_activity_anim_out);
-                            finish();
-                        }
-                    },1000);
+                    to(MainActivity.class);
+                    finish();
+                    overridePendingTransition(R.anim.loading_activity_anim_in, R.anim.loading_activity_anim_out);
                 }
             });
 

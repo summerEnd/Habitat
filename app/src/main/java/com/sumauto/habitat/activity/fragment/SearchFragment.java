@@ -12,6 +12,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.sumauto.habitat.activity.AddressBookActivity;
+import com.sumauto.habitat.activity.BaseActivity;
 import com.sumauto.habitat.activity.SearchActivity;
 import com.sumauto.util.DisplayUtil;
 import com.sumauto.habitat.R;
@@ -36,7 +37,7 @@ public class SearchFragment extends ListFragment {
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         rv_search_list = (RecyclerView) view.findViewById(R.id.rv_search_list);
-        rv_search_list.setAdapter(new SearchFragmentAdapter());
+        rv_search_list.setAdapter(new SearchFragmentAdapter((BaseActivity) getActivity()));
         rv_search_list.addItemDecoration(new RecyclerView.ItemDecoration() {
             @Override
             public void getItemOffsets(Rect outRect, View view, RecyclerView parent, RecyclerView.State state) {

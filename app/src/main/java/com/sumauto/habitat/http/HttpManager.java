@@ -31,6 +31,7 @@ public class HttpManager {
 
     private HttpManager() {
         client.setTimeout(20 * 1000);
+        client.setLoggingEnabled(true);
         syncHttpClient.setTimeout(20 * 1000);
     }
 

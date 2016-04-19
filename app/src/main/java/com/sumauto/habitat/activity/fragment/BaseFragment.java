@@ -1,5 +1,7 @@
 package com.sumauto.habitat.activity.fragment;
 
+import android.app.Activity;
+import android.content.Context;
 import android.graphics.Rect;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -21,7 +23,6 @@ public class BaseFragment extends Fragment{
     public void onCreate(Bundle savedInstanceState) {
         TAG=getClass().getSimpleName();
         super.onCreate(savedInstanceState);
-
     }
 
     protected <T extends View> T findViewWithOnClick(View finder,int id,View.OnClickListener l){

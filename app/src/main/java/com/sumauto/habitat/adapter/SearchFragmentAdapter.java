@@ -3,6 +3,7 @@ package com.sumauto.habitat.adapter;
 import android.support.v7.widget.RecyclerView;
 import android.view.ViewGroup;
 
+import com.sumauto.habitat.activity.BaseActivity;
 import com.sumauto.habitat.adapter.holders.SearchHeaderHolder;
 import com.sumauto.habitat.adapter.holders.TrendHolder;
 import com.sumauto.habitat.bean.FeedBean;
@@ -18,11 +19,13 @@ public class SearchFragmentAdapter extends RecyclerView.Adapter {
 
     private ArrayList<FeedBean> beans = new ArrayList<>();
     private SearchHeaderBean mSearchHeader = new SearchHeaderBean();
+    private BaseActivity mActivity;
 
-    public SearchFragmentAdapter() {
+    public SearchFragmentAdapter(BaseActivity activity) {
         for (int i = 0; i < 8; i++) {
             beans.add(new FeedBean());
         }
+        this.mActivity=activity;
     }
 
     @Override
@@ -30,7 +33,7 @@ public class SearchFragmentAdapter extends RecyclerView.Adapter {
         if (viewType == 0) {
             return new SearchHeaderHolder(parent);
         } else {
-            return new TrendHolder(parent);
+            return new TrendHolder(parent,mActivity);
 
         }
     }

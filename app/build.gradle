@@ -5,15 +5,32 @@ def versionMajor = 1
 def versionMinor = 0
 def versionPatch = 0
 def versionBuild = 0
-def propertiesFileName = "app.properties"
+
+def APP_KEY = "5715a08ae0f55a777f000137";
 
 def buildTime() {
     def df = new SimpleDateFormat("yyyyMMddHHmm")
-
     return df.format(new Date())
 }
 
 android {
+
+    compileSdkVersion 23
+    buildToolsVersion '23.0.1'
+
+    defaultConfig {
+        applicationId "com.sumauto.app"
+        minSdkVersion 15
+        targetSdkVersion 23
+        versionName "${versionMajor}.${versionMinor}.${versionPatch}"
+
+        buildConfigField "String", "BUILD_TIME", "\"${buildTime()}\""
+        buildConfigField "String", "APP_KEY", "\"$APP_KEY\""
+        buildConfigField "String", "CHANNEL", "\"\""
+        manifestPlaceholders = [UMENG_CHANNEL_VALUE: APP_KEY]
+    }
+
+
     signingConfigs {
         config {
             storeFile file('habitat.jks')
@@ -22,33 +39,10 @@ android {
             storePassword '123456'
         }
     }
-    compileSdkVersion 23
-    buildToolsVersion '23.0.1'
-    defaultConfig {
-        applicationId "com.sumauto.app"
-        minSdkVersion 15
-        targetSdkVersion 23
-        versionName "${versionMajor}.${versionMinor}.${versionPatch}"
-        buildConfigField "String", "BUILD_TIME", "\"${buildTime()}\""
-        //noinspection GroovyAssignabilityCheck
-        def propertiesFile = file(propertiesFileName)
-        if (!propertiesFile.exists()) {
-            def commentMessage = "put your settings here"
-            ant.propertyfile(file: propertiesFileName, comment: commentMessage) {
-                //the keys added here are invalid, just placeholders to make builds pass
-                entry(key: "host", value: "www.sina.com")
-            }
-        }
-        Properties properties = new Properties();
-        properties.load(new FileInputStream(file(propertiesFileName)));
-        buildConfigField "String", "HOST", "\"${properties.getProperty("host")}\""
-        signingConfig signingConfigs.config
-    }
-    aaptOptions {
-        additionalParameters "--no-version-vectors"
-    }
+
     buildTypes {
         release {
+            signingConfig signingConfigs.config
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
@@ -75,13 +69,15 @@ dependencies {
     //noinspection GroovyAssignabilityCheck
     compile fileTree(dir: 'libs', include: ['*.jar'])
     testCompile 'junit:junit:4.12'
-    compile('com.android.support:design:' + androidSupportVersion,
-            'com.jakewharton:butterknife:7.0.1'
-    )
+    compile('com.android.support:design:23.3.0', 'com.android.support:support-v4:23.3.0')
     compile project(':SLibrary')
-    compile 'com.eftimoff:android-pathview:1.0.8@aar'
-    compile 'com.android.support:support-v4:23.2.1'
+    compile 'com.umeng.analytics:analytics:latest.integration'
+    //compile 'com.eftimoff:android-pathview:1.0.8@aar'
     compile 'jp.wasabeef:blurry:2.0.0'
     compile 'com.bigkoo:pickerview:2.0.8'
     //compile 'cn.finalteam:galleryfinal:1.4.8.7'
+    compile files('libs/mta-sdk-1.6.2.jar')
+    compile files('libs/open_sdk_r5509.jar')
+    compile files('libs/SocialSDK_QQZone_3.jar')
+    compile files('libs/umeng_social_sdk.jar')
 }

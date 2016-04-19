@@ -3,6 +3,7 @@ package com.sumauto.habitat.adapter;
 import android.content.Context;
 import android.view.ViewGroup;
 
+import com.sumauto.habitat.activity.BaseActivity;
 import com.sumauto.habitat.adapter.holders.TrendHolder;
 import com.sumauto.habitat.bean.ArticleEntity;
 import com.sumauto.habitat.http.HttpManager;
@@ -18,14 +19,14 @@ import java.util.List;
 public class TrendAdapter extends LoadMoreAdapter {
     private String commid;
 
-    public TrendAdapter(Context context, String commid) {
+    public TrendAdapter(BaseActivity context, String commid) {
         super(context, new ArrayList<ArticleEntity>());
         this.commid = commid;
     }
 
     @Override
     public BaseHolder onCreateHolder(ViewGroup parent, int viewType) {
-        return new TrendHolder(parent);
+        return new TrendHolder(parent, (BaseActivity) getContext());
     }
 
     @Override

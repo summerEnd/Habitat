@@ -12,41 +12,53 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.sumauto.habitat.R;
-import com.sumauto.habitat.activity.fragment.ListFragment;
+import com.sumauto.habitat.activity.BaseActivity;
 import com.sumauto.habitat.adapter.TrendAdapter;
 import com.sumauto.widget.recycler.DividerDecoration;
 
 
 public class TrendListFragment extends ListFragment {
 
-    private RecyclerView recyclerView;
-    private SwipeRefreshLayout swipe_layout;
-    @Nullable
+    private RecyclerView mRecyclerView;
+    private SwipeRefreshLayout mSwipeLayout;
+    private Callback mCallback;
+
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.recycler_view, container, false);
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        mCallback= (Callback) getActivity();
     }
 
     @Override
-    public void onViewCreated(View view, Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
-        // Set the adapter
-        Context context = view.getContext();
-        recyclerView = (RecyclerView) view.findViewById(R.id.recyclerView);
-        swipe_layout= (SwipeRefreshLayout) view.findViewById(R.id.swipe_layout);
-        recyclerView.setLayoutManager(new LinearLayoutManager(context));
-        TrendAdapter adapter = new TrendAdapter(getActivity(), "2");
-        adapter.setSwipeRefreshLayout(swipe_layout);
-        recyclerView.setAdapter(adapter);
-        recyclerView.addItemDecoration(new DividerDecoration(Color.parseColor("#e5e5e5")));
-        processListBottomMargins(recyclerView);
+    public void onDestroy() {
+        super.onDestroy();
+        mCallback=null;
+    }
 
+    @Nullable
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        View view = inflater.inflate(R.layout.recycler_view, container, false);
+        Context context = view.getContext();
+        mRecyclerView = (RecyclerView) view.findViewById(R.id.recyclerView);
+        mSwipeLayout = (SwipeRefreshLayout) view.findViewById(R.id.swipe_layout);
+        mRecyclerView.setLayoutManager(new LinearLayoutManager(context));
+        TrendAdapter adapter = new TrendAdapter((BaseActivity) getActivity(), mCallback.getComId());
+        adapter.setSwipeRefreshLayout(mSwipeLayout);
+        mRecyclerView.setAdapter(adapter);
+        mRecyclerView.addItemDecoration(new DividerDecoration(Color.parseColor("#e5e5e5")));
+        processListBottomMargins(mRecyclerView);
+        return view;
     }
 
     @Override
     public void scrollToPosition(int position) {
-        if (recyclerView!=null){
-            recyclerView.scrollToPosition(position);
+        if (mRecyclerView !=null){
+            mRecyclerView.scrollToPosition(position);
         }
+    }
+
+    public interface Callback{
+        String getComId();
     }
 }

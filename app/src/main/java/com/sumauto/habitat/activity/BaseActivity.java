@@ -12,6 +12,7 @@ import android.widget.TextView;
 
 import com.sumauto.common.SystemStatusManager;
 import com.sumauto.habitat.R;
+import com.sumauto.habitat.callback.OnActivityResultCallback;
 
 /**
  * Created by Lincoln on 16/3/21.
@@ -20,7 +21,7 @@ import com.sumauto.habitat.R;
 public class BaseActivity extends AppCompatActivity implements View.OnClickListener {
     protected String TAG = getClass().getSimpleName();
     private SystemStatusManager tintManager;
-
+    private OnActivityResultCallback mActivityResultCallback;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -100,5 +101,17 @@ public class BaseActivity extends AppCompatActivity implements View.OnClickListe
 
     public void to(Class<? extends Activity> activityClass){
         startActivity(new Intent(this,activityClass));
+    }
+
+    public void setActivityResultCallback(OnActivityResultCallback mActivityResultCallback) {
+        this.mActivityResultCallback = mActivityResultCallback;
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (mActivityResultCallback!=null){
+            mActivityResultCallback.onActivityResult(requestCode, resultCode, data);
+        }
     }
 }
