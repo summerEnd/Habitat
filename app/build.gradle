@@ -19,7 +19,7 @@ android {
     buildToolsVersion '23.0.1'
 
     defaultConfig {
-        applicationId "com.sumauto.app"
+        applicationId "com.sumauto.habitat"
         minSdkVersion 15
         targetSdkVersion 23
         versionName "${versionMajor}.${versionMinor}.${versionPatch}"
@@ -70,9 +70,6 @@ android {
     productFlavors {
     }
 }
-
-
-def androidSupportVersion = "23.0.1"
 
 dependencies {
     //noinspection GroovyAssignabilityCheck

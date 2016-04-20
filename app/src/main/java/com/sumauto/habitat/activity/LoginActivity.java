@@ -15,6 +15,7 @@ import com.sumauto.habitat.http.HttpRequest;
 import com.sumauto.habitat.http.JsonHttpHandler;
 import com.sumauto.habitat.http.Requests;
 import com.sumauto.util.SLog;
+import com.umeng.analytics.social.UMSocialService;
 import com.umeng.socialize.UMShareAPI;
 import com.umeng.socialize.bean.SHARE_MEDIA;
 
@@ -32,7 +33,6 @@ public class LoginActivity extends BaseActivity {
         edit_phone = (EditText) findViewById(R.id.edit_phone);
         edit_password = (EditText) findViewById(R.id.edit_password);
         mUMShareAPI = UMShareAPI.get(this);
-
     }
 
     //登录
