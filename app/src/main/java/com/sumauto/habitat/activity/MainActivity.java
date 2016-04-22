@@ -34,7 +34,6 @@ public class MainActivity extends BaseActivity implements ViewPager.OnPageChange
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         mViewPager = (ViewPager) findViewById(R.id.viewPager);
-        mViewPager.setOffscreenPageLimit(4);
         mViewPager.setAdapter(new FragmentPagerAdapter(getSupportFragmentManager()) {
             @Override
             public Fragment getItem(int position) {
@@ -50,6 +49,7 @@ public class MainActivity extends BaseActivity implements ViewPager.OnPageChange
         mViewPager.addOnPageChangeListener(this);
         mCheckedTab = (CheckableLinearLayout) findViewById(R.id.tab_main_home);
         mCheckedTab.setChecked(true);
+        mViewPager.setOffscreenPageLimit(4);
     }
 
     public void onTabClick(View v) {
@@ -144,7 +144,8 @@ public class MainActivity extends BaseActivity implements ViewPager.OnPageChange
 
     @Override
     public String getComId() {
-        return ((HabitatApp) getApplication()).geUser().getCommid();
+//        return ((HabitatApp) getApplication()).geUser().getCommid();
+        return "1";
     }
 
     @Override

@@ -1,12 +1,14 @@
 package com.sumauto.habitat.bean;
 
+import android.text.TextUtils;
+
 import org.json.JSONObject;
 
 /**
  * Created by Lincoln on 16/4/2.
  * 用户
  */
-public class User {
+public class User{
 
     /**
      * id : 879833
@@ -35,6 +37,8 @@ public class User {
         this.phone=object.optString("phone");
         this.nickname=object.optString("nickname");
         this.headimg=object.optString("headimg");
+        this.commid=object.optString("commid");
+
         return this;
     }
 

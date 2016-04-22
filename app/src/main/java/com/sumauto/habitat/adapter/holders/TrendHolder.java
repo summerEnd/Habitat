@@ -1,6 +1,8 @@
 package com.sumauto.habitat.adapter.holders;
 
 import android.content.Intent;
+import android.databinding.DataBindingUtil;
+import android.databinding.ViewDataBinding;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -9,6 +11,7 @@ import android.widget.TextView;
 import com.sumauto.habitat.activity.BaseActivity;
 import com.sumauto.habitat.callback.OnActivityResultCallback;
 import com.sumauto.habitat.callback.SimpleUMListener;
+import com.sumauto.habitat.http.Requests;
 import com.sumauto.habitat.widget.IosListDialog;
 import com.sumauto.util.SLog;
 import com.sumauto.util.ToastUtil;
@@ -36,6 +39,7 @@ public class TrendHolder extends BaseViewHolder implements View.OnClickListener 
 
     public TrendHolder(ViewGroup parent, BaseActivity activity) {
         super(parent, R.layout.list_item_news_feed);
+        ViewDataBinding bind = DataBindingUtil.bind(itemView);
         mActivity = new WeakReference<>(activity);
         tv_content = (TextView) itemView.findViewById(R.id.tv_content);
         iv_avatar = (ImageView) itemView.findViewById(R.id.iv_avatar);
@@ -51,6 +55,8 @@ public class TrendHolder extends BaseViewHolder implements View.OnClickListener 
         ViewUtil.registerOnClickListener(this, itemView, iv_image, iv_heart, iv_comment, iv_collect, iv_more);
         iv_heart.setImageResource(bean.isAttention() ? R.mipmap.ic_heart_checked : R.mipmap.ic_heart);
         iv_collect.setImageResource(bean.isCollection() ? R.mipmap.ic_collect_checked : R.mipmap.ic_collect);
+        ViewDataBinding binding = DataBindingUtil.getBinding(itemView);
+        binding.invalidateAll();
     }
 
     @Override
@@ -66,6 +72,7 @@ public class TrendHolder extends BaseViewHolder implements View.OnClickListener 
                 break;
             }
             case R.id.iv_heart: {
+//                Requests.niceSubject("")
                 if (feedBean.isAttention()) {
                     iv_heart.setImageResource(R.mipmap.ic_heart);
                     feedBean.setIsAttention(false);

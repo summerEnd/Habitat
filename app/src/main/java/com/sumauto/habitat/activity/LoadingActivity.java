@@ -2,7 +2,6 @@ package com.sumauto.habitat.activity;
 
 import android.os.Bundle;
 import android.os.Handler;
-import android.os.Process;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.ImageView;
@@ -15,6 +14,7 @@ import com.sumauto.habitat.http.HttpManager;
 import com.sumauto.habitat.http.HttpRequest;
 import com.sumauto.habitat.http.JsonHttpHandler;
 import com.sumauto.habitat.http.Requests;
+import com.sumauto.habitat.widget.LoadingDialog;
 
 /**
  * Created by Lincoln on 16/4/2.
@@ -29,18 +29,18 @@ public class LoadingActivity extends BaseActivity {
         imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
         imageView.setSystemUiVisibility(View.SYSTEM_UI_FLAG_HIDE_NAVIGATION);
         setContentView(imageView);
-        new Handler().postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                //enter();
-            }
-        }, 0);
     }
 
     @Override
     protected void onStart() {
         super.onStart();
-        to(LoginActivity.class);
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                enter();
+            }
+        }, 0);
+        showLoadingDialog();
     }
 
     void enter() {
@@ -49,7 +49,7 @@ public class LoadingActivity extends BaseActivity {
 
         if (BuildConfig.USE_DEMO_USER){
             account="18652947363";
-            password="123456";
+            password="1234567";
         }else{
             account = HabitatApp.getInstance().getAccount();
             password = HabitatApp.getInstance().getPassword();
@@ -65,18 +65,17 @@ public class LoadingActivity extends BaseActivity {
 
                 @Override
                 public void onSuccess(HttpResponse response, HttpRequest<User> request, User user) {
-                    HabitatApp.getInstance().setUser(user);
                 }
 
                 @Override
                 public void onFinish() {
                     super.onFinish();
+                    dismissLoadingDialog();
                     to(MainActivity.class);
                     finish();
                     overridePendingTransition(R.anim.loading_activity_anim_in, R.anim.loading_activity_anim_out);
                 }
             });
-
         }
     }
 }

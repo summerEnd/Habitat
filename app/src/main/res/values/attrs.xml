@@ -11,4 +11,5 @@
     <declare-styleable name="SmsButton">
         <attr name="maxTime" format="integer"/>
     </declare-styleable>
+    <attr name="imageUrl" format="string"/>
 </resources>

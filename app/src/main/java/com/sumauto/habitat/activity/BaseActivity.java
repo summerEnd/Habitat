@@ -3,6 +3,7 @@ package com.sumauto.habitat.activity;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -15,6 +16,7 @@ import com.sumauto.habitat.HabitatApp;
 import com.sumauto.habitat.R;
 import com.sumauto.habitat.bean.User;
 import com.sumauto.habitat.callback.OnActivityResultCallback;
+import com.sumauto.habitat.widget.LoadingDialog;
 
 /**
  * Created by Lincoln on 16/3/21.
@@ -24,6 +26,8 @@ public class BaseActivity extends AppCompatActivity implements View.OnClickListe
     protected String TAG = getClass().getSimpleName();
     private SystemStatusManager tintManager;
     private OnActivityResultCallback mActivityResultCallback;
+    private LoadingDialog mLoadingDialog;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -34,6 +38,17 @@ public class BaseActivity extends AppCompatActivity implements View.OnClickListe
         tintManager.setStatusBarTintResource(R.drawable.titleBarBackground);
     }
 
+    public void showLoadingDialog(){
+        if (mLoadingDialog==null){
+            mLoadingDialog=new LoadingDialog();
+        }
+        mLoadingDialog.show(getSupportFragmentManager(),"load");
+    }
+
+    public void dismissLoadingDialog(){
+        if (mLoadingDialog!=null)
+            mLoadingDialog.dismiss();
+    }
 
     public SystemStatusManager getTintManager() {
         return tintManager;
@@ -72,12 +87,6 @@ public class BaseActivity extends AppCompatActivity implements View.OnClickListe
 
     }
 
-//    @Override
-//    public void onClick(View v) {
-//        switch (v.getId()){
-//            case R.id.haha:{break;}
-//        }
-//    }
     @Override
     public void onClick(View v) {
 

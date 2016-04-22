@@ -23,12 +23,12 @@ public class TrendListFragment extends ListFragment {
     private SwipeRefreshLayout mSwipeLayout;
     private Callback mCallback;
 
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mCallback= (Callback) getActivity();
     }
-
     @Override
     public void onDestroy() {
         super.onDestroy();

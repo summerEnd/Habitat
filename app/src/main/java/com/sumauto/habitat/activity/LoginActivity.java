@@ -39,6 +39,7 @@ public class LoginActivity extends BaseActivity {
     public void onLoginClick(View v) {
         final String phone = edit_phone.getText().toString();
         final String pwd = edit_password.getText().toString();
+        showLoadingDialog();
         HttpManager.getInstance().post(this, new JsonHttpHandler<User>(Requests.getLogin(phone, pwd)) {
             @Override
             public void onSuccess(HttpResponse response, HttpRequest<User> request, User user) {
@@ -47,17 +48,24 @@ public class LoginActivity extends BaseActivity {
                 HabitatApp.getInstance().setAccount(phone);
                 finish();
             }
+
+            @Override
+            public void onFinish() {
+                super.onFinish();
+                dismissLoadingDialog();
+            }
         });
 
     }
 
     //忘记密码
     public void onForgetPasswordClick(View v) {
-        //to(ForgetPassword.class);
+        to(ForgetPassword.class);
     }
 
     //注册
     public void onRegisterClick(View v) {
+        to(RegisterActivity.class);
     }
 
     //微信点击
