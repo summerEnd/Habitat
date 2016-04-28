@@ -10,6 +10,7 @@ import android.view.ViewGroup;
 
 import com.sumauto.habitat.R;
 import com.sumauto.habitat.activity.EditUserInfoActivity;
+import com.sumauto.habitat.activity.SettingActivity;
 
 
 /**
@@ -55,6 +56,7 @@ public class MineFragment extends BaseFragment implements View.OnClickListener{
                 break;
             }
             case R.id.vg_setting:{
+                startActivity(new Intent(getActivity(), SettingActivity.class));
                 break;
             }
         }

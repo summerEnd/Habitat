@@ -1,5 +1,8 @@
 package com.sumauto.habitat.activity;
 
+import android.accounts.Account;
+import android.accounts.AccountManager;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -44,8 +47,8 @@ public class LoginActivity extends BaseActivity {
             @Override
             public void onSuccess(HttpResponse response, HttpRequest<User> request, User user) {
                 to(MainActivity.class);
-                HabitatApp.getInstance().setPassword(pwd);
-                HabitatApp.getInstance().setAccount(phone);
+                AccountManager manager= (AccountManager) getSystemService(Context.ACCOUNT_SERVICE);
+                manager.addAccountExplicitly(new Account(phone,getString(R.string.account_type)),pwd,null);
                 finish();
             }
 

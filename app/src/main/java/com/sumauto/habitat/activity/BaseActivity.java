@@ -16,7 +16,10 @@ import com.sumauto.habitat.HabitatApp;
 import com.sumauto.habitat.R;
 import com.sumauto.habitat.bean.User;
 import com.sumauto.habitat.callback.OnActivityResultCallback;
+import com.sumauto.habitat.callback.ViewId;
 import com.sumauto.habitat.widget.LoadingDialog;
+
+import java.lang.reflect.Field;
 
 /**
  * Created by Lincoln on 16/3/21.
@@ -38,15 +41,15 @@ public class BaseActivity extends AppCompatActivity implements View.OnClickListe
         tintManager.setStatusBarTintResource(R.drawable.titleBarBackground);
     }
 
-    public void showLoadingDialog(){
-        if (mLoadingDialog==null){
-            mLoadingDialog=new LoadingDialog();
+    public void showLoadingDialog() {
+        if (mLoadingDialog == null) {
+            mLoadingDialog = new LoadingDialog();
         }
-        mLoadingDialog.show(getSupportFragmentManager(),"load");
+        mLoadingDialog.show(getSupportFragmentManager(), "load");
     }
 
-    public void dismissLoadingDialog(){
-        if (mLoadingDialog!=null)
+    public void dismissLoadingDialog() {
+        if (mLoadingDialog != null)
             mLoadingDialog.dismiss();
     }
 
@@ -95,33 +98,52 @@ public class BaseActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     public void setContentView(int layoutResID) {
         super.setContentView(layoutResID);
-        initToolBar();
+        init();
     }
 
     @Override
     public void setContentView(View view) {
         super.setContentView(view);
-        initToolBar();
+        init();
     }
 
     @Override
     public void setContentView(View view, ViewGroup.LayoutParams params) {
         super.setContentView(view, params);
-        initToolBar();
+        init();
     }
 
-    public void to(Class<? extends Activity> activityClass){
-        startActivity(new Intent(this,activityClass));
+    private void init() {
+        initToolBar();
+        Field[] declaredFields = getClass().getDeclaredFields();
+        for (Field field : declaredFields) {
+            ViewId annotation = field.getAnnotation(ViewId.class);
+            if (annotation == null) continue;
+            int value = annotation.value();
+            try {
+                field.set(this, findViewById(value));
+            } catch (IllegalAccessException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    public void to(Class<? extends Activity> activityClass) {
+        startActivity(new Intent(this, activityClass));
     }
 
     public void setActivityResultCallback(OnActivityResultCallback mActivityResultCallback) {
         this.mActivityResultCallback = mActivityResultCallback;
     }
 
+    protected String string(TextView textView){
+        return textView.getText().toString().trim();
+    }
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (mActivityResultCallback!=null){
+        if (mActivityResultCallback != null) {
             mActivityResultCallback.onActivityResult(requestCode, resultCode, data);
         }
     }

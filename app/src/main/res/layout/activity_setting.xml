@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v7.widget.LinearLayoutCompat
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    app:divider="@drawable/line"
+    app:showDividers="middle|end"
+    android:orientation="vertical"
+    tools:ignore="UseCompoundDrawables"
+    tools:context="com.sumauto.habitat.activity.SettingActivity">
+
+    <android.support.v7.widget.Toolbar
+        style="@style/toolBarStyle">
+
+        <TextView
+            style="@style/toolbar_back_button"/>
+
+        <TextView
+            style="@style/toolbar_title_style"
+            />
+
+    </android.support.v7.widget.Toolbar>
+    <LinearLayout
+        android:id="@+id/vg_my_collect"
+        style="@style/mine_click_item">
+
+        <TextView
+            style="@style/mine_click_item_text"
+            android:text="@string/my_collect"/>
+
+        <ImageView
+            style="@style/mine_click_item_arrow"/>
+    </LinearLayout>
+    <LinearLayout
+        android:onClick="onChangePassword"
+        style="@style/mine_click_item">
+
+        <TextView
+            style="@style/mine_click_item_text"
+            android:text="@string/change_password"/>
+
+        <ImageView
+            style="@style/mine_click_item_arrow"/>
+    </LinearLayout>
+    <LinearLayout
+        android:onClick="onUpdateVersion"
+        style="@style/mine_click_item">
+
+        <TextView
+            style="@style/mine_click_item_text"
+            android:text="@string/update_version"/>
+        <TextView
+            android:layout_marginRight="@dimen/dimen_13"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/textGray"
+            android:textSize="@dimen/text_12"
+            android:text="@string/versionName"/>
+        <ImageView
+            style="@style/mine_click_item_arrow"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_marginTop="@dimen/dimen_13"
+        android:onClick="onInviteFriends"
+        style="@style/mine_click_item">
+
+        <TextView
+            style="@style/mine_click_item_text"
+            android:text="@string/invite_friends"/>
+
+        <ImageView
+            style="@style/mine_click_item_arrow"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:onClick="onBlackListClick"
+        style="@style/mine_click_item">
+
+        <TextView
+            style="@style/mine_click_item_text"
+            android:text="@string/invite_friends"/>
+
+        <ImageView
+            style="@style/mine_click_item_arrow"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_marginTop="@dimen/dimen_13"
+        android:onClick="onClearCache"
+        style="@style/mine_click_item">
+
+        <TextView
+            style="@style/mine_click_item_text"
+            android:text="@string/clear_cache"/>
+        <TextView
+            android:id="@+id/tv_cache_size"
+            android:layout_marginRight="@dimen/dimen_13"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/textGray"
+            android:textSize="@dimen/text_12"
+            android:text="@string/versionName"/>
+        <ImageView
+            style="@style/mine_click_item_arrow"/>
+    </LinearLayout>
+</android.support.v7.widget.LinearLayoutCompat>

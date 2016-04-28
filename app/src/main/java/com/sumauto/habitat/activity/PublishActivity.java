@@ -2,16 +2,37 @@ package com.sumauto.habitat.activity;
 
 import android.content.Intent;
 import android.graphics.Rect;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 
+import com.loopj.android.http.AsyncHttpClient;
+import com.loopj.android.http.FileAsyncHttpResponseHandler;
+import com.loopj.android.http.RequestParams;
+import com.loopj.android.http.TextHttpResponseHandler;
+import com.sumauto.habitat.http.HttpManager;
+import com.sumauto.habitat.http.HttpRequest;
+import com.sumauto.habitat.http.JsonHttpHandler;
+import com.sumauto.habitat.http.Requests;
 import com.sumauto.util.DisplayUtil;
 import com.sumauto.habitat.R;
 import com.sumauto.habitat.adapter.PublishImageAdapter;
 import com.sumauto.habitat.widget.IosListDialog;
+
+import org.json.JSONException;
+
+import java.io.File;
+import java.io.FileFilter;
+import java.io.FileNotFoundException;
+import java.net.URI;
+import java.net.URISyntaxException;
+import java.util.List;
+
+import cz.msebera.android.httpclient.Header;
 
 public class PublishActivity extends BaseActivity {
 
@@ -35,15 +56,15 @@ public class PublishActivity extends BaseActivity {
             @Override
             public void onMeasure(RecyclerView.Recycler recycler, RecyclerView.State state, int widthSpec, int heightSpec) {
                 //super.onMeasure(recycler, state, widthSpec, heightSpec);
-                int itemPadding=mImagePaddings*2;
+                int itemPadding = mImagePaddings * 2;
                 int width = View.MeasureSpec.getSize(widthSpec);
-                int itemWidth = (width - getPaddingLeft() - getPaddingRight() - itemPadding * getSpanCount())/getSpanCount();
+                int itemWidth = (width - getPaddingLeft() - getPaddingRight() - itemPadding * getSpanCount()) / getSpanCount();
                 int height = itemWidth + itemPadding;
 
                 if (getItemCount() > getSpanCount()) {
                     height *= 2;
                 }
-                setMeasuredDimension(width, height+getPaddingTop()+getPaddingBottom());
+                setMeasuredDimension(width, height + getPaddingTop() + getPaddingBottom());
 
             }
         });
@@ -100,15 +121,18 @@ public class PublishActivity extends BaseActivity {
     }
 
     private void startPhotoActivity() {
-        PhotoActivity.start(PublishActivity.this, 300, 300, 100);
+        PhotoActivity.start(PublishActivity.this, 700, 700, 100);
     }
 
 
     @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+    protected void onActivityResult(int requestCode, int resultCode, final Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (resultCode == RESULT_OK) {
-            adapter.addImage(data.getData());
+            List<Uri> uris = PhotoActivity.handleResult(data);
+            for (Uri uri : uris) {
+                adapter.addImage(this, uri);
+            }
         }
     }
 }

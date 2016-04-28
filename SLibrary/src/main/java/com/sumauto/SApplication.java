@@ -11,6 +11,7 @@ import com.nostra13.universalimageloader.cache.memory.impl.LruMemoryCache;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 import com.nostra13.universalimageloader.core.assist.QueueProcessingType;
+import com.sp.lib.R;
 import com.sumauto.exception.ExceptionHandler;
 import com.sumauto.exception.LibraryInitException;
 import com.sumauto.common.AppInfo;

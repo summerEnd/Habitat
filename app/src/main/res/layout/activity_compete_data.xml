@@ -15,6 +15,9 @@
         <TextView
             style="@style/toolbar_title_style"
             android:text="@string/complete_data"/>
+
+        <TextView android:onClick="onSaveClick" style="@style/toolBar_clickedItem" android:text="@string/save"/>
+
     </android.support.v7.widget.Toolbar>
 
     <View style="@style/horizontal_line"/>

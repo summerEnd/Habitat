@@ -5,6 +5,8 @@ import android.util.AttributeSet;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.sp.lib.R;
+
 /**
  * 自动换行布局
  */

@@ -77,4 +77,10 @@
     <string name="register_">注 册</string>
     <string name="hint_new_password">请输入新密码</string>
     <string name="find_password">找回密码</string>
+    <string name="save">保存</string>
+    <string name="change_password">修改密码</string>
+    <string name="update_version">版本更新</string>
+    <string name="invite_friends">邀请好友</string>
+    <string name="clear_cache">清理缓存</string>
+    <string name="account_type">com.sumauto.habitat.accountType</string>
 </resources>

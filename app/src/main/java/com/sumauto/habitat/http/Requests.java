@@ -1,5 +1,7 @@
 package com.sumauto.habitat.http;
 
+import android.accounts.AccountManager;
+
 import com.loopj.android.http.RequestParams;
 import com.sumauto.util.JsonUtil;
 import com.sumauto.habitat.HabitatApp;
@@ -9,6 +11,8 @@ import com.sumauto.habitat.bean.User;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.File;
+import java.io.FileNotFoundException;
 import java.util.List;
 
 /*
@@ -19,8 +23,27 @@ import java.util.List;
  */
 public class Requests {
     private static final String HOST = "http://120.76.138.41/qixidi/Api/";
+    public static HttpRequest<String> getUploadUrl(final File file){
+        return new SimpleHttpRequest<String>("uploadImg") {
+            @Override
+            public String parser(String jsonString) throws JSONException {
+                return "";
+            }
 
+            @Override
+            public RequestParams getRequestParams() {
 
+                RequestParams params= new RequestParams();
+                params.put("uid",HabitatApp.getInstance().geUser().getId());
+                try {
+                    params.put("image",file);
+                } catch (FileNotFoundException e) {
+                    e.printStackTrace();
+                }
+                return params;
+            }
+        };
+    }
     /**
      * 参数说明：
      * commid：用户所在社区的社区ID
@@ -107,13 +130,13 @@ public class Requests {
      * olduserpwd:用户填写的原登录密码
      * newuserpwd:用户填写的新的登录密码
      */
-    public static HttpRequest<?> getChangePwd(String olduserpwd, String newuserpwd) {
+    public static HttpRequest<String> getChangePwd(String olduserpwd, String newuserpwd) {
         String id = HabitatApp.getInstance().geUser().getId();
-        return new SimpleHttpRequest<Object>("getChangePwd",
+        return new SimpleHttpRequest<String>("getChangePwd",
                 "uid", id, "olduserpwd", olduserpwd, "newuserpwd", newuserpwd) {
             @Override
-            public Object parser(String jsonString) throws JSONException {
-                return null;
+            public String parser(String jsonString) throws JSONException {
+                return "";
             }
         };
     }
@@ -123,13 +146,13 @@ public class Requests {
      * uid:用户编号
      * Headimg:用户头像的base64加密后的密文
      */
-    public static HttpRequest<?> setHeadImg(String img) {
+    public static HttpRequest<String> setHeadImg(String img) {
         String id = HabitatApp.getInstance().geUser().getId();
-        return new SimpleHttpRequest<Object>("setHeadImg",
+        return new SimpleHttpRequest<String>("setHeadImg",
                 "uid", id, "Headimg", img) {
             @Override
-            public Object parser(String jsonString) throws JSONException {
-                return null;
+            public String parser(String jsonString) throws JSONException {
+                return jsonString;
             }
         };
     }

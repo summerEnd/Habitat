@@ -91,6 +91,8 @@ public class IntentUtils {
         Intent intent = new Intent("com.android.camera.action.CROP");
         intent.setDataAndType(uri, "image/*");
         intent.putExtra("crop", "true");
+        intent.putExtra("aspectX",outputX);
+        intent.putExtra("aspectY",outputY);
         intent.putExtra("outputX", outputX);
         intent.putExtra("outputY", outputY);
         intent.putExtra("scale", true);

@@ -31,7 +31,9 @@ import com.sumauto.widget.recycler.DividerDecoration;
 import com.sumauto.widget.recycler.ItemPaddingDecoration;
 
 import java.io.File;
+import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -40,21 +42,26 @@ public class PhotoActivity extends BaseActivity {
     public static final int CAPTURE = 1001;
     public static final int CROP = 1002;
 
-    TextView mToolBarTitle;
-    RecyclerView mRecyclerView;
-    private FolderListWindow mFolderListWindow;
+    private TextView tv_dirName;//显示文件夹名字
+    private FolderListWindow mFolderListWindow;//文件夹列表弹窗
 
-    private List<Map<String, Object>> mLocaleImages = new ArrayList<>();
-    private List<Map<String, Object>> mFolders;
-    private List<Map<String, Object>> mAdapterData = new ArrayList<>();
-    private String[] mFolderNames;
-    private Adapter mAdapter;
-    private Uri outUri;
-    private int width;
-    private int height;
+    private List<Map<String, Object>> mAppImages = new ArrayList<>();//本应用的图片
+    private List<Map<String, Object>> mFolders;//文件夹集合
+    private Adapter mPicturesAdapter;//照片列表adapter
+    private Uri mOutUri;//输出uri
+    private int mOutWidth;//输出宽度
+    private int mOutHeight;//输出高度
 
-    private File IMAGES_DIR;
+    private File CAPTURE_SAVE_DIR;//本app拍照保存的目录
 
+    /**
+     * 图片的uri为onActivityResult的intent.getData()
+     *
+     * @param context     启动的Activity
+     * @param width       图片宽
+     * @param height      图片高
+     * @param requestCode onActivityResult的参数
+     */
     public static void start(Activity context, int width, int height, int requestCode) {
         Intent starter = new Intent(context, PhotoActivity.class);
         starter.putExtra("width", width);
@@ -62,24 +69,40 @@ public class PhotoActivity extends BaseActivity {
         context.startActivityForResult(starter, requestCode);
     }
 
+    public static List<Uri> handleResult(Intent data){
+        ArrayList<Uri> uris=new ArrayList<>();
+        if (data!=null){
+            if (data.getData()!=null){
+                uris.add(data.getData());
+            }else{
+                Serializable photo_result_images = data.getSerializableExtra("photo_result_images");
+                if (photo_result_images!=null){
+                    //noinspection unchecked
+                    uris.addAll((Collection<? extends Uri>) photo_result_images);
+                }
+            }
+        }
+        return uris;
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.activity_photo);
-        mRecyclerView = (RecyclerView) findViewById(R.id.recyclerView);
-        mToolBarTitle = (TextView) findViewById(R.id.toolBar_title);
+        tv_dirName = (TextView) findViewById(R.id.toolBar_title);
+        RecyclerView mRecyclerView = (RecyclerView) findViewById(R.id.recyclerView);
         mRecyclerView.setLayoutManager(new GridLayoutManager(this, 3));
         mRecyclerView.addItemDecoration(new ItemPaddingDecoration(1, 1, 1, 1));
 
-        mAdapter = new Adapter();
-        mRecyclerView.setAdapter(mAdapter);
-        width = getIntent().getIntExtra("width", 100);
-        height = getIntent().getIntExtra("height", 100);
+        mPicturesAdapter = new Adapter();
+        mRecyclerView.setAdapter(mPicturesAdapter);
+        mOutWidth = getIntent().getIntExtra("width", 100);
+        mOutHeight = getIntent().getIntExtra("height", 100);
 
         initDirs();
 
-        mToolBarTitle.setOnClickListener(new View.OnClickListener() {
+        tv_dirName.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (mFolderListWindow == null)
@@ -90,15 +113,30 @@ public class PhotoActivity extends BaseActivity {
             }
         });
 
+        findViewById(R.id.btn_publish).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                returnData();
+            }
+        });
+
+    }
+
+    private void returnData() {
+        Intent intent = getIntent();
+        intent.putExtra("photo_result_images", mPicturesAdapter.selectedUris);
+        setResult(RESULT_OK, intent);
+        finish();
     }
 
     private void initDirs() {
         //加载本程序拍摄的照片
-        IMAGES_DIR = new File(getFilesDir(), "my_photos");
-        loadImages(IMAGES_DIR);
+        CAPTURE_SAVE_DIR = new File(getFilesDir(), "my_photos");
+        loadImages(CAPTURE_SAVE_DIR);
         if (Environment.MEDIA_MOUNTED.equals(Environment.getExternalStorageState())) {
-            IMAGES_DIR = new File(getExternalFilesDir(Environment.DIRECTORY_PICTURES), "my_photos");
-            loadImages(IMAGES_DIR);
+            CAPTURE_SAVE_DIR = new File(getExternalFilesDir(Environment.DIRECTORY_PICTURES), "my_photos");
+            loadImages(CAPTURE_SAVE_DIR);
         }
 
         //加载系统图片
@@ -109,11 +147,11 @@ public class PhotoActivity extends BaseActivity {
         for (Map<String, Object> map : mFolders) {
             itemsArray.add(map.get(MediaStore.Images.Media.BUCKET_DISPLAY_NAME).toString());
         }
-        mFolderNames = new String[itemsArray.size()];
+        String[] mFolderNames = new String[itemsArray.size()];
         itemsArray.toArray(mFolderNames);
-        if (mLocaleImages.size()>0){
-            displayFolder(getString(R.string.app_name), mLocaleImages);
-        }else{
+        if (mAppImages.size() > 0) {
+            displayFolder(getString(R.string.app_name), mAppImages);
+        } else {
             displayFolder(mFolderNames[0], ImageUtil.listPhotos(this, mFolderNames[0]));
         }
     }
@@ -128,7 +166,7 @@ public class PhotoActivity extends BaseActivity {
                 for (File f : files) {
                     Map<String, Object> photo = new HashMap<>();
                     photo.put(MediaStore.Images.Media.DATA, f.getAbsolutePath());
-                    mLocaleImages.add(photo);
+                    mAppImages.add(photo);
                 }
             }
         }
@@ -140,17 +178,15 @@ public class PhotoActivity extends BaseActivity {
      * @param folderName 目录名称
      */
     private void displayFolder(String folderName, List<Map<String, Object>> photos) {
-        mToolBarTitle.setText(folderName);
-        mAdapterData.clear();
-        mAdapterData.addAll(photos);
-        mAdapter.notifyDataSetChanged();
+        tv_dirName.setText(folderName);
+        mPicturesAdapter.reload(photos);
     }
 
     private Uri getSaveFileUri() {
-        if (outUri == null) {
-            outUri = Uri.fromFile(new File(IMAGES_DIR, SystemClock.uptimeMillis() + ".png"));
+        if (mOutUri == null) {
+            mOutUri = Uri.fromFile(new File(CAPTURE_SAVE_DIR, SystemClock.uptimeMillis() + ".png"));
         }
-        return outUri;
+        return mOutUri;
     }
 
     @Override
@@ -161,7 +197,7 @@ public class PhotoActivity extends BaseActivity {
 
             switch (requestCode) {
                 case CAPTURE: {
-                    startActivityForResult(IntentUtils.cropImageUri(uri, width, height), CROP);
+                    startActivityForResult(IntentUtils.cropImageUri(uri, mOutWidth, mOutHeight), CROP);
                     break;
                 }
                 case CROP: {
@@ -180,31 +216,57 @@ public class PhotoActivity extends BaseActivity {
      */
     class Adapter extends RecyclerView.Adapter<PictureHolder> {
         DisplayImageOptions options;
+        ArrayList<Uri> selectedUris = new ArrayList<>();
+        List<Map<String, Object>> mAdapterData = new ArrayList<>();//当前正在展示的数据集合
 
         public Adapter() {
             options = ImageOptions.options();
         }
 
+        void reload(List<Map<String, Object>> photos) {
+            mAdapterData.clear();
+            mAdapterData.addAll(photos);
+            selectedUris.clear();
+            notifyDataSetChanged();
+        }
+
         @Override
         public PictureHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-            View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.grid_item_photo, parent, false);
+            View itemView = LayoutInflater.from(parent.getContext())
+                    .inflate(R.layout.grid_item_photo, parent, false);
             return new PictureHolder(itemView);
         }
 
         @Override
-        public void onBindViewHolder(PictureHolder holder, int position) {
+        public void onBindViewHolder(final PictureHolder holder, int position) {
             int listPosition = position - 1;
             ImageView imageView = holder.imageView;
             if (listPosition >= 0) {
                 imageView.setBackgroundColor(0);
                 imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
 
-                String uri = (String) mAdapterData.get(listPosition).get(MediaStore.Images.Media.DATA);
-                ImageLoader.getInstance().displayImage(Uri.fromFile(new File(uri)).toString(), imageView, options);
+                Map<String, Object> itemData = mAdapterData.get(listPosition);
+                String path = (String) itemData.get(MediaStore.Images.Media.DATA);
+
+                Uri uri = Uri.fromFile(new File(path));
+                ImageLoader.getInstance().displayImage(uri.toString(), imageView, options);
+
+                holder.imageView.setTag(position);
+                holder.layout_checkedMark.setVisibility(selectedUris.contains(uri)?View.VISIBLE:View.INVISIBLE);
                 holder.imageView.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
+                        int position = (int) v.getTag();
+                        Map<String, Object> itemData = mAdapterData.get(position-1);
+                        String path = (String) itemData.get(MediaStore.Images.Media.DATA);
+                        Uri uri = Uri.fromFile(new File(path));
 
+                        if (selectedUris.contains(uri)) {
+                            selectedUris.remove(uri);
+                        } else {
+                            selectedUris.add(uri);
+                        }
+                        notifyItemChanged(position);
                     }
                 });
             } else {
@@ -228,10 +290,12 @@ public class PhotoActivity extends BaseActivity {
 
     private class PictureHolder extends RecyclerView.ViewHolder {
         ImageView imageView;
+        View layout_checkedMark;
 
         public PictureHolder(View itemView) {
             super(itemView);
             imageView = (ImageView) itemView.findViewById(R.id.iv_image);
+            layout_checkedMark = itemView.findViewById(R.id.layout_checkedMark);
         }
     }
 
@@ -263,10 +327,10 @@ public class PhotoActivity extends BaseActivity {
         @Override
         public void onBindViewHolder(FolderHolder holder, int position) {
             if (position == 0) {
-                holder.tv_photo_count.setText(String.valueOf(mLocaleImages.size()));
+                holder.tv_photo_count.setText(String.valueOf(mAppImages.size()));
                 holder.tv_folder_name.setText(R.string.app_name);
             } else {
-                Map<String, Object> folder = mFolders.get(position-1);
+                Map<String, Object> folder = mFolders.get(position - 1);
                 holder.tv_folder_name.setText(folder.get(MediaStore.Images.Media.BUCKET_DISPLAY_NAME).toString());
                 holder.tv_photo_count.setText(folder.get(MediaStore.Images.Media._COUNT).toString());
             }
@@ -294,7 +358,7 @@ public class PhotoActivity extends BaseActivity {
                     String folderName = tv_folder_name.getText().toString();
 
                     if (getAdapterPosition() == 0) {
-                        displayFolder(folderName, mLocaleImages);
+                        displayFolder(folderName, mAppImages);
                     } else {
                         displayFolder(folderName, ImageUtil.listPhotos(PhotoActivity.this, folderName));
                     }

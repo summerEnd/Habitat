@@ -60,4 +60,8 @@ public class HttpManager {
             syncHttpClient.post(context, url, params, httpHandler);
         }
     }
+
+    public AsyncHttpClient getClient() {
+        return client;
+    }
 }

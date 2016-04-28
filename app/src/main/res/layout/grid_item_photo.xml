@@ -3,12 +3,28 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    app:layout_width_units="1"
+    xmlns:tools="http://schemas.android.com/tools"
+    app:layout_width_units="100"
+    app:layout_height_units="100"
     android:layout_height="match_parent"
     android:orientation="vertical">
     <ImageView
+        tools:src="@drawable/test_image_01"
         android:id="@+id/iv_image"
         android:scaleType="centerCrop"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"/>
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
+    <FrameLayout
+        android:id="@+id/layout_checkedMark"
+        android:background="#4000"
+        android:visibility="invisible"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <ImageView
+            android:layout_gravity="right|top"
+            android:layout_margin="@dimen/dimen_13"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@mipmap/ic_mark_checked"/>
+    </FrameLayout>
 </com.sumauto.widget.SupperLayout>

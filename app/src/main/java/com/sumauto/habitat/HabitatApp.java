@@ -71,20 +71,4 @@ public class HabitatApp extends SApplication {
         editor.commit();
         this.mUser = user;
     }
-
-    public String getPassword() {
-        return getSharedPreferences(PREF_NAME, MODE_PRIVATE).getString("password", "");
-    }
-
-    public void setPassword(String password) {
-        getSharedPreferences(PREF_NAME, MODE_PRIVATE).edit().putString("password", password).apply();
-    }
-
-    public String getAccount() {
-        return getSharedPreferences(PREF_NAME, MODE_PRIVATE).getString("account", "");
-    }
-
-    public void setAccount(String account) {
-        getSharedPreferences(PREF_NAME, MODE_PRIVATE).edit().putString("account", account).apply();
-    }
 }

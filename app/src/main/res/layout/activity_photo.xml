@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     tools:context=".activity.PhotoActivity">
 
@@ -24,6 +25,7 @@
             android:textColor="@color/white"/>
 
         <TextView
+            android:id="@+id/btn_publish"
             style="@style/toolBar_clickedItem"
             android:layout_gravity="right"
             android:text="立即发布"
@@ -33,6 +35,9 @@
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/recyclerView"
+        app:spanCount="3"
+        app:layoutManager="GridLayoutManager"
+        tools:listitem="@layout/grid_item_photo"
         android:layout_width="match_parent"
         android:layout_height="match_parent"/>
 
