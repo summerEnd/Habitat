@@ -3,6 +3,7 @@ package com.sumauto.habitat;
 import android.accounts.Account;
 import android.accounts.AccountManager;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.text.TextUtils;
 import android.util.Log;
 
@@ -91,6 +92,10 @@ public class HabitatApp extends SApplication {
         manager.setPassword(loginAccount, password);
     }
 
+    /**
+     * @return 当前登录账号，没登录就返回null
+     */
+    @Nullable
     public Account getLoginAccount(){
         String uid = getSharedPreferences(PREFERANCE_NAME, MODE_PRIVATE).getString("last_login", "");
         AccountManager manager = (AccountManager) getSystemService(ACCOUNT_SERVICE);
@@ -103,6 +108,10 @@ public class HabitatApp extends SApplication {
         }
 
         return null;
+    }
+
+    public boolean isLogin(){
+        return getLoginAccount()!=null;
     }
 
     public String getUserData(String key){

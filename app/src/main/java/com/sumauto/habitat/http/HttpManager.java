@@ -41,10 +41,13 @@ public class HttpManager {
     }
 
     public void post(Context context, JsonHttpHandler httpHandler) {
-        post(context, httpHandler.getUrl(), httpHandler.getRequestParams(), httpHandler);
+        post(context, httpHandler.getUrl(), httpHandler.getRequestParams(), httpHandler,true);
+    }
+    public void postSync(Context context,JsonHttpHandler httpHandler){
+        post(context, httpHandler.getUrl(), httpHandler.getRequestParams(), httpHandler,false);
     }
 
-    private void post(Context context, String url, RequestParams params, HttpHandler httpHandler) {
+    private void post(Context context, String url, RequestParams params, HttpHandler httpHandler,boolean async) {
 
         String time = String.valueOf(System.currentTimeMillis());
         String uuid = SUtils.getUUID(context);

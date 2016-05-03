@@ -24,7 +24,7 @@ import java.util.List;
 
 public class SApplication extends Application {
     //锁屏的时间间隔
-    private final int BACK_DURATION = 1000;
+    private static final int BACK_DURATION = 1000;
     public static Context CONTEXT;
     @Override
     public void onCreate() {
@@ -63,24 +63,6 @@ public class SApplication extends Application {
         ImageLoader.getInstance().init(config);
     }
 
-    /**
-     * 清除Slib的所有缓存
-     */
-    public final void clearCache() {
-        CacheManager.clearAll();
-        ImageLoader.getInstance().clearDiskCache();
-    }
-
-    /**
-     * 注意：Slib的缓存是放在Context.getCacheDir()目录下的。
-     * 如果计算整个应用的缓存，要用{@link FileUtil#getSize(File)} 传入context.getCacheDir();
-     *
-     * @return Slib缓存的大小
-     */
-    public final long getCacheSize(Context context) {
-
-        return FileUtil.getSize(context.getCacheDir()) + CacheManager.getCacheSize();
-    }
 
     /**
      * app是否在前台运行

@@ -1,21 +1,18 @@
 package com.sumauto.habitat.http;
 
-import android.accounts.AccountManager;
 import android.os.Bundle;
-import android.text.TextUtils;
 
 import com.loopj.android.http.RequestParams;
-import com.sumauto.util.JsonUtil;
 import com.sumauto.habitat.HabitatApp;
-import com.sumauto.habitat.bean.ArticleEntity;
+import com.sumauto.habitat.bean.FeedBean;
 import com.sumauto.habitat.bean.User;
+import com.sumauto.util.JsonUtil;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 
@@ -62,13 +59,13 @@ public class Requests {
      * pageid:分页起始页数（首页已经加载了pageid=0的前3条，所以此时调用pageid从1开始）
      * pagesize：每页显示数据的数量（pagesize默认为3）
      */
-    public static HttpRequest<List<ArticleEntity>> getCommunity(String commid, int page, int pageSize) {
-        return new SimpleHttpRequest<List<ArticleEntity>>("getCommunity",
+    public static HttpRequest<List<FeedBean>> getCommunity(String commid, int page, int pageSize) {
+        return new SimpleHttpRequest<List<FeedBean>>("getCommunity",
                 "commid", commid, "pageid", page, "pagesize", pageSize) {
 
             @Override
-            public List<ArticleEntity> parser(String jsonString) throws JSONException {
-                return JsonUtil.getArray(new JSONObject(jsonString).getJSONArray("articlelist"), ArticleEntity.class);
+            public List<FeedBean> parser(String jsonString) throws JSONException {
+                return JsonUtil.getArray(new JSONObject(jsonString).getJSONArray("articlelist"), FeedBean.class);
             }
         };
     }
@@ -141,7 +138,7 @@ public class Requests {
      * newuserpwd:用户填写的新的登录密码
      */
     public static HttpRequest<String> getChangePwd(String olduserpwd, String newuserpwd) {
-        String id = HabitatApp.getInstance().getUserData(HabitatApp.ACCOUNT_UID);;
+        String id = HabitatApp.getInstance().getUserData(HabitatApp.ACCOUNT_UID);
         return new SimpleHttpRequest<String>("getChangePwd",
                 "uid", id, "olduserpwd", olduserpwd, "newuserpwd", newuserpwd) {
             @Override
@@ -157,7 +154,7 @@ public class Requests {
      * Headimg:用户头像的base64加密后的密文
      */
     public static HttpRequest<String> setHeadImg(String img) {
-        String id = HabitatApp.getInstance().getUserData(HabitatApp.ACCOUNT_UID);;
+        String id = HabitatApp.getInstance().getUserData(HabitatApp.ACCOUNT_UID);
         return new SimpleHttpRequest<String>("setHeadImg",
                 "uid", id, "Headimg", img) {
             @Override
@@ -171,13 +168,13 @@ public class Requests {
      * uid:用户编号
      * tid:需要收藏的主体编号
      */
-    public static HttpRequest<?> collectSubject(String tid) {
-        String id = HabitatApp.getInstance().getUserData(HabitatApp.ACCOUNT_UID);;
-        return new SimpleHttpRequest<Object>("collectSubject",
+    public static HttpRequest<String> collectSubject(String tid) {
+        String id = HabitatApp.getInstance().getUserData(HabitatApp.ACCOUNT_UID);
+        return new SimpleHttpRequest<String>("collectSubject",
                 "uid", id, "tid", tid) {
             @Override
-            public Object parser(String jsonString) throws JSONException {
-                return null;
+            public String parser(String jsonString) throws JSONException {
+                return jsonString;
             }
         };
     }
@@ -186,13 +183,13 @@ public class Requests {
      * uid:用户编号
      * tid:需要收藏的主体编号
      */
-    public static HttpRequest<?> uncollectSubject(String tid) {
-        String id = HabitatApp.getInstance().getUserData(HabitatApp.ACCOUNT_UID);;
-        return new SimpleHttpRequest<Object>("uncollectSubject",
+    public static HttpRequest<String> uncollectSubject(String tid) {
+        String id = HabitatApp.getInstance().getUserData(HabitatApp.ACCOUNT_UID);
+        return new SimpleHttpRequest<String>("uncollectSubject",
                 "uid", id, "tid", tid) {
             @Override
-            public Object parser(String jsonString) throws JSONException {
-                return null;
+            public String parser(String jsonString) throws JSONException {
+                return jsonString;
             }
         };
     }
@@ -201,13 +198,13 @@ public class Requests {
      * uid:用户编号
      * tid:需要点赞的主体编号
      */
-    public static HttpRequest<?> niceSubject(String tid) {
-        String id = HabitatApp.getInstance().getUserData(HabitatApp.ACCOUNT_UID);;
-        return new SimpleHttpRequest<Object>("niceSubject",
+    public static HttpRequest<String> niceSubject(String tid) {
+        String id = HabitatApp.getInstance().getUserData(HabitatApp.ACCOUNT_UID);
+        return new SimpleHttpRequest<String>("niceSubject",
                 "uid", id, "tid", tid) {
             @Override
-            public Object parser(String jsonString) throws JSONException {
-                return null;
+            public String parser(String jsonString) throws JSONException {
+                return "";
             }
         };
     }
@@ -216,13 +213,13 @@ public class Requests {
      * uid:用户编号
      * tid:需要点赞的主体编号
      */
-    public static HttpRequest<?> unniceSubject(String tid) {
-        String id = HabitatApp.getInstance().getUserData(HabitatApp.ACCOUNT_UID);;
-        return new SimpleHttpRequest<Object>("unniceSubject",
+    public static HttpRequest<String> unniceSubject(String tid) {
+        String id = HabitatApp.getInstance().getUserData(HabitatApp.ACCOUNT_UID);
+        return new SimpleHttpRequest<String>("unniceSubject",
                 "uid", id, "tid", tid) {
             @Override
-            public Object parser(String jsonString) throws JSONException {
-                return null;
+            public String parser(String jsonString) throws JSONException {
+                return jsonString;
             }
         };
     }
@@ -235,7 +232,7 @@ public class Requests {
      * rcid:回复的评论ID
      */
     public static HttpRequest<?> submitComment(String tid, String content, String ruid, String rcid) {
-        String id = HabitatApp.getInstance().getUserData(HabitatApp.ACCOUNT_UID);;
+        String id = HabitatApp.getInstance().getUserData(HabitatApp.ACCOUNT_UID);
         return new SimpleHttpRequest<Object>("submitComment",
                 "uid", id, "tid", tid, "content", content, "ruid", ruid, "rcid", rcid) {
             @Override
@@ -252,7 +249,7 @@ public class Requests {
      * Pagesize：每页显示数据的数量（pagesize默认为5）
      */
     public static HttpRequest<?> getComment(String tid, int pageId, int pageSize) {
-        String id = HabitatApp.getInstance().getUserData(HabitatApp.ACCOUNT_UID);;
+        String id = HabitatApp.getInstance().getUserData(HabitatApp.ACCOUNT_UID);
         return new SimpleHttpRequest<Object>("getComment",
                 "uid", id, "tid", tid, "pageId", pageId, "pageSize", pageSize) {
             @Override
@@ -268,7 +265,7 @@ public class Requests {
      * @param tid 评论id
      */
     public static HttpRequest<?> delComment(String tid) {
-        String id = HabitatApp.getInstance().getUserData(HabitatApp.ACCOUNT_UID);;
+        String id = HabitatApp.getInstance().getUserData(HabitatApp.ACCOUNT_UID);
         return new SimpleHttpRequest<Object>("delComment",
                 "uid", id, "tid", tid) {
             @Override
@@ -284,7 +281,7 @@ public class Requests {
      * @param tid 帖子id
      */
     public static HttpRequest<?> getSubjectDetail(String tid) {
-        String id = HabitatApp.getInstance().getUserData(HabitatApp.ACCOUNT_UID);;
+        String id = HabitatApp.getInstance().getUserData(HabitatApp.ACCOUNT_UID);
         return new SimpleHttpRequest<Object>("getSubjectDetail",
                 "uid", id, "tid", tid) {
             @Override
@@ -300,7 +297,7 @@ public class Requests {
      * @param tid 帖子id
      */
     public static HttpRequest<?> getSubjectNice(String tid) {
-        String id = HabitatApp.getInstance().getUserData(HabitatApp.ACCOUNT_UID);;
+        String id = HabitatApp.getInstance().getUserData(HabitatApp.ACCOUNT_UID);
         return new SimpleHttpRequest<Object>("getSubjectNice",
                 "uid", id, "tid", tid) {
             @Override
@@ -316,7 +313,7 @@ public class Requests {
      * @param uid 需要关注的对方用户ID
      */
     public static HttpRequest<?> setFollow(String uid) {
-        String id = HabitatApp.getInstance().getUserData(HabitatApp.ACCOUNT_UID);;
+        String id = HabitatApp.getInstance().getUserData(HabitatApp.ACCOUNT_UID);
         return new SimpleHttpRequest<Object>("setFollow",
                 "mid", id, "uid", uid) {
             @Override
@@ -332,7 +329,7 @@ public class Requests {
      * @param uid 需要关注的对方用户ID
      */
     public static HttpRequest<?> setUnFollow(String uid) {
-        String id = HabitatApp.getInstance().getUserData(HabitatApp.ACCOUNT_UID);;
+        String id = HabitatApp.getInstance().getUserData(HabitatApp.ACCOUNT_UID);
         return new SimpleHttpRequest<Object>("setUnFollow",
                 "mid", id, "uid", uid) {
             @Override
@@ -383,7 +380,7 @@ public class Requests {
      * @param address:具体地址
      */
     public static HttpRequest<?> createCommunity(String title, String province, String city, String area, String address) {
-        String id = HabitatApp.getInstance().getUserData(HabitatApp.ACCOUNT_UID);;
+        String id = HabitatApp.getInstance().getUserData(HabitatApp.ACCOUNT_UID);
         return new SimpleHttpRequest<Object>("createCommunity",
                 "uid", id, "title", title, "province", province, "city", city, "area", area, "address", address) {
             @Override
@@ -400,7 +397,7 @@ public class Requests {
      * @param ids：上传的图片ID列表，如1,2,3,4,5字符串
      */
     public static HttpRequest<String> publishArticle(String content, String openlevel, String remind, String ids) {
-        String id = HabitatApp.getInstance().getUserData(HabitatApp.ACCOUNT_UID);;
+        String id = HabitatApp.getInstance().getUserData(HabitatApp.ACCOUNT_UID);
         return new SimpleHttpRequest<String>("publishArticle",
                 "uid", id, "content", content, "openlevel", openlevel, "remind", remind, "ids", ids) {
             @Override

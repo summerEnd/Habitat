@@ -4,7 +4,6 @@ import android.content.Context;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -20,7 +19,6 @@ import com.sumauto.widget.recycler.DividerDecoration;
 public class TrendListFragment extends ListFragment {
 
     private RecyclerView mRecyclerView;
-    private SwipeRefreshLayout mSwipeLayout;
     private Callback mCallback;
 
 
@@ -41,10 +39,10 @@ public class TrendListFragment extends ListFragment {
         View view = inflater.inflate(R.layout.recycler_view, container, false);
         Context context = view.getContext();
         mRecyclerView = (RecyclerView) view.findViewById(R.id.recyclerView);
-        mSwipeLayout = (SwipeRefreshLayout) view.findViewById(R.id.swipe_layout);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(context));
+
         TrendAdapter adapter = new TrendAdapter((BaseActivity) getActivity(), mCallback);
-        adapter.setSwipeRefreshLayout(mSwipeLayout);
+
         mRecyclerView.setAdapter(adapter);
         mRecyclerView.addItemDecoration(new DividerDecoration(Color.parseColor("#e5e5e5")));
         processListBottomMargins(mRecyclerView);

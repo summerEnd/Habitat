@@ -134,7 +134,7 @@ public abstract class HttpHandler extends JsonHttpResponseHandler {
     private void dispatchFail() {
         String msg = String.format("请求结束--->%s:%s", requestUrl, mResponse.toString().replace("\r\n","\n"));
         SLog.d(HttpManager.TAG,  msg);
-        ToastUtil.toast(HabitatApp.getInstance(),msg);
+        onShowMessage(mResponse);
         onFailure(mResponse);
     }
 

@@ -4,6 +4,7 @@ import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.text.TextUtils;
+import android.util.Log;
 
 import com.sumauto.util.PListHandler;
 
@@ -36,7 +37,7 @@ public class CityDB extends SQLiteOpenHelper {
             + ")";
 
     public CityDB(Context context) {
-        super(context, "city", null, 1);
+        super(context, "city", null, 3);
         this.context = context;
     }
 
@@ -44,7 +45,6 @@ public class CityDB extends SQLiteOpenHelper {
     public void onCreate(SQLiteDatabase db) {
         try {
             db.execSQL(CREATE_DB);
-
             PListHandler plistHandler = new PListHandler();
             SAXParserFactory.newInstance()
                     .newSAXParser()
@@ -72,16 +72,24 @@ public class CityDB extends SQLiteOpenHelper {
                 String pid = split[0];
                 String pname = split[1];
                 String cid = split[2];
-                for (String area : array) {
-                    db.execSQL("INSERT INTO city (pname,pid,cname,cid,area) VALUES(?,?,?,?,?)", new String[]{pname, pid, key, cid, area});
+                if (array.size() == 0) {
+                    db.execSQL("INSERT INTO city (pname,pid,cname,cid,area) VALUES(?,?,?,?,?)",
+                            new String[]{pname, pid, key, cid, ""});
+                } else {
+                    for (String area : array) {
+                        db.execSQL("INSERT INTO city (pname,pid,cname,cid,area) VALUES(?,?,?,?,?)",
+                                new String[]{pname, pid, key, cid, area});
+                    }
                 }
-
+            }else{
+                Log.e("","--->unknow type"+ value);
             }
         }
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-
+        db.execSQL("DROP TABLE IF EXISTS city");
+        onCreate(db);
     }
 }

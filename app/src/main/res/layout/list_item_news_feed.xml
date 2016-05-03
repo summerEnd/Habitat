@@ -1,10 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+        <variable
+            name="bean"
+            type="com.sumauto.habitat.bean.FeedBean"/>
+    </data>
 
     <RelativeLayout
-        xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
-        xmlns:tools="http://schemas.android.com/tools"
+
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/white"
@@ -39,20 +44,20 @@
             android:paddingRight="@dimen/dp_10_in_xhdpi">
 
             <com.sumauto.habitat.widget.AvatarView
-                app:imageUrl="dfdf"
                 android:id="@+id/iv_avatar"
                 android:layout_width="@dimen/avatarSize"
                 android:layout_height="@dimen/avatarSize"
                 android:src="@drawable/test_image_01"
                 app:border_color="@color/white"
-                app:border_width="3dp"/>
+                app:border_width="3dp"
+                app:imageUrl="dfdf"/>
 
             <TextView
                 android:id="@+id/tv_nick"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="@dimen/dp_10_in_xhdpi"
-                android:text="法院频道"
+                android:text="@{bean.nickname}"
                 android:textColor="@color/textBlack"
                 android:textSize="@dimen/text_14"/>
 
@@ -61,7 +66,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="20dp"
-                android:text="1小时前 来自 江西小区"
+                android:text='@{bean.addtime+" 来自 "+bean.position}'
                 android:textColor="@color/textGray"
                 android:textSize="@dimen/text_11"/>
         </LinearLayout>
@@ -74,7 +79,7 @@
             android:layout_marginLeft="@dimen/dp_10_in_xhdpi"
             android:layout_marginTop="@dimen/dimen_16"
             android:singleLine="true"
-            android:text="哦 i 啊是对佛 i 啊说好的发生地护肤品请问二平后11 苏打粉"
+            android:text="@{bean.content}"
             android:textColor="@color/textBlack"
             android:textSize="@dimen/text_14"/>
 

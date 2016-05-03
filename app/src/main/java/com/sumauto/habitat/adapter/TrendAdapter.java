@@ -1,12 +1,11 @@
 package com.sumauto.habitat.adapter;
 
-import android.content.Context;
 import android.view.ViewGroup;
 
 import com.sumauto.habitat.activity.BaseActivity;
 import com.sumauto.habitat.activity.fragment.TrendListFragment;
 import com.sumauto.habitat.adapter.holders.TrendHolder;
-import com.sumauto.habitat.bean.ArticleEntity;
+import com.sumauto.habitat.bean.FeedBean;
 import com.sumauto.habitat.http.HttpManager;
 import com.sumauto.habitat.http.HttpRequest;
 import com.sumauto.habitat.http.JsonHttpHandler;
@@ -21,7 +20,7 @@ public class TrendAdapter extends LoadMoreAdapter {
     private TrendListFragment.Callback callback;
 
     public TrendAdapter(BaseActivity context, TrendListFragment.Callback callback) {
-        super(context, new ArrayList<ArticleEntity>());
+        super(context, new ArrayList<FeedBean>());
         this.callback = callback;
     }
 
@@ -32,47 +31,20 @@ public class TrendAdapter extends LoadMoreAdapter {
 
     @Override
     public void onBindHolder(BaseHolder holder, int position) {
-        holder.setData(getDataList().get(position));
+        TrendHolder trendHolder = (TrendHolder) holder;
+        trendHolder.init((FeedBean) getDataList().get(position));
     }
 
     @Override
-    public void onRefresh() {
-        super.onRefresh();
-        HttpRequest<List<ArticleEntity>> request =  Requests.getCommunity(callback.getComId(),1,5);
+    public List onLoadData(int page) {
+        HttpRequest<List<FeedBean>> request = Requests.getCommunity(callback.getComId(), page, 5);
 
-        HttpManager.getInstance().post(getContext(), new JsonHttpHandler<List<ArticleEntity>>(request) {
+        JsonHttpHandler<List<FeedBean>> httpHandler = new JsonHttpHandler<List<FeedBean>>(request) {
             @Override
-            public void onSuccess(HttpResponse response, HttpRequest<List<ArticleEntity>> request, List<ArticleEntity> articleEntities) {
-                getDataList().clear();
-                addPage(articleEntities);
+            public void onSuccess(HttpResponse response, HttpRequest<List<FeedBean>> request, List<FeedBean> articleEntities) {
             }
-
-            @Override
-            public void onFinish() {
-                super.onFinish();
-                setRefreshDone();
-            }
-        });
+        };
+        HttpManager.getInstance().postSync(getContext(), httpHandler);
+        return httpHandler.getResult();
     }
-
-    @Override
-    public void onLoadMore() {
-
-        HttpRequest<List<ArticleEntity>> request =  Requests.getCommunity(callback.getComId(),getCurrentPage()+1,5);
-        HttpManager.getInstance().post(getContext(), new JsonHttpHandler<List<ArticleEntity>>(request) {
-            @Override
-            public void onSuccess(HttpResponse response, HttpRequest<List<ArticleEntity>> request, List<ArticleEntity> articleEntities) {
-                addPage(articleEntities);
-            }
-
-            @Override
-            public void onFinish() {
-                super.onFinish();
-                setRefreshDone();
-            }
-        });
-
-    }
-
-
 }

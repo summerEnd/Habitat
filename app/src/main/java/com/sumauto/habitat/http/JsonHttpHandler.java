@@ -13,7 +13,7 @@ import org.json.JSONException;
 public abstract class JsonHttpHandler<B> extends HttpHandler{
 
     private HttpRequest<B> mHttpRequest;
-
+    private B mResult;
     public  JsonHttpHandler(HttpRequest<B> request) {
         this(request,true);
     }
@@ -25,10 +25,15 @@ public abstract class JsonHttpHandler<B> extends HttpHandler{
 
     @Override
     public final void onSuccess(HttpResponse response) throws JSONException {
-        onSuccess(response,mHttpRequest,mHttpRequest.parser(response.data));
+        mResult=mHttpRequest.parser(response.data);
+        onSuccess(response,mHttpRequest,mResult);
     }
 
-    public abstract void onSuccess(HttpResponse response,HttpRequest<B> request,B bean) ;
+    public B getResult() {
+        return mResult;
+    }
+
+    public abstract void onSuccess(HttpResponse response, HttpRequest<B> request, B bean) ;
 
     public String getUrl() {
         return mHttpRequest.getUrl();

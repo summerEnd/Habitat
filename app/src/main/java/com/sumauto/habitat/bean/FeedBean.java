@@ -5,20 +5,38 @@ package com.sumauto.habitat.bean;
  * 动态
  */
 public class FeedBean {
+    /**
+     * id : 824765
+     * img : http://120.76.138.4114618529857573.jpg
+     * content : tessssssssssst
+     * uid : 808264
+     * position : 失乐园
+     * addtime : 4天前
+     * headimg :
+     * nickname :
+     */
+    public String id;
+    public int uid;
+    public String img;
+    public String content;
+    public String position;
+    public String addtime;
+    public String headimg;
+    public String nickname;
 
-    private boolean isAttention;
+    private boolean isNice;
     private boolean isCollection;
 
     public boolean isCollection() {
         return isCollection;
     }
 
-    public boolean isAttention(){
-        return isAttention;
+    public boolean isNice() {
+        return isNice;
     }
 
-    public FeedBean setIsAttention(boolean isAttention) {
-        this.isAttention = isAttention;
+    public FeedBean setIsNice(boolean isNice) {
+        this.isNice = isNice;
         return this;
     }
 
