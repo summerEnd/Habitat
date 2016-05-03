@@ -8,12 +8,16 @@ import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.TextView;
 
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.FileAsyncHttpResponseHandler;
 import com.loopj.android.http.RequestParams;
 import com.loopj.android.http.TextHttpResponseHandler;
+import com.sumauto.habitat.HabitatApp;
+import com.sumauto.habitat.adapter.holders.DeleteAbleImageHolder;
+import com.sumauto.habitat.callback.ViewId;
 import com.sumauto.habitat.http.HttpManager;
 import com.sumauto.habitat.http.HttpRequest;
 import com.sumauto.habitat.http.JsonHttpHandler;
@@ -36,22 +40,18 @@ import cz.msebera.android.httpclient.Header;
 
 public class PublishActivity extends BaseActivity {
 
-    private RecyclerView mRecyclerView;
-    private TextView tv_who_can_see;
     private PublishImageAdapter adapter;
     private int mImagePaddings;
+    @ViewId(R.id.recyclerView) RecyclerView mRecyclerView;
+    @ViewId EditText edit_content;
+    @ViewId TextView tv_who_can_see;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create_blog);
-        initToolBar(R.id.toolBar);
         startPhotoActivity();
 
-        tv_who_can_see = (TextView) findViewById(R.id.tv_who_can_see);
-        mRecyclerView = (RecyclerView) findViewById(R.id.recyclerView);
-
-        mRecyclerView.setVisibility(View.VISIBLE);
         mRecyclerView.setLayoutManager(new GridLayoutManager(this, 4) {
             @Override
             public void onMeasure(RecyclerView.Recycler recycler, RecyclerView.State state, int widthSpec, int heightSpec) {
@@ -84,44 +84,14 @@ public class PublishActivity extends BaseActivity {
                 outRect.set(mImagePaddings, mImagePaddings, mImagePaddings, mImagePaddings);
             }
         });
-
-        findViewById(R.id.v_notice_who_see).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActivity(new Intent(PublishActivity.this, NoticeFriendListActivity.class));
-            }
-        });
-
-        findViewById(R.id.v_who_can_see).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                new IosListDialog(PublishActivity.this)
-                        .listener(new IosListDialog.Listener() {
-                            @Override
-                            public void onClick(IosListDialog dialog, int position) {
-                                switch (position) {
-                                    case 0: {
-                                        tv_who_can_see.setText(R.string.anybody_can_see);
-                                        break;
-                                    }
-                                    case 1: {
-                                        tv_who_can_see.setText(R.string.only_self_see);
-                                        break;
-                                    }
-                                    case 2: {
-                                        tv_who_can_see.setText(R.string.partly_can_see);
-                                        break;
-                                    }
-                                }
-                            }
-                        })
-                        .show(R.string.anybody_can_see, R.string.only_self_see, R.string.partly_can_see);
-            }
-        });
     }
 
     private void startPhotoActivity() {
-        PhotoActivity.start(PublishActivity.this, 700, 700, 100);
+        PhotoActivity.Options options=new PhotoActivity.Options();
+        options.outHeight=options.outWidth=700;
+        options.actionName="立即发布";
+        options.multiply=true;
+        PhotoActivity.start(PublishActivity.this,options, 100);
     }
 
 
@@ -134,5 +104,55 @@ public class PublishActivity extends BaseActivity {
                 adapter.addImage(this, uri);
             }
         }
+    }
+
+    public void onPublishClick(View view) {
+        String content=edit_content.getText().toString();
+        String openlevel="0";
+        String remind="";
+        String ids="";
+        List<DeleteAbleImageHolder.ImageBean> images = adapter.getImages();
+        for (DeleteAbleImageHolder.ImageBean bean : images) {
+            ids += bean.id+",";
+        }
+        HttpRequest<String> request = Requests.publishArticle(content, openlevel, remind, ids);
+
+        HttpManager.getInstance().post(PublishActivity.this, new JsonHttpHandler<String>(request) {
+            @Override
+            public void onSuccess(HttpResponse response, HttpRequest<String> request, String bean) {
+
+            }
+        });
+    }
+
+    public void onWhoCanSeeClick(View view) {
+        new IosListDialog(PublishActivity.this)
+                .listener(new IosListDialog.Listener() {
+                    @Override
+                    public void onClick(IosListDialog dialog, int position) {
+                        switch (position) {
+                            case 0: {
+                                tv_who_can_see.setText(R.string.anybody_can_see);
+                                tv_who_can_see.setTag("0");
+                                break;
+                            }
+                            case 1: {
+                                tv_who_can_see.setText(R.string.only_self_see);
+                                tv_who_can_see.setTag(HabitatApp.getInstance().getUserData(HabitatApp.ACCOUNT_UID));
+                                break;
+                            }
+                            case 2: {
+                                tv_who_can_see.setText(R.string.partly_can_see);
+                                break;
+                            }
+                        }
+                    }
+                })
+                .show(R.string.anybody_can_see, R.string.only_self_see, R.string.partly_can_see);
+    }
+
+    public void onNoticeWhoSee(View view) {
+        startActivity(new Intent(PublishActivity.this, NoticeFriendListActivity.class));
+
     }
 }

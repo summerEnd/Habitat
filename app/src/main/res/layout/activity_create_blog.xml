@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -10,12 +9,20 @@
 
     <android.support.v7.widget.Toolbar
         style="@style/toolBarStyle">
+
         <TextView
             style="@style/toolbar_back_button"
             android:drawableLeft="@mipmap/ic_cancel"
             android:text="@string/cancel"/>
 
         <TextView style="@style/toolbar_title_style"/>
+
+        <TextView
+            android:onClick="onPublishClick"
+            android:id="@+id/btn_publish"
+            style="@style/toolBar_clickedItem"
+            android:layout_marginRight="10dp"
+            android:text="@string/publish_now"/>
 
     </android.support.v7.widget.Toolbar>
 
@@ -45,6 +52,7 @@
                 android:textSize="@dimen/text_17"/>
 
             <EditText
+                android:id="@+id/edit_content"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="@dimen/dimen_13"
@@ -63,7 +71,7 @@
             android:id="@+id/recyclerView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:visibility="gone"/>
+            android:visibility="visible"/>
 
     </LinearLayout>
 
@@ -74,6 +82,7 @@
         android:layout_marginTop="@dimen/dp_10_in_xhdpi"/>
 
     <LinearLayout
+        android:onClick="onWhoCanSeeClick"
         android:id="@+id/v_who_can_see"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -103,15 +112,17 @@
             android:textColor="@color/textGray"/>
 
         <ImageView
-            android:contentDescription="@string/click"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="@dimen/view_spacing_1"
+            android:contentDescription="@string/click"
             android:src="@mipmap/ic_nav_right"/>
     </LinearLayout>
 
     <View style="@style/horizontal_line"/>
+
     <LinearLayout
+        android:onClick="onNoticeWhoSee"
         android:id="@+id/v_notice_who_see"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -140,10 +151,10 @@
             android:textColor="@color/textGray"/>
 
         <ImageView
-            android:contentDescription="@string/click"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="@dimen/view_spacing_1"
+            android:contentDescription="@string/click"
             android:src="@mipmap/ic_nav_right"/>
     </LinearLayout>
 

@@ -27,8 +27,9 @@
 
     <View style="@style/horizontal_line"/>
 
-    <com.sumauto.widget.recycler.FloatHeadRecyclerView
-        android:id="@+id/floatRecyclerView"
+    <android.support.v7.widget.RecyclerView
+        tools:listitem="@layout/list_item_choose_user"
+        android:id="@+id/recyclerView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"/>
 

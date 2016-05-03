@@ -93,7 +93,7 @@ public class DeleteAbleImageHolder extends BaseViewHolder {
     public static class ImageBean {
         public Uri data;
         public boolean doUpload;
-
+        public String id;//图片的id
         private int progress;
         private Runnable mRunnable;
 

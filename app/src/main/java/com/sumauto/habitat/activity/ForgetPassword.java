@@ -1,10 +1,15 @@
 package com.sumauto.habitat.activity;
 
+import android.accounts.Account;
+import android.accounts.AccountManager;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.EditText;
 
+import com.sumauto.habitat.BuildConfig;
+import com.sumauto.habitat.HabitatApp;
 import com.sumauto.habitat.callback.ViewId;
 import com.sumauto.util.ToastUtil;
 import com.sumauto.habitat.R;
@@ -28,12 +33,13 @@ public class ForgetPassword extends BaseActivity {
     public void onFindPasswordClick(View view) {
         String phone = string(edit_phone);
         String code = string(edit_sms_code);
-        String pwd = string(edit_password);
+        final String pwd = string(edit_password);
 
         HttpManager.getInstance().post(this, new JsonHttpHandler<User>(Requests.setNewPwd(phone, code, pwd)) {
             @Override
             public void onSuccess(HttpResponse response, HttpRequest<User> request, User bean) {
                 ToastUtil.toast(response.msg);
+                HabitatApp.getInstance().setPassword(pwd);
                 finish();
             }
         });

@@ -1,7 +1,9 @@
 package com.sumauto.habitat.activity;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
+import android.content.pm.ApplicationInfo;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v7.app.ActionBar;
@@ -119,9 +121,13 @@ public class BaseActivity extends AppCompatActivity implements View.OnClickListe
         for (Field field : declaredFields) {
             ViewId annotation = field.getAnnotation(ViewId.class);
             if (annotation == null) continue;
-            int value = annotation.value();
+            int id = annotation.value();
+            if (id==0){
+                String fieldName=field.getName();
+                 id = getResources().getIdentifier(fieldName, "id", getPackageName());
+            }
             try {
-                field.set(this, findViewById(value));
+                field.set(this, findViewById(id));
             } catch (IllegalAccessException e) {
                 e.printStackTrace();
             }
@@ -148,4 +154,12 @@ public class BaseActivity extends AppCompatActivity implements View.OnClickListe
         }
     }
 
+    @Override
+    public HabitatApp getApplicationContext() {
+        return (HabitatApp) super.getApplicationContext();
+    }
+
+    public String getUserData(String key){
+        return getApplicationContext().getUserData(key);
+    }
 }

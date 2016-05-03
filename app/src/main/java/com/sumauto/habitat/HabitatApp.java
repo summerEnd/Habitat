@@ -1,25 +1,35 @@
 package com.sumauto.habitat;
 
-import android.annotation.SuppressLint;
-import android.content.SharedPreferences;
+import android.accounts.Account;
+import android.accounts.AccountManager;
+import android.os.Bundle;
+import android.text.TextUtils;
+import android.util.Log;
 
 import com.sumauto.SApplication;
-import com.sumauto.habitat.bean.User;
 import com.umeng.analytics.AnalyticsConfig;
 import com.umeng.socialize.PlatformConfig;
 
-import java.lang.reflect.Field;
+import java.util.Set;
 
 public class HabitatApp extends SApplication {
-
+    public static final String ACCOUNT_UID="user_id";
+    public static final String ACCOUNT_PHONE="phone";
+    public static final String ACCOUNT_BIRTHDAY="birthday";
+    public static final String ACCOUNT_NICK="nick";
+    public static final String ACCOUNT_GENDER="gender";
+    public static final String ACCOUNT_COMMID="com_id";
+    public static final String ACCOUNT_COMM_NAME="com_name";
+    public static final String ACCOUNT_AVATAR="avatar";
+    public static final String ACCOUNT_SIGNATURE="signature";
     private static HabitatApp instance;
-    private static final String PREF_NAME = "configs";
+    private String PREFERANCE_NAME = "config";
 
     public static HabitatApp getInstance() {
         return instance;
     }
 
-    User mUser;
+    private Account mAccount;
 
     @Override
     public void onCreate() {
@@ -35,40 +45,84 @@ public class HabitatApp extends SApplication {
 
     }
 
-    public User geUser() {
-        if (mUser == null) {
-            mUser = new User();
-            SharedPreferences sp = getSharedPreferences(PREF_NAME, MODE_PRIVATE);
+    public void login(String pwd, Bundle data) {
+        String uid = data.getString(ACCOUNT_UID);
 
-            Field[] fields = User.class.getDeclaredFields();
-            for (Field f : fields) {
-                f.setAccessible(true);
-                String name = f.getName();
-                try {
-                    if (!name.startsWith("$")) //instance run 的 bug
-                        f.set(mUser, sp.getString(name, ""));
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
+        if (TextUtils.isEmpty(uid)) {
+            throw new IllegalStateException("must have a uid");
+        }
+        AccountManager manager = (AccountManager) getSystemService(ACCOUNT_SERVICE);
+        Account accountWithSameUid = null;
+        Account[] accountsByType = manager.getAccountsByType(BuildConfig.ACCOUNT_TYPE);
+        for (Account temp : accountsByType) {
+            String id = manager.getUserData(temp,ACCOUNT_UID);
+            if (TextUtils.equals(uid, id)) {
+                accountWithSameUid = temp;
             }
         }
-        return mUser;
+
+        if (accountWithSameUid != null) {
+            //已经存在一个手机号相同的帐号
+            if (!TextUtils.equals(manager.getPassword(accountWithSameUid), pwd)) {
+                manager.setPassword(accountWithSameUid, pwd);//密码不一样
+            }
+            this.mAccount = accountWithSameUid;
+            setUserData(data);
+        } else {
+            String phone = data.getString(ACCOUNT_PHONE);
+            String nick = data.getString(ACCOUNT_NICK);
+            String nickName = (TextUtils.isEmpty(nick) ? phone : nick) +
+                    "(" + uid + ")";
+            Account account = new Account(nickName, BuildConfig.ACCOUNT_TYPE);
+            manager.addAccountExplicitly(account, pwd, data);
+            this.mAccount = account;
+        }
+        saveLastLogin(uid);
     }
 
-    @SuppressLint("CommitPrefEdits")
-    public void setUser(User user) {
-        SharedPreferences.Editor editor = getSharedPreferences(PREF_NAME, MODE_PRIVATE).edit();
-        Field[] fields = user.getClass().getDeclaredFields();
-        for (Field f : fields) {
-            f.setAccessible(true);
-            String name = f.getName();
-            try {
-                editor.putString(name, (String) f.get(user));
-            } catch (Exception e) {
-                e.printStackTrace();
+    private void saveLastLogin(String uid) {
+        //保存登录id
+        getSharedPreferences(PREFERANCE_NAME, MODE_PRIVATE).edit().putString("last_login", uid).apply();
+    }
+
+    public void setPassword(String password){
+        Account loginAccount = getLoginAccount();
+        AccountManager manager = (AccountManager) getSystemService(ACCOUNT_SERVICE);
+        manager.setPassword(loginAccount, password);
+    }
+
+    public Account getLoginAccount(){
+        String uid = getSharedPreferences(PREFERANCE_NAME, MODE_PRIVATE).getString("last_login", "");
+        AccountManager manager = (AccountManager) getSystemService(ACCOUNT_SERVICE);
+        Account[] accountsByType = manager.getAccountsByType(BuildConfig.ACCOUNT_TYPE);
+        for(Account account:accountsByType){
+            String accountUserId = manager.getUserData(account,ACCOUNT_UID);
+            if (TextUtils.equals(uid,accountUserId)){
+                return account;
             }
         }
-        editor.commit();
-        this.mUser = user;
+
+        return null;
+    }
+
+    public String getUserData(String key){
+        AccountManager manager = (AccountManager) getSystemService(ACCOUNT_SERVICE);
+        return manager.getUserData(getLoginAccount(),key);
+    }
+
+    public void setUserData(Bundle data) {
+
+        if (mAccount != null) {
+            AccountManager manager = (AccountManager) getSystemService(ACCOUNT_SERVICE);
+            //对应的账户
+            manager.setUserData(mAccount, ACCOUNT_BIRTHDAY, "");
+
+            Set<String> keySet = data.keySet();
+            for (String key : keySet) {
+                manager.setUserData(mAccount, key, data.getString(key));
+            }
+        } else {
+            Log.e("", "not login!");
+        }
     }
 }

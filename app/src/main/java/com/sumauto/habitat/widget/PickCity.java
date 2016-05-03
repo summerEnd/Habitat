@@ -1,124 +1,29 @@
 package com.sumauto.habitat.widget;
 
 
-import android.app.Dialog;
 import android.content.Context;
-import android.view.View;
-import android.widget.NumberPicker;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
+import android.util.Log;
 
-import com.sumauto.habitat.R;
+import com.bigkoo.pickerview.OptionsPickerView;
+import com.sumauto.habitat.utils.CityDB;
+import com.sumauto.util.PListHandler;
 
-import java.util.Arrays;
+import org.xml.sax.SAXException;
 
-public class PickCity extends Dialog {
-    private NumberPicker provincePicker;
-    private NumberPicker cityPicker;
-    private OnSelectListener onSelectListener;
-    private String provinces[];
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Set;
 
-    public PickCity(Context context) {
-        super(context);
-        setContentView(R.layout.city_picker);
-        initialize();
-    }
+import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.parsers.SAXParser;
+import javax.xml.parsers.SAXParserFactory;
 
-    private void initialize() {
-        provincePicker = (NumberPicker) findViewById(R.id.province);
-        cityPicker = (NumberPicker) findViewById(R.id.city);
-        cityPicker.setWrapSelectorWheel(false);
-        findViewById(R.id.yes).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (onSelectListener != null) {
-                    onSelectListener.onSelect(provincePicker.getDisplayedValues()[provincePicker.getValue()], cityPicker.getDisplayedValues()[cityPicker.getValue()]);
-                    dismiss();
-                }
+public class PickCity extends OptionsPickerView<String> {
 
-            }
-        });
-
-        findViewById(R.id.no).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                dismiss();
-            }
-        });
-        displayProvince();
-    }
-
-    void displayProvince() {
-        provinces = new String[citys.length];
-        int maxCityNumbers = 0;
-        for (int i = 0; i < provinces.length; i++) {
-            provinces[i] = citys[i][0];
-            maxCityNumbers = Math.max(citys[i].length, maxCityNumbers);
-        }
-        String[] maxCityArray = new String[maxCityNumbers];
-        String[] firstCityArray = citys[0];
-        for (int i = 0; i < maxCityArray.length; i++) {
-            if (i < firstCityArray.length - 1) {
-                //第一个是省
-                maxCityArray[i] = firstCityArray[i + 1];
-            } else {
-                maxCityArray[i] = "";
-            }
-
-        }
-
-        provincePicker.setMaxValue(provinces.length - 1);
-        provincePicker.setMinValue(0);
-        provincePicker.setDisplayedValues(provinces);
-        cityPicker.setMinValue(0);
-        cityPicker.setMaxValue(maxCityNumbers - 1);
-        cityPicker.setDisplayedValues(maxCityArray);
-
-        displayProvince(0);
-
-        provincePicker.setOnValueChangedListener(new NumberPicker.OnValueChangeListener() {
-            @Override
-            public void onValueChange(NumberPicker picker, int oldVal, int newVal) {
-
-                displayProvince(newVal);
-            }
-        });
-    }
-
-    void displayProvince(int index) {
-        String newCityArray[] = citys[index];
-        if (newCityArray.length > 1) {
-            newCityArray = Arrays.copyOfRange(newCityArray, 1, newCityArray.length);
-        } else {
-            newCityArray = new String[]{"", ""};
-        }
-        String displayValues[] = cityPicker.getDisplayedValues();
-        int cityNumber = newCityArray.length;
-        if (cityNumber < displayValues.length) {
-            for (int i = 0; i < displayValues.length; i++) {
-                if (i < cityNumber) {
-                    displayValues[i] = newCityArray[i];
-                } else {
-                    displayValues[i] = "";
-                }
-            }
-
-        }
-        cityPicker.setMinValue(0);
-        cityPicker.setValue(0);
-        cityPicker.setDisplayedValues(displayValues);
-        cityPicker.setMaxValue(newCityArray.length - 1);
-        cityPicker.invalidate();
-    }
-
-
-    public PickCity setOnSelectListener(OnSelectListener onSelectListener) {
-        this.onSelectListener = onSelectListener;
-        return this;
-    }
-
-
-    public interface OnSelectListener {
-        void onSelect(String province, String city);
-    }
 
     //直辖市 4
     public static String[][] citys = new String[][]{{"北京市", "西城区", "东城区", "宣武区", "崇文区", "海淀区", "朝阳区", "丰台区", "石景山区"},
@@ -163,4 +68,16 @@ public class PickCity extends Dialog {
             {"澳门特别行政区", "花地玛堂区", "圣安多尼堂区", "大堂区", "望德堂区", "风顺堂区", "嘉模堂区", "圣方济各堂区"},
             {"台湾省", "台北", "高雄", "基隆", "台中", "台南", "新竹", "嘉义"}
     };
+
+    public PickCity(Context context) {
+        super(context);
+        ArrayList<String> province=new ArrayList<>();
+        ArrayList<String> city=new ArrayList<>();
+        ArrayList<String> area=new ArrayList<>();
+
+        SQLiteDatabase db = new CityDB(context).getWritableDatabase();
+
+        db.close();
+    }
+
 }

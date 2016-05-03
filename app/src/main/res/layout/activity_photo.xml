@@ -25,7 +25,8 @@
             android:textColor="@color/white"/>
 
         <TextView
-            android:id="@+id/btn_publish"
+            android:id="@+id/btn_title"
+            android:onClick="onCompleted"
             style="@style/toolBar_clickedItem"
             android:layout_gravity="right"
             android:text="立即发布"

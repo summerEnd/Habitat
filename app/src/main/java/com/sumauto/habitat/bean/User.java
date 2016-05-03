@@ -1,6 +1,9 @@
 package com.sumauto.habitat.bean;
 
+import android.os.Bundle;
 import android.text.TextUtils;
+
+import com.sumauto.habitat.HabitatApp;
 
 import org.json.JSONObject;
 
@@ -8,7 +11,7 @@ import org.json.JSONObject;
  * Created by Lincoln on 16/4/2.
  * 用户
  */
-public class User{
+public class User {
 
     /**
      * id : 879833
@@ -18,6 +21,7 @@ public class User{
      */
 
     private String id;
+    private String sex;
     private String phone;
     private String nickname;
     private String headimg;
@@ -28,105 +32,23 @@ public class User{
     private String isdel;
     private String type;
     private String password;
+    private String birthday;
 
     public User() {
     }
 
-    public User initWith(JSONObject object) {
-        this.id=object.optString("id");
-        this.phone=object.optString("phone");
-        this.nickname=object.optString("nickname");
-        this.headimg=object.optString("headimg");
-        this.commid=object.optString("commid");
-
-        return this;
+    public Bundle toBundle() {
+        Bundle b = new Bundle();
+        b.putString(HabitatApp.ACCOUNT_PHONE, phone);
+        b.putString(HabitatApp.ACCOUNT_UID, id);
+        b.putString(HabitatApp.ACCOUNT_NICK, nickname);
+        b.putString(HabitatApp.ACCOUNT_COMMID, commid);
+        b.putString(HabitatApp.ACCOUNT_AVATAR, headimg);
+        b.putString(HabitatApp.ACCOUNT_BIRTHDAY, birthday);
+        b.putString(HabitatApp.ACCOUNT_GENDER, sex);
+        b.putString(HabitatApp.ACCOUNT_SIGNATURE,"");
+        b.putString(HabitatApp.ACCOUNT_COMM_NAME,"");
+        return b;
     }
 
-    public String getId() {
-        return id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
-    }
-
-    public String getPhone() {
-        return phone;
-    }
-
-    public void setPhone(String phone) {
-        this.phone = phone;
-    }
-
-    public String getNickname() {
-        return nickname;
-    }
-
-    public void setNickname(String nickname) {
-        this.nickname = nickname;
-    }
-
-    public String getHeadimg() {
-        return headimg;
-    }
-
-    public void setHeadimg(String headimg) {
-        this.headimg = headimg;
-    }
-
-    public String getSnsaccount() {
-        return snsaccount;
-    }
-
-    public void setSnsaccount(String snsaccount) {
-        this.snsaccount = snsaccount;
-    }
-
-    public String getAddtime() {
-        return addtime;
-    }
-
-    public void setAddtime(String addtime) {
-        this.addtime = addtime;
-    }
-
-    public String getSort() {
-        return sort;
-    }
-
-    public void setSort(String sort) {
-        this.sort = sort;
-    }
-
-    public String getCommid() {
-        return commid;
-    }
-
-    public void setCommid(String commid) {
-        this.commid = commid;
-    }
-
-    public String getIsdel() {
-        return isdel;
-    }
-
-    public void setIsdel(String isdel) {
-        this.isdel = isdel;
-    }
-
-    public String getType() {
-        return type;
-    }
-
-    public void setType(String type) {
-        this.type = type;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
 }

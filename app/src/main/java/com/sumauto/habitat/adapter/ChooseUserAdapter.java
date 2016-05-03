@@ -17,7 +17,7 @@ import java.util.Set;
  * Created by Lincoln on 16/3/22.
  * 选择用户
  */
-public class ChooseUserAdapter extends RecyclerView.Adapter implements ChooseUserHolder.Listener{
+public class ChooseUserAdapter extends RecyclerView.Adapter implements ChooseUserHolder.Listener,HeaderDecor.Callback{
 
 
     ArrayList<Object> beans=new ArrayList<>();
@@ -72,5 +72,23 @@ public class ChooseUserAdapter extends RecyclerView.Adapter implements ChooseUse
     public void onUserSelectChanged(UserInfoBean bean, boolean isSelect) {
         if (isSelect)selectedUser.add(bean);
         else selectedUser.remove(bean);
+    }
+
+    @Override
+    public int getHeaderForPosition(int position) {
+        int count = beans.size();
+        if (position < count) {
+            for (int i = position; i >= 0; i--) {
+                if (getItemViewType(i) == 0) {
+                    return i;
+                }
+            }
+        }
+        return 0;
+    }
+
+    @Override
+    public boolean isHeader(RecyclerView.ViewHolder holder) {
+        return holder instanceof AddressBookTitleHolder;
     }
 }

@@ -58,6 +58,10 @@ public class PublishImageAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         mListener = listener;
     }
 
+    public List<ImageBean> getImages() {
+        return images;
+    }
+
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         if (viewType==0){
@@ -110,21 +114,21 @@ public class PublishImageAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
     }
 
 
-    void doUpload(Context context,final ImageBean bean){
+    void doUpload(Context context,final ImageBean imageBean){
         try {
-            File f=new File(new URI(bean.data.toString()));
+            File f=new File(new URI(imageBean.data.toString()));
             Log.d(HttpManager.TAG,"uploading file "+f);
             HttpManager.getInstance().post(context, new JsonHttpHandler<String>(Requests.getUploadUrl(f)) {
 
                 @Override
                 public void onSuccess(HttpResponse response, HttpRequest<String> request, String bean) {
-
+                    imageBean.id=bean;
                 }
                 @Override
                 public void onProgress(long bytesWritten, long totalSize) {
                     super.onProgress(bytesWritten, totalSize);
                     Message msg = mHandler.obtainMessage();
-                    msg.obj=bean;
+                    msg.obj=imageBean;
                     msg.arg1=(int) ((bytesWritten * 1.0 / totalSize) * 100);
                     mHandler.sendMessage(msg);
                 }

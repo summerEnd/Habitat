@@ -5,9 +5,11 @@ import android.accounts.AccountManager;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.EditText;
 
+import com.sumauto.habitat.BuildConfig;
 import com.sumauto.habitat.HabitatApp;
 import com.sumauto.habitat.R;
 import com.sumauto.habitat.bean.User;
@@ -17,6 +19,7 @@ import com.sumauto.habitat.http.HttpManager;
 import com.sumauto.habitat.http.HttpRequest;
 import com.sumauto.habitat.http.JsonHttpHandler;
 import com.sumauto.habitat.http.Requests;
+import com.sumauto.habitat.utils.Constant;
 import com.sumauto.util.SLog;
 import com.umeng.analytics.social.UMSocialService;
 import com.umeng.socialize.UMShareAPI;
@@ -47,8 +50,8 @@ public class LoginActivity extends BaseActivity {
             @Override
             public void onSuccess(HttpResponse response, HttpRequest<User> request, User user) {
                 to(MainActivity.class);
-                AccountManager manager= (AccountManager) getSystemService(Context.ACCOUNT_SERVICE);
-                manager.addAccountExplicitly(new Account(phone,getString(R.string.account_type)),pwd,null);
+
+                HabitatApp.getInstance().login(pwd,user.toBundle());
                 finish();
             }
 

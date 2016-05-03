@@ -4,6 +4,7 @@ import android.content.Context;
 import android.view.ViewGroup;
 
 import com.sumauto.habitat.activity.BaseActivity;
+import com.sumauto.habitat.activity.fragment.TrendListFragment;
 import com.sumauto.habitat.adapter.holders.TrendHolder;
 import com.sumauto.habitat.bean.ArticleEntity;
 import com.sumauto.habitat.http.HttpManager;
@@ -17,11 +18,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class TrendAdapter extends LoadMoreAdapter {
-    private String commid;
+    private TrendListFragment.Callback callback;
 
-    public TrendAdapter(BaseActivity context, String commid) {
+    public TrendAdapter(BaseActivity context, TrendListFragment.Callback callback) {
         super(context, new ArrayList<ArticleEntity>());
-        this.commid = commid;
+        this.callback = callback;
     }
 
     @Override
@@ -37,7 +38,7 @@ public class TrendAdapter extends LoadMoreAdapter {
     @Override
     public void onRefresh() {
         super.onRefresh();
-        HttpRequest<List<ArticleEntity>> request =  Requests.getCommunity(commid,1,5);
+        HttpRequest<List<ArticleEntity>> request =  Requests.getCommunity(callback.getComId(),1,5);
 
         HttpManager.getInstance().post(getContext(), new JsonHttpHandler<List<ArticleEntity>>(request) {
             @Override
@@ -57,7 +58,7 @@ public class TrendAdapter extends LoadMoreAdapter {
     @Override
     public void onLoadMore() {
 
-        HttpRequest<List<ArticleEntity>> request =  Requests.getCommunity(commid,getCurrentPage()+1,5);
+        HttpRequest<List<ArticleEntity>> request =  Requests.getCommunity(callback.getComId(),getCurrentPage()+1,5);
         HttpManager.getInstance().post(getContext(), new JsonHttpHandler<List<ArticleEntity>>(request) {
             @Override
             public void onSuccess(HttpResponse response, HttpRequest<List<ArticleEntity>> request, List<ArticleEntity> articleEntities) {

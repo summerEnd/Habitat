@@ -19,6 +19,7 @@ import com.sumauto.habitat.activity.fragment.TrendFragment;
 import com.sumauto.habitat.activity.fragment.TrendListFragment;
 import com.sumauto.habitat.callback.ListCallback;
 import com.sumauto.habitat.callback.Scrollable;
+import com.sumauto.habitat.utils.Constant;
 import com.sumauto.widget.CheckableLinearLayout;
 import com.umeng.socialize.UMShareAPI;
 
@@ -144,8 +145,7 @@ public class MainActivity extends BaseActivity implements ViewPager.OnPageChange
 
     @Override
     public String getComId() {
-//        return ((HabitatApp) getApplication()).geUser().getCommid();
-        return "1";
+        return HabitatApp.getInstance().getUserData(HabitatApp.ACCOUNT_COMMID);
     }
 
     @Override

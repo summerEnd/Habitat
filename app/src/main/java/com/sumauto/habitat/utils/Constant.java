@@ -8,4 +8,6 @@ package com.sumauto.habitat.utils;
  */
 public class Constant {
     public static final String TEST_IMAGE_URL="http://www.52ij.com/uploads/allimg/160317/1110104P8-4.jpg";
+
+
 }

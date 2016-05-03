@@ -43,7 +43,7 @@ public class TrendListFragment extends ListFragment {
         mRecyclerView = (RecyclerView) view.findViewById(R.id.recyclerView);
         mSwipeLayout = (SwipeRefreshLayout) view.findViewById(R.id.swipe_layout);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(context));
-        TrendAdapter adapter = new TrendAdapter((BaseActivity) getActivity(), mCallback.getComId());
+        TrendAdapter adapter = new TrendAdapter((BaseActivity) getActivity(), mCallback);
         adapter.setSwipeRefreshLayout(mSwipeLayout);
         mRecyclerView.setAdapter(adapter);
         mRecyclerView.addItemDecoration(new DividerDecoration(Color.parseColor("#e5e5e5")));

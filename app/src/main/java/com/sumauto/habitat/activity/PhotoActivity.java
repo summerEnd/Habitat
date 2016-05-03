@@ -6,6 +6,8 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
+import android.os.Parcel;
+import android.os.Parcelable;
 import android.os.SystemClock;
 import android.provider.MediaStore;
 import android.support.v7.widget.GridLayoutManager;
@@ -38,6 +40,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import static android.provider.MediaStore.Images.ImageColumns.*;
+
 public class PhotoActivity extends BaseActivity {
     public static final int CAPTURE = 1001;
     public static final int CROP = 1002;
@@ -46,37 +50,36 @@ public class PhotoActivity extends BaseActivity {
     private FolderListWindow mFolderListWindow;//文件夹列表弹窗
 
     private List<Map<String, Object>> mAppImages = new ArrayList<>();//本应用的图片
-    private List<Map<String, Object>> mFolders;//文件夹集合
+    private List<Map<String, Object>> mFolders = new ArrayList<>();//文件夹集合
     private Adapter mPicturesAdapter;//照片列表adapter
     private Uri mOutUri;//输出uri
-    private int mOutWidth;//输出宽度
-    private int mOutHeight;//输出高度
-
     private File CAPTURE_SAVE_DIR;//本app拍照保存的目录
+    private Options mOptions;
 
     /**
      * 图片的uri为onActivityResult的intent.getData()
      *
      * @param context     启动的Activity
-     * @param width       图片宽
-     * @param height      图片高
+     * @param options     启动参数
      * @param requestCode onActivityResult的参数
      */
-    public static void start(Activity context, int width, int height, int requestCode) {
+    public static void start(Activity context, Options options, int requestCode) {
         Intent starter = new Intent(context, PhotoActivity.class);
-        starter.putExtra("width", width);
-        starter.putExtra("height", height);
+        if (options != null) {
+            starter.putExtra("options", options);
+        }
+
         context.startActivityForResult(starter, requestCode);
     }
 
-    public static List<Uri> handleResult(Intent data){
-        ArrayList<Uri> uris=new ArrayList<>();
-        if (data!=null){
-            if (data.getData()!=null){
+    public static List<Uri> handleResult(Intent data) {
+        ArrayList<Uri> uris = new ArrayList<>();
+        if (data != null) {
+            if (data.getData() != null) {
                 uris.add(data.getData());
-            }else{
+            } else {
                 Serializable photo_result_images = data.getSerializableExtra("photo_result_images");
-                if (photo_result_images!=null){
+                if (photo_result_images != null) {
                     //noinspection unchecked
                     uris.addAll((Collection<? extends Uri>) photo_result_images);
                 }
@@ -97,8 +100,7 @@ public class PhotoActivity extends BaseActivity {
 
         mPicturesAdapter = new Adapter();
         mRecyclerView.setAdapter(mPicturesAdapter);
-        mOutWidth = getIntent().getIntExtra("width", 100);
-        mOutHeight = getIntent().getIntExtra("height", 100);
+        initIntent();
 
         initDirs();
 
@@ -113,19 +115,29 @@ public class PhotoActivity extends BaseActivity {
             }
         });
 
-        findViewById(R.id.btn_publish).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                returnData();
-            }
-        });
 
     }
 
-    private void returnData() {
+    private void initIntent() {
+        mOptions=getIntent().getParcelableExtra("options");
+        if (mOptions==null){
+            mOptions=new Options();
+            mOptions.multiply=false;
+            mOptions.outHeight=100;
+            mOptions.outWidth=100;
+        }
+        TextView btn_title= (TextView) findViewById(R.id.btn_title);
+        if (mOptions.multiply){
+            btn_title.setText(mOptions.actionName);
+            btn_title.setVisibility(View.VISIBLE);
+        }else{
+            btn_title.setVisibility(View.INVISIBLE);
+        }
+    }
+
+    private void returnData(ArrayList<Uri> uris) {
         Intent intent = getIntent();
-        intent.putExtra("photo_result_images", mPicturesAdapter.selectedUris);
+        intent.putExtra("photo_result_images", uris);
         setResult(RESULT_OK, intent);
         finish();
     }
@@ -140,19 +152,16 @@ public class PhotoActivity extends BaseActivity {
         }
 
         //加载系统图片
-        mFolders = ImageUtil.loadFolders(this);
-        if (mFolders == null || mFolders.size() == 0) return;
-
-        ArrayList<String> itemsArray = new ArrayList<>();
-        for (Map<String, Object> map : mFolders) {
-            itemsArray.add(map.get(MediaStore.Images.Media.BUCKET_DISPLAY_NAME).toString());
+        List<Map<String, Object>> maps = ImageUtil.loadFolders(this);
+        if (maps != null) {
+            mFolders.addAll(maps);
         }
-        String[] mFolderNames = new String[itemsArray.size()];
-        itemsArray.toArray(mFolderNames);
+
         if (mAppImages.size() > 0) {
             displayFolder(getString(R.string.app_name), mAppImages);
-        } else {
-            displayFolder(mFolderNames[0], ImageUtil.listPhotos(this, mFolderNames[0]));
+        } else if (mFolders.size() != 0) {
+            String folderName = mFolders.get(0).get(BUCKET_DISPLAY_NAME).toString();
+            displayFolder(folderName, ImageUtil.listPhotos(this, folderName));
         }
     }
 
@@ -197,7 +206,7 @@ public class PhotoActivity extends BaseActivity {
 
             switch (requestCode) {
                 case CAPTURE: {
-                    startActivityForResult(IntentUtils.cropImageUri(uri, mOutWidth, mOutHeight), CROP);
+                    startActivityForResult(IntentUtils.cropImageUri(uri, mOptions.outWidth, mOptions.outHeight), CROP);
                     break;
                 }
                 case CROP: {
@@ -209,6 +218,10 @@ public class PhotoActivity extends BaseActivity {
                 }
             }
         }
+    }
+
+    public void onCompleted(View view) {
+        returnData(mPicturesAdapter.selectedUris);
     }
 
     /**
@@ -252,21 +265,26 @@ public class PhotoActivity extends BaseActivity {
                 ImageLoader.getInstance().displayImage(uri.toString(), imageView, options);
 
                 holder.imageView.setTag(position);
-                holder.layout_checkedMark.setVisibility(selectedUris.contains(uri)?View.VISIBLE:View.INVISIBLE);
+                holder.layout_checkedMark.setVisibility(selectedUris.contains(uri) ? View.VISIBLE : View.INVISIBLE);
                 holder.imageView.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
                         int position = (int) v.getTag();
-                        Map<String, Object> itemData = mAdapterData.get(position-1);
+                        Map<String, Object> itemData = mAdapterData.get(position - 1);
                         String path = (String) itemData.get(MediaStore.Images.Media.DATA);
                         Uri uri = Uri.fromFile(new File(path));
-
-                        if (selectedUris.contains(uri)) {
-                            selectedUris.remove(uri);
-                        } else {
-                            selectedUris.add(uri);
+                        if (mOptions.multiply){
+                            if (selectedUris.contains(uri)) {
+                                selectedUris.remove(uri);
+                            } else {
+                                selectedUris.add(uri);
+                            }
+                            notifyItemChanged(position);
+                        }else{
+                            ArrayList<Uri> uris=new ArrayList<Uri>();
+                            uris.add(uri);
+                            returnData(uris);
                         }
-                        notifyItemChanged(position);
                     }
                 });
             } else {
@@ -365,5 +383,47 @@ public class PhotoActivity extends BaseActivity {
                 }
             });
         }
+    }
+
+    public static class Options implements Parcelable {
+        public int outWidth;
+        public int outHeight;
+        public boolean multiply;
+        public String actionName;
+
+        @Override
+        public int describeContents() {
+            return 0;
+        }
+
+        @Override
+        public void writeToParcel(Parcel dest, int flags) {
+            dest.writeInt(this.outWidth);
+            dest.writeInt(this.outHeight);
+            dest.writeByte(multiply ? (byte) 1 : (byte) 0);
+            dest.writeString(this.actionName);
+        }
+
+        public Options() {
+        }
+
+        protected Options(Parcel in) {
+            this.outWidth = in.readInt();
+            this.outHeight = in.readInt();
+            this.multiply = in.readByte() != 0;
+            this.actionName = in.readString();
+        }
+
+        public static final Creator<Options> CREATOR = new Creator<Options>() {
+            @Override
+            public Options createFromParcel(Parcel source) {
+                return new Options(source);
+            }
+
+            @Override
+            public Options[] newArray(int size) {
+                return new Options[size];
+            }
+        };
     }
 }

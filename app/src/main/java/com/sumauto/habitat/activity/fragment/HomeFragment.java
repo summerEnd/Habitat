@@ -88,8 +88,7 @@ public class HomeFragment extends ListFragment implements ViewPager.OnPageChange
     }
 
     void initData(){
-        User user = HabitatApp.getInstance().geUser();
-        ImageLoader.getInstance().displayImage(user.getHeadimg(),iv_avatar, ImageOptions.options());
+        ImageLoader.getInstance().displayImage(HabitatApp.getInstance().getUserData(HabitatApp.ACCOUNT_AVATAR),iv_avatar, ImageOptions.options());
     }
 
     @Override

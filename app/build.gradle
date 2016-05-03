@@ -27,7 +27,9 @@ android {
 
         resValue "integer" ,'versionCode', "$versionCode"
         resValue "string" ,'versionName', "$versionName"
+        resValue "string" ,'account_type', "com.sumauto.habitat.accountTypee"
 
+        buildConfigField "String", "ACCOUNT_TYPE", "\"com.sumauto.habitat.accountTypee\""
         buildConfigField "String", "BUILD_TIME", "\"${buildTime()}\""
         buildConfigField "String", "APP_KEY", "\"$APP_KEY\""
         buildConfigField "String", "CHANNEL", "\"\""
@@ -99,4 +101,5 @@ dependencies {
     compile files('libs/SocialSDK_WeiXin_2.jar')
     compile files('libs/SocialSDK_Sina.jar')
     compile files('libs/weiboSDKCore_3.1.4.jar')
+    compile 'com.android.support:cardview-v7:23.3.0'
 }

@@ -82,5 +82,7 @@
     <string name="update_version">版本更新</string>
     <string name="invite_friends">邀请好友</string>
     <string name="clear_cache">清理缓存</string>
-    <string name="account_type">com.sumauto.habitat.accountType</string>
+    <string name="publish_now">立即发布</string>
+    <string name="hint_input_nick">请输入昵称</string>
+    <string name="lazy_man">这个人很懒，什么都没有留下</string>
 </resources>

@@ -119,10 +119,9 @@
         </activity>
 
         <service
-            android:name="com.sumauto.habitat.account.AccountService"
+            android:name=".account.AccountService"
             android:enabled="true"
             android:exported="true">
-
             <intent-filter>
                 <action android:name="android.accounts.AccountAuthenticator"/>
             </intent-filter>
@@ -131,6 +130,11 @@
                 android:name="android.accounts.AccountAuthenticator"
                 android:resource="@xml/authenticator"/>
         </service>
+
+        <activity
+            android:label="@string/create_circle"
+            android:name=".activity.CreateCommunity">
+        </activity>
     </application>
 
 </manifest>

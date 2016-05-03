@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="com.sumauto.habitat.activity.CreateCommunity">
+
+    <android.support.v7.widget.Toolbar
+        style="@style/toolBarStyle">
+
+        <TextView
+            style="@style/toolbar_back_button"
+            />
+
+        <TextView
+            style="@style/toolbar_title_style"
+            android:drawableRight="@mipmap/ic_down_arrow"
+            />
+
+        <TextView
+            android:id="@+id/btn_title"
+            android:onClick="onCreateCommunity"
+            style="@style/toolBar_clickedItem"
+            android:layout_gravity="right"
+            android:layout_marginRight="10dp"
+            android:text="立即创建"
+            />
+    </android.support.v7.widget.Toolbar>
+
+    <View style="@style/horizontal_line"/>
+
+    <LinearLayout
+        android:layout_marginTop="5dp"
+        style="@style/complete_data_click_item">
+
+        <TextView
+            style="@style/complete_data_text1"
+            android:text="小区名称"/>
+
+        <android.support.v4.widget.Space
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"/>
+
+        <EditText
+            android:id="@+id/edit_commit_name"
+            style="@style/complete_data_item_value"
+            android:background="#0000"
+            android:gravity="right"
+            android:hint="@string/hint_input_nick"
+            android:singleLine="true"
+            tools:text="哈哈哈">
+
+            <requestFocus/>
+        </EditText>
+
+    </LinearLayout>
+
+    <View style="@style/horizontal_line"/>
+
+    <LinearLayout
+        style="@style/complete_data_click_item">
+
+        <TextView
+            style="@style/complete_data_text1"
+            android:text="省、市、区"/>
+
+        <android.support.v4.widget.Space
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"/>
+
+        <TextView
+            style="@style/complete_data_item_value"
+            android:background="#0000"
+            android:gravity="right"
+            android:hint="@string/hint_input_nick"
+            android:onClick="onChooseCity"
+            android:singleLine="true"
+            tools:text="哈哈哈"/>
+
+    </LinearLayout>
+</LinearLayout>
