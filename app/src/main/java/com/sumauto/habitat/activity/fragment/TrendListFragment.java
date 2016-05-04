@@ -42,7 +42,6 @@ public class TrendListFragment extends ListFragment {
         mRecyclerView.setLayoutManager(new LinearLayoutManager(context));
 
         TrendAdapter adapter = new TrendAdapter((BaseActivity) getActivity(), mCallback);
-
         mRecyclerView.setAdapter(adapter);
         mRecyclerView.addItemDecoration(new DividerDecoration(Color.parseColor("#e5e5e5")));
         processListBottomMargins(mRecyclerView);

@@ -6,6 +6,7 @@ import android.os.Message;
 import android.support.annotation.Nullable;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewParent;
@@ -20,13 +21,15 @@ import java.util.List;
  * Created by Lincoln on 2015/10/28.
  * 加载更多adapter
  */
-@SuppressWarnings("unused")
 public abstract class LoadMoreAdapter extends ListAdapter implements SwipeRefreshLayout.OnRefreshListener {
+    private static final String TAG = "LoadMoreAdapter";
     private static final int MSG_REFRESH = 0;
     private static final int MSG_MORE = 1;
     private final int TYPE_LOAD_MORE = 10002;
     private boolean mHasMoreData = true;//是否有更多数据
     private int mCurrentPage = -1;
+    boolean isLoading = false;
+
     @Nullable
     private SwipeRefreshLayout swipeRefreshLayout;
     private LoadMoreHolder mLoadMoreHolder;
@@ -45,11 +48,12 @@ public abstract class LoadMoreAdapter extends ListAdapter implements SwipeRefres
                         int startPosition = dataList.size();
                         dataList.addAll(newData);
                         setHasMoreData(true);
-                        try {
+                        if (startPosition == 0) {
+                            notifyDataSetChanged();
+                        } else {
                             notifyItemRangeInserted(startPosition, dataList.size() - startPosition);
-                        } catch (Exception ignored) {
-
                         }
+
                     } else {
                         setHasMoreData(false);
                     }
@@ -67,7 +71,7 @@ public abstract class LoadMoreAdapter extends ListAdapter implements SwipeRefres
                 mRecyclerView.setLayoutFrozen(false);
                 swipeRefreshLayout.setRefreshing(false);
             }
-            mLoadMoreHolder.isLoading=false;
+            isLoading = false;
             return false;
         }
     });
@@ -106,10 +110,6 @@ public abstract class LoadMoreAdapter extends ListAdapter implements SwipeRefres
 
     public int getCurrentPage() {
         return mCurrentPage;
-    }
-
-    public void setCurrentPage(int currentPage) {
-        this.mCurrentPage = currentPage;
     }
 
     public LoadMoreAdapter(Context context, List data) {
@@ -157,11 +157,15 @@ public abstract class LoadMoreAdapter extends ListAdapter implements SwipeRefres
     @Override
     public final void onRefresh() {
         mRecyclerView.setLayoutFrozen(true);//刷新后就不准滑动
+        if (isLoading) return;
         new Thread(new Runnable() {
             @Override
             public void run() {
+                Log.d(TAG, "onRefreshing");
+                isLoading = true;
                 List list = onLoadData(0);
                 mHandler.sendMessage(mHandler.obtainMessage(MSG_REFRESH, list));
+                Log.d(TAG, "refreshDone");
             }
         }).start();
     }
@@ -170,11 +174,15 @@ public abstract class LoadMoreAdapter extends ListAdapter implements SwipeRefres
      * 加载更多
      */
     void doLoadMore() {
+        if (isLoading) return;
         new Thread(new Runnable() {
             @Override
             public void run() {
+                isLoading = true;
+                Log.d(TAG, "doLoadMore");
                 List list = onLoadData(getCurrentPage() + 1);
                 mHandler.sendMessage(mHandler.obtainMessage(MSG_MORE, list));
+                Log.d(TAG, "loadDone");
             }
         }).start();
     }
@@ -204,7 +212,6 @@ public abstract class LoadMoreAdapter extends ListAdapter implements SwipeRefres
     private class LoadMoreHolder extends BaseHolder {
         View progress;
         TextView loadMoreText;
-        boolean isLoading = false;
 
         public LoadMoreHolder(View itemView) {
             super(itemView);
@@ -213,19 +220,16 @@ public abstract class LoadMoreAdapter extends ListAdapter implements SwipeRefres
         }
 
         private void dispatchLoading() {
-            if (isLoading) {
-                return;
-            }
+            Log.d(TAG, "dispatchLoading");
             progress.setVisibility(View.VISIBLE);
             loadMoreText.setText(R.string.loading);
-            isLoading = true;
             doLoadMore();
         }
 
         private void dispatchNoData() {
+            Log.d(TAG, "dispatchNoData");
             progress.setVisibility(View.GONE);
             loadMoreText.setText(getDataList().size() != 0 ? R.string.noMore : R.string.noData_refresh);
-            isLoading = false;
         }
     }
 }

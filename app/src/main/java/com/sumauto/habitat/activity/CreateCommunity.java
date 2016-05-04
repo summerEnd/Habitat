@@ -14,6 +14,7 @@ import com.sumauto.habitat.widget.PickerView;
 
 public class CreateCommunity extends BaseActivity {
     @ViewId EditText edit_commit_name;
+    private PickCity pickCity;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -22,7 +23,10 @@ public class CreateCommunity extends BaseActivity {
     }
 
     public void onChooseCity(View view) {
-        new PickCity(this);
+        if (pickCity==null){
+            pickCity = new PickCity(this);
+        }
+        pickCity.show();
     }
 
     public void onCreateCommunity(View view) {

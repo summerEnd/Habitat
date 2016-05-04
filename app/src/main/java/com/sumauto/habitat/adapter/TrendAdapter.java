@@ -36,6 +36,11 @@ public class TrendAdapter extends LoadMoreAdapter {
     }
 
     @Override
+    public int getViewType(int position) {
+        return super.getViewType(position);
+    }
+
+    @Override
     public List onLoadData(int page) {
         HttpRequest<List<FeedBean>> request = Requests.getCommunity(callback.getComId(), page, 5);
 
