@@ -8,16 +8,17 @@ import android.provider.MediaStore;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.bigkoo.pickerview.TimePickerView;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.sumauto.habitat.HabitatApp;
 import com.sumauto.habitat.R;
+import com.sumauto.habitat.bean.User;
 import com.sumauto.habitat.callback.ViewId;
 import com.sumauto.habitat.http.HttpManager;
 import com.sumauto.habitat.http.HttpRequest;
@@ -25,11 +26,14 @@ import com.sumauto.habitat.http.JsonHttpHandler;
 import com.sumauto.habitat.http.Requests;
 import com.sumauto.habitat.utils.ImageOptions;
 import com.sumauto.habitat.widget.IosListDialog;
-import com.sumauto.habitat.widget.PickerView;
+import com.sumauto.util.FileUtil;
 import com.sumauto.util.ImageUtil;
 import com.sumauto.util.ToastUtil;
+import com.sumauto.wheel.TimePickerView;
 
+import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.net.URISyntaxException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
@@ -86,7 +90,7 @@ public class EditUserInfoActivity extends BaseActivity {
 
     //添加社区
     public void onAddComm(View view) {
-
+        CreateCommunity.start(this,edit_commit_name.getText().toString());
     }
 
     private class ChangeWatcher implements TextWatcher {
@@ -134,12 +138,12 @@ public class EditUserInfoActivity extends BaseActivity {
 
     public void onBirthdayClick(View v) {
 
-        PickerView timePickerView = new PickerView(this, TimePickerView.Type.YEAR_MONTH_DAY);
+        TimePickerView timePickerView = new TimePickerView(this, TimePickerView.Type.YEAR_MONTH_DAY);
         timePickerView.setRange(1920, 2020);
         timePickerView.setCyclic(false);
         timePickerView.setTitle(getString(R.string.birthday));
 
-        timePickerView.setOnTimeSelectListener(new PickerView.OnTimeSelectListener() {
+        timePickerView.setOnTimeSelectListener(new TimePickerView.OnTimeSelectListener() {
             @Override
             public void onTimeSelect(Date date) {
                 String birthday = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(date);
@@ -152,32 +156,39 @@ public class EditUserInfoActivity extends BaseActivity {
 
     public void onSaveClick(View view) {
 
-        HttpRequest<String> request = Requests.changeUserInfo(changes);
+        try {
+            HttpManager.getInstance().post(this, new JsonHttpHandler<User>(Requests.changeUserInfo(changes)) {
+                @Override
+                public void onSuccess(HttpResponse response, HttpRequest<User> request, User bean) {
+                    ToastUtil.toast(EditUserInfoActivity.this, response.msg);
+                    getApplicationContext().setUserData(bean.toBundle());
+                    finish();
+                }
+            });
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+            Log.e("","头像文件未找到");
+        }
 
-        HttpManager.getInstance().post(this, new JsonHttpHandler<String>(request) {
-            @Override
-            public void onSuccess(HttpResponse response, HttpRequest<String> request, String bean) {
-                ToastUtil.toast(EditUserInfoActivity.this,response.msg);
-                finish();
-            }
-        });
+
     }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (resultCode == RESULT_OK && REQUEST_CODE == requestCode) {
-            try {
-                List<Uri> uris = PhotoActivity.handleResult(data);
-                if (!uris.isEmpty()) {
-                    Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), uris.get(0));
-                    iv_avatar.setImageBitmap(bitmap);
-                    changes.putString(Requests.headimg, ImageUtil.base64Encode(bitmap));
+            List<Uri> uris = PhotoActivity.handleResult(data);
+            if (!uris.isEmpty()) {
+                Uri uri = uris.get(0);
+                iv_avatar.setImageURI(uri);
+                try {
+                    changes.putString(Requests.headimg, FileUtil.uriToFile(uri).getAbsolutePath());
+                } catch (URISyntaxException e) {
+                    e.printStackTrace();
                 }
-
-            } catch (IOException e) {
-                e.printStackTrace();
             }
+
+
         }
     }
 }

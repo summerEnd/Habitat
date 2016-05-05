@@ -61,6 +61,7 @@
     <View style="@style/horizontal_line"/>
 
     <LinearLayout
+        android:onClick="onChooseCity"
         style="@style/complete_data_click_item">
 
         <TextView
@@ -73,13 +74,13 @@
             android:layout_weight="1"/>
 
         <TextView
+            android:id="@+id/tv_address"
             style="@style/complete_data_item_value"
             android:background="#0000"
             android:gravity="right"
-            android:hint="@string/hint_input_nick"
-            android:onClick="onChooseCity"
             android:singleLine="true"
-            tools:text="哈哈哈"/>
+            android:hint="请选择"
+          />
 
     </LinearLayout>
 </LinearLayout>

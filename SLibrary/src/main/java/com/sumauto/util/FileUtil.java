@@ -1,6 +1,10 @@
 package com.sumauto.util;
 
+import android.net.Uri;
+
 import java.io.File;
+import java.net.URI;
+import java.net.URISyntaxException;
 
 @SuppressWarnings("ResultOfMethodCallIgnored")
 public class FileUtil {
@@ -39,5 +43,8 @@ public class FileUtil {
         return size;
     }
 
+    public static File uriToFile(Uri uri) throws URISyntaxException {
+        return new File(new URI(uri.toString()));
+    }
 
 }

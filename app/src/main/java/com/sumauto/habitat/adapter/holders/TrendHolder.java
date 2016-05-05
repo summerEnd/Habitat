@@ -21,6 +21,7 @@ import com.sumauto.habitat.http.JsonHttpHandler;
 import com.sumauto.habitat.http.Requests;
 import com.sumauto.habitat.utils.ImageOptions;
 import com.sumauto.habitat.widget.IosListDialog;
+import com.sumauto.util.ToastUtil;
 import com.sumauto.util.ViewUtil;
 import com.umeng.socialize.ShareAction;
 import com.umeng.socialize.UMShareListener;
@@ -36,6 +37,8 @@ public class TrendHolder extends BaseViewHolder implements View.OnClickListener 
     public final ImageView iv_avatar, iv_image, iv_heart, iv_comment, iv_collect, iv_more;
     private FeedBean feedBean;
     private WeakReference<BaseActivity> mActivity;
+    private WeakReference<ImageView> iv_heartWeak;
+    private WeakReference<ImageView> iv_collectWeak;
     ListItemNewsFeedBinding binding;
 
     public TrendHolder(ViewGroup parent, BaseActivity activity) {
@@ -52,6 +55,9 @@ public class TrendHolder extends BaseViewHolder implements View.OnClickListener 
 
     public void init(FeedBean bean) {
         this.feedBean = bean;
+        iv_heartWeak = new WeakReference<>(iv_heart);
+        iv_collectWeak = new WeakReference<>(iv_collect);
+
         ViewUtil.registerOnClickListener(this, itemView, iv_image, iv_heart, iv_comment, iv_collect, iv_more);
         iv_heart.setImageResource(bean.isNice() ? R.mipmap.ic_heart_checked : R.mipmap.ic_heart);
         iv_collect.setImageResource(bean.isCollection() ? R.mipmap.ic_collect_checked : R.mipmap.ic_collect);
@@ -64,7 +70,8 @@ public class TrendHolder extends BaseViewHolder implements View.OnClickListener 
     public void onClick(View v) {
 
         if (v == itemView) {
-            startActivity(intentActivity(TrendDetailActivity.class));
+            TrendDetailActivity.start(v.getContext(),feedBean.id);
+            //startActivity(intentActivity(TrendDetailActivity.class));
             return;
         }
 
@@ -72,7 +79,7 @@ public class TrendHolder extends BaseViewHolder implements View.OnClickListener 
         Context context = v.getContext();
         switch (id) {
             case R.id.iv_image: {
-
+                TrendDetailActivity.start(v.getContext(),feedBean.id);
                 break;
             }
 
@@ -98,30 +105,25 @@ public class TrendHolder extends BaseViewHolder implements View.OnClickListener 
                     return;
                 }
 
+                String tid = feedBean.id;
                 switch (id) {
                     case R.id.iv_heart: {
-                        boolean isNice = feedBean.isNice();
-                        if (isNice){
-                            HttpRequest<String> request = Requests.niceSubject(feedBean.id);
+                        HttpRequest<String> request = feedBean.isNice() ? Requests.unniceSubject(tid) :
+                                Requests.niceSubject(tid);
+                        HttpManager.getInstance().post(context, new JsonHttpHandler<String>(request) {
+                            @Override
+                            public void onSuccess(HttpResponse response, HttpRequest<String> request, String bean) {
+                                feedBean.setIsNice(!feedBean.isNice());
+                                ImageView iv_heart = iv_heartWeak.get();
+                                if (iv_heart != null) {
+                                    ToastUtil.toast(iv_heart.getContext(),response.msg);
 
-                            HttpManager.getInstance().post(context, new JsonHttpHandler<String>(request) {
-                                @Override
-                                public void onSuccess(HttpResponse response, HttpRequest<String> request, String bean) {
-                                    iv_heart.setImageResource(R.mipmap.ic_heart);
-                                    feedBean.setIsNice(false);
+                                    iv_heart.setImageResource(feedBean.isNice() ? R.mipmap.ic_heart_checked :
+                                            R.mipmap.ic_heart);
                                 }
-                            });
-                        }else{
-                            HttpRequest<String> request = Requests.unniceSubject(feedBean.id);
+                            }
+                        });
 
-                            HttpManager.getInstance().post(context, new JsonHttpHandler<String>(request) {
-                                @Override
-                                public void onSuccess(HttpResponse response, HttpRequest<String> request, String bean) {
-                                    iv_heart.setImageResource(R.mipmap.ic_heart_checked);
-                                    feedBean.setIsNice(true);
-                                }
-                            });
-                        }
 
                         break;
                     }
@@ -129,37 +131,29 @@ public class TrendHolder extends BaseViewHolder implements View.OnClickListener 
                         break;
                     }
                     case R.id.iv_collect: {
-                        if (feedBean.isCollection()) {
-                            HttpRequest<String> request = Requests.collectSubject(feedBean.id);
+                        HttpRequest<String> request = feedBean.isCollection() ? Requests.uncollectSubject(tid) :
+                                Requests.collectSubject(tid);
 
-                            HttpManager.getInstance().post(context, new JsonHttpHandler<String>(request) {
-                                @Override
-                                public void onSuccess(HttpResponse response, HttpRequest<String> request, String bean) {
-                                    iv_collect.setImageResource(R.mipmap.ic_collect);
-                                    feedBean.setIsCollection(false);
+                        HttpManager.getInstance().post(context, new JsonHttpHandler<String>(request) {
+                            @Override
+                            public void onSuccess(HttpResponse response, HttpRequest<String> request, String bean) {
+                                feedBean.setIsCollection(!feedBean.isCollection());
+                                ImageView iv_collect = iv_collectWeak.get();
+                                if (iv_collect != null) {
+                                    ToastUtil.toast(iv_collect.getContext(),response.msg);
+
+                                    iv_collect.setImageResource(feedBean.isCollection() ? R.mipmap.ic_collect_checked :
+                                            R.mipmap.ic_collect);
                                 }
-                            });
+                            }
+                        });
 
-                        } else {
-                            HttpRequest<String> request = Requests.unniceSubject(feedBean.id);
-
-                            HttpManager.getInstance().post(context, new JsonHttpHandler<String>(request) {
-                                @Override
-                                public void onSuccess(HttpResponse response, HttpRequest<String> request, String bean) {
-                                    iv_collect.setImageResource(R.mipmap.ic_collect_checked);
-                                    feedBean.setIsCollection(true);
-                                }
-                            });
-
-                        }
                         break;
                     }
 
                 }
             }
         }
-
-
     }
 
     private void startShare() {

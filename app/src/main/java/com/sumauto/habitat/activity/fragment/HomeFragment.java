@@ -48,7 +48,7 @@ public class HomeFragment extends ListFragment implements ViewPager.OnPageChange
         mViewPager.setAdapter(new FragmentPagerAdapter(getChildFragmentManager()) {
             @Override
             public CharSequence getPageTitle(int position) {
-                return getString(position == 0 ? R.string.neighbour_feed : R.string.friends_feed);
+                return getString(position == 0 ? R.string.neighbour_feed : R.string.near_people);
             }
 
             @Override

@@ -1,24 +1,21 @@
-package com.sumauto.habitat.widget;
+package com.sumauto.wheel;
 
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.TextView;
 
-import com.bigkoo.pickerview.TimePickerView;
-import com.bigkoo.pickerview.view.BasePickerView;
-import com.bigkoo.pickerview.view.WheelTime;
-import com.sumauto.habitat.R;
+import com.sp.lib.R;
 
 import java.text.ParseException;
 import java.util.Calendar;
 import java.util.Date;
 
-/**
- * Created by Sai on 15/11/22.
- */
-public class PickerView extends BasePickerView implements View.OnClickListener {
 
+public class TimePickerView extends BasePickerView implements View.OnClickListener {
+    public enum Type {
+        ALL, YEAR_MONTH_DAY, HOURS_MINS, MONTH_DAY_HOUR_MIN , YEAR_MONTH
+    }// 四种选择模式，年月日时分，年月日，时分，月日时分
 
     WheelTime wheelTime;
     private View btnSubmit, btnCancel;
@@ -27,7 +24,7 @@ public class PickerView extends BasePickerView implements View.OnClickListener {
     private static final String TAG_CANCEL = "cancel";
     private OnTimeSelectListener timeSelectListener;
 
-    public PickerView(Context context, TimePickerView.Type type) {
+    public TimePickerView(Context context, Type type) {
         super(context);
 
         LayoutInflater.from(context).inflate(R.layout.pickerview_time, contentContainer);
@@ -43,41 +40,29 @@ public class PickerView extends BasePickerView implements View.OnClickListener {
         // ----时间转轮
         final View timepickerview = findViewById(R.id.timepicker);
         wheelTime = new WheelTime(timepickerview, type);
+
         //默认选中当前时间
         Calendar calendar = Calendar.getInstance();
         calendar.setTimeInMillis(System.currentTimeMillis());
         int year = calendar.get(Calendar.YEAR);
         int month = calendar.get(Calendar.MONTH);
         int day = calendar.get(Calendar.DAY_OF_MONTH);
-        wheelTime.setPicker(year, month, day);
+        int hours = calendar.get(Calendar.HOUR_OF_DAY);
+        int minute = calendar.get(Calendar.MINUTE);
+        wheelTime.setPicker(year, month, day, hours, minute);
+
     }
 
     /**
      * 设置可以选择的时间范围
-     *
-     * @param startYear
-     * @param endYear
      */
     public void setRange(int startYear, int endYear) {
         wheelTime.setStartYear(startYear);
         wheelTime.setEndYear(endYear);
     }
 
-    @Override
-    public void show() {
-        //默认选中当前时间
-        Calendar calendar = Calendar.getInstance();
-        calendar.setTimeInMillis(System.currentTimeMillis());
-        int year = calendar.get(Calendar.YEAR);
-        int month = calendar.get(Calendar.MONTH);
-        int day = calendar.get(Calendar.DAY_OF_MONTH);
-        wheelTime.setPicker(year, month, day);
-        super.show();
-    }
-
     /**
      * 设置选中时间
-     *
      * @param date
      */
     public void setTime(Date date) {
@@ -94,6 +79,25 @@ public class PickerView extends BasePickerView implements View.OnClickListener {
         wheelTime.setPicker(year, month, day, hours, minute);
     }
 
+    //    /**
+    //     * 指定选中的时间，显示选择器
+    //     *
+    //     * @param date
+    //     */
+    //    public void show(Date date) {
+    //        Calendar calendar = Calendar.getInstance();
+    //        if (date == null)
+    //            calendar.setTimeInMillis(System.currentTimeMillis());
+    //        else
+    //            calendar.setTime(date);
+    //        int year = calendar.get(Calendar.YEAR);
+    //        int month = calendar.get(Calendar.MONTH);
+    //        int day = calendar.get(Calendar.DAY_OF_MONTH);
+    //        int hours = calendar.get(Calendar.HOUR_OF_DAY);
+    //        int minute = calendar.get(Calendar.MINUTE);
+    //        wheelTime.setPicker(year, month, day, hours, minute);
+    //        show();
+    //    }
 
     /**
      * 设置是否循环滚动
@@ -109,6 +113,7 @@ public class PickerView extends BasePickerView implements View.OnClickListener {
         String tag = (String) v.getTag();
         if (tag.equals(TAG_CANCEL)) {
             dismiss();
+            return;
         } else {
             if (timeSelectListener != null) {
                 try {
@@ -119,18 +124,31 @@ public class PickerView extends BasePickerView implements View.OnClickListener {
                 }
             }
             dismiss();
+            return;
         }
     }
 
     public interface OnTimeSelectListener {
-        void onTimeSelect(Date date);
+        public void onTimeSelect(Date date);
     }
 
     public void setOnTimeSelectListener(OnTimeSelectListener timeSelectListener) {
         this.timeSelectListener = timeSelectListener;
     }
 
-    public void setTitle(String title) {
+    @Override
+    public void show() {
+        //默认选中当前时间
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTimeInMillis(System.currentTimeMillis());
+        int year = calendar.get(Calendar.YEAR);
+        int month = calendar.get(Calendar.MONTH);
+        int day = calendar.get(Calendar.DAY_OF_MONTH);
+        wheelTime.setPicker(year, month, day);
+        super.show();
+    }
+
+    public void setTitle(String title){
         tvTitle.setText(title);
     }
 }

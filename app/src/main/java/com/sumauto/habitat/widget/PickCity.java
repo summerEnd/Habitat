@@ -1,28 +1,22 @@
 package com.sumauto.habitat.widget;
 
 
-import android.app.Dialog;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
-import android.graphics.Color;
-import android.graphics.drawable.ColorDrawable;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
-import android.view.ViewGroup;
-import android.widget.LinearLayout;
+import android.view.View;
+import android.widget.TextView;
 
-import com.bigkoo.pickerview.adapter.WheelAdapter;
-import com.bigkoo.pickerview.lib.WheelView;
-import com.bigkoo.pickerview.listener.OnItemSelectedListener;
-import com.bigkoo.pickerview.view.BasePickerView;
 import com.sumauto.habitat.R;
 import com.sumauto.habitat.utils.CityDB;
+import com.sumauto.wheel.BasePickerView;
+import com.sumauto.wheel.WheelView;
+import com.sumauto.wheel.WheelView.OnItemSelectedListener;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import static android.view.ViewGroup.LayoutParams.MATCH_PARENT;
-import static android.view.ViewGroup.LayoutParams.WRAP_CONTENT;
 
 public class PickCity extends BasePickerView {
     private static final String CITY_SQL = "SELECT DISTINCT cname,cid,pname FROM city WHERE pname='%s' ORDER BY cid DESC";
@@ -31,9 +25,14 @@ public class PickCity extends BasePickerView {
     private WheelView mProvinceWheel;
     private WheelView mCityWheel;
     private WheelView mAreaWheel;
+
+    private TextView tvTitle;
+
     ArrayList<String> mProvinceList = new ArrayList<>();
     ArrayList<String> mCityList = new ArrayList<>();
     ArrayList<String> mAreaList = new ArrayList<>();
+
+    private String province = "江苏省", city = "南京市", area = "";
 
     public PickCity(Context context) {
         super(context);
@@ -44,9 +43,7 @@ public class PickCity extends BasePickerView {
         mCityWheel = (WheelView) findViewById(R.id.wv_city);
         mAreaWheel = (WheelView) findViewById(R.id.wv_area);
 
-        mProvinceWheel.setTextSize(14);
-        mCityWheel.setTextSize(14);
-        mAreaWheel.setTextSize(14);
+        tvTitle = (TextView) findViewById(R.id.tvTitle);
 
         mProvinceWheel.setAdapter(new StringAdapter(mProvinceList));
         mCityWheel.setAdapter(new StringAdapter(mCityList));
@@ -55,7 +52,8 @@ public class PickCity extends BasePickerView {
         mProvinceWheel.setOnItemSelectedListener(new OnItemSelectedListener() {
             @Override
             public void onItemSelected(int index) {
-                initData(String.format(CITY_SQL, mProvinceList.get(index)), mCityList);
+                province = mProvinceList.get(index);
+                initData(String.format(CITY_SQL, province), mCityList);
                 mCityWheel.requestLayout();
                 mCityWheel.invalidate();
             }
@@ -64,14 +62,44 @@ public class PickCity extends BasePickerView {
         mCityWheel.setOnItemSelectedListener(new OnItemSelectedListener() {
             @Override
             public void onItemSelected(int index) {
-
-                initData(String.format(AREA_SQL, mCityList.get(index)), mAreaList);
+                city = mCityList.get(index);
+                initData(String.format(AREA_SQL, city), mAreaList);
                 mAreaWheel.requestLayout();
                 mAreaWheel.invalidate();
             }
         });
 
+        mAreaWheel.setOnItemSelectedListener(new OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(int index) {
+                area = mAreaList.get(index);
+            }
+        });
+
+        findViewById(R.id.btnCancel).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dismiss();
+            }
+        });
+        findViewById(R.id.btnSubmit).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dismiss();
+                onSelect();
+            }
+        });
+        contentContainer.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dismiss();
+            }
+        });
         initList();
+    }
+
+    protected void onSelect() {
+
     }
 
     void initList() {
@@ -123,7 +151,7 @@ public class PickCity extends BasePickerView {
         db.close();
     }
 
-    private static class StringAdapter implements WheelAdapter<String> {
+    private static class StringAdapter implements WheelView.WheelAdapter<String> {
         List<String> data;
 
         public StringAdapter(List<String> data) {
@@ -153,4 +181,32 @@ public class PickCity extends BasePickerView {
         }
     }
 
+    public void setTitle(String title) {
+        tvTitle.setText(title);
+    }
+
+    public String getProvince() {
+        if (TextUtils.isEmpty(province)) {
+            province=mProvinceList.get(mProvinceWheel.getCurrentItem());
+        }
+        return province;
+    }
+
+    public String getCity() {
+        if (TextUtils.isEmpty(city)) {
+            city=mCityList.get(mCityWheel.getCurrentItem());
+        }
+        return city;
+    }
+
+    public String getArea() {
+        if (TextUtils.isEmpty(area)) {
+            area=mAreaList.get(mAreaWheel.getCurrentItem());
+        }
+        return area;
+    }
+
+    public String getCityString() {
+        return getProvince() + getCity() + getArea();
+    }
 }

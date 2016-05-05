@@ -5,6 +5,8 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.nostra13.universalimageloader.core.ImageLoader;
+import com.sumauto.habitat.utils.ImageOptions;
 import com.sumauto.util.ViewUtil;
 import com.sumauto.habitat.R;
 import com.sumauto.habitat.bean.CommentBean;
@@ -21,10 +23,13 @@ public class CommentListHolder extends BaseViewHolder implements View.OnClickLis
         iv_avatar= (ImageView) itemView.findViewById(R.id.iv_avatar);
     }
 
-    public void init(CommentBean bean){
-        tv_nick.setText("Lincoln"+getAdapterPosition());
-        tv_time.setText("2016-03-03 09:00");
-        tv_content.setText("人生若只如初见，何事秋风悲画扇。 —— 纳兰性性德 只《木兰词·拟古决绝词柬友》");
+    @Override
+    protected void onInit(Object data) {
+        CommentBean bean= (CommentBean) data;
+        tv_nick.setText(bean.nickname);
+        tv_time.setText(bean.addtime);
+        tv_content.setText(bean.content);
+        ImageLoader.getInstance().displayImage(bean.headimg,iv_avatar, ImageOptions.options());
         ViewUtil.registerOnClickListener(this,itemView);
     }
 

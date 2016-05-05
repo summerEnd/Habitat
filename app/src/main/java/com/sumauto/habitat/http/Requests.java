@@ -4,10 +4,14 @@ import android.os.Bundle;
 
 import com.loopj.android.http.RequestParams;
 import com.sumauto.habitat.HabitatApp;
+import com.sumauto.habitat.bean.CommentBean;
 import com.sumauto.habitat.bean.FeedBean;
+import com.sumauto.habitat.bean.FeedDetailBean;
 import com.sumauto.habitat.bean.User;
+import com.sumauto.habitat.bean.UserInfoBean;
 import com.sumauto.util.JsonUtil;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -27,7 +31,7 @@ public class Requests {
     public static final String nickname = "nickname";//用户头像的base64加密后的密文
     public static final String sex = "sex";
     public static final String birthday = "birthday";
-    public static final String commid = "commid";
+    @SuppressWarnings("unused") public static final String commid = "commid";
     public static final String signature = "signature";
     public static final String headimg = "headimg";
 
@@ -111,7 +115,7 @@ public class Requests {
                 "phone", phone, "pwd", pwd) {
             @Override
             public User parser(String jsonString) throws JSONException {
-                return  JsonUtil.get(new JSONObject(jsonString).getJSONObject("login"),User.class);
+                return JsonUtil.get(new JSONObject(jsonString).getJSONObject("login"), User.class);
             }
         };
     }
@@ -148,21 +152,21 @@ public class Requests {
         };
     }
 
-    /**
-     * 参数说明
-     * uid:用户编号
-     * Headimg:用户头像的base64加密后的密文
-     */
-    public static HttpRequest<String> setHeadImg(String img) {
-        String id = HabitatApp.getInstance().getUserData(HabitatApp.ACCOUNT_UID);
-        return new SimpleHttpRequest<String>("setHeadImg",
-                "uid", id, "Headimg", img) {
-            @Override
-            public String parser(String jsonString) throws JSONException {
-                return jsonString;
-            }
-        };
-    }
+//    /**
+//     * 参数说明
+//     * uid:用户编号
+//     * Headimg:用户头像的base64加密后的密文
+//     */
+//    public static HttpRequest<String> setHeadImg(String img) {
+//        String id = HabitatApp.getInstance().getUserData(HabitatApp.ACCOUNT_UID);
+//        return new SimpleHttpRequest<String>("setHeadImg",
+//                "uid", id, "Headimg", img) {
+//            @Override
+//            public String parser(String jsonString) throws JSONException {
+//                return jsonString;
+//            }
+//        };
+//    }
 
     /**
      * uid:用户编号
@@ -248,13 +252,13 @@ public class Requests {
      * Pageid:分页起始页数（首页已经加载了pageid=0的前5条，所以此时调用pageid从1开始）
      * Pagesize：每页显示数据的数量（pagesize默认为5）
      */
-    public static HttpRequest<?> getComment(String tid, int pageId, int pageSize) {
+    public static HttpRequest<List<CommentBean>> getComment(String tid, int pageId, int pageSize) {
         String id = HabitatApp.getInstance().getUserData(HabitatApp.ACCOUNT_UID);
-        return new SimpleHttpRequest<Object>("getComment",
-                "uid", id, "tid", tid, "pageId", pageId, "pageSize", pageSize) {
+        return new SimpleHttpRequest<List<CommentBean>>("getComment",
+                "uid", id, "tid", tid, "pageid", pageId, "pagesize", pageSize) {
             @Override
-            public Object parser(String jsonString) throws JSONException {
-                return null;
+            public List<CommentBean> parser(String jsonString) throws JSONException {
+                return JsonUtil.getArray(new JSONArray(jsonString),CommentBean.class);
             }
         };
     }
@@ -280,13 +284,13 @@ public class Requests {
      *
      * @param tid 帖子id
      */
-    public static HttpRequest<?> getSubjectDetail(String tid) {
+    public static HttpRequest<FeedDetailBean> getSubjectDetail(String tid) {
         String id = HabitatApp.getInstance().getUserData(HabitatApp.ACCOUNT_UID);
-        return new SimpleHttpRequest<Object>("getSubjectDetail",
+        return new SimpleHttpRequest<FeedDetailBean>("getSubjectDetail",
                 "uid", id, "tid", tid) {
             @Override
-            public Object parser(String jsonString) throws JSONException {
-                return null;
+            public FeedDetailBean parser(String jsonString) throws JSONException {
+                return JsonUtil.get(jsonString,FeedDetailBean.class);
             }
         };
     }
@@ -296,13 +300,13 @@ public class Requests {
      *
      * @param tid 帖子id
      */
-    public static HttpRequest<?> getSubjectNice(String tid) {
+    public static HttpRequest<List<UserInfoBean>> getSubjectNice(String tid,int pageid) {
         String id = HabitatApp.getInstance().getUserData(HabitatApp.ACCOUNT_UID);
-        return new SimpleHttpRequest<Object>("getSubjectNice",
-                "uid", id, "tid", tid) {
+        return new SimpleHttpRequest<List<UserInfoBean>>("getSubjectNice",
+                "uid", id, "tid", tid,"pageid",pageid,"pagesize",12) {
             @Override
-            public Object parser(String jsonString) throws JSONException {
-                return null;
+            public List<UserInfoBean> parser(String jsonString) throws JSONException {
+                return JsonUtil.getArray(new JSONArray(jsonString),UserInfoBean.class);
             }
         };
     }
@@ -341,7 +345,7 @@ public class Requests {
 
     /**
      * 用户修改个人信息接口
-     *
+     * <p/>
      * nickname:昵称
      * sex:性别（男/女）
      * birthday:生日
@@ -349,23 +353,28 @@ public class Requests {
      * signature:个性签名
      * headimg:用户头像的base64加密后的密文
      */
-    public static HttpRequest<String> changeUserInfo(final Bundle changes) {
+    public static HttpRequest<User> changeUserInfo(Bundle changes) throws FileNotFoundException {
+        final RequestParams params = new RequestParams();
+        if (changes.containsKey(headimg)) {
+            File file = new File(changes.getString(headimg));
+            params.put(headimg, file);
+            changes.remove(headimg);//从bundle中移除
+        }
 
-        return new SimpleHttpRequest<String>("changeUserInfo") {
+        String id = HabitatApp.getInstance().getUserData(HabitatApp.ACCOUNT_UID);
+        params.put("uid", id);
+        Set<String> keySet = changes.keySet();
+        for (String key : keySet) {
+            params.put(key, changes.getString(key));
+        }
+        return new SimpleHttpRequest<User>("changeUserInfo") {
             @Override
-            public String parser(String jsonString) throws JSONException {
-                return jsonString;
+            public User parser(String jsonString) throws JSONException {
+                return JsonUtil.get(jsonString,User.class);
             }
 
             @Override
             public RequestParams getRequestParams() {
-                RequestParams params = new RequestParams();
-                String id = HabitatApp.getInstance().getUserData(HabitatApp.ACCOUNT_UID);
-                params.put("uid", id);
-                Set<String> keySet = changes.keySet();
-                for (String key : keySet) {
-                    params.put(key, changes.getString(key));
-                }
                 return params;
             }
         };
@@ -379,13 +388,13 @@ public class Requests {
      * @param area:区/县
      * @param address:具体地址
      */
-    public static HttpRequest<?> createCommunity(String title, String province, String city, String area, String address) {
+    public static HttpRequest<String> createCommunity(String title, String province, String city, String area, String address) {
         String id = HabitatApp.getInstance().getUserData(HabitatApp.ACCOUNT_UID);
-        return new SimpleHttpRequest<Object>("createCommunity",
+        return new SimpleHttpRequest<String>("createCommunity",
                 "uid", id, "title", title, "province", province, "city", city, "area", area, "address", address) {
             @Override
-            public Object parser(String jsonString) throws JSONException {
-                return null;
+            public String parser(String jsonString) throws JSONException {
+                return jsonString;
             }
         };
     }

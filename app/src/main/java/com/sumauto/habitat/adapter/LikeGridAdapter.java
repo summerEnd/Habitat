@@ -1,10 +1,18 @@
 package com.sumauto.habitat.adapter;
 
+import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 import android.view.ViewGroup;
 
 import com.sumauto.habitat.adapter.holders.AvatarNickHolder;
 import com.sumauto.habitat.bean.UserInfoBean;
+import com.sumauto.habitat.http.HttpHandler;
+import com.sumauto.habitat.http.HttpManager;
+import com.sumauto.habitat.http.HttpRequest;
+import com.sumauto.habitat.http.JsonHttpHandler;
+import com.sumauto.habitat.http.Requests;
+import com.sumauto.widget.recycler.adapter.BaseHolder;
+import com.sumauto.widget.recycler.adapter.LoadMoreAdapter;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -13,27 +21,40 @@ import java.util.List;
  * Created by Lincoln on 16/3/23.
  * 点赞列表
  */
-public class LikeGridAdapter extends RecyclerView.Adapter<AvatarNickHolder>{
-    List<UserInfoBean> beans=new ArrayList<>();
+public class LikeGridAdapter extends LoadMoreAdapter{
 
-    public LikeGridAdapter() {
-        for (int i = 0; i < 38; i++) {
-            beans.add(new UserInfoBean());
-        }
+    private final String tid;
+
+    public LikeGridAdapter(Context context, String tid) {
+        super(context, new ArrayList<UserInfoBean>());
+        this.tid = tid;
     }
 
+
     @Override
-    public AvatarNickHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public BaseHolder onCreateHolder(ViewGroup parent, int viewType) {
         return new AvatarNickHolder(parent);
     }
 
     @Override
-    public void onBindViewHolder(AvatarNickHolder holder, int position) {
-
+    public void onBindHolder(BaseHolder holder, int position) {
+        holder.setData(getDataList().get(position));
     }
 
     @Override
-    public int getItemCount() {
-        return beans.size();
+    public List onLoadData(int page) {
+        HttpRequest<List<UserInfoBean>> request = Requests.getSubjectNice(tid, page);
+
+        JsonHttpHandler<List<UserInfoBean>> httpHandler = new JsonHttpHandler<List<UserInfoBean>>(request) {
+
+            @Override
+            public void onSuccess(HttpResponse response, HttpRequest<List<UserInfoBean>> request, List<UserInfoBean> bean) {
+
+            }
+        };
+        HttpManager.getInstance().postSync(getContext(), httpHandler);
+        return httpHandler.getResult();
     }
+
+
 }

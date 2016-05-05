@@ -12,13 +12,26 @@ import android.view.ViewGroup;
 
 import com.sumauto.habitat.R;
 import com.sumauto.habitat.adapter.CommentListAdapter;
+import com.sumauto.habitat.http.Requests;
 import com.sumauto.widget.recycler.DividerDecoration;
 
 /**
  * A simple {@link Fragment} subclass.
  */
 public class CommentListFragment extends Fragment {
+    /**
+     * @param tid   帖子id
+     * @param count 评论数量
+     */
+    public static CommentListFragment newInstance(String tid, int count) {
 
+        Bundle args = new Bundle();
+        args.putString("tid", tid);
+        args.putInt("count", count);
+        CommentListFragment fragment = new CommentListFragment();
+        fragment.setArguments(args);
+        return fragment;
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -30,9 +43,10 @@ public class CommentListFragment extends Fragment {
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        RecyclerView recyclerView= (RecyclerView) view.findViewById(R.id.recyclerView);
+        RecyclerView recyclerView = (RecyclerView) view.findViewById(R.id.recyclerView);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         recyclerView.addItemDecoration(new DividerDecoration(Color.parseColor("#e5e5e5")));
-        recyclerView.setAdapter(new CommentListAdapter());
+        recyclerView.setAdapter(new CommentListAdapter(getActivity(), getArguments().getString("tid")));
     }
+
 }

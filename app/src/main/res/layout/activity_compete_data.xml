@@ -180,15 +180,16 @@
         <TextView
             style="@style/complete_data_text1"
             android:text="@string/my_sign"/>
-
+        <android.support.v4.widget.Space
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"/>
         <EditText
+            android:maxWidth="200dp"
             android:id="@+id/edit_signature"
             style="@style/complete_data_item_value"
-            android:layout_width="0dp"
-            android:layout_marginLeft="63dp"
-            android:layout_weight="1"
             android:background="#0000"
-            android:hint="@string/lazy_man"
+            android:text="@string/lazy_man"
             android:singleLine="false"/>
 
         <ImageView

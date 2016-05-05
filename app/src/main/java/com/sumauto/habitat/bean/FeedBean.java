@@ -1,5 +1,7 @@
 package com.sumauto.habitat.bean;
 
+import android.text.TextUtils;
+
 /**
  * Created by Lincoln on 16/3/21.
  * 动态
@@ -43,5 +45,9 @@ public class FeedBean {
     public FeedBean setIsCollection(boolean isCollection) {
         this.isCollection = isCollection;
         return this;
+    }
+
+    public String getFrom() {
+        return addtime + (TextUtils.isEmpty(position) ? "" : (" 来自 "+position));
     }
 }

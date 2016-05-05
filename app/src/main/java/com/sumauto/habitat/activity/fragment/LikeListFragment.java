@@ -2,6 +2,7 @@ package com.sumauto.habitat.activity.fragment;
 
 
 import android.graphics.Color;
+import android.graphics.Rect;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.GridLayoutManager;
@@ -19,7 +20,15 @@ import com.sumauto.habitat.adapter.LikeGridAdapter;
  */
 public class LikeListFragment extends Fragment {
 
+    public static LikeListFragment newInstance(String tid,int count) {
 
+        Bundle args = new Bundle();
+        args.putString("tid", tid);
+        args.putInt("count", count);
+        LikeListFragment fragment = new LikeListFragment();
+        fragment.setArguments(args);
+        return fragment;
+    }
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -33,6 +42,7 @@ public class LikeListFragment extends Fragment {
         view.setBackgroundColor(Color.WHITE);
         RecyclerView recyclerView = (RecyclerView) view.findViewById(R.id.recyclerView);
         recyclerView.setLayoutManager(new GridLayoutManager(getActivity(),6));
-        recyclerView.setAdapter(new LikeGridAdapter());
+
+        recyclerView.setAdapter(new LikeGridAdapter(getActivity(),getArguments().getString("tid")));
     }
 }

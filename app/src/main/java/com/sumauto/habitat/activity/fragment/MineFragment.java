@@ -45,12 +45,23 @@ public class MineFragment extends BaseFragment implements View.OnClickListener{
         iv_avatar= (ImageView) view.findViewById(R.id.iv_avatar);
         tv_nick= (TextView) view.findViewById(R.id.tv_nick);
         tv_signature= (TextView) view.findViewById(R.id.tv_signature);
+        initUserData();
+     }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        initUserData();
+
+    }
+
+    private void initUserData() {
+        if (tv_nick==null)return;
         HabitatApp app=HabitatApp.getInstance();
         tv_nick.setText(app.getUserData(HabitatApp.ACCOUNT_NICK));
         tv_signature.setText(app.getUserData(HabitatApp.ACCOUNT_SIGNATURE));
         ImageLoader.getInstance().displayImage(app.getUserData(HabitatApp.ACCOUNT_AVATAR),iv_avatar, ImageOptions.options());
     }
-
 
     @Override
     public void onClick(View v) {

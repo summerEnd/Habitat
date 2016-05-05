@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:app="http://schemas.android.com/apk/res-auto"
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              android:orientation="vertical">
+
+    <include
+        layout="@layout/include_pickerview_topbar"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/pickerview_topbar_height"/>
+
+    <LinearLayout
+        android:id="@+id/timepicker"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:background="@android:color/white"
+        android:orientation="horizontal">
+
+        <com.sumauto.wheel.WheelView
+            android:id="@+id/year"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            app:textColorCenter="#36B3E9"/>
+
+        <com.sumauto.wheel.WheelView
+            android:id="@+id/month"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1.1"
+            app:textColorCenter="#36B3E9"/>
+
+        <com.sumauto.wheel.WheelView
+            android:id="@+id/day"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1.1"
+            app:textColorCenter="#36B3E9"/>
+
+        <com.sumauto.wheel.WheelView
+            android:id="@+id/hour"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1.1"
+            app:textColorCenter="#36B3E9"/>
+
+        <com.sumauto.wheel.WheelView
+            android:id="@+id/min"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1.1"
+            app:textColorCenter="#36B3E9"/>
+    </LinearLayout>
+
+
+</LinearLayout><!-- From: file:/Users/Sai/Documents/workpace/android/github/Android-PickerView/pickerview/src/main/res/layout/pickerview_time.xml -->

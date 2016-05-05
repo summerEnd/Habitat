@@ -3,6 +3,7 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="@color/white"
     android:orientation="vertical">
 
@@ -20,7 +21,7 @@
             android:paddingLeft="@dimen/pickerview_topbar_paddingleft"
             android:paddingRight="@dimen/pickerview_topbar_paddingright"
             android:text="@string/pickerview_cancel"
-            android:textColor="@drawable/selector_pickerview_btn"
+            android:textColor="@color/colorPrimary"
             android:textSize="@dimen/pickerview_topbar_btn_textsize"/>
 
         <TextView
@@ -44,7 +45,7 @@
             android:paddingLeft="@dimen/pickerview_topbar_paddingright"
             android:paddingRight="@dimen/pickerview_topbar_paddingleft"
             android:text="@string/pickerview_submit"
-            android:textColor="@drawable/selector_pickerview_btn"
+            android:textColor="@color/colorPrimary"
             android:textSize="@dimen/pickerview_topbar_btn_textsize"/>
     </RelativeLayout>
 
@@ -54,32 +55,37 @@
         android:orientation="horizontal">
 
         <!-- Month -->
-        <com.bigkoo.pickerview.lib.WheelView
+        <com.sumauto.wheel.WheelView
             android:id="@+id/wv_province"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:layout_marginEnd="1dip"
             android:layout_marginStart="1dip"
             android:layout_weight="1"
+            app:textSize="17sp"
+            app:textColorCenter="@color/colorPrimary"
             android:focusable="true"
             android:focusableInTouchMode="true"/>
 
         <!-- Day -->
-        <com.bigkoo.pickerview.lib.WheelView
-
+        <com.sumauto.wheel.WheelView
+            app:textSize="17sp"
             android:id="@+id/wv_city"
+            app:textColorCenter="@color/colorPrimary"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:layout_marginEnd="1dip"
             android:layout_marginStart="1dip"
             android:layout_weight="1"
             android:focusable="true"
             android:focusableInTouchMode="true"/>
         <!-- Day -->
-        <com.bigkoo.pickerview.lib.WheelView
+        <com.sumauto.wheel.WheelView
             android:id="@+id/wv_area"
+            app:textSize="17sp"
+            app:textColorCenter="@color/colorPrimary"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:layout_marginEnd="1dip"
             android:layout_marginStart="1dip"
             android:layout_weight="1"

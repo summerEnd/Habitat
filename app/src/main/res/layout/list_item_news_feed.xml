@@ -66,7 +66,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="20dp"
-                android:text='@{bean.addtime+" 来自 "+bean.position}'
+                android:text='@{bean.getFrom()}'
                 android:textColor="@color/textGray"
                 android:textSize="@dimen/text_11"/>
         </LinearLayout>

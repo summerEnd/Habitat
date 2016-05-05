@@ -5,6 +5,8 @@ import android.os.Handler;
 import android.os.Message;
 import android.support.annotation.Nullable;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.GridLayoutManager.SpanSizeLookup;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
@@ -195,6 +197,21 @@ public abstract class LoadMoreAdapter extends ListAdapter implements SwipeRefres
         if (parent instanceof SwipeRefreshLayout) {
             swipeRefreshLayout = (SwipeRefreshLayout) parent;
             swipeRefreshLayout.setOnRefreshListener(this);
+        }
+        RecyclerView.LayoutManager layoutManager = recyclerView.getLayoutManager();
+        if (layoutManager instanceof GridLayoutManager) {
+            final GridLayoutManager manager = (GridLayoutManager) layoutManager;
+            final SpanSizeLookup sizeLookup = manager.getSpanSizeLookup();
+            manager.setSpanSizeLookup(new SpanSizeLookup() {
+                @Override
+                public int getSpanSize(int position) {
+                    if (position == getItemCount() - 1) {
+                        //last item
+                        return manager.getSpanCount();
+                    }
+                    return sizeLookup.getSpanSize(position);
+                }
+            });
         }
     }
 
