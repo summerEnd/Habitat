@@ -22,7 +22,7 @@ public class SupperLayout extends ViewGroup {
     private int space;
     private double unitSize;
     private boolean autoRow;
-    ArrayList<View> unMeasureChildren=new ArrayList<>();
+    ArrayList<View> unMeasureChildren=new ArrayList<View>();
     public SupperLayout(Context context) {
         this(context, null);
     }
@@ -99,8 +99,8 @@ public class SupperLayout extends ViewGroup {
         if (lp.height == LayoutParams.MATCH_PARENT) {
             lp.heightUnits = maxY;
         }
-        int w = (int) (lp.widthUnits * unitSize + (lp.widthUnits - 1) * space);
-        int h = (int) (lp.heightUnits * unitSize + (lp.heightUnits - 1) * space);
+        int w = (int) (lp.widthUnits * unitSize + (lp.widthUnits - 1) * space-lp.leftMargin-lp.rightMargin);
+        int h = (int) (lp.heightUnits * unitSize + (lp.heightUnits - 1) * space-lp.topMargin-lp.bottomMargin);
         child.measure(
                 MeasureSpec.makeMeasureSpec(w, MeasureSpec.EXACTLY),
                 MeasureSpec.makeMeasureSpec(h, MeasureSpec.EXACTLY)
@@ -114,19 +114,20 @@ public class SupperLayout extends ViewGroup {
 
         for (int i = 0, N = getChildCount(); i < N; i++) {
             View child = getChildAt(i);
-            LayoutParams layoutParams = (LayoutParams) child.getLayoutParams();
+            LayoutParams lp = (LayoutParams) child.getLayoutParams();
 
-            int x = layoutParams.x;
-            int y = layoutParams.y;
+            int x = lp.x;
+            int y = lp.y;
 
-            int l = (int) (getPaddingLeft() + x * (unitSize + space));
-            int t = (int) (getPaddingTop() + y * (unitSize + space));
+            int l = (int) (getPaddingLeft() + x * (unitSize + space))+lp.leftMargin;
+            int t = (int) (getPaddingTop() + y * (unitSize + space))+lp.topMargin;
             child.layout(
                     l,
                     t,
-                    l + layoutParams.width,
-                    t + layoutParams.height
+                    l + lp.width,
+                    t + lp.height
             );
+
         }
     }
 
