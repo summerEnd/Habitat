@@ -153,6 +153,5 @@ public class PublishActivity extends BaseActivity {
 
     public void onNoticeWhoSee(View view) {
         startActivity(new Intent(PublishActivity.this, NoticeFriendListActivity.class));
-
     }
 }
