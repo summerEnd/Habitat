@@ -23,7 +23,7 @@ import com.sumauto.habitat.utils.ImageOptions;
  * A simple {@link Fragment} subclass.
  * 我的
  */
-public class MineFragment extends BaseFragment implements View.OnClickListener{
+public class MainMineFragment extends BaseFragment implements View.OnClickListener{
 
     ImageView iv_avatar;
     TextView tv_nick,tv_signature;

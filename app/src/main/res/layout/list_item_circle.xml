@@ -3,7 +3,6 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    xmlns:tools="http://schemas.android.com/tools"
     android:background="@drawable/clickable_white"
     android:gravity="center_vertical"
     android:orientation="horizontal"
@@ -12,10 +11,6 @@
     android:paddingRight="@dimen/dimen_13"
     android:paddingTop="@dimen/dimen_13">
 
-    <com.sumauto.habitat.widget.AvatarView
-        android:layout_width="@dimen/dimen_41"
-        android:id="@+id/iv_avatar"
-        android:layout_height="@dimen/dimen_41"/>
 
     <LinearLayout
         android:layout_width="0dp"
@@ -25,10 +20,10 @@
         android:orientation="vertical">
 
         <TextView
-            android:id="@+id/tv_nick"
+            android:id="@+id/tv_circle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            tools:text="一地鸡哈哈哈哈毛"
+            android:text="一地鸡哈哈哈哈毛"
             android:textColor="@color/textBlack"
             android:textSize="@dimen/text_14"/>
 
@@ -37,7 +32,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/view_spacing_2"
-            tools:text="一地鸡毛"
+            android:text="一地鸡毛"
             android:textColor="@color/textGray"
             android:textSize="@dimen/text_12"/>
     </LinearLayout>
@@ -53,11 +48,10 @@
 
         <CheckedTextView
             android:duplicateParentState="true"
-            android:id="@+id/tv_attention"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:gravity="center"
-            android:text="@string/attention"
+            android:text="@string/add"
             android:textColor="@color/btn_attention_text_color"
             android:textSize="@dimen/text_12"/>
     </com.sumauto.widget.CheckableLinearLayout>

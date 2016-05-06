@@ -25,7 +25,7 @@ public class AvatarNickHolder extends BaseViewHolder{
     @Override
     protected void onInit(Object data) {
         UserInfoBean bean= (UserInfoBean) data;
-        ImageLoader.getInstance().displayImage(bean.heading,iv_avatar, ImageOptions.options());
+        ImageLoader.getInstance().displayImage(bean.headimg,iv_avatar, ImageOptions.options());
         tv_nick.setText(bean.getNick());
     }
 }

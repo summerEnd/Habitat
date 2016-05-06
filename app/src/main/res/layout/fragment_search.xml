@@ -5,7 +5,7 @@
               android:layout_height="match_parent"
               android:orientation="vertical"
               android:background="@drawable/windowBackground"
-              tools:context="com.sumauto.habitat.activity.fragment.SearchFragment">
+              tools:context=".activity.fragment.MainSearchFragment">
 
     <LinearLayout
         android:layout_width="match_parent"

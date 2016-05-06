@@ -6,6 +6,7 @@ import android.util.AttributeSet;
 import android.view.View;
 import android.view.ViewGroup;
 
+
 import com.sp.lib.R;
 
 import java.util.ArrayList;
@@ -15,14 +16,26 @@ import java.util.ArrayList;
  * 超级布局
  */
 public class SupperLayout extends ViewGroup {
-    public static final int AUTO_ROW_COUNT = -1;
+    public static final int AUTO_HEIGHT_UNITS = -1;
 
-    private int columnCount;
-    private int maxY;
-    private int space;
+    /*宽被划分为多少个单元*/
+    private int mWidthUnits;
+
+    /*高被划分为多少个单元*/
+    private int mHeightUnits;
+
+    /*单元中间的空隙*/
+    private int mSpace;
+
+    /*1个单位 的大小*/
     private double unitSize;
-    private boolean autoRow;
+
+    /*是否自定决定高度*/
+    private boolean mAutoDetermineHeight;
+
+    /**/
     ArrayList<View> unMeasureChildren=new ArrayList<View>();
+
     public SupperLayout(Context context) {
         this(context, null);
     }
@@ -35,12 +48,12 @@ public class SupperLayout extends ViewGroup {
         super(context, attrs, defStyleAttr);
 
         TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.SupperLayout);
-        space = a.getDimensionPixelSize(R.styleable.SupperLayout_space, 0);
-        columnCount = a.getInt(R.styleable.SupperLayout_layout_width_units, 1);
-        maxY = a.getInt(R.styleable.SupperLayout_layout_height_units, AUTO_ROW_COUNT);
+        mSpace = a.getDimensionPixelSize(R.styleable.SupperLayout_space, 0);
+        mWidthUnits = a.getInt(R.styleable.SupperLayout_layout_width_units, 1);
+        mHeightUnits = a.getInt(R.styleable.SupperLayout_layout_height_units, AUTO_HEIGHT_UNITS);
         a.recycle();
 
-        autoRow = (maxY == AUTO_ROW_COUNT);
+        mAutoDetermineHeight = (mHeightUnits == AUTO_HEIGHT_UNITS);
     }
 
 
@@ -57,16 +70,16 @@ public class SupperLayout extends ViewGroup {
         }
 
         int contentWidth = width - paddingLeft - paddingRight;
-        int spaceWidth = space * (columnCount - 1);
+        int spaceWidth = mSpace * (mWidthUnits - 1);
 
         //unit height
-        unitSize = (contentWidth - spaceWidth) / (double) columnCount;
+        unitSize = (contentWidth - spaceWidth) / (double) mWidthUnits;
         unMeasureChildren.clear();
         int maxY = 0;
         for (int i = 0, N = getChildCount(); i < N; i++) {
             View child = getChildAt(i);
             LayoutParams layoutParams = (LayoutParams) child.getLayoutParams();
-            if (layoutParams.height == LayoutParams.MATCH_PARENT&&this.maxY<=0) {
+            if (layoutParams.height == LayoutParams.MATCH_PARENT&&this.mHeightUnits <=0) {
                 //最大高度还没有计算出来，所以先不计算child的高度
                 unMeasureChildren.add(child);
                 continue;
@@ -76,8 +89,8 @@ public class SupperLayout extends ViewGroup {
             maxY = Math.max(layoutParams.y + layoutParams.heightUnits, maxY);
         }
 
-        if (autoRow) {
-            this.maxY = maxY;
+        if (mAutoDetermineHeight) {
+            this.mHeightUnits = maxY;
         }
 
         //计算child 为match_parent的高度
@@ -85,7 +98,7 @@ public class SupperLayout extends ViewGroup {
             measureChild(unMeasureChildren.get(i));
         }
         unMeasureChildren.clear();
-        int height = (int) (this.maxY * unitSize + space * (this.maxY - 1) + getPaddingTop() + getPaddingBottom());
+        int height = (int) (this.mHeightUnits * unitSize + mSpace * (this.mHeightUnits - 1) + getPaddingTop() + getPaddingBottom());
 
         setMeasuredDimension(width, height);
     }
@@ -93,14 +106,14 @@ public class SupperLayout extends ViewGroup {
     private void measureChild(View child) {
         LayoutParams lp = (LayoutParams) child.getLayoutParams();
         if (lp.width == LayoutParams.MATCH_PARENT) {
-            lp.widthUnits = columnCount;
+            lp.widthUnits = mWidthUnits;
         }
 
         if (lp.height == LayoutParams.MATCH_PARENT) {
-            lp.heightUnits = maxY;
+            lp.heightUnits = mHeightUnits;
         }
-        int w = (int) (lp.widthUnits * unitSize + (lp.widthUnits - 1) * space-lp.leftMargin-lp.rightMargin);
-        int h = (int) (lp.heightUnits * unitSize + (lp.heightUnits - 1) * space-lp.topMargin-lp.bottomMargin);
+        int w = (int) (lp.widthUnits * unitSize + (lp.widthUnits - 1) * mSpace -lp.leftMargin-lp.rightMargin);
+        int h = (int) (lp.heightUnits * unitSize + (lp.heightUnits - 1) * mSpace -lp.topMargin-lp.bottomMargin);
         child.measure(
                 MeasureSpec.makeMeasureSpec(w, MeasureSpec.EXACTLY),
                 MeasureSpec.makeMeasureSpec(h, MeasureSpec.EXACTLY)
@@ -119,8 +132,8 @@ public class SupperLayout extends ViewGroup {
             int x = lp.x;
             int y = lp.y;
 
-            int l = (int) (getPaddingLeft() + x * (unitSize + space))+lp.leftMargin;
-            int t = (int) (getPaddingTop() + y * (unitSize + space))+lp.topMargin;
+            int l = (int) (getPaddingLeft() + x * (unitSize + mSpace))+lp.leftMargin;
+            int t = (int) (getPaddingTop() + y * (unitSize + mSpace))+lp.topMargin;
             child.layout(
                     l,
                     t,
@@ -144,6 +157,18 @@ public class SupperLayout extends ViewGroup {
     @Override
     public ViewGroup.LayoutParams generateLayoutParams(AttributeSet attrs) {
         return new LayoutParams(getContext(), attrs);
+    }
+
+    public int getWidthUnits() {
+        return mWidthUnits;
+    }
+
+    public int getHeightUnits() {
+        return mHeightUnits;
+    }
+
+    public double getUnitSize() {
+        return unitSize;
     }
 
     public static class LayoutParams extends MarginLayoutParams {

@@ -4,7 +4,9 @@ import android.os.Bundle;
 
 import com.loopj.android.http.RequestParams;
 import com.sumauto.habitat.HabitatApp;
+import com.sumauto.habitat.bean.BannerBean;
 import com.sumauto.habitat.bean.CommentBean;
+import com.sumauto.habitat.bean.CommitBean;
 import com.sumauto.habitat.bean.FeedBean;
 import com.sumauto.habitat.bean.FeedDetailBean;
 import com.sumauto.habitat.bean.User;
@@ -17,6 +19,7 @@ import org.json.JSONObject;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
@@ -152,21 +155,21 @@ public class Requests {
         };
     }
 
-//    /**
-//     * 参数说明
-//     * uid:用户编号
-//     * Headimg:用户头像的base64加密后的密文
-//     */
-//    public static HttpRequest<String> setHeadImg(String img) {
-//        String id = HabitatApp.getInstance().getUserData(HabitatApp.ACCOUNT_UID);
-//        return new SimpleHttpRequest<String>("setHeadImg",
-//                "uid", id, "Headimg", img) {
-//            @Override
-//            public String parser(String jsonString) throws JSONException {
-//                return jsonString;
-//            }
-//        };
-//    }
+    //    /**
+    //     * 参数说明
+    //     * uid:用户编号
+    //     * Headimg:用户头像的base64加密后的密文
+    //     */
+    //    public static HttpRequest<String> setHeadImg(String img) {
+    //        String id = HabitatApp.getInstance().getUserData(HabitatApp.ACCOUNT_UID);
+    //        return new SimpleHttpRequest<String>("setHeadImg",
+    //                "uid", id, "Headimg", img) {
+    //            @Override
+    //            public String parser(String jsonString) throws JSONException {
+    //                return jsonString;
+    //            }
+    //        };
+    //    }
 
     /**
      * uid:用户编号
@@ -258,7 +261,7 @@ public class Requests {
                 "uid", id, "tid", tid, "pageid", pageId, "pagesize", pageSize) {
             @Override
             public List<CommentBean> parser(String jsonString) throws JSONException {
-                return JsonUtil.getArray(new JSONArray(jsonString),CommentBean.class);
+                return JsonUtil.getArray(new JSONArray(jsonString), CommentBean.class);
             }
         };
     }
@@ -290,7 +293,7 @@ public class Requests {
                 "uid", id, "tid", tid) {
             @Override
             public FeedDetailBean parser(String jsonString) throws JSONException {
-                return JsonUtil.get(jsonString,FeedDetailBean.class);
+                return JsonUtil.get(jsonString, FeedDetailBean.class);
             }
         };
     }
@@ -300,13 +303,13 @@ public class Requests {
      *
      * @param tid 帖子id
      */
-    public static HttpRequest<List<UserInfoBean>> getSubjectNice(String tid,int pageid) {
+    public static HttpRequest<List<UserInfoBean>> getSubjectNice(String tid, int pageid) {
         String id = HabitatApp.getInstance().getUserData(HabitatApp.ACCOUNT_UID);
         return new SimpleHttpRequest<List<UserInfoBean>>("getSubjectNice",
-                "uid", id, "tid", tid,"pageid",pageid,"pagesize",12) {
+                "uid", id, "tid", tid, "pageid", pageid, "pagesize", 12) {
             @Override
             public List<UserInfoBean> parser(String jsonString) throws JSONException {
-                return JsonUtil.getArray(new JSONArray(jsonString),UserInfoBean.class);
+                return JsonUtil.getArray(new JSONArray(jsonString), UserInfoBean.class);
             }
         };
     }
@@ -345,7 +348,7 @@ public class Requests {
 
     /**
      * 用户修改个人信息接口
-     * <p/>
+     * <p>
      * nickname:昵称
      * sex:性别（男/女）
      * birthday:生日
@@ -370,7 +373,7 @@ public class Requests {
         return new SimpleHttpRequest<User>("changeUserInfo") {
             @Override
             public User parser(String jsonString) throws JSONException {
-                return JsonUtil.get(jsonString,User.class);
+                return JsonUtil.get(jsonString, User.class);
             }
 
             @Override
@@ -412,6 +415,96 @@ public class Requests {
             @Override
             public String parser(String jsonString) throws JSONException {
                 return null;
+            }
+        };
+    }
+
+    /**
+     * @param keyword:搜索的关键词
+     * @param type:搜索类型，共4种：0->搜索全部（默认值）,1->搜索用户，2->搜索圈子，3->搜索帖子，用于单个类型分页查询
+     * @param pageid:分页ID，默认为0
+     * @param pagesize:每页数量，默认8条
+     */
+    public static HttpRequest<ArrayList<Object>> getSearch(String keyword, String type, int pageid, int pagesize) {
+        String id = HabitatApp.getInstance().getUserData(HabitatApp.ACCOUNT_UID);
+        return new SimpleHttpRequest<ArrayList<Object>>("getSearch",
+                "uid", id, "keyword", keyword, "type", type, "pageid", pageid, "pagesize", pagesize) {
+            @Override
+            public ArrayList<Object> parser(String jsonString) throws JSONException {
+                JSONObject result = new JSONObject(jsonString);
+                ArrayList<Object> data = new ArrayList<>();
+
+                JSONArray tempArray = result.optJSONArray("userinfo");
+                if (tempArray != null) {
+                    data.addAll(JsonUtil.getArray(tempArray, UserInfoBean.class));
+                }
+
+                tempArray = result.optJSONArray("community");
+                if (tempArray != null) {
+                    data.addAll(JsonUtil.getArray(tempArray, CommitBean.class));
+                }
+
+                tempArray = result.optJSONArray("article");
+                if (tempArray != null) {
+                    data.addAll(JsonUtil.getArray(tempArray, FeedBean.class));
+                }
+                return data;
+            }
+        };
+    }
+
+    /**
+     * 首页搜索页面接口
+     * 返回一个长度为3的Object数组
+     * 第一个是banner，{@code ArrayList<BannerBean>}
+     * 第二个是推荐用户列表{@code ArrayList<UserInfoBean>}
+     * 第三个是动态列表{@code ArrayList<FeedBean>}
+     */
+    public static HttpRequest<Object[]> searchInfo(int pageid, int pagesize) {
+        String id = HabitatApp.getInstance().getUserData(HabitatApp.ACCOUNT_UID);
+        return new SimpleHttpRequest<Object[]>("searchInfo",
+                "uid", id, "pageid", pageid, "pagesize", pagesize) {
+            @Override
+            public Object[] parser(String jsonString) throws JSONException {
+                Object[] objects = new Object[3];
+                JSONObject object = new JSONObject(jsonString);
+                JSONArray banner = object.optJSONArray("banner");
+                JSONArray recommendUser = object.optJSONArray("userinfo");
+                JSONArray article = object.optJSONArray("article");
+
+                if (banner != null) {
+                    objects[0] = JsonUtil.getArray(banner, BannerBean.class);
+                }
+
+                if (recommendUser != null) {
+                    objects[1] = JsonUtil.getArray(recommendUser, UserInfoBean.class);
+                }
+
+                if (article != null) {
+                    objects[2] = JsonUtil.getArray(article, FeedBean.class);
+                }
+
+                return objects;
+            }
+        };
+    }
+
+    public static HttpRequest<UserInfoBean> getUserinfo(String uid) {
+        return new SimpleHttpRequest<UserInfoBean>("getUserinfo",
+                "uid", uid) {
+            @Override
+            public UserInfoBean parser(String jsonString) throws JSONException {
+                return JsonUtil.get(jsonString, UserInfoBean.class);
+            }
+        };
+    }
+
+    public static HttpRequest<List<FeedBean>> getCollect(String uid) {
+        return new SimpleHttpRequest<List<FeedBean>>("getCollect",
+                "uid", uid) {
+            @Override
+            public List<FeedBean> parser(String jsonString) throws JSONException {
+                return JsonUtil.getArray(new JSONArray(jsonString), FeedBean.class);
             }
         };
     }

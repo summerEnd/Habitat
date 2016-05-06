@@ -86,4 +86,5 @@
     <string name="publish_now">立即发布</string>
     <string name="hint_input_nick">请输入昵称</string>
     <string name="lazy_man">这个人很懒，什么都没有留下</string>
+    <string name="add">加入</string>
 </resources>

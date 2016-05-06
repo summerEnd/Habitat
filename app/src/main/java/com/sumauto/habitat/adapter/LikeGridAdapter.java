@@ -11,6 +11,7 @@ import com.sumauto.habitat.http.HttpManager;
 import com.sumauto.habitat.http.HttpRequest;
 import com.sumauto.habitat.http.JsonHttpHandler;
 import com.sumauto.habitat.http.Requests;
+import com.sumauto.habitat.http.SyncHttpHandler;
 import com.sumauto.widget.recycler.adapter.BaseHolder;
 import com.sumauto.widget.recycler.adapter.LoadMoreAdapter;
 
@@ -43,16 +44,12 @@ public class LikeGridAdapter extends LoadMoreAdapter{
 
     @Override
     public List onLoadData(int page) {
+
         HttpRequest<List<UserInfoBean>> request = Requests.getSubjectNice(tid, page);
+        SyncHttpHandler<List<UserInfoBean>> httpHandler = new SyncHttpHandler<>(request);
 
-        JsonHttpHandler<List<UserInfoBean>> httpHandler = new JsonHttpHandler<List<UserInfoBean>>(request) {
-
-            @Override
-            public void onSuccess(HttpResponse response, HttpRequest<List<UserInfoBean>> request, List<UserInfoBean> bean) {
-
-            }
-        };
         HttpManager.getInstance().postSync(getContext(), httpHandler);
+
         return httpHandler.getResult();
     }
 

@@ -21,6 +21,7 @@ import com.sumauto.habitat.http.HttpManager;
 import com.sumauto.habitat.http.HttpRequest;
 import com.sumauto.habitat.http.JsonHttpHandler;
 import com.sumauto.habitat.http.Requests;
+import com.sumauto.habitat.http.SyncHttpHandler;
 import com.sumauto.habitat.utils.CityDB;
 import com.sumauto.habitat.utils.Constant;
 
@@ -84,7 +85,7 @@ public class LoadingActivity extends BaseActivity {
             final String password = manager.getPassword(account);
 
             HttpRequest<User> request = Requests.getLogin(phone, password);
-            HttpManager.getInstance().postSync(LoadingActivity.this, new JsonHttpHandler<User>(request) {
+            HttpManager.getInstance().postSync(LoadingActivity.this, new SyncHttpHandler<User>(request) {
 
                 @Override
                 public void onSuccess(HttpResponse response, HttpRequest<User> request, User user) {

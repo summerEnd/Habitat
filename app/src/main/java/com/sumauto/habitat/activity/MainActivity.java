@@ -5,21 +5,18 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
-import android.test.mock.MockApplication;
-import android.util.Log;
 import android.view.View;
 
 import com.sumauto.habitat.HabitatApp;
 import com.sumauto.habitat.R;
 import com.sumauto.habitat.activity.fragment.BaseFragment;
-import com.sumauto.habitat.activity.fragment.HomeFragment;
-import com.sumauto.habitat.activity.fragment.MineFragment;
-import com.sumauto.habitat.activity.fragment.SearchFragment;
-import com.sumauto.habitat.activity.fragment.TrendFragment;
+import com.sumauto.habitat.activity.fragment.MainFragment;
+import com.sumauto.habitat.activity.fragment.MainMineFragment;
+import com.sumauto.habitat.activity.fragment.MainSearchFragment;
+import com.sumauto.habitat.activity.fragment.MainTrendFragment;
 import com.sumauto.habitat.activity.fragment.TrendListFragment;
 import com.sumauto.habitat.callback.ListCallback;
 import com.sumauto.habitat.callback.Scrollable;
-import com.sumauto.habitat.utils.Constant;
 import com.sumauto.widget.CheckableLinearLayout;
 import com.umeng.socialize.UMShareAPI;
 
@@ -27,7 +24,7 @@ import com.umeng.socialize.UMShareAPI;
 public class MainActivity extends BaseActivity implements ViewPager.OnPageChangeListener, ListCallback, TrendListFragment.Callback {
 
     CheckableLinearLayout mCheckedTab;
-    final BaseFragment FRAGMENTS[] = new BaseFragment[]{new HomeFragment(), new SearchFragment(), new TrendFragment(), new MineFragment()};
+    final BaseFragment FRAGMENTS[] = new BaseFragment[]{new MainFragment(), new MainSearchFragment(), new MainTrendFragment(), new MainMineFragment()};
     private ViewPager mViewPager;
 
     @Override

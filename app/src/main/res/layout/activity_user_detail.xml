@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v7.widget.LinearLayoutCompat
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    app:divider="@drawable/line"
+    app:showDividers="middle"
+    tools:context=".activity.UserDetailActivity">
+
+    <android.support.v7.widget.Toolbar
+        style="@style/toolBarStyle">
+
+        <TextView style="@style/toolbar_back_button"/>
+
+        <TextView
+            style="@style/toolbar_title_style"
+            android:text="@string/complete_data"/>
+
+    </android.support.v7.widget.Toolbar>
+
+    <LinearLayout
+        style="@style/complete_data_click_item"
+        android:layout_marginTop="@dimen/view_spacing_2">
+
+        <TextView
+            style="@style/complete_data_text1"
+            android:text="@string/nick"/>
+
+        <android.support.v4.widget.Space
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"/>
+
+        <TextView
+            android:id="@+id/tv_nick"
+            style="@style/complete_data_item_value"
+            android:background="#0000"
+            android:gravity="right"
+            android:singleLine="true"
+            tools:text="哈哈哈"/>
+    </LinearLayout>
+
+
+    <LinearLayout
+        style="@style/complete_data_click_item"
+        android:onClick="onGenderClick">
+
+        <TextView
+            style="@style/complete_data_text1"
+            android:text="@string/gender"/>
+
+        <android.support.v4.widget.Space
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"/>
+
+        <TextView
+            android:id="@+id/tv_gender"
+            style="@style/complete_data_item_value"
+            tools:text="女"/>
+
+
+    </LinearLayout>
+
+
+    <LinearLayout
+        style="@style/complete_data_click_item"
+        android:onClick="onBirthdayClick">
+
+        <TextView
+            style="@style/complete_data_text1"
+            android:text="@string/birthday"/>
+
+        <android.support.v4.widget.Space
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"/>
+
+        <TextView
+            android:id="@+id/tv_birthday"
+            style="@style/complete_data_item_value"
+            tools:text="1990-10-10"/>
+
+    </LinearLayout>
+
+
+    <LinearLayout
+        style="@style/complete_data_click_item"
+        android:layout_marginTop="@dimen/view_spacing_2">
+
+        <TextView
+            style="@style/complete_data_text1"
+            android:text="@string/zone_name"/>
+
+        <android.support.v4.widget.Space
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"/>
+
+        <ImageView
+            android:id="@+id/iv_add_com"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="5dp"
+            android:onClick="onAddComm"
+            android:src="@drawable/ic_add_com"/>
+
+        <TextView
+            android:id="@+id/tv_commit_name"
+            style="@style/complete_data_item_value"
+            android:background="#0000"
+            android:inputType="none"
+            tools:text="无啦啦小区"/>
+
+
+    </LinearLayout>
+
+    <LinearLayout
+        style="@style/complete_data_click_item"
+        android:gravity="top">
+
+        <TextView
+            style="@style/complete_data_text1"
+            android:text="@string/my_sign"/>
+
+        <android.support.v4.widget.Space
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"/>
+
+        <TextView
+            android:id="@+id/tv_signature"
+            style="@style/complete_data_item_value"
+            android:background="#0000"
+            android:maxWidth="200dp"
+            android:singleLine="false"
+            android:text="@string/lazy_man"/>
+
+    </LinearLayout>
+</android.support.v7.widget.LinearLayoutCompat>
+

@@ -132,8 +132,12 @@
         </service>
 
         <activity
-            android:label="@string/create_circle"
-            android:name=".activity.CreateCommunity">
+            android:name=".activity.CreateCommunity"
+            android:label="@string/create_circle">
+        </activity>
+        <activity android:name=".activity.PickUserActivity">
+        </activity>
+        <activity android:name=".activity.UserDetailActivity">
         </activity>
     </application>
 

@@ -43,7 +43,7 @@ public class HttpManager {
     public void post(Context context, JsonHttpHandler httpHandler) {
         post(context, httpHandler.getUrl(), httpHandler.getRequestParams(), httpHandler,true);
     }
-    public void postSync(Context context,JsonHttpHandler httpHandler){
+    public void postSync(Context context,SyncHttpHandler httpHandler){
         post(context, httpHandler.getUrl(), httpHandler.getRequestParams(), httpHandler,false);
     }
 

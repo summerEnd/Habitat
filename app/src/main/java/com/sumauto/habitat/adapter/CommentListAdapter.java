@@ -11,6 +11,7 @@ import com.sumauto.habitat.http.HttpManager;
 import com.sumauto.habitat.http.HttpRequest;
 import com.sumauto.habitat.http.JsonHttpHandler;
 import com.sumauto.habitat.http.Requests;
+import com.sumauto.habitat.http.SyncHttpHandler;
 import com.sumauto.widget.recycler.adapter.BaseHolder;
 import com.sumauto.widget.recycler.adapter.LoadMoreAdapter;
 
@@ -44,12 +45,7 @@ public class CommentListAdapter extends LoadMoreAdapter {
     public List onLoadData(int page) {
         HttpRequest<List<CommentBean>> request = Requests.getComment(tid, page, 10);
 
-        JsonHttpHandler<List<CommentBean>> localHandler =new JsonHttpHandler<List<CommentBean>>(request) {
-            @Override
-            public void onSuccess(HttpResponse response, HttpRequest<List<CommentBean>> request, List<CommentBean> bean) {
-
-            }
-        };
+        SyncHttpHandler<List<CommentBean>> localHandler =new SyncHttpHandler<List<CommentBean>>(request);
         HttpManager.getInstance().postSync(getContext(), localHandler);
         return localHandler.getResult();
     }

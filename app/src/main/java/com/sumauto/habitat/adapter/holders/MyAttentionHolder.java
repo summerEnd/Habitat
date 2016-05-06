@@ -2,13 +2,18 @@ package com.sumauto.habitat.adapter.holders;
 
 import android.graphics.Rect;
 import android.support.v7.widget.RecyclerView;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.sumauto.util.DisplayUtil;
 import com.sumauto.habitat.R;
 import com.sumauto.habitat.bean.AttentionBean;
+import com.sumauto.widget.SupperLayout;
+import com.sumauto.widget.SupperLayout.LayoutParams;
 import com.sumauto.widget.recycler.WrapContentGridLayoutManager;
+
+import java.util.List;
 
 /**
  * Created by Lincoln on 16/3/23.
@@ -16,32 +21,31 @@ import com.sumauto.widget.recycler.WrapContentGridLayoutManager;
  */
 public class MyAttentionHolder extends BaseViewHolder {
 
-    public final RecyclerView rv_images;
     public AttentionBean bean;
     private int itemPaddings;
-
+    SupperLayout supperLayout;
+    final int gap=5;
     public MyAttentionHolder(ViewGroup parent) {
         super(parent, R.layout.my_attention_item);
-        rv_images = (RecyclerView) itemView.findViewById(R.id.rv_images);
-
-        itemPaddings = (int) DisplayUtil.dp(3,itemView.getResources());
-
-        WrapContentGridLayoutManager manager = new WrapContentGridLayoutManager(parent.getContext(), 5);
-        manager.setVerticalSpacing(itemPaddings*2);
-        rv_images.setLayoutManager(manager);
-        rv_images.addItemDecoration(new RecyclerView.ItemDecoration() {
-            @Override
-            public void getItemOffsets(Rect outRect, View view, RecyclerView parent, RecyclerView.State state) {
-                outRect.set(itemPaddings, itemPaddings, itemPaddings, itemPaddings);
-            }
-        });
-        rv_images.setAdapter(new Adapter());
+        supperLayout= (SupperLayout) itemView.findViewById(R.id.supperLayout);
     }
 
 
     public void init(AttentionBean bean) {
         this.bean = bean;
-        rv_images.getAdapter().notifyDataSetChanged();
+        List<String> images = bean.getImages();
+        final int size=images.size();
+        LayoutInflater inflater = LayoutInflater.from(itemView.getContext());
+        int itemSize = (supperLayout.getWidthUnits()-gap*4)/5;
+        for (int i = 0; i < size; i++) {
+            View view=inflater.inflate(R.layout.grid_item_my_attention_image,supperLayout,false);
+            LayoutParams lp= (LayoutParams) view.getLayoutParams();
+            int x=i%5*(itemSize+gap);
+            int y=i/5*(itemSize+gap);
+            lp.units(itemSize,itemSize);
+            lp.position(x,y);
+            supperLayout.addView(view);
+        }
     }
 
     class ViewHolder extends BaseViewHolder {

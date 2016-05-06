@@ -10,6 +10,7 @@ import com.sumauto.habitat.http.HttpManager;
 import com.sumauto.habitat.http.HttpRequest;
 import com.sumauto.habitat.http.JsonHttpHandler;
 import com.sumauto.habitat.http.Requests;
+import com.sumauto.habitat.http.SyncHttpHandler;
 import com.sumauto.widget.recycler.adapter.BaseHolder;
 import com.sumauto.widget.recycler.adapter.LoadMoreAdapter;
 
@@ -44,11 +45,7 @@ public class TrendAdapter extends LoadMoreAdapter {
     public List onLoadData(int page) {
         HttpRequest<List<FeedBean>> request = Requests.getCommunity(callback.getComId(), page, 5);
 
-        JsonHttpHandler<List<FeedBean>> httpHandler = new JsonHttpHandler<List<FeedBean>>(request) {
-            @Override
-            public void onSuccess(HttpResponse response, HttpRequest<List<FeedBean>> request, List<FeedBean> articleEntities) {
-            }
-        };
+        SyncHttpHandler<List<FeedBean>> httpHandler = new SyncHttpHandler<List<FeedBean>>(request) ;
         HttpManager.getInstance().postSync(getContext(), httpHandler);
         return httpHandler.getResult();
     }

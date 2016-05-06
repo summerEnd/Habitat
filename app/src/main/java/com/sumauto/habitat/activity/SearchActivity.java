@@ -14,30 +14,34 @@ import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
 import android.widget.TextView;
 
-import com.sumauto.habitat.activity.fragment.TrendListFragment;
-import com.sumauto.habitat.activity.fragment.UserSearchFragment;
-import com.sumauto.util.ViewUtil;
+import com.sumauto.habitat.HabitatApp;
 import com.sumauto.habitat.R;
+import com.sumauto.habitat.activity.fragment.BaseFragment;
+import com.sumauto.habitat.activity.fragment.SearchFragment;
+import com.sumauto.habitat.activity.fragment.TrendListFragment;
+import com.sumauto.habitat.callback.ViewId;
+import com.sumauto.util.ViewUtil;
 
-public class SearchActivity extends BaseActivity {
+import java.util.ArrayList;
 
-    private EditText edit_search;
-    private View iv_clear_edit;
+public class SearchActivity extends BaseActivity implements TrendListFragment.Callback {
+
+    @ViewId EditText edit_search;
+    @ViewId View iv_clearEdit;
+    @ViewId ViewPager viewPager;
+    @ViewId TabLayout tabLayout;
+
+    ArrayList<BaseFragment> mFragments = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_search);
-        ViewPager viewPager= (ViewPager) findViewById(R.id.viewPager);
-        viewPager.setAdapter(new Adapter(getSupportFragmentManager()));
+        viewPager = (ViewPager) findViewById(R.id.viewPager);
 
-        TabLayout tabLayout= (TabLayout) findViewById(R.id.tabLayout);
-        tabLayout.setupWithViewPager(viewPager);
+        tabLayout = (TabLayout) findViewById(R.id.tabLayout);
 
-        edit_search = (EditText) findViewById(R.id.edit_search);
-        iv_clear_edit = findViewById(R.id.iv_clearEdit);
-
-        iv_clear_edit.setOnClickListener(new View.OnClickListener() {
+        iv_clearEdit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 edit_search.setText("");
@@ -57,9 +61,10 @@ public class SearchActivity extends BaseActivity {
 
             @Override
             public void afterTextChanged(Editable s) {
-                iv_clear_edit.setVisibility(edit_search.getText().length() > 0 ? View.VISIBLE : View.INVISIBLE);
+                iv_clearEdit.setVisibility(edit_search.getText().length() > 0 ? View.VISIBLE : View.INVISIBLE);
             }
         });
+
         edit_search.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
@@ -67,6 +72,7 @@ public class SearchActivity extends BaseActivity {
                     v.clearFocus();
                     findViewById(R.id.layout_pager).setVisibility(View.VISIBLE);
                     ViewUtil.closeKeyboard(edit_search);
+                    doSearch();
                 }
                 return false;
             }
@@ -79,7 +85,38 @@ public class SearchActivity extends BaseActivity {
         });
     }
 
-    private class Adapter extends FragmentPagerAdapter{
+    //    @Override
+    //    public boolean dispatchKeyEvent(KeyEvent event) {
+    //        if (event.getKeyCode() == KeyEvent.KEYCODE_ENTER || event.getAction() == KeyEvent.ACTION_UP) {
+    //            doSearch();
+    //            return true;
+    //        }
+    //        return super.dispatchKeyEvent(event);
+    //    }
+
+    void doSearch() {
+        mFragments.clear();
+        String keyword = edit_search.getText().toString();
+        //mFragments.add(createFragment("全部", keyword, "0"));
+        mFragments.add(createFragment(getString(R.string.user), keyword, "1"));
+        mFragments.add(createFragment(getString(R.string.circle), keyword, "2"));
+        mFragments.add(createFragment(getString(R.string.content), keyword, "3"));
+        viewPager.setAdapter(new Adapter(getSupportFragmentManager()));
+        tabLayout.setupWithViewPager(viewPager);
+    }
+
+    SearchFragment createFragment(String title, String keyword, String type) {
+        SearchFragment searchFragment = SearchFragment.newInstance(keyword, type);
+        searchFragment.setTitle(title);
+        return searchFragment;
+    }
+
+    @Override
+    public String getComId() {
+        return getUserData(HabitatApp.ACCOUNT_COMMID);
+    }
+
+    private class Adapter extends FragmentPagerAdapter {
 
         public Adapter(FragmentManager fm) {
             super(fm);
@@ -87,29 +124,17 @@ public class SearchActivity extends BaseActivity {
 
         @Override
         public CharSequence getPageTitle(int position) {
-            if (position==0){
-                return getString(R.string.user);
-            }else if (position==1){
-                return getString(R.string.circle);
-            }else{
-                return getString(R.string.content);
-            }
+            return mFragments.get(position).getTitle();
         }
 
         @Override
         public Fragment getItem(int position) {
-            if (position==0){
-                return new UserSearchFragment();
-            }else if (position==1){
-                return new TrendListFragment();
-            }else{
-                return new TrendListFragment();
-            }
+            return mFragments.get(position);
         }
 
         @Override
         public int getCount() {
-            return 3;
+            return mFragments.size();
         }
     }
 }

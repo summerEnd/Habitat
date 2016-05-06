@@ -21,6 +21,17 @@ public class BaseFragment extends Fragment{
 
     protected String TAG="";
 
+    private String title;
+
+    public String getTitle() {
+        return title;
+    }
+
+    public BaseFragment setTitle(String title) {
+        this.title = title;
+        return this;
+    }
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         TAG=getClass().getSimpleName();

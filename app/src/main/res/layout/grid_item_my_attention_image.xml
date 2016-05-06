@@ -2,6 +2,8 @@
 <com.sumauto.widget.RoundCornerImageView
     app:x_radius="@dimen/round_corner_avatar"
     app:y_radius="@dimen/round_corner_avatar"
+    app:heightUnits="50"
+    app:widthUnits="50"
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="@dimen/avatarSize"
     android:layout_height="@dimen/avatarSize"

@@ -63,7 +63,10 @@ public abstract class LoadMoreAdapter extends ListAdapter implements SwipeRefres
                 }
                 case MSG_REFRESH: {
                     getDataList().clear();
-                    getDataList().addAll(newData);
+
+                    if (newData!=null){
+                        getDataList().addAll(newData);
+                    }
                     mCurrentPage = 0;
                     notifyDataSetChanged();
                     break;

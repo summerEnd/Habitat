@@ -15,7 +15,7 @@ import com.sumauto.habitat.activity.fragment.ListFragment;
 import com.sumauto.habitat.activity.fragment.MyAttentionListFragment;
 
 
-public class TrendFragment extends ListFragment {
+public class MainTrendFragment extends ListFragment {
     private TabLayout mTabLayout;
     private ViewPager mViewPager;
     ListFragment[] fragments = new ListFragment[]{new MyAttentionListFragment(), new AboutMeListFragment()};

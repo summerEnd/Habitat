@@ -27,7 +27,7 @@ import static android.view.ViewGroup.LayoutParams.MATCH_PARENT;
 import static android.view.ViewGroup.LayoutParams.WRAP_CONTENT;
 
 
-public class HomeFragment extends ListFragment implements ViewPager.OnPageChangeListener{
+public class MainFragment extends ListFragment implements ViewPager.OnPageChangeListener{
 
     TextView tv_shequ, tv_friend;
     ImageView iv_triangle,iv_avatar;

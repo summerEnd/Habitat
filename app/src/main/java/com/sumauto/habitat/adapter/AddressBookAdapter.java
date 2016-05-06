@@ -22,6 +22,7 @@ import java.util.List;
 public class AddressBookAdapter extends RecyclerView.Adapter implements HeaderDecor.Callback {
 
     private List<Object> beans = new ArrayList<>();
+
     public AddressBookAdapter() {
         for (int i = 0; i < 250; i++) {
             int j = i % 10;
@@ -52,7 +53,7 @@ public class AddressBookAdapter extends RecyclerView.Adapter implements HeaderDe
         if (holder instanceof AddressBookTitleHolder) {
             ((AddressBookTitleHolder) holder).init(beans.get(position).toString());
         } else if (holder instanceof UserListHolder) {
-            ((UserListHolder) holder).init((UserInfoBean) beans.get(position));
+            ((UserListHolder) holder).setData(beans.get(position));
         }
     }
 
@@ -90,7 +91,6 @@ public class AddressBookAdapter extends RecyclerView.Adapter implements HeaderDe
     public boolean isHeader(RecyclerView.ViewHolder holder) {
         return holder instanceof AddressBookTitleHolder;
     }
-
 
 
     @Override

@@ -52,9 +52,7 @@ public abstract class HttpHandler extends JsonHttpResponseHandler {
         if ("100".equals(mResponse.code)) {
             dispatchSuccess();
         } else {
-            if (showErrorMessage) {
-                onShowMessage(mResponse);
-            }
+            onShowMessage(mResponse);
             dispatchFail();
         }
     }
@@ -62,7 +60,7 @@ public abstract class HttpHandler extends JsonHttpResponseHandler {
     @Override
     public final void onSuccess(int statusCode, Header[] headers, JSONArray response) {
         super.onSuccess(statusCode, headers, response);
-        buildErrorMsg(new Throwable("JsonArray is not Accepted!!"),response);
+        buildErrorMsg(new Throwable("JsonArray is not Accepted!!"), response);
         dispatchFail();
     }
 
@@ -72,16 +70,17 @@ public abstract class HttpHandler extends JsonHttpResponseHandler {
     @Override
     public final void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
         super.onFailure(statusCode, headers, throwable, errorResponse);
-        buildErrorMsg(throwable,"FAIL_01:"+errorResponse);
+        buildErrorMsg(throwable, "FAIL_01:" + errorResponse);
         dispatchFail();
     }
+
     /**
      * FAIL_02
      */
     @Override
     public final void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONArray errorResponse) {
         super.onFailure(statusCode, headers, throwable, errorResponse);
-        buildErrorMsg(throwable,"FAIL_02:"+errorResponse);
+        buildErrorMsg(throwable, "FAIL_02:" + errorResponse);
         dispatchFail();
     }
 
@@ -91,7 +90,7 @@ public abstract class HttpHandler extends JsonHttpResponseHandler {
     @Override
     public final void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
         super.onFailure(statusCode, headers, responseString, throwable);
-        buildErrorMsg(throwable,"FAIL_03:"+responseString);
+        buildErrorMsg(throwable, "FAIL_03:" + responseString);
         dispatchFail();
     }
 
@@ -101,24 +100,24 @@ public abstract class HttpHandler extends JsonHttpResponseHandler {
     @Override
     public final void onSuccess(int statusCode, Header[] headers, String responseString) {
         super.onSuccess(statusCode, headers, responseString);
-        buildErrorMsg(new Throwable(),"SUCCESS_01:"+responseString);
+        buildErrorMsg(new Throwable(), "SUCCESS_01:" + responseString);
         dispatchFail();
     }
 
     @Override
     public void onUserException(Throwable error) {
         super.onUserException(error);
-        buildErrorMsg(error,"onUserException（）is called");
+        buildErrorMsg(error, "onUserException（）is called");
         dispatchFail();
     }
 
-    private void buildErrorMsg(Throwable throwable,Object response){
-        if (throwable!=null){
-           // SLog.e(HttpManager.TAG,"",throwable);
+    private void buildErrorMsg(Throwable throwable, Object response) {
+        if (throwable != null) {
+            // SLog.e(HttpManager.TAG,"",throwable);
         }
 
-        if (response!=null){
-            mResponse.data=response.toString();
+        if (response != null) {
+            mResponse.data = response.toString();
         }
     }
 
@@ -128,18 +127,19 @@ public abstract class HttpHandler extends JsonHttpResponseHandler {
             onSuccess(mResponse);
         } catch (JSONException e) {
             e.printStackTrace();
+            SLog.e(HttpManager.TAG, "出现错误" ,e);
         }
     }
 
     private void dispatchFail() {
-        String msg = String.format("请求结束--->%s:%s", requestUrl, mResponse.toString().replace("\r\n","\n"));
-        SLog.d(HttpManager.TAG,  msg);
+        String msg = String.format("请求结束--->%s:%s", requestUrl, mResponse.toString().replace("\r\n", "\n"));
+        SLog.d(HttpManager.TAG, msg);
         onShowMessage(mResponse);
         onFailure(mResponse);
     }
 
     public void onShowMessage(HttpResponse response) {
-        if (!TextUtils.isEmpty(response.msg)) {
+        if (!TextUtils.isEmpty(response.msg) && showErrorMessage) {
             ToastUtil.toast(response.msg);
         }
     }
@@ -160,9 +160,9 @@ public abstract class HttpHandler extends JsonHttpResponseHandler {
         @Override
         public String toString() {
             return "HttpResponse{" +
-                    "data=" + data  +
+                    "data=" + data +
                     ", code=" + code +
-                    ", msg=" + msg  +
+                    ", msg=" + msg +
                     '}';
         }
     }

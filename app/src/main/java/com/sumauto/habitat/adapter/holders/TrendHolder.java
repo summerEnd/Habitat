@@ -53,6 +53,11 @@ public class TrendHolder extends BaseViewHolder implements View.OnClickListener 
         iv_more = (ImageView) itemView.findViewById(R.id.iv_more);
     }
 
+    @Override
+    protected void onInit(Object data) {
+        init((FeedBean) data);
+    }
+
     public void init(FeedBean bean) {
         this.feedBean = bean;
         iv_heartWeak = new WeakReference<>(iv_heart);
