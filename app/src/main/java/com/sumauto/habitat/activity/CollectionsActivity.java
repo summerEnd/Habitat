@@ -12,6 +12,9 @@ import com.sumauto.habitat.adapter.CollectAdapter;
 import com.sumauto.habitat.callback.ViewId;
 import com.sumauto.widget.recycler.DividerDecoration;
 
+/**
+ * 收藏
+ */
 public class CollectionsActivity extends BaseActivity {
 
     @ViewId RecyclerView recyclerView;

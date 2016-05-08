@@ -15,6 +15,9 @@ import com.sumauto.habitat.http.JsonHttpHandler;
 import com.sumauto.habitat.http.Requests;
 import com.sumauto.habitat.widget.PickCity;
 
+/**
+ * 创建小区
+ */
 public class CreateCommunity extends BaseActivity {
     @ViewId EditText edit_commit_name;
     @ViewId TextView tv_address;

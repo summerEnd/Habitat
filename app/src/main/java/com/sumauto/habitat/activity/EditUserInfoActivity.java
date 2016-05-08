@@ -39,6 +39,9 @@ import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
+/**
+ * 完善资料
+ */
 public class EditUserInfoActivity extends BaseActivity {
     public static final int REQUEST_CODE = 1;
     @ViewId TextView tv_gender;

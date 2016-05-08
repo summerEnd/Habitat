@@ -77,11 +77,6 @@ public class BaseActivity extends AppCompatActivity implements View.OnClickListe
                     }
                 });
             }
-            //标题
-            TextView tv_title = (TextView) toolbar.findViewById(R.id.toolBar_title);
-            if (tv_title != null) {
-                //tv_title.setText(getTitle());
-            }
         }
         ActionBar actionBar = getSupportActionBar();
 

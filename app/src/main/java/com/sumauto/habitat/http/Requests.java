@@ -20,7 +20,6 @@ import org.json.JSONObject;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Set;
 
@@ -518,12 +517,12 @@ public class Requests {
         };
     }
 
-    public static HttpRequest<List<FeedBean>> getFriendInfo(String uid) {
-        return new SimpleHttpRequest<List<FeedBean>>("getFriendinfo",
-                "uid", uid) {
+    public static HttpRequest<UserInfoBean> getFriendInfo(String uid) {
+        return new SimpleHttpRequest<UserInfoBean>("getFriendinfo",
+                "fid", uid) {
             @Override
-            public List<FeedBean> parser(String jsonString) throws JSONException {
-                return JsonUtil.getArray(new JSONArray(jsonString), FeedBean.class);
+            public UserInfoBean parser(String jsonString) throws JSONException {
+                return JsonUtil.get(new JSONObject(jsonString), UserInfoBean.class);
             }
         };
     }

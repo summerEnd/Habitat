@@ -18,7 +18,7 @@ public class FeedBean {
      * nickname :
      */
     public String id;
-    public int uid;
+    public String uid;
     public String img;
     public String content;
     public String position;

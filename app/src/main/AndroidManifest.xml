@@ -74,6 +74,14 @@
             android:name=".activity.UserCenterActivity"
             android:screenOrientation="portrait"
             >
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+                <data
+                    android:host="user"
+                    android:path="/home"
+                    android:scheme="habitat"/>
+            </intent-filter>
         </activity>
         <activity
             android:name=".activity.EditUserInfoActivity"
@@ -171,11 +179,19 @@
 
             android:screenOrientation="portrait">
         </activity>
-   
+
         <activity
             android:name=".activity.UserDetailActivity"
-            android:screenOrientation="portrait"
-            >
+            android:screenOrientation="portrait">
+
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+                <data
+                    android:host="user"
+                    android:path="/data"
+                    android:scheme="habitat"/>
+            </intent-filter>
         </activity>
         <activity
             android:name=".activity.CollectionsActivity"

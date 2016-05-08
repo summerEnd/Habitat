@@ -13,6 +13,8 @@ import com.sumauto.habitat.R;
 import com.sumauto.habitat.activity.BaseActivity;
 import com.sumauto.habitat.activity.LoginActivity;
 import com.sumauto.habitat.activity.TrendDetailActivity;
+import com.sumauto.habitat.activity.UserCenterActivity;
+import com.sumauto.habitat.activity.UserDetailActivity;
 import com.sumauto.habitat.bean.FeedBean;
 import com.sumauto.habitat.databinding.ListItemNewsFeedBinding;
 import com.sumauto.habitat.http.HttpManager;
@@ -63,7 +65,8 @@ public class TrendHolder extends BaseViewHolder implements View.OnClickListener 
         iv_heartWeak = new WeakReference<>(iv_heart);
         iv_collectWeak = new WeakReference<>(iv_collect);
 
-        ViewUtil.registerOnClickListener(this, itemView, iv_image, iv_heart, iv_comment, iv_collect, iv_more);
+        ViewUtil.registerOnClickListener(this,
+                itemView, iv_image, iv_heart, iv_comment, iv_collect, iv_more,iv_avatar);
         iv_heart.setImageResource(bean.isNice() ? R.mipmap.ic_heart_checked : R.mipmap.ic_heart);
         iv_collect.setImageResource(bean.isCollection() ? R.mipmap.ic_collect_checked : R.mipmap.ic_collect);
         binding.setBean(bean);
@@ -85,6 +88,11 @@ public class TrendHolder extends BaseViewHolder implements View.OnClickListener 
         switch (id) {
             case R.id.iv_image: {
                 TrendDetailActivity.start(v.getContext(),feedBean.id);
+                break;
+            }
+
+            case R.id.iv_avatar:{
+                UserCenterActivity.start(v.getContext(),feedBean.uid);
                 break;
             }
 

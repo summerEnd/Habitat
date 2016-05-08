@@ -9,6 +9,7 @@ import android.support.v4.app.LoaderManager;
 import android.support.v4.content.AsyncTaskLoader;
 import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
+import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
@@ -48,9 +49,13 @@ public class LoadingActivity extends BaseActivity {
         super.onStart();
 
         showLoadingDialog();
+
         new Thread(new Runnable() {
             @Override
             public void run() {
+                DisplayMetrics dm = new DisplayMetrics();
+                getWindowManager().getDefaultDisplay().getMetrics(dm);
+                Log.d("screen", dm.toString());
                 initDB();
                 doLogin();
                 onLoadFinished();
@@ -67,7 +72,8 @@ public class LoadingActivity extends BaseActivity {
                 if (HabitatApp.getInstance().isLogin()) {
                     to(MainActivity.class);
                 } else {
-                    to(LoginActivity.class);
+                    // to(LoginActivity.class);
+                    to(MainActivity.class);
                 }
                 finish();
                 overridePendingTransition(R.anim.loading_activity_anim_in, R.anim.loading_activity_anim_out);
