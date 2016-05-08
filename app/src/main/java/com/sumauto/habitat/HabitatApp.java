@@ -14,15 +14,21 @@ import com.umeng.socialize.PlatformConfig;
 import java.util.Set;
 
 public class HabitatApp extends SApplication {
-    public static final String ACCOUNT_UID="user_id";
-    public static final String ACCOUNT_PHONE="phone";
-    public static final String ACCOUNT_BIRTHDAY="birthday";
-    public static final String ACCOUNT_NICK="nick";
-    public static final String ACCOUNT_GENDER="gender";
-    public static final String ACCOUNT_COMMID="com_id";
-    public static final String ACCOUNT_COMM_NAME="com_name";
-    public static final String ACCOUNT_AVATAR="avatar";
-    public static final String ACCOUNT_SIGNATURE="signature";
+
+    public static final String ACCOUNT_UID = "user_id";
+    public static final String ACCOUNT_PHONE = "phone";
+    public static final String ACCOUNT_BIRTHDAY = "birthday";
+    public static final String ACCOUNT_NICK = "nick";
+    public static final String ACCOUNT_GENDER = "gender";
+    public static final String ACCOUNT_COMMID = "com_id";
+    public static final String ACCOUNT_COMM_NAME = "com_name";
+    public static final String ACCOUNT_AVATAR = "avatar";
+    public static final String ACCOUNT_SIGNATURE = "signature";
+
+    public static final String ACCOUNT_FANS_COUNT = "fans_count";
+    public static final String ACCOUNT_TREND_COUNT = "trend_count";
+    public static final String ACCOUNT_ATTENTION_COUNT = "attention_count";
+
     private static HabitatApp instance;
     private String PREFERANCE_NAME = "config";
 
@@ -43,7 +49,7 @@ public class HabitatApp extends SApplication {
         PlatformConfig.setWeixin("wx967daebe835fbeac", "5bb696d9ccd75a38c8a0bfe0675559b3");//微信 appid appsecret
         PlatformConfig.setSinaWeibo("283177913", "76dac8780978535ef7df5e4d62b67847");//新浪微博 appkey appsecret
         PlatformConfig.setQQZone("1105280086", "vFc4waVtlXDxMUVt");// QQ和Qzone appid appkey
-
+        mAccount=getLoginAccount();
     }
 
     public void login(String pwd, Bundle data) {
@@ -56,7 +62,7 @@ public class HabitatApp extends SApplication {
         Account accountWithSameUid = null;
         Account[] accountsByType = manager.getAccountsByType(BuildConfig.ACCOUNT_TYPE);
         for (Account temp : accountsByType) {
-            String id = manager.getUserData(temp,ACCOUNT_UID);
+            String id = manager.getUserData(temp, ACCOUNT_UID);
             if (TextUtils.equals(uid, id)) {
                 accountWithSameUid = temp;
             }
@@ -86,7 +92,7 @@ public class HabitatApp extends SApplication {
         getSharedPreferences(PREFERANCE_NAME, MODE_PRIVATE).edit().putString("last_login", uid).apply();
     }
 
-    public void setPassword(String password){
+    public void setPassword(String password) {
         Account loginAccount = getLoginAccount();
         AccountManager manager = (AccountManager) getSystemService(ACCOUNT_SERVICE);
         manager.setPassword(loginAccount, password);
@@ -96,13 +102,13 @@ public class HabitatApp extends SApplication {
      * @return 当前登录账号，没登录就返回null
      */
     @Nullable
-    public Account getLoginAccount(){
+    public Account getLoginAccount() {
         String uid = getSharedPreferences(PREFERANCE_NAME, MODE_PRIVATE).getString("last_login", "");
         AccountManager manager = (AccountManager) getSystemService(ACCOUNT_SERVICE);
         Account[] accountsByType = manager.getAccountsByType(BuildConfig.ACCOUNT_TYPE);
-        for(Account account:accountsByType){
-            String accountUserId = manager.getUserData(account,ACCOUNT_UID);
-            if (TextUtils.equals(uid,accountUserId)){
+        for (Account account : accountsByType) {
+            String accountUserId = manager.getUserData(account, ACCOUNT_UID);
+            if (TextUtils.equals(uid, accountUserId)) {
                 return account;
             }
         }
@@ -110,13 +116,23 @@ public class HabitatApp extends SApplication {
         return null;
     }
 
-    public boolean isLogin(){
-        return getLoginAccount()!=null;
+    public boolean isLogin() {
+        return getLoginAccount() != null;
     }
 
-    public String getUserData(String key){
+    public String getUserData(String key) {
         AccountManager manager = (AccountManager) getSystemService(ACCOUNT_SERVICE);
-        return manager.getUserData(getLoginAccount(),key);
+        return manager.getUserData(getLoginAccount(), key);
+    }
+
+    public void setUserData(String key, String value) {
+        if (mAccount != null) {
+            AccountManager manager = (AccountManager) getSystemService(ACCOUNT_SERVICE);
+            manager.setUserData(mAccount, key, value);
+        } else {
+            Log.e("", "not login!");
+        }
+
     }
 
     public void setUserData(Bundle data) {
@@ -124,8 +140,6 @@ public class HabitatApp extends SApplication {
         if (mAccount != null) {
             AccountManager manager = (AccountManager) getSystemService(ACCOUNT_SERVICE);
             //对应的账户
-            manager.setUserData(mAccount, ACCOUNT_BIRTHDAY, "");
-
             Set<String> keySet = data.keySet();
             for (String key : keySet) {
                 manager.setUserData(mAccount, key, data.getString(key));

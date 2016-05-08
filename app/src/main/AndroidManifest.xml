@@ -2,6 +2,7 @@
 <manifest package="com.sumauto.habitat"
           xmlns:android="http://schemas.android.com/apk/res/android">
 
+    <uses-permission android:name="android.permission.READ_CONTACTS"/>
     <uses-permission android:name="android.permission.AUTHENTICATE_ACCOUNTS"/>
     <uses-permission android:name="android.permission.CAMERA"/>
     <uses-permission android:name="android.permission.INTERNET"/>
@@ -36,35 +37,68 @@
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
-        <activity android:name=".activity.MainActivity">
+        <activity
+            android:name=".activity.MainActivity"
+            android:screenOrientation="portrait"
+            >
         </activity>
-        <activity android:name=".activity.SearchActivity">
+        <activity
+            android:name=".activity.SearchActivity"
+            android:screenOrientation="portrait"
+            >
         </activity>
         <activity
             android:name=".activity.AddressBookActivity"
-            android:label="@string/address_book">
+            android:label="@string/address_book"
+
+            android:screenOrientation="portrait">
         </activity>
-        <activity android:name=".activity.TrendDetailActivity">
+        <activity
+            android:name=".activity.TrendDetailActivity"
+            android:screenOrientation="portrait"
+            >
         </activity>
         <activity
             android:name=".activity.PublishActivity"
+            android:screenOrientation="portrait"
+
             android:windowSoftInputMode="stateHidden">
         </activity>
         <activity
             android:name=".activity.NoticeFriendListActivity"
-            android:label="@string/notice_who_see">
+            android:label="@string/notice_who_see"
+
+            android:screenOrientation="portrait">
         </activity>
-        <activity android:name=".activity.UserCenterActivity">
+        <activity
+            android:name=".activity.UserCenterActivity"
+            android:screenOrientation="portrait"
+            >
         </activity>
-        <activity android:name=".activity.EditUserInfoActivity">
+        <activity
+            android:name=".activity.EditUserInfoActivity"
+            android:screenOrientation="portrait"
+            >
         </activity>
-        <activity android:name=".activity.PhotoActivity">
+        <activity
+            android:name=".activity.PhotoActivity"
+            android:screenOrientation="portrait"
+            >
         </activity>
-        <activity android:name=".activity.RegisterActivity">
+        <activity
+            android:name=".activity.RegisterActivity"
+            android:screenOrientation="portrait"
+            >
         </activity>
-        <activity android:name=".activity.LoginActivity">
+        <activity
+            android:name=".activity.LoginActivity"
+            android:screenOrientation="portrait"
+            >
         </activity>
-        <activity android:name=".activity.ForgetPassword">
+        <activity
+            android:name=".activity.ForgetPassword"
+            android:screenOrientation="portrait"
+            >
         </activity>
 
         <!-- ###################注册SDK使用的Activity###################### -->
@@ -133,11 +167,25 @@
 
         <activity
             android:name=".activity.CreateCommunity"
-            android:label="@string/create_circle">
+            android:label="@string/create_circle"
+
+            android:screenOrientation="portrait">
         </activity>
-        <activity android:name=".activity.PickUserActivity">
+   
+        <activity
+            android:name=".activity.UserDetailActivity"
+            android:screenOrientation="portrait"
+            >
         </activity>
-        <activity android:name=".activity.UserDetailActivity">
+        <activity
+            android:name=".activity.CollectionsActivity"
+            android:screenOrientation="portrait"
+            >
+        </activity>
+        <activity
+            android:name=".activity.BlackNoteActivity"
+            android:screenOrientation="portrait"
+            >
         </activity>
     </application>
 

@@ -23,6 +23,7 @@ import android.widget.TextView;
 
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
+import com.nostra13.universalimageloader.core.imageaware.ImageViewAware;
 import com.sumauto.util.IntentUtils;
 import com.sumauto.util.DisplayUtil;
 import com.sumauto.util.ImageUtil;
@@ -233,7 +234,7 @@ public class PhotoActivity extends BaseActivity {
         List<Map<String, Object>> mAdapterData = new ArrayList<>();//当前正在展示的数据集合
 
         public Adapter() {
-            options = ImageOptions.options();
+            options = ImageOptions.options(20,20);
         }
 
         void reload(List<Map<String, Object>> photos) {
@@ -262,8 +263,7 @@ public class PhotoActivity extends BaseActivity {
                 String path = (String) itemData.get(MediaStore.Images.Media.DATA);
 
                 Uri uri = Uri.fromFile(new File(path));
-                ImageLoader.getInstance().displayImage(uri.toString(), imageView, options);
-
+                ImageLoader.getInstance().displayImage(uri.toString(), new ImageViewAware(imageView), options);
                 holder.imageView.setTag(position);
                 holder.layout_checkedMark.setVisibility(selectedUris.contains(uri) ? View.VISIBLE : View.INVISIBLE);
                 holder.imageView.setOnClickListener(new View.OnClickListener() {

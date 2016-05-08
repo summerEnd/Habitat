@@ -1,60 +1,82 @@
 package com.sumauto.habitat.adapter;
 
-import android.support.v7.widget.RecyclerView;
+import android.content.Context;
 import android.view.ViewGroup;
 
-import com.sumauto.habitat.activity.BaseActivity;
 import com.sumauto.habitat.adapter.holders.SearchHeaderHolder;
 import com.sumauto.habitat.adapter.holders.TrendHolder;
+import com.sumauto.habitat.bean.BannerBean;
 import com.sumauto.habitat.bean.FeedBean;
-import com.sumauto.habitat.bean.SearchHeaderBean;
+import com.sumauto.habitat.bean.UserInfoBean;
+import com.sumauto.habitat.http.HttpManager;
+import com.sumauto.habitat.http.HttpRequest;
+import com.sumauto.habitat.http.Requests;
+import com.sumauto.habitat.http.SyncHttpHandler;
+import com.sumauto.widget.recycler.adapter.BaseHolder;
+import com.sumauto.widget.recycler.adapter.LoadMoreAdapter;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 
 /**
  * Created by Lincoln on 16/3/22.
  * 搜索Fragment
  */
-public class SearchFragmentAdapter extends RecyclerView.Adapter {
+@SuppressWarnings("unchecked")
+public class SearchFragmentAdapter extends LoadMoreAdapter {
 
-    private ArrayList<FeedBean> beans = new ArrayList<>();
-    private SearchHeaderBean mSearchHeader = new SearchHeaderBean();
-    private BaseActivity mActivity;
 
-    public SearchFragmentAdapter(BaseActivity activity) {
-        for (int i = 0; i < 8; i++) {
-            beans.add(new FeedBean());
-        }
-        this.mActivity=activity;
+    public SearchFragmentAdapter(Context context) {
+        super(context, new ArrayList());
     }
 
+
     @Override
-    public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public BaseHolder onCreateHolder(ViewGroup parent, int viewType) {
         if (viewType == 0) {
             return new SearchHeaderHolder(parent);
         } else {
-            return new TrendHolder(parent,mActivity);
-
+            return new TrendHolder(parent, null);
         }
     }
 
     @Override
-    public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
+    public void onBindHolder(BaseHolder holder, int position) {
+        Object o = getDataList().get(position);
+
         if (holder instanceof TrendHolder) {
-            ((TrendHolder) holder).init(beans.get(position - 1));
+            ((TrendHolder) holder).init((FeedBean) o);
         } else if (holder instanceof SearchHeaderHolder) {
-            ((SearchHeaderHolder) holder).init(mSearchHeader);
+            HashMap<String, ArrayList> header= (HashMap<String, ArrayList>) o;
+            ((SearchHeaderHolder) holder).init(header.get("banner"), header.get("user"));
         }
-
     }
 
     @Override
-    public int getItemCount() {
-        return beans.size() + 1;
+    public List onLoadData(int page) {
+        HttpRequest<Object[]> request = Requests.searchInfo(page, 5);
+        SyncHttpHandler<Object[]> httpHandler = new SyncHttpHandler<>(request);
+        HttpManager.getInstance().postSync(getContext(), httpHandler);
+        Object[] result = httpHandler.getResult();
+
+        ArrayList<Object> arrayList = new ArrayList<>();
+        if (page == 0) {
+            //第一页数据才有头
+            HashMap<String, ArrayList> header = new HashMap<>();
+            header.put("banner", (ArrayList<BannerBean>) result[0]);
+            header.put("user", (ArrayList<UserInfoBean>) result[1]);
+            arrayList.add(header);
+        }
+        if (result[2] != null) {
+            arrayList.addAll((ArrayList<FeedBean>) result[2]);
+        }
+        return arrayList;
     }
 
+
     @Override
-    public int getItemViewType(int position) {
+    public int getViewType(int position) {
         return position == 0 ? 0 : 1;
     }
 }

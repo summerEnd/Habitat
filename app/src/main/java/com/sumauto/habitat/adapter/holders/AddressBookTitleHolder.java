@@ -15,11 +15,12 @@ public class AddressBookTitleHolder extends BaseViewHolder {
     public AddressBookTitleHolder(ViewGroup parent) {
         super(parent, R.layout.list_item_address_book_title);
         tv_title = (TextView) itemView.findViewById(R.id.tv_title);
-
     }
 
-    public void init(String text) {
-        this.text=text;
+    @Override
+    protected void onInit(Object data) {
+        this.text= (String) data;
         tv_title.setText(text);
     }
+
 }

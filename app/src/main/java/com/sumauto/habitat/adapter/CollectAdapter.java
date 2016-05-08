@@ -3,6 +3,7 @@ package com.sumauto.habitat.adapter;
 import android.view.ViewGroup;
 
 import com.sumauto.habitat.activity.BaseActivity;
+import com.sumauto.habitat.activity.fragment.TrendListFragment;
 import com.sumauto.habitat.adapter.holders.TrendHolder;
 import com.sumauto.habitat.bean.FeedBean;
 import com.sumauto.habitat.http.HttpManager;
@@ -15,12 +16,12 @@ import com.sumauto.widget.recycler.adapter.LoadMoreAdapter;
 import java.util.ArrayList;
 import java.util.List;
 
-public class TrendAdapter extends LoadMoreAdapter {
-    private String comid;
+public class CollectAdapter extends LoadMoreAdapter {
+    private String collectId;
 
-    public TrendAdapter(BaseActivity context, String comid) {
+    public CollectAdapter(BaseActivity context, String collectId) {
         super(context, new ArrayList<FeedBean>());
-        this.comid = comid;
+        this.collectId = collectId;
     }
 
     @Override
@@ -37,8 +38,7 @@ public class TrendAdapter extends LoadMoreAdapter {
 
     @Override
     public List onLoadData(int page) {
-        HttpRequest<List<FeedBean>> request = Requests.getCommunity(comid, page, 5);
-
+        HttpRequest<List<FeedBean>> request = Requests.getCollect(collectId);
         SyncHttpHandler<List<FeedBean>> httpHandler = new SyncHttpHandler<List<FeedBean>>(request);
         HttpManager.getInstance().postSync(getContext(), httpHandler);
         return httpHandler.getResult();

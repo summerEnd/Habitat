@@ -15,7 +15,7 @@
 
         <TextView
             style="@style/toolbar_title_style"
-            android:text="@string/address_book"
+            android:text="@string/black_note"
             />
 
     </android.support.v7.widget.Toolbar>

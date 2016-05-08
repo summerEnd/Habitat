@@ -48,6 +48,12 @@ public class MainActivity extends BaseActivity implements ViewPager.OnPageChange
         mCheckedTab = (CheckableLinearLayout) findViewById(R.id.tab_main_home);
         mCheckedTab.setChecked(true);
         mViewPager.setOffscreenPageLimit(4);
+        findViewById(R.id.bottom_ll).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
     }
 
     public void onTabClick(View v) {

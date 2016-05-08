@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:background="@drawable/clickable_white"
+    android:gravity="center_vertical"
+    android:orientation="horizontal"
+    android:paddingBottom="@dimen/dimen_13"
+    android:paddingLeft="@dimen/dimen_13"
+    android:paddingRight="@dimen/dimen_13"
+    android:paddingTop="@dimen/dimen_13">
+
+    <com.sumauto.habitat.widget.AvatarView
+        android:layout_width="@dimen/dimen_41"
+        android:id="@+id/iv_avatar"
+        android:layout_height="@dimen/dimen_41"/>
+
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/dimen_13"
+        android:layout_weight="1"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/tv_nick"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            tools:text="一地鸡哈哈哈哈毛"
+            android:textColor="@color/textBlack"
+            android:textSize="@dimen/text_14"/>
+
+        <TextView
+            android:id="@+id/tv_address"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/view_spacing_2"
+            tools:text="一地鸡毛"
+            android:textColor="@color/textGray"
+            android:textSize="@dimen/text_12"/>
+    </LinearLayout>
+
+    <com.sumauto.widget.CheckableLinearLayout
+        android:id="@+id/btn_remove"
+        android:layout_width="wrap_content"
+        android:paddingLeft="@dimen/dimen_13"
+        android:paddingRight="@dimen/dimen_13"
+        android:layout_height="@dimen/dimen_26"
+        android:background="@drawable/btn_attention_bg"
+        android:gravity="center">
+
+        <CheckedTextView
+            android:duplicateParentState="true"
+            android:id="@+id/tv_attention"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="@string/remove"
+            android:textColor="@color/btn_attention_text_color"
+            android:textSize="@dimen/text_12"/>
+    </com.sumauto.widget.CheckableLinearLayout>
+
+</LinearLayout>

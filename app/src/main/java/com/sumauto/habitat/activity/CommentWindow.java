@@ -34,8 +34,12 @@ public class CommentWindow extends Dialog{
         findViewById(R.id.tv_yes).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                onCommit(edit_comment.getText().toString());
             }
         });
+    }
+
+    protected void onCommit(String text){
+        //do noting
     }
 }

@@ -11,6 +11,7 @@ import android.support.v4.view.ViewPager;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.sumauto.habitat.HabitatApp;
@@ -25,6 +26,7 @@ import com.sumauto.habitat.http.HttpRequest;
 import com.sumauto.habitat.http.JsonHttpHandler;
 import com.sumauto.habitat.http.Requests;
 import com.sumauto.habitat.utils.ImageOptions;
+import com.sumauto.util.ToastUtil;
 
 public class TrendDetailActivity extends BaseActivity {
 
@@ -33,8 +35,12 @@ public class TrendDetailActivity extends BaseActivity {
     @ViewId ImageView iv_user_avatar;//用户头像
     @ViewId ImageView iv_avatar;//贴主头像
     @ViewId ImageView iv_image;
+    @ViewId ImageView iv_like;
+    @ViewId ImageView iv_collect;
+    @ViewId TextView tv_heat;
     private FeedDetailBean mDetailBean;
     private ActivityDetailBinding binder;
+    private CommentWindow commentWindow;
 
     public static void start(Context context, String tid) {
         Intent starter = new Intent(context, TrendDetailActivity.class);
@@ -76,6 +82,9 @@ public class TrendDetailActivity extends BaseActivity {
 
     void setUpPage(final FeedDetailBean bean) {
         this.mDetailBean = bean;
+        tv_heat.setText("热度" + bean.getHits());
+        setCollectStatus();
+        setLikeStatus();
         binder.setBean(bean);
         findViewById(R.id.coordinatorLayout).setVisibility(View.VISIBLE);
         findViewById(R.id.layout_comment).setVisibility(View.VISIBLE);
@@ -115,7 +124,22 @@ public class TrendDetailActivity extends BaseActivity {
         super.onClick(v);
         switch (v.getId()) {
             case R.id.v_comment: {
-                new CommentWindow(this).show();
+                if (commentWindow == null) {
+                    commentWindow = new CommentWindow(this) {
+                        @Override
+                        protected void onCommit(String text) {
+                            HttpRequest<Object> request = Requests.submitComment(mDetailBean.id, text, "", "");
+
+                            HttpManager.getInstance().post(getContext(), new JsonHttpHandler<Object>(request) {
+                                @Override
+                                public void onSuccess(HttpResponse response, HttpRequest<Object> request, Object bean) {
+
+                                }
+                            });
+                        }
+                    };
+                }
+                commentWindow.show();
                 break;
             }
         }
@@ -139,4 +163,54 @@ public class TrendDetailActivity extends BaseActivity {
         return super.dispatchTouchEvent(ev);
     }
 
+    public void onCollect(View view) {
+
+        HttpRequest<String> request = mDetailBean.isCollection() ? Requests.uncollectSubject(mDetailBean.id) :
+                Requests.collectSubject(mDetailBean.id);
+        showLoadingDialog();
+        HttpManager.getInstance().post(this, new JsonHttpHandler<String>(request) {
+            @Override
+            public void onSuccess(HttpResponse response, HttpRequest<String> request, String bean) {
+                mDetailBean.setIsCollection(!mDetailBean.isCollection());
+                ToastUtil.toast(iv_collect.getContext(), response.msg);
+                setCollectStatus();
+            }
+
+            @Override
+            public void onFinish() {
+                super.onFinish();
+                dismissLoadingDialog();
+            }
+        });
+    }
+
+    private void setCollectStatus() {
+        iv_collect.setImageResource(mDetailBean.isCollection() ? R.mipmap.ic_collect_checked :
+                R.mipmap.ic_collect);
+    }
+
+    public void onNiceClick(View view) {
+        HttpRequest<String> request = mDetailBean.isNice() ? Requests.unniceSubject(mDetailBean.id) :
+                Requests.niceSubject(mDetailBean.id);
+        showLoadingDialog();
+        HttpManager.getInstance().post(this, new JsonHttpHandler<String>(request) {
+            @Override
+            public void onSuccess(HttpResponse response, HttpRequest<String> request, String bean) {
+                mDetailBean.setIsNice(!mDetailBean.isNice());
+                ToastUtil.toast(iv_like.getContext(), response.msg);
+                setLikeStatus();
+            }
+
+            @Override
+            public void onFinish() {
+                super.onFinish();
+                dismissLoadingDialog();
+            }
+        });
+    }
+
+    private void setLikeStatus() {
+        iv_like.setImageResource(mDetailBean.isNice() ? R.mipmap.ic_heart_checked :
+                R.mipmap.ic_heart);
+    }
 }

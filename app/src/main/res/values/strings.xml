@@ -87,4 +87,9 @@
     <string name="hint_input_nick">请输入昵称</string>
     <string name="lazy_man">这个人很懒，什么都没有留下</string>
     <string name="add">加入</string>
+    <string name="create_content">创建内容</string>
+    <string name="user_data">用户资料</string>
+    <string name="black_note">黑名单</string>
+    <string name="new_msg_hint">新消息提醒</string>
+    <string name="remove">移除</string>
 </resources>

@@ -98,8 +98,9 @@
                     style="@style/mine_item">
 
                     <TextView
+                        android:id="@+id/tv_trend"
                         style="@style/mine_item_number"
-                        android:text="192"/>
+                        tools:text="192"/>
 
                     <TextView
                         style="@style/mine_item_type"
@@ -110,8 +111,9 @@
                     style="@style/mine_item">
 
                     <TextView
+                        android:id="@+id/tv_attention"
                         style="@style/mine_item_number"
-                        android:text="192"/>
+                        tools:text="192"/>
 
                     <TextView
                         style="@style/mine_item_type"
@@ -122,8 +124,9 @@
                     style="@style/mine_item">
 
                     <TextView
+                        android:id="@+id/tv_fans"
                         style="@style/mine_item_number"
-                        android:text="192"/>
+                        tools:text="192"/>
 
                     <TextView
                         style="@style/mine_item_type"

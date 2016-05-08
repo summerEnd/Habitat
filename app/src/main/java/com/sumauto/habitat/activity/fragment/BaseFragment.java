@@ -44,6 +44,13 @@ public class BaseFragment extends Fragment{
         return v;
     }
 
+    public String getUserData(String key){
+        return HabitatApp.getInstance().getUserData(key);
+    }
+
+    public void setUserData(String key,String value){
+        HabitatApp.getInstance().setUserData(key,value);
+    }
 
     protected void processListBottomMargins(RecyclerView recyclerView){
         if (getActivity() instanceof ListCallback){

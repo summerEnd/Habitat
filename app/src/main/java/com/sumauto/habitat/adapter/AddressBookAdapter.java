@@ -1,17 +1,22 @@
 package com.sumauto.habitat.adapter;
 
-import android.support.v4.text.TextUtilsCompat;
+import android.content.Context;
+import android.database.Cursor;
+import android.provider.ContactsContract.CommonDataKinds.Phone;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
-import android.view.View;
+import android.util.Log;
 import android.view.ViewGroup;
 
 import com.sumauto.habitat.adapter.holders.AddressBookTitleHolder;
+import com.sumauto.habitat.adapter.holders.ContactsHolder;
 import com.sumauto.habitat.adapter.holders.UserListHolder;
 import com.sumauto.habitat.bean.UserInfoBean;
+import com.sumauto.util.SUtils;
 
 import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 
@@ -23,18 +28,38 @@ public class AddressBookAdapter extends RecyclerView.Adapter implements HeaderDe
 
     private List<Object> beans = new ArrayList<>();
 
-    public AddressBookAdapter() {
-        for (int i = 0; i < 250; i++) {
-            int j = i % 10;
-            String letter = String.valueOf((char) ('A' + i / 10));
+    public AddressBookAdapter(Context context) {
+        String[] projections = new String[]{Phone.NUMBER, Phone.DISPLAY_NAME, Phone.PHOTO_URI};
 
-            if (j == 0) {
-                beans.add(letter);
-            } else {
-                UserInfoBean object = new UserInfoBean();
-                object.setNameFirstLetter(letter);
-                beans.add(object);
+        Cursor query = context.getContentResolver().query(Phone.CONTENT_URI, projections, "", null, Phone.DISPLAY_NAME + " DESC");
+        ArrayList<UserInfoBean> userInfoBeans = new ArrayList<>();
+        while (query.moveToNext()) {
+            Log.d("--->", "ls:" + query.getString(0) + " " + query.getString(1) + " " + query.getString(2));
+            UserInfoBean userInfoBean = new UserInfoBean();
+            userInfoBean.phone = query.getString(0);
+            userInfoBean.nickname = query.getString(1);
+            userInfoBean.headimg = query.getString(2);
+            userInfoBeans.add(userInfoBean);
+        }
+        query.close();
+
+        //按首字母排序
+        Collections.sort(userInfoBeans, new Comparator<UserInfoBean>() {
+            @Override
+            public int compare(UserInfoBean lhs, UserInfoBean rhs) {
+                return lhs.getNameSort().compareTo(rhs.getNameSort());
             }
+        });
+        //按拼音分组，并插入组标
+        String groupName = "";
+        for (UserInfoBean bean : userInfoBeans) {
+            String firstLetter = bean.getNameFirstLetter().toUpperCase();
+            if (!TextUtils.equals(groupName, firstLetter)) {
+                //组标发生变化
+                beans.add(firstLetter);
+                groupName = firstLetter;
+            }
+            beans.add(bean);
         }
     }
 
@@ -44,16 +69,17 @@ public class AddressBookAdapter extends RecyclerView.Adapter implements HeaderDe
             return new AddressBookTitleHolder(parent);
 
         } else {
-            return new UserListHolder(parent);
+            return new ContactsHolder(parent);
         }
     }
 
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
+
         if (holder instanceof AddressBookTitleHolder) {
-            ((AddressBookTitleHolder) holder).init(beans.get(position).toString());
-        } else if (holder instanceof UserListHolder) {
-            ((UserListHolder) holder).setData(beans.get(position));
+            ((AddressBookTitleHolder) holder).setData(beans.get(position).toString());
+        } else if (holder instanceof ContactsHolder) {
+            ((ContactsHolder) holder).setData(beans.get(position));
         }
     }
 
@@ -68,10 +94,6 @@ public class AddressBookAdapter extends RecyclerView.Adapter implements HeaderDe
     public int getItemCount() {
 
         return beans.size();
-    }
-
-    public List<Object> getBeans() {
-        return beans;
     }
 
     @Override
@@ -97,6 +119,4 @@ public class AddressBookAdapter extends RecyclerView.Adapter implements HeaderDe
     public long getItemId(int position) {
         return super.getItemId(position);
     }
-
-
 }

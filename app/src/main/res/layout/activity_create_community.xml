@@ -15,8 +15,8 @@
             />
 
         <TextView
+            android:text="@string/create_circle"
             style="@style/toolbar_title_style"
-            android:drawableRight="@mipmap/ic_down_arrow"
             />
 
         <TextView

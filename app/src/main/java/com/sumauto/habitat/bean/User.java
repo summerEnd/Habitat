@@ -37,6 +37,10 @@ public class User {
     private String community;
     private String signature;
 
+    public String articlecount;
+    public String followcount;
+    public String fanscount;
+
     public User() {
     }
 
@@ -49,8 +53,8 @@ public class User {
         b.putString(HabitatApp.ACCOUNT_AVATAR, headimg);
         b.putString(HabitatApp.ACCOUNT_BIRTHDAY, birthday);
         b.putString(HabitatApp.ACCOUNT_GENDER, sex);
-        b.putString(HabitatApp.ACCOUNT_SIGNATURE,signature);
-        b.putString(HabitatApp.ACCOUNT_COMM_NAME,community);
+        b.putString(HabitatApp.ACCOUNT_SIGNATURE, signature);
+        b.putString(HabitatApp.ACCOUNT_COMM_NAME, community);
         return b;
     }
 

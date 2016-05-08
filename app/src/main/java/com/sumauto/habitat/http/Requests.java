@@ -20,6 +20,7 @@ import org.json.JSONObject;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Set;
 
@@ -238,13 +239,13 @@ public class Requests {
      * ruid:回复的用户ID
      * rcid:回复的评论ID
      */
-    public static HttpRequest<?> submitComment(String tid, String content, String ruid, String rcid) {
+    public static HttpRequest<Object> submitComment(String tid, String content, String ruid, String rcid) {
         String id = HabitatApp.getInstance().getUserData(HabitatApp.ACCOUNT_UID);
         return new SimpleHttpRequest<Object>("submitComment",
                 "uid", id, "tid", tid, "content", content, "ruid", ruid, "rcid", rcid) {
             @Override
             public Object parser(String jsonString) throws JSONException {
-                return null;
+                return jsonString;
             }
         };
     }
@@ -348,7 +349,7 @@ public class Requests {
 
     /**
      * 用户修改个人信息接口
-     * <p>
+     * <p/>
      * nickname:昵称
      * sex:性别（男/女）
      * birthday:生日
@@ -489,18 +490,36 @@ public class Requests {
         };
     }
 
-    public static HttpRequest<UserInfoBean> getUserinfo(String uid) {
-        return new SimpleHttpRequest<UserInfoBean>("getUserinfo",
-                "uid", uid) {
+    public static HttpRequest<User> getUserInfo() {
+        String id = HabitatApp.getInstance().getUserData(HabitatApp.ACCOUNT_UID);
+
+        return new SimpleHttpRequest<User>("getUserinfo",
+                "uid", id) {
             @Override
-            public UserInfoBean parser(String jsonString) throws JSONException {
-                return JsonUtil.get(jsonString, UserInfoBean.class);
+            public User parser(String jsonString) throws JSONException {
+                JSONObject data = new JSONObject(jsonString);
+                User user = new User();
+                user.articlecount = data.optString("articlecount");
+                user.followcount = data.optString("followcount");
+                user.fanscount = data.optString("fanscount");
+
+                return user;
             }
         };
     }
 
     public static HttpRequest<List<FeedBean>> getCollect(String uid) {
         return new SimpleHttpRequest<List<FeedBean>>("getCollect",
+                "uid", uid) {
+            @Override
+            public List<FeedBean> parser(String jsonString) throws JSONException {
+                return JsonUtil.getArray(new JSONArray(jsonString), FeedBean.class);
+            }
+        };
+    }
+
+    public static HttpRequest<List<FeedBean>> getFriendInfo(String uid) {
+        return new SimpleHttpRequest<List<FeedBean>>("getFriendinfo",
                 "uid", uid) {
             @Override
             public List<FeedBean> parser(String jsonString) throws JSONException {

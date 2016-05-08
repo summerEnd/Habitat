@@ -33,6 +33,7 @@ public class DeleteAbleImageHolder extends BaseViewHolder {
     public final View cover;
     private final View progressLayout;
     private final TextView tv_progress;
+    private final View progressView;
     private final Callback callback;
     public ImageBean bean;
 
@@ -40,6 +41,7 @@ public class DeleteAbleImageHolder extends BaseViewHolder {
         super(parent, R.layout.grid_item_delete_able_image);
         this.callback = callback;
         iv_delete = (ImageView) itemView.findViewById(R.id.iv_delete);
+        progressView =  itemView.findViewById(R.id.progressView);
         iv_image = (ImageView) itemView.findViewById(R.id.iv_image);
         tv_progress = (TextView) itemView.findViewById(R.id.tv_progress);
         cover = itemView.findViewById(R.id.v_cover);
@@ -84,6 +86,7 @@ public class DeleteAbleImageHolder extends BaseViewHolder {
         String str=progress+"%";
         Log.d(HttpManager.TAG,"setProgress:"+str);
         tv_progress.setText(str);
+        progressView.getLayoutParams().height= progressLayout.getHeight()*progress/100;
         if (progress==100){
             progressLayout.setVisibility(View.INVISIBLE);
         }

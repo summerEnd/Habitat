@@ -15,7 +15,8 @@
             android:drawableLeft="@mipmap/ic_cancel"
             android:text="@string/cancel"/>
 
-        <TextView style="@style/toolbar_title_style"/>
+        <TextView style="@style/toolbar_title_style"
+            android:text="@string/create_content"/>
 
         <TextView
             android:onClick="onPublishClick"

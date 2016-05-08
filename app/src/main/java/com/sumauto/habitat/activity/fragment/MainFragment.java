@@ -5,6 +5,7 @@ import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
@@ -27,14 +28,15 @@ import static android.view.ViewGroup.LayoutParams.MATCH_PARENT;
 import static android.view.ViewGroup.LayoutParams.WRAP_CONTENT;
 
 
-public class MainFragment extends ListFragment implements ViewPager.OnPageChangeListener{
+public class MainFragment extends ListFragment implements ViewPager.OnPageChangeListener {
 
     TextView tv_shequ, tv_friend;
-    ImageView iv_triangle,iv_avatar;
+    ImageView iv_triangle, iv_avatar;
     private TabLayout mTabLayout;
     private ViewPager mViewPager;
     private FeedSelectWindow mFeedSelectWindow;
-    private final TrendListFragment FRAGMENTS[]=new TrendListFragment[]{new TrendListFragment(),new TrendListFragment()};
+    private final ListFragment FRAGMENTS[] = new ListFragment[2];
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -45,23 +47,10 @@ public class MainFragment extends ListFragment implements ViewPager.OnPageChange
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         mViewPager = (ViewPager) view.findViewById(R.id.viewPager);
-        mViewPager.setAdapter(new FragmentPagerAdapter(getChildFragmentManager()) {
-            @Override
-            public CharSequence getPageTitle(int position) {
-                return getString(position == 0 ? R.string.neighbour_feed : R.string.near_people);
-            }
+        FRAGMENTS[0] = new MainCircleFragment();
+        FRAGMENTS[1] = TrendListFragment.newInstance(getUserData(HabitatApp.ACCOUNT_COMMID));
 
-            @Override
-            public Fragment getItem(int position) {
-
-                return FRAGMENTS[position];
-            }
-
-            @Override
-            public int getCount() {
-                return FRAGMENTS.length;
-            }
-        });
+        mViewPager.setAdapter(new MyPageAdapter(getChildFragmentManager()));
 
         mViewPager.addOnPageChangeListener(this);
         mTabLayout = (TabLayout) view.findViewById(R.id.tabLayout);
@@ -87,8 +76,8 @@ public class MainFragment extends ListFragment implements ViewPager.OnPageChange
         initData();
     }
 
-    void initData(){
-        ImageLoader.getInstance().displayImage(HabitatApp.getInstance().getUserData(HabitatApp.ACCOUNT_AVATAR),iv_avatar, ImageOptions.options());
+    void initData() {
+        ImageLoader.getInstance().displayImage(HabitatApp.getInstance().getUserData(HabitatApp.ACCOUNT_AVATAR), iv_avatar, ImageOptions.options());
     }
 
     @Override
@@ -113,9 +102,26 @@ public class MainFragment extends ListFragment implements ViewPager.OnPageChange
 
     }
 
-    class FeedSelectWindow extends PopupWindow implements View.OnClickListener {
+    private class MyPageAdapter extends FragmentPagerAdapter{
+        public MyPageAdapter(FragmentManager fm) {
+            super(fm);
+        }
 
-        private final TextView tv_window_myCircle,tv_window_shequ;
+        @Override
+        public Fragment getItem(int position) {
+
+            return FRAGMENTS[position];
+        }
+
+        @Override
+        public int getCount() {
+            return FRAGMENTS.length;
+        }
+    }
+
+    private class FeedSelectWindow extends PopupWindow implements View.OnClickListener {
+
+        private final TextView tv_window_myCircle, tv_window_shequ;
 
         public FeedSelectWindow(Context context) {
             super(context);
@@ -125,23 +131,25 @@ public class MainFragment extends ListFragment implements ViewPager.OnPageChange
             setWidth(MATCH_PARENT);
             setHeight(WRAP_CONTENT);
             setFocusable(true);
-            tv_window_myCircle = findViewWithOnClick(contentView,R.id.tv_window_myCircle,this);
-            tv_window_shequ = findViewWithOnClick(contentView,R.id.tv_window_shequ,this);
+            tv_window_myCircle = findViewWithOnClick(contentView, R.id.tv_window_myCircle, this);
+            tv_window_shequ = findViewWithOnClick(contentView, R.id.tv_window_shequ, this);
         }
 
         @Override
         public void onClick(View v) {
-            if (v.getId()==R.id.tv_window_myCircle){
+            if (v.getId() == R.id.tv_window_myCircle) {
                 tv_shequ.setText(R.string.my_circle);
                 tv_window_myCircle.setTextColor(ViewUtil.getColor(v.getContext(), R.color.colorPrimary));
-                tv_window_shequ.setTextColor(ViewUtil.getColor(v.getContext(),R.color.textBlack));
-            }else{
+                tv_window_shequ.setTextColor(ViewUtil.getColor(v.getContext(), R.color.textBlack));
+                ((MainCircleFragment) FRAGMENTS[0]).setType(0);
+            } else {
                 tv_shequ.setText(R.string.neighbour_feed);
                 tv_window_myCircle.setTextColor(ViewUtil.getColor(v.getContext(), R.color.textBlack));
                 tv_window_shequ.setTextColor(ViewUtil.getColor(v.getContext(), R.color.colorPrimary));
-
+                ((MainCircleFragment) FRAGMENTS[0]).setType(1);
             }
             mViewPager.setCurrentItem(0);
+
             dismiss();
         }
     }

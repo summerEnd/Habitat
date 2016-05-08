@@ -26,28 +26,27 @@ public class FeedBean {
     public String headimg;
     public String nickname;
 
-    private boolean isNice;
-    private boolean isCollection;
+    private String iscollect;
+    private String isnice;
 
-    public boolean isCollection() {
-        return isCollection;
-    }
-
-    public boolean isNice() {
-        return isNice;
-    }
-
-    public FeedBean setIsNice(boolean isNice) {
-        this.isNice = isNice;
-        return this;
-    }
-
-    public FeedBean setIsCollection(boolean isCollection) {
-        this.isCollection = isCollection;
-        return this;
-    }
 
     public String getFrom() {
         return addtime + (TextUtils.isEmpty(position) ? "" : (" 来自 "+position));
     }
+    public boolean isCollection() {
+        return "1".equals(iscollect);
+    }
+
+    public boolean isNice() {
+        return "1".equals(isnice);
+    }
+
+    public void setIsNice(boolean isNice) {
+        this.isnice=isNice?"1":"0";
+    }
+
+    public void setIsCollection(boolean isCollection) {
+        this.iscollect = isCollection?"1":"0";
+    }
+
 }

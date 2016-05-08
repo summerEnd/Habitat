@@ -44,7 +44,7 @@ public class ChooseUserAdapter extends RecyclerView.Adapter implements ChooseUse
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
         Object bean = beans.get(position);
         if (holder instanceof AddressBookTitleHolder) {
-            ((AddressBookTitleHolder) holder).init(bean.toString());
+            ((AddressBookTitleHolder) holder).setData(bean.toString());
         } else if (holder instanceof ChooseUserHolder) {
             ((ChooseUserHolder) holder).init((UserInfoBean) bean, this, selectedUser.contains(bean));
         }

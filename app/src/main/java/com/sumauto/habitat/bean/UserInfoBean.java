@@ -2,6 +2,8 @@ package com.sumauto.habitat.bean;
 
 import android.os.Parcelable;
 
+import com.sumauto.util.SUtils;
+
 /**
  * Created by Lincoln on 16/3/22.
  * 用户信息
@@ -41,13 +43,14 @@ public class UserInfoBean {
     }
 
     public String getNameFirstLetter() {
-        return nameFirstLetter;
+        return SUtils.getFirstLetter(nickname);
     }
 
-    public UserInfoBean setNameFirstLetter(String nameFirstLetter) {
-        this.nameFirstLetter = nameFirstLetter;
-        return this;
+    public String getNameSort(){
+        return SUtils.getShortOfString(nickname);
     }
+
+
 
     public String getNick() {
         return nickname;

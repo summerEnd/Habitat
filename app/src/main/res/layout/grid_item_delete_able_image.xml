@@ -3,10 +3,10 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    app:layout_width_units="100"
-    app:layout_height_units="100"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    app:layout_height_units="100"
+    app:layout_width_units="100">
 
     <com.sumauto.widget.RoundCornerImageView
         android:id="@+id/iv_image"
@@ -18,43 +18,50 @@
         app:y_radius="@dimen/round_corner_avatar"/>
 
     <ImageView
-        app:x="68"
-        app:y="10"
-        app:widthUnits="22"
-        app:heightUnits="22"
         android:id="@+id/iv_delete"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="right|top"
-        android:layout_margin="@dimen/view_spacing_1"
-        android:src="@mipmap/ic_delete_image"/>
+        android:src="@mipmap/ic_delete_image"
+        app:heightUnits="22"
+        app:widthUnits="22"
+        app:x="68"
+        app:y="10"/>
 
     <TextView
-        app:y="80"
-        app:heightUnits="20"
         android:id="@+id/v_cover"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom"
-        android:layout_marginBottom="@dimen/dp_10_in_xhdpi"
         android:background="#8000"
         android:gravity="center"
         android:text="封面"
         android:textColor="@color/white"
-        android:textSize="@dimen/text_11"/>
+        android:textSize="@dimen/text_11"
+        app:heightUnits="20"
+        app:y="80"/>
 
     <FrameLayout
         android:id="@+id/progressLayout"
-        android:background="#6000"
+        android:background="#3000"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        >
+
+        <View
+            android:id="@+id/progressView"
+            android:layout_gravity="bottom"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:background="#8000"/>
+
         <TextView
             android:id="@+id/tv_progress"
-            android:textColor="#ffffff"
-            tools:text="30%"
-            android:layout_gravity="center"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="@dimen/text_14"/>
+            android:layout_gravity="center"
+            android:textColor="#ffffff"
+            android:textSize="@dimen/text_14"
+            tools:text="30%"/>
     </FrameLayout>
 </com.sumauto.widget.SupperLayout>

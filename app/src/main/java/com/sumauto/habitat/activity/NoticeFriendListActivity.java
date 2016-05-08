@@ -90,7 +90,6 @@ public class NoticeFriendListActivity extends BaseActivity {
                 data.put(letter, beans);
             } else {
                 UserInfoBean object = new UserInfoBean();
-                object.setNameFirstLetter(letter);
                 object.setNick(letter + " Lincoln " + j);
                 beans.add(object);
             }

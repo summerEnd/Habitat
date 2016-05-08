@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.v7.widget.LinearLayoutCompat
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
     app:divider="@drawable/line"
     app:showDividers="middle|end"
-    android:orientation="vertical"
-    tools:ignore="UseCompoundDrawables"
-    tools:context="com.sumauto.habitat.activity.SettingActivity">
+    tools:context="com.sumauto.habitat.activity.SettingActivity"
+    tools:ignore="UseCompoundDrawables">
 
     <android.support.v7.widget.Toolbar
         style="@style/toolBarStyle">
@@ -19,23 +19,30 @@
 
         <TextView
             style="@style/toolbar_title_style"
+            android:text="@string/settings"
             />
 
     </android.support.v7.widget.Toolbar>
+
     <LinearLayout
-        android:id="@+id/vg_my_collect"
-        style="@style/mine_click_item">
+        style="@style/mine_click_item"
+        android:paddingTop="11dp"
+        android:paddingBottom="11dp"
+        android:onClick="onMsgClick">
 
         <TextView
             style="@style/mine_click_item_text"
-            android:text="@string/my_collect"/>
+            android:text="@string/new_msg_hint"/>
 
-        <ImageView
+        <android.support.v7.widget.SwitchCompat
+            android:id="@+id/iv_switch"
+            android:src="@mipmap/ic_switch_on"
             style="@style/mine_click_item_arrow"/>
     </LinearLayout>
+
     <LinearLayout
-        android:onClick="onChangePassword"
-        style="@style/mine_click_item">
+        style="@style/mine_click_item"
+        android:onClick="onChangePassword">
 
         <TextView
             style="@style/mine_click_item_text"
@@ -44,28 +51,31 @@
         <ImageView
             style="@style/mine_click_item_arrow"/>
     </LinearLayout>
+
     <LinearLayout
-        android:onClick="onUpdateVersion"
-        style="@style/mine_click_item">
+        style="@style/mine_click_item"
+        android:onClick="onUpdateVersion">
 
         <TextView
             style="@style/mine_click_item_text"
             android:text="@string/update_version"/>
+
         <TextView
-            android:layout_marginRight="@dimen/dimen_13"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginRight="@dimen/dimen_13"
+            android:text="@string/versionName"
             android:textColor="@color/textGray"
-            android:textSize="@dimen/text_12"
-            android:text="@string/versionName"/>
+            android:textSize="@dimen/text_12"/>
+
         <ImageView
             style="@style/mine_click_item_arrow"/>
     </LinearLayout>
 
     <LinearLayout
+        style="@style/mine_click_item"
         android:layout_marginTop="@dimen/dimen_13"
-        android:onClick="onInviteFriends"
-        style="@style/mine_click_item">
+        android:onClick="onInviteFriends">
 
         <TextView
             style="@style/mine_click_item_text"
@@ -76,33 +86,35 @@
     </LinearLayout>
 
     <LinearLayout
-        android:onClick="onBlackListClick"
-        style="@style/mine_click_item">
+        style="@style/mine_click_item"
+        android:onClick="onBlackListClick">
 
         <TextView
             style="@style/mine_click_item_text"
-            android:text="@string/invite_friends"/>
+            android:text="@string/black_note"/>
 
         <ImageView
             style="@style/mine_click_item_arrow"/>
     </LinearLayout>
 
     <LinearLayout
+        style="@style/mine_click_item"
         android:layout_marginTop="@dimen/dimen_13"
-        android:onClick="onClearCache"
-        style="@style/mine_click_item">
+        android:onClick="onClearCache">
 
         <TextView
             style="@style/mine_click_item_text"
             android:text="@string/clear_cache"/>
+
         <TextView
             android:id="@+id/tv_cache_size"
-            android:layout_marginRight="@dimen/dimen_13"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginRight="@dimen/dimen_13"
+            android:text="@string/versionName"
             android:textColor="@color/textGray"
-            android:textSize="@dimen/text_12"
-            android:text="@string/versionName"/>
+            android:textSize="@dimen/text_12"/>
+
         <ImageView
             style="@style/mine_click_item_arrow"/>
     </LinearLayout>
