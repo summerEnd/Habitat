@@ -34,6 +34,7 @@ android {
         buildConfigField "String", "CHANNEL", "\"\""
         manifestPlaceholders = [UMENG_CHANNEL_VALUE: APP_KEY]
 
+
     }
     dataBinding {
         enabled = true

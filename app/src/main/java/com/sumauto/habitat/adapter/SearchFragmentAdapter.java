@@ -5,7 +5,7 @@ import android.view.ViewGroup;
 
 import com.sumauto.habitat.adapter.holders.SearchHeaderHolder;
 import com.sumauto.habitat.adapter.holders.TrendHolder;
-import com.sumauto.habitat.bean.BannerBean;
+import com.sumauto.habitat.bean.ImageBean;
 import com.sumauto.habitat.bean.FeedBean;
 import com.sumauto.habitat.bean.UserInfoBean;
 import com.sumauto.habitat.http.HttpManager;
@@ -64,7 +64,7 @@ public class SearchFragmentAdapter extends LoadMoreAdapter {
         if (page == 0) {
             //第一页数据才有头
             HashMap<String, ArrayList> header = new HashMap<>();
-            header.put("banner", (ArrayList<BannerBean>) result[0]);
+            header.put("banner", (ArrayList<ImageBean>) result[0]);
             header.put("user", (ArrayList<UserInfoBean>) result[1]);
             arrayList.add(header);
         }

@@ -19,6 +19,8 @@ import com.sumauto.habitat.R;
 import com.sumauto.habitat.adapter.SearchFragmentAdapter;
 import com.sumauto.widget.recycler.DividerDecoration;
 
+import junit.framework.Assert;
+
 
 /**
  * A simple {@link Fragment} subclass.
@@ -28,7 +30,7 @@ public class MainSearchFragment extends ListFragment {
     private RecyclerView rv_search_list;
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+    public View onCreateContentView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_search, container, false);
     }
@@ -37,7 +39,7 @@ public class MainSearchFragment extends ListFragment {
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         rv_search_list = (RecyclerView) view.findViewById(R.id.rv_search_list);
-        rv_search_list.setAdapter(new SearchFragmentAdapter((BaseActivity) getActivity()));
+
         rv_search_list.addItemDecoration(new RecyclerView.ItemDecoration() {
             @Override
             public void getItemOffsets(Rect outRect, View view, RecyclerView parent, RecyclerView.State state) {
@@ -70,5 +72,14 @@ public class MainSearchFragment extends ListFragment {
         if (rv_search_list != null) {
             rv_search_list.scrollToPosition(position);
         }
+    }
+
+    @Override
+    public void activityCallRefresh() {
+        Assert.assertNotNull(rv_search_list);
+        if (rv_search_list.getAdapter()!=null){
+            return;
+        }
+        rv_search_list.setAdapter(new SearchFragmentAdapter(getActivity()));
     }
 }

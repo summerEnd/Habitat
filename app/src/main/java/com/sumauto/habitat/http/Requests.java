@@ -4,13 +4,15 @@ import android.os.Bundle;
 
 import com.loopj.android.http.RequestParams;
 import com.sumauto.habitat.HabitatApp;
-import com.sumauto.habitat.bean.BannerBean;
+import com.sumauto.habitat.bean.AttentionBean;
+import com.sumauto.habitat.bean.ImageBean;
 import com.sumauto.habitat.bean.CommentBean;
 import com.sumauto.habitat.bean.CommitBean;
 import com.sumauto.habitat.bean.FeedBean;
 import com.sumauto.habitat.bean.FeedDetailBean;
 import com.sumauto.habitat.bean.User;
 import com.sumauto.habitat.bean.UserInfoBean;
+import com.sumauto.habitat.exception.NotLoginException;
 import com.sumauto.util.JsonUtil;
 
 import org.json.JSONArray;
@@ -38,6 +40,14 @@ public class Requests {
     public static final String signature = "signature";
     public static final String headimg = "headimg";
 
+    private static String getUid() {
+        try {
+            return HabitatApp.getInstance().getUserData(HabitatApp.ACCOUNT_UID);
+        } catch (NotLoginException e) {
+            return "";
+        }
+    }
+
     public static HttpRequest<String> getUploadUrl(final File file) {
         return new SimpleHttpRequest<String>("uploadImg") {
             @Override
@@ -49,7 +59,7 @@ public class Requests {
             public RequestParams getRequestParams() {
 
                 RequestParams params = new RequestParams();
-                params.put("uid", HabitatApp.getInstance().getUserData(HabitatApp.ACCOUNT_UID));
+                params.put("uid", getUid());
                 try {
                     params.put("image", file);
                 } catch (FileNotFoundException e) {
@@ -60,6 +70,7 @@ public class Requests {
         };
     }
 
+
     /**
      * 参数说明：
      * commid：用户所在社区的社区ID
@@ -67,6 +78,7 @@ public class Requests {
      * pagesize：每页显示数据的数量（pagesize默认为3）
      */
     public static HttpRequest<List<FeedBean>> getCommunity(String commid, int page, int pageSize) {
+
         return new SimpleHttpRequest<List<FeedBean>>("getCommunity",
                 "commid", commid, "pageid", page, "pagesize", pageSize) {
 
@@ -145,7 +157,7 @@ public class Requests {
      * newuserpwd:用户填写的新的登录密码
      */
     public static HttpRequest<String> getChangePwd(String olduserpwd, String newuserpwd) {
-        String id = HabitatApp.getInstance().getUserData(HabitatApp.ACCOUNT_UID);
+        String id = getUid();
         return new SimpleHttpRequest<String>("getChangePwd",
                 "uid", id, "olduserpwd", olduserpwd, "newuserpwd", newuserpwd) {
             @Override
@@ -176,7 +188,7 @@ public class Requests {
      * tid:需要收藏的主体编号
      */
     public static HttpRequest<String> collectSubject(String tid) {
-        String id = HabitatApp.getInstance().getUserData(HabitatApp.ACCOUNT_UID);
+        String id = getUid();
         return new SimpleHttpRequest<String>("collectSubject",
                 "uid", id, "tid", tid) {
             @Override
@@ -191,7 +203,7 @@ public class Requests {
      * tid:需要收藏的主体编号
      */
     public static HttpRequest<String> uncollectSubject(String tid) {
-        String id = HabitatApp.getInstance().getUserData(HabitatApp.ACCOUNT_UID);
+        String id = getUid();
         return new SimpleHttpRequest<String>("uncollectSubject",
                 "uid", id, "tid", tid) {
             @Override
@@ -206,7 +218,7 @@ public class Requests {
      * tid:需要点赞的主体编号
      */
     public static HttpRequest<String> niceSubject(String tid) {
-        String id = HabitatApp.getInstance().getUserData(HabitatApp.ACCOUNT_UID);
+        String id = getUid();
         return new SimpleHttpRequest<String>("niceSubject",
                 "uid", id, "tid", tid) {
             @Override
@@ -221,7 +233,7 @@ public class Requests {
      * tid:需要点赞的主体编号
      */
     public static HttpRequest<String> unniceSubject(String tid) {
-        String id = HabitatApp.getInstance().getUserData(HabitatApp.ACCOUNT_UID);
+        String id = getUid();
         return new SimpleHttpRequest<String>("unniceSubject",
                 "uid", id, "tid", tid) {
             @Override
@@ -239,7 +251,7 @@ public class Requests {
      * rcid:回复的评论ID
      */
     public static HttpRequest<Object> submitComment(String tid, String content, String ruid, String rcid) {
-        String id = HabitatApp.getInstance().getUserData(HabitatApp.ACCOUNT_UID);
+        String id = getUid();
         return new SimpleHttpRequest<Object>("submitComment",
                 "uid", id, "tid", tid, "content", content, "ruid", ruid, "rcid", rcid) {
             @Override
@@ -256,7 +268,7 @@ public class Requests {
      * Pagesize：每页显示数据的数量（pagesize默认为5）
      */
     public static HttpRequest<List<CommentBean>> getComment(String tid, int pageId, int pageSize) {
-        String id = HabitatApp.getInstance().getUserData(HabitatApp.ACCOUNT_UID);
+        String id = getUid();
         return new SimpleHttpRequest<List<CommentBean>>("getComment",
                 "uid", id, "tid", tid, "pageid", pageId, "pagesize", pageSize) {
             @Override
@@ -272,7 +284,7 @@ public class Requests {
      * @param tid 评论id
      */
     public static HttpRequest<?> delComment(String tid) {
-        String id = HabitatApp.getInstance().getUserData(HabitatApp.ACCOUNT_UID);
+        String id = getUid();
         return new SimpleHttpRequest<Object>("delComment",
                 "uid", id, "tid", tid) {
             @Override
@@ -288,7 +300,7 @@ public class Requests {
      * @param tid 帖子id
      */
     public static HttpRequest<FeedDetailBean> getSubjectDetail(String tid) {
-        String id = HabitatApp.getInstance().getUserData(HabitatApp.ACCOUNT_UID);
+        String id = getUid();
         return new SimpleHttpRequest<FeedDetailBean>("getSubjectDetail",
                 "uid", id, "tid", tid) {
             @Override
@@ -304,7 +316,7 @@ public class Requests {
      * @param tid 帖子id
      */
     public static HttpRequest<List<UserInfoBean>> getSubjectNice(String tid, int pageid) {
-        String id = HabitatApp.getInstance().getUserData(HabitatApp.ACCOUNT_UID);
+        String id = getUid();
         return new SimpleHttpRequest<List<UserInfoBean>>("getSubjectNice",
                 "uid", id, "tid", tid, "pageid", pageid, "pagesize", 12) {
             @Override
@@ -319,13 +331,13 @@ public class Requests {
      *
      * @param uid 需要关注的对方用户ID
      */
-    public static HttpRequest<?> setFollow(String uid) {
-        String id = HabitatApp.getInstance().getUserData(HabitatApp.ACCOUNT_UID);
-        return new SimpleHttpRequest<Object>("setFollow",
+    public static HttpRequest<String> setFollow(String uid) {
+        String id = getUid();
+        return new SimpleHttpRequest<String>("setFollow",
                 "mid", id, "uid", uid) {
             @Override
-            public Object parser(String jsonString) throws JSONException {
-                return null;
+            public String parser(String jsonString) throws JSONException {
+                return jsonString;
             }
         };
     }
@@ -335,13 +347,13 @@ public class Requests {
      *
      * @param uid 需要关注的对方用户ID
      */
-    public static HttpRequest<?> setUnFollow(String uid) {
-        String id = HabitatApp.getInstance().getUserData(HabitatApp.ACCOUNT_UID);
-        return new SimpleHttpRequest<Object>("setUnFollow",
+    public static HttpRequest<String> setUnFollow(String uid) {
+        String id = getUid();
+        return new SimpleHttpRequest<String>("setUnFollow",
                 "mid", id, "uid", uid) {
             @Override
-            public Object parser(String jsonString) throws JSONException {
-                return null;
+            public String parser(String jsonString) throws JSONException {
+                return jsonString;
             }
         };
     }
@@ -364,7 +376,7 @@ public class Requests {
             changes.remove(headimg);//从bundle中移除
         }
 
-        String id = HabitatApp.getInstance().getUserData(HabitatApp.ACCOUNT_UID);
+        String id = getUid();
         params.put("uid", id);
         Set<String> keySet = changes.keySet();
         for (String key : keySet) {
@@ -392,7 +404,7 @@ public class Requests {
      * @param address:具体地址
      */
     public static HttpRequest<String> createCommunity(String title, String province, String city, String area, String address) {
-        String id = HabitatApp.getInstance().getUserData(HabitatApp.ACCOUNT_UID);
+        String id = getUid();
         return new SimpleHttpRequest<String>("createCommunity",
                 "uid", id, "title", title, "province", province, "city", city, "area", area, "address", address) {
             @Override
@@ -409,7 +421,7 @@ public class Requests {
      * @param ids：上传的图片ID列表，如1,2,3,4,5字符串
      */
     public static HttpRequest<String> publishArticle(String content, String openlevel, String remind, String ids) {
-        String id = HabitatApp.getInstance().getUserData(HabitatApp.ACCOUNT_UID);
+        String id = getUid();
         return new SimpleHttpRequest<String>("publishArticle",
                 "uid", id, "content", content, "openlevel", openlevel, "remind", remind, "ids", ids) {
             @Override
@@ -426,7 +438,7 @@ public class Requests {
      * @param pagesize:每页数量，默认8条
      */
     public static HttpRequest<ArrayList<Object>> getSearch(String keyword, String type, int pageid, int pagesize) {
-        String id = HabitatApp.getInstance().getUserData(HabitatApp.ACCOUNT_UID);
+        String id = getUid();
         return new SimpleHttpRequest<ArrayList<Object>>("getSearch",
                 "uid", id, "keyword", keyword, "type", type, "pageid", pageid, "pagesize", pagesize) {
             @Override
@@ -456,12 +468,12 @@ public class Requests {
     /**
      * 首页搜索页面接口
      * 返回一个长度为3的Object数组
-     * 第一个是banner，{@code ArrayList<BannerBean>}
+     * 第一个是banner，{@code ArrayList<ImageBean>}
      * 第二个是推荐用户列表{@code ArrayList<UserInfoBean>}
      * 第三个是动态列表{@code ArrayList<FeedBean>}
      */
     public static HttpRequest<Object[]> searchInfo(int pageid, int pagesize) {
-        String id = HabitatApp.getInstance().getUserData(HabitatApp.ACCOUNT_UID);
+        String id = getUid();
         return new SimpleHttpRequest<Object[]>("searchInfo",
                 "uid", id, "pageid", pageid, "pagesize", pagesize) {
             @Override
@@ -473,7 +485,7 @@ public class Requests {
                 JSONArray article = object.optJSONArray("article");
 
                 if (banner != null) {
-                    objects[0] = JsonUtil.getArray(banner, BannerBean.class);
+                    objects[0] = JsonUtil.getArray(banner, ImageBean.class);
                 }
 
                 if (recommendUser != null) {
@@ -490,7 +502,7 @@ public class Requests {
     }
 
     public static HttpRequest<User> getUserInfo() {
-        String id = HabitatApp.getInstance().getUserData(HabitatApp.ACCOUNT_UID);
+        String id = getUid();
 
         return new SimpleHttpRequest<User>("getUserinfo",
                 "uid", id) {
@@ -523,6 +535,57 @@ public class Requests {
             @Override
             public UserInfoBean parser(String jsonString) throws JSONException {
                 return JsonUtil.get(new JSONObject(jsonString), UserInfoBean.class);
+            }
+        };
+    }
+
+    /**
+     * 29.获取我关注的人动态接
+     */
+    public static HttpRequest<List<AttentionBean>> getActiveInfo(int page) {
+        return new SimpleHttpRequest<List<AttentionBean>>("getActiveInfo",
+                "uid", getUid(), "pageid", page, "pagesize", 10) {
+            @Override
+            public List<AttentionBean> parser(String jsonString) throws JSONException {
+                JSONArray data = new JSONArray(jsonString);
+                int length = data.length();
+                List<AttentionBean> attentionBeanList = new ArrayList<>();
+                for (int i = 0; i < length; i++) {
+                    JSONObject opt = data.optJSONObject(i);
+                    if (opt != null) {
+                        JSONArray articlelist = opt.getJSONArray("articlelist");
+
+                        AttentionBean bean = JsonUtil.get(
+                                opt.getJSONObject("userinfo"),
+                                AttentionBean.class);
+
+                        int articleNum=articlelist.length();
+                        bean.articleList=new ArrayList<>();
+                        for (int j = 0; i < articleNum; i++) {
+                            ImageBean imageBean=new ImageBean();
+                            JSONObject article = articlelist.getJSONObject(i);
+                            imageBean.id= article.optString("tid");
+                            imageBean.img= article.optString("timg");
+                            bean.articleList.add(imageBean);
+                        }
+
+                        attentionBeanList.add(bean);
+                    }
+                }
+                return attentionBeanList;
+            }
+        };
+    }
+
+    /**
+     * 30.	获取关于我的消息列表接口：
+     */
+    public static HttpRequest<List<UserInfoBean>> getUserMessage() {
+        return new SimpleHttpRequest<List<UserInfoBean>>("getUserMessage",
+                "uid", getUid()) {
+            @Override
+            public List<UserInfoBean> parser(String jsonString) throws JSONException {
+                return null;
             }
         };
     }

@@ -30,56 +30,15 @@ public abstract class LoadMoreAdapter extends ListAdapter implements SwipeRefres
     private final int TYPE_LOAD_MORE = 10002;
     private boolean mHasMoreData = true;//是否有更多数据
     private int mCurrentPage = -1;
+    private OnDataSetChangeListener mOnDataSetChangeListener;
     boolean isLoading = false;
-
     @Nullable
     private SwipeRefreshLayout swipeRefreshLayout;
-    private LoadMoreHolder mLoadMoreHolder;
     private RecyclerView mRecyclerView;
-
-    private Handler mHandler = new Handler(new Handler.Callback() {
-        @SuppressWarnings("unchecked")
-        @Override
-        public boolean handleMessage(Message msg) {
-            List newData = (List) msg.obj;
-            switch (msg.what) {
-                case MSG_MORE: {
-                    if (newData != null && newData.size() > 0) {
-                        mCurrentPage++;
-                        List dataList = getDataList();
-                        int startPosition = dataList.size();
-                        dataList.addAll(newData);
-                        setHasMoreData(true);
-                        if (startPosition == 0) {
-                            notifyDataSetChanged();
-                        } else {
-                            notifyItemRangeInserted(startPosition, dataList.size() - startPosition);
-                        }
-
-                    } else {
-                        setHasMoreData(false);
-                    }
-                    break;
-                }
-                case MSG_REFRESH: {
-                    getDataList().clear();
-
-                    if (newData!=null){
-                        getDataList().addAll(newData);
-                    }
-                    mCurrentPage = 0;
-                    notifyDataSetChanged();
-                    break;
-                }
-            }
-            if (swipeRefreshLayout != null) {
-                mRecyclerView.setLayoutFrozen(false);
-                swipeRefreshLayout.setRefreshing(false);
-            }
-            isLoading = false;
-            return false;
-        }
-    });
+    /**
+     * 数据加载handler
+     */
+    private Handler mHandler;
 
     /**
      * 在这里创建ViewHolder
@@ -125,8 +84,7 @@ public abstract class LoadMoreAdapter extends ListAdapter implements SwipeRefres
     public final BaseHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         switch (viewType) {
             case TYPE_LOAD_MORE: {
-                mLoadMoreHolder = new LoadMoreHolder(getInflater().inflate(R.layout.item_recommend_bottom, parent, false));
-                return mLoadMoreHolder;
+                return new LoadMoreHolder(getInflater().inflate(R.layout.item_recommend_bottom, parent, false));
             }
         }
         return onCreateHolder(parent, viewType);
@@ -147,7 +105,8 @@ public abstract class LoadMoreAdapter extends ListAdapter implements SwipeRefres
 
     @Override
     public final void onBindViewHolder(BaseHolder holder, int position) {
-        if (holder == mLoadMoreHolder) {
+        if (holder instanceof LoadMoreHolder) {
+            LoadMoreHolder mLoadMoreHolder = (LoadMoreHolder) holder;
             if (mHasMoreData) {
                 mLoadMoreHolder.dispatchLoading();
             } else {
@@ -180,6 +139,9 @@ public abstract class LoadMoreAdapter extends ListAdapter implements SwipeRefres
      */
     void doLoadMore() {
         if (isLoading) return;
+        if (mOnDataSetChangeListener != null) {
+            mOnDataSetChangeListener.onLoadPageStart();
+        }
         new Thread(new Runnable() {
             @Override
             public void run() {
@@ -190,17 +152,20 @@ public abstract class LoadMoreAdapter extends ListAdapter implements SwipeRefres
                 Log.d(TAG, "loadDone");
             }
         }).start();
+
     }
 
 
     @Override
     public void onAttachedToRecyclerView(RecyclerView recyclerView) {
         mRecyclerView = recyclerView;
+
         ViewParent parent = recyclerView.getParent();
         if (parent instanceof SwipeRefreshLayout) {
             swipeRefreshLayout = (SwipeRefreshLayout) parent;
             swipeRefreshLayout.setOnRefreshListener(this);
         }
+
         RecyclerView.LayoutManager layoutManager = recyclerView.getLayoutManager();
         if (layoutManager instanceof GridLayoutManager) {
             final GridLayoutManager manager = (GridLayoutManager) layoutManager;
@@ -216,6 +181,56 @@ public abstract class LoadMoreAdapter extends ListAdapter implements SwipeRefres
                 }
             });
         }
+
+        mHandler = new Handler(new Handler.Callback() {
+            @SuppressWarnings("unchecked")
+            @Override
+            public boolean handleMessage(Message msg) {
+
+                List newData = (List) msg.obj;
+
+                switch (msg.what) {
+                    case MSG_MORE: {
+                        if (newData != null && newData.size() > 0) {
+                            mCurrentPage++;
+                            List dataList = getDataList();
+                            int startPosition = dataList.size();
+                            dataList.addAll(newData);
+                            setHasMoreData(true);
+                            if (startPosition == 0) {
+                                notifyDataSetChanged();
+                            } else {
+                                notifyItemRangeInserted(startPosition, dataList.size() - startPosition);
+                            }
+
+                        } else {
+                            setHasMoreData(false);
+                        }
+                        break;
+                    }
+                    case MSG_REFRESH: {
+                        getDataList().clear();
+
+                        if (newData != null) {
+                            getDataList().addAll(newData);
+                        }
+                        mCurrentPage = 0;
+                        notifyDataSetChanged();
+                        break;
+                    }
+                }
+                if (swipeRefreshLayout != null) {
+                    mRecyclerView.setLayoutFrozen(false);
+                    swipeRefreshLayout.setRefreshing(false);
+                }
+                isLoading = false;
+                if (mOnDataSetChangeListener != null) {
+                    mOnDataSetChangeListener.onLoadPageEnd();
+                }
+                return false;
+            }
+        });
+
     }
 
     @Override
@@ -223,8 +238,14 @@ public abstract class LoadMoreAdapter extends ListAdapter implements SwipeRefres
         mRecyclerView = null;
         if (swipeRefreshLayout != null) {
             swipeRefreshLayout.setOnRefreshListener(null);
+            swipeRefreshLayout=null;
         }
     }
+
+    public void setOnDataSetChangeListener(OnDataSetChangeListener l) {
+        this.mOnDataSetChangeListener = l;
+    }
+
 
     /**
      * 加载更多
@@ -251,5 +272,11 @@ public abstract class LoadMoreAdapter extends ListAdapter implements SwipeRefres
             progress.setVisibility(View.GONE);
             loadMoreText.setText(getDataList().size() != 0 ? R.string.noMore : R.string.noData_refresh);
         }
+    }
+
+    public interface OnDataSetChangeListener {
+        void onLoadPageStart();
+
+        void onLoadPageEnd();
     }
 }

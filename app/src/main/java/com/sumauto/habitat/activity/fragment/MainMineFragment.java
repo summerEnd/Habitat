@@ -65,16 +65,15 @@ public class MainMineFragment extends BaseFragment implements View.OnClickListen
     }
 
     @Override
-    public void onResume() {
-        super.onResume();
+    public void activityCallRefresh() {
         initUserData();
         HttpRequest<User> request = Requests.getUserInfo();
         HttpManager.getInstance().post(getActivity(), new JsonHttpHandler<User>(request) {
             @Override
             public void onSuccess(HttpResponse response, HttpRequest<User> request, User bean) {
-                setUserData(HabitatApp.ACCOUNT_FANS_COUNT,bean.fanscount);
-                setUserData(HabitatApp.ACCOUNT_ATTENTION_COUNT,bean.followcount);
-                setUserData(HabitatApp.ACCOUNT_TREND_COUNT,bean.articlecount);
+                setUserData(HabitatApp.ACCOUNT_FANS_COUNT, bean.fanscount);
+                setUserData(HabitatApp.ACCOUNT_ATTENTION_COUNT, bean.followcount);
+                setUserData(HabitatApp.ACCOUNT_TREND_COUNT, bean.articlecount);
                 initUserData();
             }
         });
@@ -82,18 +81,23 @@ public class MainMineFragment extends BaseFragment implements View.OnClickListen
 
     private void initUserData() {
         if (tv_nick == null) return;
-
-        String nick = getUserData(HabitatApp.ACCOUNT_NICK);
-        String signature = getUserData(HabitatApp.ACCOUNT_SIGNATURE);
-        String fansCount = getUserData(HabitatApp.ACCOUNT_FANS_COUNT);
-        String attentionCount = getUserData(HabitatApp.ACCOUNT_ATTENTION_COUNT);
-        String trendCount = getUserData(HabitatApp.ACCOUNT_TREND_COUNT);
-
+        String nick = "";
+        String signature = "";
+        String fansCount = "";
+        String attentionCount = "";
+        String trendCount = "";
+        if (HabitatApp.getInstance().isLogin()) {
+            nick = getUserData(HabitatApp.ACCOUNT_NICK);
+            signature = getUserData(HabitatApp.ACCOUNT_SIGNATURE);
+            fansCount = getUserData(HabitatApp.ACCOUNT_FANS_COUNT);
+            attentionCount = getUserData(HabitatApp.ACCOUNT_ATTENTION_COUNT);
+            trendCount = getUserData(HabitatApp.ACCOUNT_TREND_COUNT);
+        }
         tv_nick.setText(nick);
         tv_signature.setText(signature);
-        tv_fans.setText(TextUtils.isEmpty(fansCount)?"0":fansCount);
-        tv_attention.setText(TextUtils.isEmpty(attentionCount)?"0":attentionCount);
-        tv_trend.setText(TextUtils.isEmpty(trendCount)?"0":trendCount);
+        tv_fans.setText(TextUtils.isEmpty(fansCount) ? "0" : fansCount);
+        tv_attention.setText(TextUtils.isEmpty(attentionCount) ? "0" : attentionCount);
+        tv_trend.setText(TextUtils.isEmpty(trendCount) ? "0" : trendCount);
 
         ImageLoader.getInstance().displayImage(getUserData(HabitatApp.ACCOUNT_AVATAR),
                 iv_avatar, ImageOptions.options());
@@ -112,7 +116,7 @@ public class MainMineFragment extends BaseFragment implements View.OnClickListen
                 break;
             }
             case R.id.vg_my_collect: {
-                CollectionsActivity.start(getActivity(),getUserData(HabitatApp.ACCOUNT_UID));
+                CollectionsActivity.start(getActivity(), getUserData(HabitatApp.ACCOUNT_UID));
                 break;
             }
             case R.id.vg_share_place: {

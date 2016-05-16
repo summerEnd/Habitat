@@ -2,19 +2,23 @@ package com.sumauto.habitat;
 
 import android.accounts.Account;
 import android.accounts.AccountManager;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.text.TextUtils;
 import android.util.Log;
 
 import com.sumauto.SApplication;
+import com.sumauto.habitat.exception.NotLoginException;
+import com.sumauto.habitat.utils.BroadCastManager;
+import com.sumauto.util.SLog;
 import com.umeng.analytics.AnalyticsConfig;
 import com.umeng.socialize.PlatformConfig;
 
 import java.util.Set;
 
 public class HabitatApp extends SApplication {
-
+    private static final String TAG = "habitat";
     public static final String ACCOUNT_UID = "user_id";
     public static final String ACCOUNT_PHONE = "phone";
     public static final String ACCOUNT_BIRTHDAY = "birthday";
@@ -49,15 +53,20 @@ public class HabitatApp extends SApplication {
         PlatformConfig.setWeixin("wx967daebe835fbeac", "5bb696d9ccd75a38c8a0bfe0675559b3");//微信 appid appsecret
         PlatformConfig.setSinaWeibo("283177913", "76dac8780978535ef7df5e4d62b67847");//新浪微博 appkey appsecret
         PlatformConfig.setQQZone("1105280086", "vFc4waVtlXDxMUVt");// QQ和Qzone appid appkey
-        mAccount=getLoginAccount();
+        mAccount = getLoginAccount();
     }
 
+    /**
+     * 执行完登录接口，在调本地的方法，登入系统
+     */
     public void login(String pwd, Bundle data) {
         String uid = data.getString(ACCOUNT_UID);
 
         if (TextUtils.isEmpty(uid)) {
             throw new IllegalStateException("must have a uid");
         }
+        SLog.d(TAG,uid+" is login");
+
         AccountManager manager = (AccountManager) getSystemService(ACCOUNT_SERVICE);
         Account accountWithSameUid = null;
         Account[] accountsByType = manager.getAccountsByType(BuildConfig.ACCOUNT_TYPE);
@@ -67,15 +76,24 @@ public class HabitatApp extends SApplication {
                 accountWithSameUid = temp;
             }
         }
+        //通知登录状态发生改变
+        Intent loginBroadcast = new Intent(BroadCastManager.ACTION_LOGIN_STATE);
+        if (mAccount != null) {
+
+        }
+        SLog.d(TAG,"send login broadcast");
+        sendBroadcast(loginBroadcast);
 
         if (accountWithSameUid != null) {
-            //已经存在一个手机号相同的帐号
+            SLog.d(TAG,"already have account");
+            //已经存在一个相同的帐号
             if (!TextUtils.equals(manager.getPassword(accountWithSameUid), pwd)) {
                 manager.setPassword(accountWithSameUid, pwd);//密码不一样
             }
             this.mAccount = accountWithSameUid;
             setUserData(data);
         } else {
+            SLog.d(TAG,"add new account");
             String phone = data.getString(ACCOUNT_PHONE);
             String nick = data.getString(ACCOUNT_NICK);
             String nickName = (TextUtils.isEmpty(nick) ? phone : nick) +
@@ -120,9 +138,13 @@ public class HabitatApp extends SApplication {
         return getLoginAccount() != null;
     }
 
-    public String getUserData(String key) {
+    public String getUserData(String key) throws NotLoginException {
+        Account loginAccount = getLoginAccount();
+        if (loginAccount == null) {
+            throw new NotLoginException();
+        }
         AccountManager manager = (AccountManager) getSystemService(ACCOUNT_SERVICE);
-        return manager.getUserData(getLoginAccount(), key);
+        return manager.getUserData(loginAccount, key);
     }
 
     public void setUserData(String key, String value) {

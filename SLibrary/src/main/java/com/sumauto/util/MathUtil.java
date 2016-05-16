@@ -19,4 +19,16 @@ public class MathUtil {
             return 0;
         }
     }
+
+    public static long getLong(String s){
+        if (TextUtils.isEmpty(s)){
+            return 0;
+        }
+        try {
+            return Long.decode(s);
+        } catch (NumberFormatException e) {
+            return 0;
+        }
+    }
+
 }

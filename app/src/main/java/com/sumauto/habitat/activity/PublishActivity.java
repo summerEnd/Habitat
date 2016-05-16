@@ -138,7 +138,7 @@ public class PublishActivity extends BaseActivity {
                             }
                             case 1: {
                                 tv_who_can_see.setText(R.string.only_self_see);
-                                tv_who_can_see.setTag(HabitatApp.getInstance().getUserData(HabitatApp.ACCOUNT_UID));
+                                tv_who_can_see.setTag(getUserData(HabitatApp.ACCOUNT_UID));
                                 break;
                             }
                             case 2: {

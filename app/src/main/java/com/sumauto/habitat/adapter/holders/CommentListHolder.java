@@ -27,7 +27,7 @@ public class CommentListHolder extends BaseViewHolder implements View.OnClickLis
     protected void onInit(Object data) {
         CommentBean bean= (CommentBean) data;
         tv_nick.setText(bean.nickname);
-        tv_time.setText(bean.addtime);
+        tv_time.setText(bean.getAddTime());
         tv_content.setText(bean.content);
         ImageLoader.getInstance().displayImage(bean.headimg,iv_avatar, ImageOptions.options());
         ViewUtil.registerOnClickListener(this,itemView);

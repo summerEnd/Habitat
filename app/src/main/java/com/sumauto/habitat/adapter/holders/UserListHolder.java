@@ -7,6 +7,10 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.nostra13.universalimageloader.core.ImageLoader;
+import com.sumauto.habitat.http.HttpManager;
+import com.sumauto.habitat.http.HttpRequest;
+import com.sumauto.habitat.http.JsonHttpHandler;
+import com.sumauto.habitat.http.Requests;
 import com.sumauto.habitat.utils.ImageOptions;
 import com.sumauto.util.ViewUtil;
 import com.sumauto.habitat.R;
@@ -18,9 +22,9 @@ import com.sumauto.widget.CheckableLinearLayout;
  * 用户item
  */
 public class UserListHolder extends BaseViewHolder implements View.OnClickListener {
-    public final TextView tv_attention,tv_nick,tv_address;
+    public final TextView tv_attention, tv_nick, tv_address;
     public final ImageView iv_avatar;
-    private UserInfoBean bean;
+    private UserInfoBean mBean;
     Drawable d;
     private final CheckableLinearLayout btn_attention;
 
@@ -37,24 +41,33 @@ public class UserListHolder extends BaseViewHolder implements View.OnClickListen
 
     @Override
     protected void onInit(Object data) {
-        this.bean = (UserInfoBean) data;
+        this.mBean = (UserInfoBean) data;
         initAttentionButton();
         ViewUtil.registerOnClickListener(this, btn_attention);
-        tv_nick.setText(bean.nickname);
-        tv_address.setText(bean.title);
-        ImageLoader.getInstance().displayImage(bean.headimg,iv_avatar, ImageOptions.options());
+        tv_nick.setText(mBean.nickname);
+        tv_address.setText(mBean.title);
+        ImageLoader.getInstance().displayImage(mBean.headimg, iv_avatar, ImageOptions.options());
     }
 
 
     @Override
     public void onClick(View v) {
-        bean.setIsAttention(!bean.isAttention());
-        initAttentionButton();
+        HttpRequest<String> request = mBean.isAttention() ?
+                Requests.setUnFollow(mBean.id) : Requests.setFollow(mBean.id);
+
+        HttpManager.getInstance().post(v.getContext(), new JsonHttpHandler<String>(request) {
+            @Override
+            public void onSuccess(HttpResponse response, HttpRequest<String> request, String bean) {
+                mBean.setIsAttention(!mBean.isAttention());
+                initAttentionButton();
+            }
+        });
+
     }
 
     void initAttentionButton() {
-        btn_attention.setChecked(bean.isAttention());
-        if (bean.isAttention()) {
+        btn_attention.setChecked(mBean.isAttention());
+        if (mBean.isAttention()) {
             tv_attention.setText(R.string.attention_already);
         } else {
             tv_attention.setText(R.string.attention);

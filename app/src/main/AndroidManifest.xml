@@ -38,45 +38,41 @@
             </intent-filter>
         </activity>
         <activity
+            android:launchMode="singleTask"
             android:name=".activity.MainActivity"
-            android:screenOrientation="portrait"
-            >
+            android:screenOrientation="portrait">
         </activity>
         <activity
             android:name=".activity.SearchActivity"
-            android:screenOrientation="portrait"
-            >
+            android:screenOrientation="portrait">
         </activity>
         <activity
             android:name=".activity.AddressBookActivity"
             android:label="@string/address_book"
-
             android:screenOrientation="portrait">
         </activity>
         <activity
             android:name=".activity.TrendDetailActivity"
-            android:screenOrientation="portrait"
-            >
+            android:screenOrientation="portrait">
         </activity>
         <activity
             android:name=".activity.PublishActivity"
             android:screenOrientation="portrait"
-
             android:windowSoftInputMode="stateHidden">
         </activity>
         <activity
             android:name=".activity.NoticeFriendListActivity"
             android:label="@string/notice_who_see"
-
             android:screenOrientation="portrait">
         </activity>
         <activity
             android:name=".activity.UserCenterActivity"
-            android:screenOrientation="portrait"
-            >
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW"/>
+
                 <category android:name="android.intent.category.DEFAULT"/>
+
                 <data
                     android:host="user"
                     android:path="/home"
@@ -85,28 +81,23 @@
         </activity>
         <activity
             android:name=".activity.EditUserInfoActivity"
-            android:screenOrientation="portrait"
-            >
+            android:screenOrientation="portrait">
         </activity>
         <activity
             android:name=".activity.PhotoActivity"
-            android:screenOrientation="portrait"
-            >
+            android:screenOrientation="portrait">
         </activity>
         <activity
             android:name=".activity.RegisterActivity"
-            android:screenOrientation="portrait"
-            >
+            android:screenOrientation="portrait">
         </activity>
         <activity
             android:name=".activity.LoginActivity"
-            android:screenOrientation="portrait"
-            >
+            android:screenOrientation="portrait">
         </activity>
         <activity
             android:name=".activity.ForgetPassword"
-            android:screenOrientation="portrait"
-            >
+            android:screenOrientation="portrait">
         </activity>
 
         <!-- ###################注册SDK使用的Activity###################### -->
@@ -176,17 +167,16 @@
         <activity
             android:name=".activity.CreateCommunity"
             android:label="@string/create_circle"
-
             android:screenOrientation="portrait">
         </activity>
-
         <activity
             android:name=".activity.UserDetailActivity"
             android:screenOrientation="portrait">
-
             <intent-filter>
                 <action android:name="android.intent.action.VIEW"/>
+
                 <category android:name="android.intent.category.DEFAULT"/>
+
                 <data
                     android:host="user"
                     android:path="/data"
@@ -195,14 +185,14 @@
         </activity>
         <activity
             android:name=".activity.CollectionsActivity"
-            android:screenOrientation="portrait"
-            >
+            android:screenOrientation="portrait">
         </activity>
         <activity
             android:name=".activity.BlackNoteActivity"
-            android:screenOrientation="portrait"
-            >
+            android:screenOrientation="portrait">
         </activity>
+
+
     </application>
 
 </manifest>

@@ -19,6 +19,7 @@ import com.sumauto.habitat.R;
 import com.sumauto.habitat.bean.User;
 import com.sumauto.habitat.callback.OnActivityResultCallback;
 import com.sumauto.habitat.callback.ViewId;
+import com.sumauto.habitat.exception.NotLoginException;
 import com.sumauto.habitat.widget.LoadingDialog;
 
 import java.lang.reflect.Field;
@@ -154,7 +155,12 @@ public class BaseActivity extends AppCompatActivity implements View.OnClickListe
         return (HabitatApp) super.getApplicationContext();
     }
 
-    public String getUserData(String key){
-        return getApplicationContext().getUserData(key);
+    public String getUserData(String key) {
+        try {
+            return getApplicationContext().getUserData(key);
+        } catch (NotLoginException e) {
+            //todo not login stuff
+            return "";
+        }
     }
 }

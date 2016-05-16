@@ -11,6 +11,7 @@ import android.view.View;
 import com.sumauto.habitat.HabitatApp;
 import com.sumauto.habitat.bean.User;
 import com.sumauto.habitat.callback.ListCallback;
+import com.sumauto.habitat.exception.NotLoginException;
 
 /**
  * Created by Lincoln on 2016/3/17.
@@ -45,11 +46,23 @@ public class BaseFragment extends Fragment{
     }
 
     public String getUserData(String key){
-        return HabitatApp.getInstance().getUserData(key);
+        try {
+            return HabitatApp.getInstance().getUserData(key);
+        } catch (NotLoginException e) {
+            //todo not login stuff
+            return "";
+        }
     }
 
     public void setUserData(String key,String value){
         HabitatApp.getInstance().setUserData(key,value);
+    }
+
+    /**
+     * 在Activity中调用，刷新fragment数据
+     */
+    public void activityCallRefresh(){
+
     }
 
     protected void processListBottomMargins(RecyclerView recyclerView){

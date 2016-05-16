@@ -1,5 +1,6 @@
 package com.sumauto.habitat.activity;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.drawable.ColorDrawable;
@@ -99,10 +100,11 @@ public class UserCenterActivity extends BaseActivity implements AppBarLayout.OnO
         HttpRequest<UserInfoBean> request = Requests.getFriendInfo(uid);
 
         HttpManager.getInstance().post(this, new JsonHttpHandler<UserInfoBean>(request) {
+            @SuppressLint("SetTextI18n")
             @Override
             public void onSuccess(HttpHandler.HttpResponse response, HttpRequest<UserInfoBean> request, UserInfoBean bean) {
                 ImageLoader.getInstance().displayImage(bean.headimg, iv_avatar, ImageOptions.options());
-                ImageLoader.getInstance().displayImage(bean.headimg, iv_mine_bg, ImageOptions.options());
+                //ImageLoader.getInstance().displayImage(bean.headimg, iv_mine_bg, ImageOptions.options());
 
                 tv_fans_count.setText("粉丝 " + MathUtil.getInt(bean.fanscount));
                 tv_trend_count.setText("动态 " + MathUtil.getInt(bean.articlecount));

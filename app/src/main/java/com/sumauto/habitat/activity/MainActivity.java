@@ -17,6 +17,8 @@ import com.sumauto.habitat.activity.fragment.MainTrendFragment;
 import com.sumauto.habitat.activity.fragment.TrendListFragment;
 import com.sumauto.habitat.callback.ListCallback;
 import com.sumauto.habitat.callback.Scrollable;
+import com.sumauto.habitat.utils.BroadCastManager;
+import com.sumauto.habitat.utils.BroadCastManager.LoginStateReceiver;
 import com.sumauto.widget.CheckableLinearLayout;
 import com.umeng.socialize.UMShareAPI;
 
@@ -26,7 +28,7 @@ public class MainActivity extends BaseActivity implements ViewPager.OnPageChange
     CheckableLinearLayout mCheckedTab;
     final BaseFragment FRAGMENTS[] = new BaseFragment[]{new MainFragment(), new MainSearchFragment(), new MainTrendFragment(), new MainMineFragment()};
     private ViewPager mViewPager;
-
+    private LoginStateReceiver r=new LoginStateReceiver();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -54,6 +56,13 @@ public class MainActivity extends BaseActivity implements ViewPager.OnPageChange
 
             }
         });
+        BroadCastManager.registerLoginState(this,r);
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        BroadCastManager.unRegisterReceiver(this,r);
     }
 
     public void onTabClick(View v) {
@@ -108,6 +117,7 @@ public class MainActivity extends BaseActivity implements ViewPager.OnPageChange
     public void onPageSelected(int position) {
 
         int id;
+        FRAGMENTS[position].activityCallRefresh();
         if (position == 0) {
             id = R.id.tab_main_home;
 
@@ -148,7 +158,7 @@ public class MainActivity extends BaseActivity implements ViewPager.OnPageChange
 
     @Override
     public String getComId() {
-        return HabitatApp.getInstance().getUserData(HabitatApp.ACCOUNT_COMMID);
+        return getUserData(HabitatApp.ACCOUNT_COMMID);
     }
 
     @Override

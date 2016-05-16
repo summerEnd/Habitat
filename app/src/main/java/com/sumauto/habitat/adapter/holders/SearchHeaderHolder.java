@@ -8,9 +8,8 @@ import android.widget.ImageView;
 
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.sumauto.habitat.R;
-import com.sumauto.habitat.bean.BannerBean;
+import com.sumauto.habitat.bean.ImageBean;
 import com.sumauto.habitat.bean.UserInfoBean;
-import com.sumauto.habitat.utils.Constant;
 import com.sumauto.habitat.utils.ImageOptions;
 import com.sumauto.widget.pager.BannerPager;
 import com.sumauto.widget.recycler.ItemPaddingDecoration;
@@ -41,7 +40,7 @@ public class SearchHeaderHolder extends BaseViewHolder {
         rv_recommend_user.setAdapter(adapter);
     }
 
-    public void init(ArrayList<BannerBean> banners, ArrayList<UserInfoBean> users) {
+    public void init(ArrayList<ImageBean> banners, ArrayList<UserInfoBean> users) {
         userInfoBeans.clear();
         if (users == null || users.isEmpty()) {
             userLayout.setVisibility(View.GONE);

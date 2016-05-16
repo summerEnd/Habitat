@@ -1,5 +1,12 @@
 package com.sumauto.habitat.bean;
 
+import android.text.TextUtils;
+import android.text.format.DateFormat;
+import android.text.format.DateUtils;
+
+import java.util.Calendar;
+import java.util.Formatter;
+
 /**
  * Created by Lincoln on 16/3/23.
  */
@@ -25,5 +32,16 @@ public class CommentBean {
     public String headimg;
     public String tid;
 
+    public String getAddTime() {
+        if (TextUtils.isEmpty(addtime)) return "";
+        try {
+            Calendar calendar = Calendar.getInstance();
+            Long decode = Long.decode(addtime)*1000;
+            calendar.setTimeInMillis(decode);
+            return DateUtils.getRelativeTimeSpanString(decode).toString();
+        } catch (NumberFormatException e) {
+            return addtime;
+        }
 
+    }
 }

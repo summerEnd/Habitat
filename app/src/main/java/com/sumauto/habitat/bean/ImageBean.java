@@ -6,7 +6,7 @@ package com.sumauto.habitat.bean;
  * Description:	
  * History:		2016/05/07 5.6.6 
  */
-public class BannerBean {
+public class ImageBean {
     public String id;
     public String img;
 }
