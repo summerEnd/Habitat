@@ -3,6 +3,12 @@ package com.sumauto.habitat.adapter.holders;
 import android.content.Context;
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
+import android.graphics.Color;
+import android.text.SpannableStringBuilder;
+import android.text.Spanned;
+import android.text.TextPaint;
+import android.text.TextUtils;
+import android.text.style.CharacterStyle;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -14,9 +20,9 @@ import com.sumauto.habitat.activity.BaseActivity;
 import com.sumauto.habitat.activity.LoginActivity;
 import com.sumauto.habitat.activity.TrendDetailActivity;
 import com.sumauto.habitat.activity.UserCenterActivity;
-import com.sumauto.habitat.activity.UserDetailActivity;
 import com.sumauto.habitat.bean.FeedBean;
 import com.sumauto.habitat.databinding.ListItemNewsFeedBinding;
+import com.sumauto.habitat.exception.NotLoginException;
 import com.sumauto.habitat.http.HttpManager;
 import com.sumauto.habitat.http.HttpRequest;
 import com.sumauto.habitat.http.JsonHttpHandler;
@@ -66,7 +72,7 @@ public class TrendHolder extends BaseViewHolder implements View.OnClickListener 
         iv_collectWeak = new WeakReference<>(iv_collect);
 
         ViewUtil.registerOnClickListener(this,
-                itemView, iv_image, iv_heart, iv_comment, iv_collect, iv_more,iv_avatar);
+                itemView, iv_image, iv_heart, iv_comment, iv_collect, iv_more, iv_avatar);
         iv_heart.setImageResource(bean.isNice() ? R.mipmap.ic_heart_checked : R.mipmap.ic_heart);
         iv_collect.setImageResource(bean.isCollection() ? R.mipmap.ic_collect_checked : R.mipmap.ic_collect);
         binding.setBean(bean);
@@ -78,7 +84,7 @@ public class TrendHolder extends BaseViewHolder implements View.OnClickListener 
     public void onClick(View v) {
 
         if (v == itemView) {
-            TrendDetailActivity.start(v.getContext(),feedBean.id);
+            TrendDetailActivity.start(v.getContext(), feedBean.id);
             //startActivity(intentActivity(TrendDetailActivity.class));
             return;
         }
@@ -87,27 +93,56 @@ public class TrendHolder extends BaseViewHolder implements View.OnClickListener 
         Context context = v.getContext();
         switch (id) {
             case R.id.iv_image: {
-                TrendDetailActivity.start(v.getContext(),feedBean.id);
+                TrendDetailActivity.start(v.getContext(), feedBean.id);
                 break;
             }
 
-            case R.id.iv_avatar:{
-                UserCenterActivity.start(v.getContext(),feedBean.uid);
+            case R.id.iv_avatar: {
+                UserCenterActivity.start(v.getContext(), feedBean.uid);
                 break;
             }
 
             case R.id.iv_more: {
+                String loginId = null;
+                try {
+                    loginId = HabitatApp.getInstance().getLoginUserData(HabitatApp.ACCOUNT_UID);
+                } catch (NotLoginException e) {
+                    e.printStackTrace();
+                }
+                CharSequence items[];
+                if (loginId != null && TextUtils.equals(loginId, feedBean.uid)) {
 
-                new IosListDialog(context).listener(new IosListDialog.Listener() {
-                    @Override
-                    public void onClick(IosListDialog dialog, int position) {
-
-                        if (position == 1) {
-                            startShare();
+                    SpannableStringBuilder sb = new SpannableStringBuilder("删除");
+                    sb.setSpan(new CharacterStyle() {
+                        @Override
+                        public void updateDrawState(TextPaint tp) {
+                            tp.setColor(Color.RED);
                         }
+                    }, 0, sb.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
 
-                    }
-                }).show("分享给好友", "分享到其他平台", "举报");
+                    new IosListDialog(context).listener(new IosListDialog.Listener() {
+                        @Override
+                        public void onClick(IosListDialog dialog, int position) {
+
+                            if (position == 1) {
+                                startShare();
+                            }
+
+                        }
+                    }).show(sb, "分享给好友", "分享到其他平台", "举报");
+                } else {
+                    new IosListDialog(context).listener(new IosListDialog.Listener() {
+                        @Override
+                        public void onClick(IosListDialog dialog, int position) {
+
+                            if (position == 1) {
+                                startShare();
+                            }
+
+                        }
+                    }).show("分享给好友", "分享到其他平台", "举报");
+                }
+
                 break;
             }
 
@@ -129,7 +164,7 @@ public class TrendHolder extends BaseViewHolder implements View.OnClickListener 
                                 feedBean.setIsNice(!feedBean.isNice());
                                 ImageView iv_heart = iv_heartWeak.get();
                                 if (iv_heart != null) {
-                                    ToastUtil.toast(iv_heart.getContext(),response.msg);
+                                    ToastUtil.toast(iv_heart.getContext(), response.msg);
 
                                     iv_heart.setImageResource(feedBean.isNice() ? R.mipmap.ic_heart_checked :
                                             R.mipmap.ic_heart);
@@ -153,7 +188,7 @@ public class TrendHolder extends BaseViewHolder implements View.OnClickListener 
                                 feedBean.setIsCollection(!feedBean.isCollection());
                                 ImageView iv_collect = iv_collectWeak.get();
                                 if (iv_collect != null) {
-                                    ToastUtil.toast(iv_collect.getContext(),response.msg);
+                                    ToastUtil.toast(iv_collect.getContext(), response.msg);
 
                                     iv_collect.setImageResource(feedBean.isCollection() ? R.mipmap.ic_collect_checked :
                                             R.mipmap.ic_collect);
@@ -170,13 +205,13 @@ public class TrendHolder extends BaseViewHolder implements View.OnClickListener 
     }
 
     private void startShare() {
-        final SHARE_MEDIA[] displaylist = new SHARE_MEDIA[]{
-                SHARE_MEDIA.WEIXIN, SHARE_MEDIA.WEIXIN_CIRCLE, SHARE_MEDIA.SINA,
-                SHARE_MEDIA.QQ, SHARE_MEDIA.QZONE, SHARE_MEDIA.DOUBAN
-        };
+
         BaseActivity activity = mActivity.get();
         if (activity != null) {
-            new ShareAction(activity).setDisplayList(displaylist)
+            new ShareAction(activity).setDisplayList(
+                    SHARE_MEDIA.WEIXIN, SHARE_MEDIA.WEIXIN_CIRCLE, SHARE_MEDIA.SINA,
+                    SHARE_MEDIA.QQ, SHARE_MEDIA.QZONE
+            )
                     .withText("呵呵")
                     .withTitle("title")
                     .withTargetUrl("http://www.baidu.com")

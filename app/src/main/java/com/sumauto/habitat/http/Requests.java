@@ -4,6 +4,7 @@ import android.os.Bundle;
 
 import com.loopj.android.http.RequestParams;
 import com.sumauto.habitat.HabitatApp;
+import com.sumauto.habitat.bean.AboutBean;
 import com.sumauto.habitat.bean.AttentionBean;
 import com.sumauto.habitat.bean.ImageBean;
 import com.sumauto.habitat.bean.CommentBean;
@@ -14,6 +15,7 @@ import com.sumauto.habitat.bean.User;
 import com.sumauto.habitat.bean.UserInfoBean;
 import com.sumauto.habitat.exception.NotLoginException;
 import com.sumauto.util.JsonUtil;
+import com.sumauto.util.SLog;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -42,7 +44,7 @@ public class Requests {
 
     private static String getUid() {
         try {
-            return HabitatApp.getInstance().getUserData(HabitatApp.ACCOUNT_UID);
+            return HabitatApp.getInstance().getLoginUserData(HabitatApp.ACCOUNT_UID);
         } catch (NotLoginException e) {
             return "";
         }
@@ -137,6 +139,24 @@ public class Requests {
 
     /**
      * 参数说明
+     * nickname:昵称
+     * headimg:头像
+     * snsaccount:第三方账号
+     */
+    public static HttpRequest<User> getThirdLogin(String nickname, String headimg, String snsaccount) {
+        return new SimpleHttpRequest<User>("getThirdLogin",
+                "nickname", nickname, "headimg", headimg,"snsaccount", snsaccount) {
+            @Override
+            public User parser(String jsonString) throws JSONException {
+                User user=new User();
+
+                return JsonUtil.get(new JSONObject(jsonString), User.class);
+            }
+        };
+    }
+
+    /**
+     * 参数说明
      * phone:用户的手机号码
      * code:用户获取到的短信验证码
      * newuserpwd:用户设置的新密码
@@ -173,7 +193,7 @@ public class Requests {
     //     * Headimg:用户头像的base64加密后的密文
     //     */
     //    public static HttpRequest<String> setHeadImg(String img) {
-    //        String id = HabitatApp.getInstance().getUserData(HabitatApp.ACCOUNT_UID);
+    //        String id = HabitatApp.getInstance().getLoginUserData(HabitatApp.ACCOUNT_UID);
     //        return new SimpleHttpRequest<String>("setHeadImg",
     //                "uid", id, "Headimg", img) {
     //            @Override
@@ -283,6 +303,7 @@ public class Requests {
      *
      * @param tid 评论id
      */
+    @SuppressWarnings("unused")
     public static HttpRequest<?> delComment(String tid) {
         String id = getUid();
         return new SimpleHttpRequest<Object>("delComment",
@@ -540,7 +561,7 @@ public class Requests {
     }
 
     /**
-     * 29.获取我关注的人动态接
+     * 29.	获取获取好友动态接口
      */
     public static HttpRequest<List<AttentionBean>> getActiveInfo(int page) {
         return new SimpleHttpRequest<List<AttentionBean>>("getActiveInfo",
@@ -553,21 +574,26 @@ public class Requests {
                 for (int i = 0; i < length; i++) {
                     JSONObject opt = data.optJSONObject(i);
                     if (opt != null) {
-                        JSONArray articlelist = opt.getJSONArray("articlelist");
 
                         AttentionBean bean = JsonUtil.get(
                                 opt.getJSONObject("userinfo"),
                                 AttentionBean.class);
 
-                        int articleNum=articlelist.length();
-                        bean.articleList=new ArrayList<>();
-                        for (int j = 0; i < articleNum; i++) {
-                            ImageBean imageBean=new ImageBean();
-                            JSONObject article = articlelist.getJSONObject(i);
-                            imageBean.id= article.optString("tid");
-                            imageBean.img= article.optString("timg");
-                            bean.articleList.add(imageBean);
+                        JSONArray articlelist = opt.optJSONArray("articlelist");
+                        if (articlelist != null) {
+                            int articleNum = articlelist.length();
+                            bean.articleList = new ArrayList<>();
+                            for (int j = 0; j < articleNum; j++) {
+                                ImageBean imageBean = new ImageBean();
+                                JSONObject article = articlelist.getJSONObject(i);
+                                imageBean.id = article.optString("tid");
+                                imageBean.img = article.optString("timg");
+                                bean.articleList.add(imageBean);
+                            }
+                        } else {
+                            SLog.e("erro", "articlelist is " + opt.optString("articlelist"));
                         }
+
 
                         attentionBeanList.add(bean);
                     }
@@ -579,9 +605,88 @@ public class Requests {
 
     /**
      * 30.	获取关于我的消息列表接口：
+     * pageid
      */
-    public static HttpRequest<List<UserInfoBean>> getUserMessage() {
-        return new SimpleHttpRequest<List<UserInfoBean>>("getUserMessage",
+    public static HttpRequest<List<AboutBean>> getUserMessage(int pageid) {
+        return new SimpleHttpRequest<List<AboutBean>>("getUserMessage",
+                "uid", getUid(), "pageid", pageid, "pagesize", 10) {
+            @Override
+            public List<AboutBean> parser(String jsonString) throws JSONException {
+                return JsonUtil.getArray(new JSONArray(jsonString), AboutBean.class);
+            }
+        };
+    }
+
+    /**
+     * 31.	获取用户微博流图片列表接口：
+     */
+    public static HttpRequest<List<UserInfoBean>> getImgList(int pageid, int pagesize) {
+        return new SimpleHttpRequest<List<UserInfoBean>>("getImgList",
+                "uid", getUid()) {
+            @Override
+            public List<UserInfoBean> parser(String jsonString) throws JSONException {
+                return null;
+            }
+        };
+    }
+
+    /**
+     * 32.	获取用户好友通讯录接口
+     */
+    public static HttpRequest<List<UserInfoBean>> getUserFriends() {
+        return new SimpleHttpRequest<List<UserInfoBean>>("getUserFriends",
+                "uid", getUid()) {
+            @Override
+            public List<UserInfoBean> parser(String jsonString) throws JSONException {
+                return null;
+            }
+        };
+    }
+
+    /**
+     * 33.	检测通讯录中的好友状态，是否已注册账号，已注册的是否为好友：
+     */
+    public static HttpRequest<List<UserInfoBean>> chargeListStatus() {
+        return new SimpleHttpRequest<List<UserInfoBean>>("chargeListStatus",
+                "uid", getUid()) {
+            @Override
+            public List<UserInfoBean> parser(String jsonString) throws JSONException {
+                return null;
+            }
+        };
+    }
+
+    /**
+     * 34.	用户删除帖子接口
+     */
+    public static HttpRequest<List<UserInfoBean>> delSubject() {
+        return new SimpleHttpRequest<List<UserInfoBean>>("delSubject",
+                "uid", getUid()) {
+            @Override
+            public List<UserInfoBean> parser(String jsonString) throws JSONException {
+                return null;
+            }
+        };
+    }
+
+    /**
+     * 35.	获取好友动态接口：
+     */
+    public static HttpRequest<List<UserInfoBean>> getFriendActive() {
+        return new SimpleHttpRequest<List<UserInfoBean>>("getFriendActive",
+                "uid", getUid()) {
+            @Override
+            public List<UserInfoBean> parser(String jsonString) throws JSONException {
+                return null;
+            }
+        };
+    }
+
+    /**
+     * 36.	把好友加入到黑名单接口：
+     */
+    public static HttpRequest<List<UserInfoBean>> joinFriendToBlack() {
+        return new SimpleHttpRequest<List<UserInfoBean>>("joinFriendToBlack",
                 "uid", getUid()) {
             @Override
             public List<UserInfoBean> parser(String jsonString) throws JSONException {

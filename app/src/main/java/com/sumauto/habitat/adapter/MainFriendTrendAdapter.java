@@ -22,7 +22,7 @@ public class MainFriendTrendAdapter extends TrendAdapter {
     @Override
     public List onLoadData(int page) {
         try {
-            String cid = HabitatApp.getInstance().getUserData(HabitatApp.ACCOUNT_COMMID);
+            String cid = HabitatApp.getInstance().getLoginUserData(HabitatApp.ACCOUNT_COMMID);
             HttpRequest<List<FeedBean>> request = Requests.getCommunity(cid, page, 5);
 
             SyncHttpHandler<List<FeedBean>> httpHandler = new SyncHttpHandler<List<FeedBean>>(request);

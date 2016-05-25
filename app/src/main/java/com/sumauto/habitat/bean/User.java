@@ -47,6 +47,7 @@ public class User {
     public Bundle toBundle() {
         Bundle b = new Bundle();
         b.putString(HabitatApp.ACCOUNT_PHONE, phone);
+        b.putString(HabitatApp.ACCOUNT_OPENID, snsaccount);
         b.putString(HabitatApp.ACCOUNT_UID, id);
         b.putString(HabitatApp.ACCOUNT_NICK, nickname);
         b.putString(HabitatApp.ACCOUNT_COMMID, commid);

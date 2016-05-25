@@ -1,10 +1,8 @@
 package com.sumauto.habitat.activity;
 
 import android.content.Intent;
-import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
-import android.provider.MediaStore;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
@@ -27,12 +25,10 @@ import com.sumauto.habitat.http.Requests;
 import com.sumauto.habitat.utils.ImageOptions;
 import com.sumauto.habitat.widget.IosListDialog;
 import com.sumauto.util.FileUtil;
-import com.sumauto.util.ImageUtil;
 import com.sumauto.util.ToastUtil;
 import com.sumauto.wheel.TimePickerView;
 
 import java.io.FileNotFoundException;
-import java.io.IOException;
 import java.net.URISyntaxException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -164,7 +160,7 @@ public class EditUserInfoActivity extends BaseActivity {
                 @Override
                 public void onSuccess(HttpResponse response, HttpRequest<User> request, User bean) {
                     ToastUtil.toast(EditUserInfoActivity.this, response.msg);
-                    getApplicationContext().setUserData(bean.toBundle());
+                    getApplicationContext().setLoginUserData(bean.toBundle());
                     finish();
                 }
             });

@@ -83,7 +83,6 @@ public class LoadingActivity extends BaseActivity {
             AccountManager manager = (AccountManager) getSystemService(ACCOUNT_SERVICE);
             final String phone = manager.getUserData(account, HabitatApp.ACCOUNT_PHONE);
             final String password = manager.getPassword(account);
-
             HttpRequest<User> request = Requests.getLogin(phone, password);
             HttpManager.getInstance().postSync(LoadingActivity.this, new SyncHttpHandler<User>(request) {
 

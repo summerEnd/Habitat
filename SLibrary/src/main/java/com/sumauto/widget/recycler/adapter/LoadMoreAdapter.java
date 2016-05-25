@@ -35,6 +35,11 @@ public abstract class LoadMoreAdapter extends ListAdapter implements SwipeRefres
     @Nullable
     private SwipeRefreshLayout swipeRefreshLayout;
     private RecyclerView mRecyclerView;
+
+    /**
+     * 页面最大加载量
+     */
+    private int maxPageCount=Integer.MAX_VALUE;
     /**
      * 数据加载handler
      */
@@ -52,9 +57,14 @@ public abstract class LoadMoreAdapter extends ListAdapter implements SwipeRefres
 
     /**
      * 加载数据，这里是一个新的线程
+     * @param page 从0开始
      */
     public abstract List onLoadData(int page);
 
+    public LoadMoreAdapter setMaxPageCount(int maxPageCount) {
+        this.maxPageCount = maxPageCount;
+        return this;
+    }
 
     public final void setHasMoreData(boolean hasMoreData) {
         this.mHasMoreData = hasMoreData;
@@ -188,6 +198,7 @@ public abstract class LoadMoreAdapter extends ListAdapter implements SwipeRefres
             public boolean handleMessage(Message msg) {
 
                 List newData = (List) msg.obj;
+                boolean hasMoreData;
 
                 switch (msg.what) {
                     case MSG_MORE: {
@@ -196,6 +207,7 @@ public abstract class LoadMoreAdapter extends ListAdapter implements SwipeRefres
                             List dataList = getDataList();
                             int startPosition = dataList.size();
                             dataList.addAll(newData);
+                            hasMoreData=mCurrentPage<maxPageCount-1;
                             setHasMoreData(true);
                             if (startPosition == 0) {
                                 notifyDataSetChanged();
@@ -204,8 +216,9 @@ public abstract class LoadMoreAdapter extends ListAdapter implements SwipeRefres
                             }
 
                         } else {
-                            setHasMoreData(false);
+                            hasMoreData=false;
                         }
+                        setHasMoreData(hasMoreData);
                         break;
                     }
                     case MSG_REFRESH: {
@@ -214,6 +227,7 @@ public abstract class LoadMoreAdapter extends ListAdapter implements SwipeRefres
                         if (newData != null) {
                             getDataList().addAll(newData);
                         }
+
                         mCurrentPage = 0;
                         notifyDataSetChanged();
                         break;

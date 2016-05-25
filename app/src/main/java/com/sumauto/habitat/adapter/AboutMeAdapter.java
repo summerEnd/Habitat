@@ -7,6 +7,12 @@ import android.view.ViewGroup;
 
 import com.sumauto.habitat.adapter.holders.AboutMeLikeHolder;
 import com.sumauto.habitat.adapter.holders.AboutMeListHolder;
+import com.sumauto.habitat.bean.AboutBean;
+import com.sumauto.habitat.bean.UserInfoBean;
+import com.sumauto.habitat.http.HttpManager;
+import com.sumauto.habitat.http.HttpRequest;
+import com.sumauto.habitat.http.Requests;
+import com.sumauto.habitat.http.SyncHttpHandler;
 import com.sumauto.widget.recycler.adapter.BaseHolder;
 import com.sumauto.widget.recycler.adapter.LoadMoreAdapter;
 
@@ -18,43 +24,41 @@ import java.util.Random;
  * Created by Lincoln on 16/3/25.
  * 关于我
  */
-public class AboutMeAdapter extends LoadMoreAdapter{
+public class AboutMeAdapter extends LoadMoreAdapter {
 
-    ArrayList<Boolean> data=new ArrayList<>();
+    ArrayList<Boolean> data = new ArrayList<>();
 
-    public AboutMeAdapter(Context context, List data) {
-        super(context, data);
+    public AboutMeAdapter(Context context) {
+        super(context, new ArrayList());
     }
-
-    //    public AboutMeAdapter() {
-//        Random random=new Random();
-//        for (int i = 0; i < 12; i++) {
-//            data.add(random.nextBoolean());
-//        }
-//    }
 
     @Override
     public BaseHolder onCreateHolder(ViewGroup parent, int viewType) {
-        if (viewType==0){
+
+        //0->关注，1->赞，2->评论，3->提醒我看
+        if (viewType == 0) {
             return new AboutMeListHolder(parent);
-        }else{
+        } else {
             return new AboutMeLikeHolder(parent);
         }
     }
 
     @Override
     public void onBindHolder(BaseHolder holder, int position) {
-
+            holder.setData(getDataList().get(position));
     }
 
     @Override
     public List onLoadData(int page) {
-        return null;
+        HttpRequest<List<AboutBean>> request = Requests.getUserMessage(page+1);
+        SyncHttpHandler<List<AboutBean>> httpHandler = new SyncHttpHandler<>(request);
+        HttpManager.getInstance().postSync(getContext(), httpHandler);
+        return httpHandler.getResult();
     }
-
 
     @Override
     public int getViewType(int position) {
-        return data.get(position)?0:1;
+        AboutBean bean = (AboutBean) getDataList().get(position);
+        return bean.getType();
     }
 }

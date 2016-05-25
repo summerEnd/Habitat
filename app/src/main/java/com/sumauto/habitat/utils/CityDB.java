@@ -10,7 +10,9 @@ import com.sumauto.util.PListHandler;
 
 import org.xml.sax.SAXException;
 
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Set;
@@ -43,20 +45,49 @@ public class CityDB extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase db) {
+        BufferedReader in = null;
         try {
-            db.execSQL(CREATE_DB);
-            PListHandler plistHandler = new PListHandler();
-            SAXParserFactory.newInstance()
-                    .newSAXParser()
-                    .parse(context.getAssets().open("city.plist"), plistHandler);
-            HashMap<String, Object> mapResult = plistHandler.getMapResult();
-            processInit(db, mapResult, "");
-        } catch (ParserConfigurationException | SAXException | IOException e) {
-            e.printStackTrace();
+            in = new BufferedReader(new InputStreamReader(context.getAssets().open("city.sql")));
+
+            String line;
+            String buffer = "";
+            while ((line = in.readLine()) != null) {
+                buffer += line;
+                if (line.trim().endsWith(";")) {
+                    db.execSQL(buffer.replace(";", ""));
+                    buffer = "";
+                }
+            }
+        } catch (IOException e) {
+            Log.e("db-error", e.toString());
+        } finally {
+            try {
+                if (in != null)
+                    in.close();
+            } catch (IOException e) {
+                Log.e("db-error", e.toString());
+            }
         }
+//
+//        try {
+//            db.execSQL(CREATE_DB);
+//            PListHandler plistHandler = new PListHandler();
+//            SAXParserFactory.newInstance()
+//                    .newSAXParser()
+//                    .parse(context.getAssets().open("city.plist"), plistHandler);
+//            HashMap<String, Object> mapResult = plistHandler.getMapResult();
+//            processInit(db, mapResult, "");
+//        } catch (ParserConfigurationException | SAXException | IOException e) {
+//            e.printStackTrace();
+//        }
     }
 
+    /**
+     * 读取数据库文件（.sql），并执行sql语句
+     * */
+    private void executeAssetsSQL(SQLiteDatabase db, String schemaName) {
 
+    }
     @SuppressWarnings("unchecked")
     void processInit(SQLiteDatabase db, HashMap<String, Object> result, String title) {
         Set<String> keySet = result.keySet();

@@ -1,5 +1,7 @@
 package com.sumauto.util;
 
+import android.util.Log;
+
 import com.google.gson.Gson;
 
 import org.json.JSONArray;
@@ -34,7 +36,7 @@ public class JsonUtil {
     public static <T> ArrayList<T> getArray(JSONArray array, Class<T> cls) throws JSONException {
         ArrayList<T> list = new ArrayList<T>();
 
-        if (array==null){
+        if (array == null) {
             return list;
         }
 
@@ -52,7 +54,7 @@ public class JsonUtil {
      * @throws JSONException
      */
     public static <T> void getArray(JSONArray array, Class<T> cls, List<T> list) throws JSONException {
-        if (array==null){
+        if (array == null) {
             return;
         }
         for (int i = 0; i < array.length(); i++) {
@@ -64,14 +66,14 @@ public class JsonUtil {
 
     public static void debugJsonObject(JSONObject object) {
         if (object == null) {
-            SLog.d("null");
-        }else{
+            Log.d("debug", "null");
+        } else {
             Iterator<String> keys = object.keys();
-            while (keys.hasNext()){
+            while (keys.hasNext()) {
                 try {
                     String key = keys.next();
                     Object o = object.get(key);
-                    SLog.d("key->%s value->%s",key,String.valueOf(o));
+                    Log.d("debug", String.format("key->%s value->%s", key, String.valueOf(o)));
 
                 } catch (JSONException e) {
                     e.printStackTrace();

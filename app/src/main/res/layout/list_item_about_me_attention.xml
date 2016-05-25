@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="@drawable/clickable_white"
@@ -23,10 +24,12 @@
         android:layout_marginLeft="@dimen/dimen_13"
         android:layout_weight="1"
         android:orientation="vertical">
+
         <LinearLayout
             android:layout_width="match_parent"
-            android:orientation="horizontal"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
             <TextView
                 android:id="@+id/tv_nick"
                 android:layout_width="wrap_content"
@@ -36,9 +39,10 @@
                 android:textSize="@dimen/text_15"/>
 
             <TextView
-                android:layout_marginLeft="9dp"
+                android:id="@+id/tv_action"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginLeft="9dp"
                 android:text="关注了我"
                 android:textColor="@color/textGray"
                 android:textSize="@dimen/text_13"/>
@@ -56,24 +60,40 @@
             android:textSize="@dimen/text_12"/>
     </LinearLayout>
 
-    <com.sumauto.widget.CheckableLinearLayout
-        android:id="@+id/btn_attention"
+    <FrameLayout
         android:layout_width="wrap_content"
-        android:paddingLeft="@dimen/dimen_13"
-        android:paddingRight="@dimen/dimen_13"
-        android:layout_height="@dimen/dimen_26"
-        android:background="@drawable/btn_attention_bg"
+        android:layout_height="wrap_content"
         android:gravity="center">
 
-        <CheckedTextView
-            android:duplicateParentState="true"
-            android:id="@+id/tv_attention"
+        <com.sumauto.widget.CheckableLinearLayout
+            android:id="@+id/btn_attention"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="@dimen/dimen_26"
+            android:background="@drawable/btn_attention_bg"
             android:gravity="center"
-            android:text="@string/attention"
-            android:textColor="@color/btn_attention_text_color"
-            android:textSize="@dimen/text_12"/>
-    </com.sumauto.widget.CheckableLinearLayout>
+            android:layout_gravity="center"
+            android:paddingLeft="@dimen/dimen_13"
+            android:paddingRight="@dimen/dimen_13">
+
+            <CheckedTextView
+                android:id="@+id/tv_attention"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:duplicateParentState="true"
+                android:gravity="center"
+                android:text="@string/attention"
+                android:textColor="@color/btn_attention_text_color"
+                android:textSize="@dimen/text_12"/>
+        </com.sumauto.widget.CheckableLinearLayout>
+
+        <com.sumauto.widget.RoundCornerImageView
+            android:id="@+id/iv_image"
+            android:layout_width="@dimen/avatarSize"
+            android:layout_height="@dimen/avatarSize"
+            android:src="@drawable/test_image_01"
+            app:x_radius="@dimen/round_corner_avatar"
+            app:y_radius="@dimen/round_corner_avatar"/>
+    </FrameLayout>
+
 
 </LinearLayout>

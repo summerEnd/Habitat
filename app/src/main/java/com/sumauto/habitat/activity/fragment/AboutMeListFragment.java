@@ -27,7 +27,7 @@ public class AboutMeListFragment extends ListFragment {
         Context context = view.getContext();
         recyclerView = (RecyclerView) view.findViewById(R.id.recyclerView);
         recyclerView.setLayoutManager(new LinearLayoutManager(context));
-        recyclerView.setAdapter(new AboutMeAdapter());
+        recyclerView.setAdapter(new AboutMeAdapter(context));
         recyclerView.addItemDecoration(new DividerDecoration(Color.parseColor("#e5e5e5")));
         processListBottomMargins(recyclerView);
         return view;

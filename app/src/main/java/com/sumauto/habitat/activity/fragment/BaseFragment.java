@@ -1,7 +1,5 @@
 package com.sumauto.habitat.activity.fragment;
 
-import android.app.Activity;
-import android.content.Context;
 import android.graphics.Rect;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -9,7 +7,6 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
 import com.sumauto.habitat.HabitatApp;
-import com.sumauto.habitat.bean.User;
 import com.sumauto.habitat.callback.ListCallback;
 import com.sumauto.habitat.exception.NotLoginException;
 
@@ -47,7 +44,7 @@ public class BaseFragment extends Fragment{
 
     public String getUserData(String key){
         try {
-            return HabitatApp.getInstance().getUserData(key);
+            return HabitatApp.getInstance().getLoginUserData(key);
         } catch (NotLoginException e) {
             //todo not login stuff
             return "";
@@ -55,7 +52,7 @@ public class BaseFragment extends Fragment{
     }
 
     public void setUserData(String key,String value){
-        HabitatApp.getInstance().setUserData(key,value);
+        HabitatApp.getInstance().setLoginUserData(key,value);
     }
 
     /**

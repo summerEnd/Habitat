@@ -7,9 +7,7 @@ import com.sumauto.SApplication;
 public class SLog {
     private static String TAG = "SLOG";
 
-    public static void d(String pattern, Object... values) {
-        d(TAG, pattern, values);
-    }
+
 
     public static void d(String tag, String pattern, Object... values) {
         String msg;

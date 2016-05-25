@@ -12,6 +12,10 @@ import com.sumauto.habitat.adapter.holders.AddressBookTitleHolder;
 import com.sumauto.habitat.adapter.holders.ContactsHolder;
 import com.sumauto.habitat.adapter.holders.UserListHolder;
 import com.sumauto.habitat.bean.UserInfoBean;
+import com.sumauto.habitat.http.HttpManager;
+import com.sumauto.habitat.http.HttpRequest;
+import com.sumauto.habitat.http.JsonHttpHandler;
+import com.sumauto.habitat.http.Requests;
 import com.sumauto.util.SUtils;
 
 import java.util.ArrayList;
@@ -27,11 +31,14 @@ import java.util.List;
 public class AddressBookAdapter extends RecyclerView.Adapter implements HeaderDecor.Callback {
 
     private List<Object> beans = new ArrayList<>();
-
+    private Context context;
     public AddressBookAdapter(Context context) {
+        this.context=context;
         String[] projections = new String[]{Phone.NUMBER, Phone.DISPLAY_NAME, Phone.PHOTO_URI};
 
-        Cursor query = context.getContentResolver().query(Phone.CONTENT_URI, projections, "", null, Phone.DISPLAY_NAME + " DESC");
+        Cursor query = context.getContentResolver()
+                .query(Phone.CONTENT_URI, projections, "", null, Phone.DISPLAY_NAME + " DESC");
+
         ArrayList<UserInfoBean> userInfoBeans = new ArrayList<>();
         while (query.moveToNext()) {
             Log.d("--->", "ls:" + query.getString(0) + " " + query.getString(1) + " " + query.getString(2));
@@ -61,6 +68,7 @@ public class AddressBookAdapter extends RecyclerView.Adapter implements HeaderDe
             }
             beans.add(bean);
         }
+        getData();
     }
 
     @Override
@@ -114,9 +122,15 @@ public class AddressBookAdapter extends RecyclerView.Adapter implements HeaderDe
         return holder instanceof AddressBookTitleHolder;
     }
 
+    void getData(){
+        HttpRequest<List<UserInfoBean>> request = Requests.getUserFriends();
 
-    @Override
-    public long getItemId(int position) {
-        return super.getItemId(position);
+        HttpManager.getInstance().post(context, new JsonHttpHandler<List<UserInfoBean>>(request) {
+            @Override
+            public void onSuccess(HttpResponse response, HttpRequest<List<UserInfoBean>> request, List<UserInfoBean> bean) {
+
+            }
+        });
     }
+
 }
