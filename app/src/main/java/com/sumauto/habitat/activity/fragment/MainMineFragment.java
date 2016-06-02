@@ -1,6 +1,7 @@
 package com.sumauto.habitat.activity.fragment;
 
 
+import android.accounts.Account;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -17,7 +18,10 @@ import com.sumauto.habitat.R;
 import com.sumauto.habitat.activity.CollectionsActivity;
 import com.sumauto.habitat.activity.CreateCommunity;
 import com.sumauto.habitat.activity.EditUserInfoActivity;
+import com.sumauto.habitat.activity.LoginActivity;
 import com.sumauto.habitat.activity.SettingActivity;
+import com.sumauto.habitat.activity.ShareActivity;
+import com.sumauto.habitat.adapter.holders.TrendHolder;
 import com.sumauto.habitat.bean.User;
 import com.sumauto.habitat.bean.UserInfoBean;
 import com.sumauto.habitat.http.HttpManager;
@@ -25,6 +29,7 @@ import com.sumauto.habitat.http.HttpRequest;
 import com.sumauto.habitat.http.JsonHttpHandler;
 import com.sumauto.habitat.http.Requests;
 import com.sumauto.habitat.utils.ImageOptions;
+import com.sumauto.habitat.utils.Navigator;
 
 import org.json.JSONObject;
 
@@ -55,6 +60,9 @@ public class MainMineFragment extends BaseFragment implements View.OnClickListen
         view.findViewById(R.id.vg_create_circle).setOnClickListener(this);
         view.findViewById(R.id.vg_share_place).setOnClickListener(this);
         view.findViewById(R.id.vg_setting).setOnClickListener(this);
+        view.findViewById(R.id.dongtai).setOnClickListener(this);
+        view.findViewById(R.id.guanzhu).setOnClickListener(this);
+        view.findViewById(R.id.fensi).setOnClickListener(this);
         iv_avatar = (ImageView) view.findViewById(R.id.iv_avatar);
         tv_nick = (TextView) view.findViewById(R.id.tv_nick);
         tv_trend = (TextView) view.findViewById(R.id.tv_trend);
@@ -66,6 +74,9 @@ public class MainMineFragment extends BaseFragment implements View.OnClickListen
 
     @Override
     public void activityCallRefresh() {
+        if (getActivity()==null){
+            return;
+        }
         initUserData();
         HttpRequest<User> request = Requests.getUserInfo();
         HttpManager.getInstance().post(getActivity(), new JsonHttpHandler<User>(request) {
@@ -106,6 +117,16 @@ public class MainMineFragment extends BaseFragment implements View.OnClickListen
     @Override
     public void onClick(View v) {
         int id = v.getId();
+        String uid = getUserData(HabitatApp.ACCOUNT_UID);
+        if (id==R.id.vg_share_place){
+            ShareActivity.start(getActivity(),getString(R.string.share_content),"www.baidu.com");
+            return;
+        }
+        if (!HabitatApp.getInstance().isLogin()){
+            startActivity(new Intent(v.getContext(), LoginActivity.class));
+            return;
+        }
+
         switch (id) {
             case R.id.vg_complete_data: {
                 startActivity(new Intent(getActivity(), EditUserInfoActivity.class));
@@ -116,14 +137,24 @@ public class MainMineFragment extends BaseFragment implements View.OnClickListen
                 break;
             }
             case R.id.vg_my_collect: {
-                CollectionsActivity.start(getActivity(), getUserData(HabitatApp.ACCOUNT_UID));
+                CollectionsActivity.start(getActivity(), uid);
                 break;
             }
-            case R.id.vg_share_place: {
-                break;
-            }
+
             case R.id.vg_setting: {
                 startActivity(new Intent(getActivity(), SettingActivity.class));
+                break;
+            }
+            case R.id.dongtai: {
+                Navigator.viewUser(getActivity(),Navigator.PATH_TREND,uid);
+                break;
+            }
+            case R.id.guanzhu: {
+                Navigator.viewUser(getActivity(),Navigator.PATH_FOLLOW,uid);
+                break;
+            }
+            case R.id.fensi: {
+                Navigator.viewUser(getActivity(),Navigator.PATH_FANS,uid);
                 break;
             }
         }

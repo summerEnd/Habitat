@@ -1,13 +1,9 @@
 package com.sumauto.habitat.activity;
 
 import android.annotation.SuppressLint;
-import android.content.Context;
-import android.content.Intent;
-import android.graphics.drawable.ColorDrawable;
-import android.net.Uri;
+import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.design.widget.AppBarLayout;
-import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -18,12 +14,18 @@ import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.nostra13.universalimageloader.core.ImageLoader;
-import com.sumauto.habitat.activity.fragment.TrendListFragment;
+import com.nostra13.universalimageloader.core.assist.FailReason;
+import com.nostra13.universalimageloader.core.assist.ImageSize;
+import com.nostra13.universalimageloader.core.imageaware.ImageViewAware;
+import com.nostra13.universalimageloader.core.listener.ImageLoadingListener;
+import com.nostra13.universalimageloader.core.listener.SimpleImageLoadingListener;
+import com.sumauto.habitat.activity.fragment.UserTrendFragment;
 import com.sumauto.habitat.activity.fragment.UserPictureListFragment;
 import com.sumauto.habitat.bean.UserInfoBean;
 import com.sumauto.habitat.callback.ViewId;
@@ -33,7 +35,10 @@ import com.sumauto.habitat.http.HttpRequest;
 import com.sumauto.habitat.http.JsonHttpHandler;
 import com.sumauto.habitat.http.Requests;
 import com.sumauto.habitat.utils.ImageOptions;
+import com.sumauto.habitat.utils.Navigator;
+import com.sumauto.util.DisplayUtil;
 import com.sumauto.util.MathUtil;
+import com.sumauto.util.SLog;
 import com.sumauto.util.ViewUtil;
 import com.sumauto.habitat.R;
 
@@ -49,6 +54,7 @@ public class UserCenterActivity extends BaseActivity implements AppBarLayout.OnO
     @ViewId ImageView iv_back_icon;
     @ViewId ImageView iv_logo;
     @ViewId ImageView iv_avatar;
+    @ViewId ImageView iv_attention_state;
     @ViewId Toolbar toolBar;
     @ViewId TextView tv_back_text;
     @ViewId TextView tv_check_detail;
@@ -57,19 +63,14 @@ public class UserCenterActivity extends BaseActivity implements AppBarLayout.OnO
     @ViewId TextView tv_trend_count;
     @ViewId TextView tv_fans_count;
     @ViewId TextView tv_attention_count;
+    @ViewId TextView tv_attention_state;
     @ViewId TabLayout tabLayout;
     @ViewId ViewPager viewPager;
-    @ViewId CollapsingToolbarLayout collapsing_toolbar;
-    private String uid;
-    private Fragment fragments[] = new Fragment[]{new TrendListFragment(), new UserPictureListFragment()};
 
-    public static void start(Context context, String uid) {
-        Intent intent = new Intent(Intent.ACTION_VIEW);
-        String url = "habitat://user/home?"
-                + "uid=" + uid;
-        intent.setData(Uri.parse(url));
-        context.startActivity(intent);
-    }
+    private String uid;
+    private String avatar;
+    private Fragment fragments[];
+    private UserInfoBean infoBean;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -77,44 +78,102 @@ public class UserCenterActivity extends BaseActivity implements AppBarLayout.OnO
         setContentView(R.layout.activity_user_home);
 
         uid = getIntent().getData().getQueryParameter("uid");
+        avatar = getIntent().getData().getQueryParameter("avatar");
+
+        fragments = new Fragment[]{
+                UserTrendFragment.newInstance(uid),
+                UserPictureListFragment.newInstance(uid)};
 
         viewPager.setAdapter(new PagerAdapter(getSupportFragmentManager()));
         tabLayout.setupWithViewPager(viewPager);
 
-        iv_mine_bg.getViewTreeObserver().addOnPreDrawListener(new ViewTreeObserver.OnPreDrawListener() {
-            @Override
-            public boolean onPreDraw() {
-                iv_mine_bg.getViewTreeObserver().removeOnPreDrawListener(this);
-                Blurry.with(UserCenterActivity.this).capture(iv_mine_bg).into(iv_mine_bg);
-                return true;
-            }
-        });
         AppBarLayout appBarLayout = (AppBarLayout) findViewById(R.id.appbarLayout);
         appBarLayout.addOnOffsetChangedListener(this);
         appBarLayout.setExpanded(true, true);
+
+
+        int screenWidth = DisplayUtil.getScreenWidth(this);
+        //iv_mine_bg.getLayoutParams().height = screenWidth * 520 / 750;
         getUserInfo();
 
     }
 
     void getUserInfo() {
+        if (!TextUtils.isEmpty(avatar)) {
+            final int size = getResources().getDimensionPixelSize(R.dimen.dimen_76);
+            ImageLoader.getInstance().loadImage(avatar,
+                    new ImageSize(size, size),
+                    new ImageLoadingListener() {
+                        @Override
+                        public void onLoadingStarted(String s, View view) {
+                            iv_avatar.setImageResource(R.mipmap.default_avatar);
+                        }
+
+                        @Override
+                        public void onLoadingFailed(String s, View view, FailReason failReason) {
+
+                        }
+
+                        @Override
+                        public void onLoadingComplete(String s, View view, Bitmap bitmap) {
+                            SLog.d(TAG, "" + bitmap.getWidth() + "*" + bitmap.getHeight());
+                            Bitmap scaledBitmap = Bitmap.createScaledBitmap(bitmap,
+                                    size, size, true);
+                            iv_avatar.setImageBitmap(scaledBitmap);
+                            iv_mine_bg.getViewTreeObserver().addOnPreDrawListener(
+                                    new ViewTreeObserver.OnPreDrawListener() {
+                                        @Override
+                                        public boolean onPreDraw() {
+                                            iv_mine_bg.getViewTreeObserver().removeOnPreDrawListener(this);
+                                            //Blurry.with(UserCenterActivity.this).radius(25).sampling(2).onto((ViewGroup) iv_mine_bg.getParent());
+                                            Blurry.with(UserCenterActivity.this).capture(iv_mine_bg).into(iv_mine_bg);
+                                            return true;
+                                        }
+                                    });
+                            iv_mine_bg.setImageBitmap(scaledBitmap);
+                            if (!bitmap.isRecycled()) {
+                                bitmap.recycle();
+                            }
+                        }
+
+                        @Override
+                        public void onLoadingCancelled(String s, View view) {
+
+                        }
+                    });
+        }
+
         HttpRequest<UserInfoBean> request = Requests.getFriendInfo(uid);
 
         HttpManager.getInstance().post(this, new JsonHttpHandler<UserInfoBean>(request) {
             @SuppressLint("SetTextI18n")
             @Override
-            public void onSuccess(HttpHandler.HttpResponse response, HttpRequest<UserInfoBean> request, UserInfoBean bean) {
-                ImageLoader.getInstance().displayImage(bean.headimg, iv_avatar, ImageOptions.options());
-                //ImageLoader.getInstance().displayImage(bean.headimg, iv_mine_bg, ImageOptions.options());
-
+            public void onSuccess(HttpHandler.HttpResponse response, HttpRequest<UserInfoBean> request, final UserInfoBean bean) {
+                infoBean=bean;
                 tv_fans_count.setText("粉丝 " + MathUtil.getInt(bean.fanscount));
                 tv_trend_count.setText("动态 " + MathUtil.getInt(bean.articlecount));
                 tv_attention_count.setText("关注 " + MathUtil.getInt(bean.followcount));
+                tv_nick.setCompoundDrawables(null, null,
+                        ContextCompat.getDrawable(UserCenterActivity.this, bean.isBoy() ? R.mipmap.ic_boy : R.mipmap.ic_girl)
+                        , null);
+                setAttentionButtonState(bean.isFriend());
+
+
                 tv_nick.setText(bean.nickname);
                 tv_from.setText("来自 " + bean.community + " 小区");
             }
         });
     }
 
+    void setAttentionButtonState(boolean isFriend) {
+        if (isFriend) {
+            iv_attention_state.setImageResource(R.mipmap.ic_attentioned);
+            tv_attention_state.setText("已关注");
+        } else {
+            iv_attention_state.setImageResource(R.mipmap.ic_add_attention);
+            tv_attention_state.setText("关注");
+        }
+    }
 
     @Override
     public void onOffsetChanged(AppBarLayout appBarLayout, int i) {
@@ -149,7 +208,51 @@ public class UserCenterActivity extends BaseActivity implements AppBarLayout.OnO
     }
 
     public void onSeeDataClick(View view) {
-        UserDetailActivity.start(this, uid);
+        Navigator.viewUser(this, Navigator.PATH_DATA, uid);
+    }
+
+    public void onAttentionClick(final View view) {
+
+        if (infoBean == null) {
+            return;
+        }
+
+        HttpRequest<String> request;
+
+        final String status = tv_attention_state.getText().toString();
+        switch (status) {
+            case "关注":
+                request = Requests.setFollow(infoBean.id);
+                break;
+            case "已关注":
+                request = Requests.setUnFollow(infoBean.id);
+                break;
+            default:
+                return;
+        }
+
+        view.setEnabled(false);
+        HttpManager.getInstance().post(UserCenterActivity.this,
+                new JsonHttpHandler<String>(request) {
+                    @Override
+                    public void onSuccess(HttpResponse response, HttpRequest<String> request, String bean) {
+                        setAttentionButtonState(status.equals("关注"));
+                    }
+
+                    @Override
+                    public void onFailure(HttpResponse response) {
+                        super.onFailure(response);
+                        if ("121".equals(response.code)){
+                            setAttentionButtonState(true);
+                        }
+                    }
+
+                    @Override
+                    public void onFinish() {
+                        super.onFinish();
+                        view.setEnabled(true);
+                    }
+                });
     }
 
     class PagerAdapter extends FragmentPagerAdapter {

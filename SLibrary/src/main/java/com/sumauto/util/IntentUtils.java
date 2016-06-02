@@ -10,6 +10,7 @@ import android.content.pm.ResolveInfo;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.provider.MediaStore;
+import android.provider.Telephony;
 
 import com.sp.lib.R;
 
@@ -31,6 +32,13 @@ public class IntentUtils {
     public static Intent callPhone(String phone) {
         Intent intent = new Intent(Intent.ACTION_CALL);
         intent.setData(Uri.parse("tel:" + phone));
+        return intent;
+    }
+
+    public static Intent sendSms(Context context,String phoneNumber,CharSequence message){
+        Intent intent = new Intent(Intent.ACTION_SENDTO, Uri.parse("smsto:"+phoneNumber));
+        intent.putExtra("sms_body", message);
+        context.startActivity(intent);
         return intent;
     }
 

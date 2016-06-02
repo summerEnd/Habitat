@@ -26,6 +26,7 @@ import com.sumauto.util.DisplayUtil;
 import com.sumauto.habitat.R;
 import com.sumauto.habitat.adapter.PublishImageAdapter;
 import com.sumauto.habitat.widget.IosListDialog;
+import com.sumauto.util.ToastUtil;
 
 import org.json.JSONException;
 
@@ -39,11 +40,14 @@ import java.util.List;
 import cz.msebera.android.httpclient.Header;
 
 public class PublishActivity extends BaseActivity {
-
+    final int pickImage = 1;
+    final int pickWhoCanSee = 2;
+    final int pickNoticeWhoSee = 3;
     private PublishImageAdapter adapter;
     private int mImagePaddings;
     @ViewId(R.id.recyclerView) RecyclerView mRecyclerView;
     @ViewId EditText edit_content;
+    @ViewId TextView tv_notice_who_see;
     @ViewId TextView tv_who_can_see;
 
     @Override
@@ -87,11 +91,11 @@ public class PublishActivity extends BaseActivity {
     }
 
     private void startPhotoActivity() {
-        PhotoActivity.Options options=new PhotoActivity.Options();
-        options.outHeight=options.outWidth=700;
-        options.actionName="立即发布";
-        options.multiply=true;
-        PhotoActivity.start(PublishActivity.this,options, 100);
+        PhotoActivity.Options options = new PhotoActivity.Options();
+        options.outHeight = options.outWidth = 700;
+        options.actionName = "立即发布";
+        options.multiply = true;
+        PhotoActivity.start(PublishActivity.this, options, 100);
     }
 
 
@@ -99,28 +103,52 @@ public class PublishActivity extends BaseActivity {
     protected void onActivityResult(int requestCode, int resultCode, final Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (resultCode == RESULT_OK) {
-            List<Uri> uris = PhotoActivity.handleResult(data);
-            for (Uri uri : uris) {
-                adapter.addImage(this, uri);
+            String ids = data.getStringExtra("ids");
+            if (requestCode == pickWhoCanSee) {
+                tv_who_can_see.setTag(ids);
+                tv_who_can_see.setText(ids);
+            } else if (requestCode == pickNoticeWhoSee) {
+                tv_notice_who_see.setTag(ids);
+                tv_notice_who_see.setText(ids);
+            } else {
+                List<Uri> uris = PhotoActivity.handleResult(data);
+                for (Uri uri : uris) {
+                    adapter.addImage(this, uri);
+                }
             }
         }
     }
 
     public void onPublishClick(View view) {
-        String content=edit_content.getText().toString();
-        String openlevel="0";
-        String remind="";
+        String content = edit_content.getText().toString();
+        String openlevel ;
+        String remind ;
         String ids="";
+
+        if (tv_who_can_see.getTag()==null){
+            openlevel="0";
+        }else{
+            openlevel= (String) tv_notice_who_see.getTag();
+        }
+
+        if (tv_notice_who_see.getTag()==null){
+            remind="";
+        }else{
+            remind= (String) tv_notice_who_see.getTag();
+        }
+
         List<DeleteAbleImageHolder.ImageBean> images = adapter.getImages();
         for (DeleteAbleImageHolder.ImageBean bean : images) {
-            ids += bean.id+",";
+            ids += bean.id + ",";
         }
+
         HttpRequest<String> request = Requests.publishArticle(content, openlevel, remind, ids);
 
         HttpManager.getInstance().post(PublishActivity.this, new JsonHttpHandler<String>(request) {
             @Override
             public void onSuccess(HttpResponse response, HttpRequest<String> request, String bean) {
-
+                finish();
+                ToastUtil.toast(PublishActivity.this, "发布成功");
             }
         });
     }
@@ -143,6 +171,7 @@ public class PublishActivity extends BaseActivity {
                             }
                             case 2: {
                                 tv_who_can_see.setText(R.string.partly_can_see);
+                                startActivityForResult(new Intent(PublishActivity.this, NoticeFriendListActivity.class), pickWhoCanSee);
                                 break;
                             }
                         }
@@ -152,6 +181,6 @@ public class PublishActivity extends BaseActivity {
     }
 
     public void onNoticeWhoSee(View view) {
-        startActivity(new Intent(PublishActivity.this, NoticeFriendListActivity.class));
+        startActivityForResult(new Intent(PublishActivity.this, NoticeFriendListActivity.class), pickNoticeWhoSee);
     }
 }

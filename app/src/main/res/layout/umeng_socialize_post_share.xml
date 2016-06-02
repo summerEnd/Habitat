@@ -1,13 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.umeng.socialize.editorpage.KeyboardListenRelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<com.umeng.socialize.view.wigets.KeyboardListenRelativeLayout
     android:id="@+id/umeng_socialize_share_root"
+    xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    android:background="#D8DDE4" >
+    android:background="#D8DDE4">
 
     <include
         android:id="@+id/umeng_socialize_share_titlebar"
-        layout="@layout/umeng_socialize_titile_bar" />
+        layout="@layout/umeng_socialize_titile_bar"/>
 
     <RelativeLayout
         android:id="@+id/umeng_socialize_share_bottom_area"
@@ -16,14 +17,14 @@
         android:layout_alignParentBottom="true"
         android:background="#EEEEEE"
         android:focusable="false"
-        android:gravity="center_vertical" >
+        android:gravity="center_vertical">
 
 
         <RelativeLayout
+            android:id="@+id/umeng_socialize_follow_layout"
             android:layout_width="wrap_content"
             android:layout_height="40dp"
             android:layout_centerVertical="true"
-            android:id="@+id/umeng_socialize_follow_layout"
             >
 
             <CheckBox
@@ -33,11 +34,11 @@
                 android:layout_centerVertical="true"
                 android:layout_marginLeft="20dp"
                 android:button="@drawable/umeng_socialize_follow_check"
+                android:checked="true"
                 android:paddingLeft="25dp"
                 android:text="关注官方微博"
                 android:textColor="@color/umeng_socialize_text_share_content"
                 android:textSize="13sp"
-                android:checked="true"
                 android:visibility="gone"
                 />
         </RelativeLayout>
@@ -63,13 +64,13 @@
                 android:paddingRight="7.5dp"
                 android:scaleType="fitXY"
                 android:src="@drawable/umeng_socialize_location_off"
-                 />
+                />
 
             <ProgressBar
                 android:id="@+id/umeng_socialize_location_progressbar"
                 android:layout_width="15dp"
                 android:layout_height="15dp"
-                android:visibility="gone" />
+                android:visibility="gone"/>
         </RelativeLayout>
 
         <ImageButton
@@ -83,7 +84,7 @@
             android:padding="8dp"
             android:scaleType="fitXY"
             android:src="@drawable/umeng_socialize_at_button"
-            android:visibility="invisible" />
+            android:visibility="invisible"/>
 
         <RelativeLayout
             android:id="@+id/umeng_socialize_share_image"
@@ -100,7 +101,7 @@
                 android:layout_width="fill_parent"
                 android:layout_height="fill_parent"
                 android:layout_margin="5dp"
-                android:scaleType="fitXY" />
+                android:scaleType="fitXY"/>
 
             <ImageView
                 android:id="@+id/umeng_socialize_share_previewImg_remove"
@@ -116,7 +117,7 @@
                 android:layout_width="15dp"
                 android:layout_height="15dp"
                 android:layout_centerInParent="true"
-                android:visibility="gone" />
+                android:visibility="gone"/>
         </RelativeLayout>
     </RelativeLayout>
 
@@ -134,7 +135,7 @@
         android:paddingLeft="8dp"
         android:paddingRight="4dp"
         android:paddingTop="10dp"
-        android:textColor="@color/umeng_socialize_text_share_content" />
+        android:textColor="@color/umeng_socialize_text_share_content"/>
 
     <TextView
         android:id="@+id/umeng_socialize_share_word_num"
@@ -146,6 +147,6 @@
         android:layout_marginRight="8dp"
         android:gravity="center"
         android:textColor="@color/umeng_socialize_text_share_content"
-        android:textSize="18sp" />
+        android:textSize="18sp"/>
 
-</com.umeng.socialize.editorpage.KeyboardListenRelativeLayout>
+</com.umeng.socialize.view.wigets.KeyboardListenRelativeLayout>

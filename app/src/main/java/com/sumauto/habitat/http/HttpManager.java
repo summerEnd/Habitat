@@ -16,7 +16,6 @@ import com.sumauto.util.SUtils;
 public class HttpManager {
     public static final String TAG = HttpManager.class.getSimpleName();
 
-
     private static HttpManager mHttpClient;
     private boolean async = true;//是否异步
     AsyncHttpClient client = new AsyncHttpClient();
@@ -43,6 +42,7 @@ public class HttpManager {
     public void post(Context context, JsonHttpHandler httpHandler) {
         post(context, httpHandler.getUrl(), httpHandler.getRequestParams(), httpHandler,true);
     }
+
     public void postSync(Context context,SyncHttpHandler httpHandler){
         post(context, httpHandler.getUrl(), httpHandler.getRequestParams(), httpHandler,false);
     }

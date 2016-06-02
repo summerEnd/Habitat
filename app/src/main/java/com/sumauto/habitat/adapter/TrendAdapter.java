@@ -16,31 +16,35 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class TrendAdapter extends LoadMoreAdapter {
-    private String comid;
 
-    public TrendAdapter(BaseActivity context, String comid) {
+    public TrendAdapter(BaseActivity context) {
         super(context, new ArrayList<FeedBean>());
-        this.comid = comid;
     }
 
     @Override
     public BaseHolder onCreateHolder(ViewGroup parent, int viewType) {
-        return new TrendHolder(parent, (BaseActivity) getContext());
+        TrendHolder trendHolder = new TrendHolder(parent, (BaseActivity) getContext());
+        trendHolder.setCallback(new TrendHolder.Callback() {
+            @Override
+            public void onDelete(TrendHolder holder) {
+                Object data = holder.getData();
+                int i = getDataList().indexOf(data);
+                getDataList().remove(data);
+                notifyItemRemoved(i);
+            }
+        });
+        return trendHolder;
     }
 
     @Override
     public void onBindHolder(BaseHolder holder, int position) {
         TrendHolder trendHolder = (TrendHolder) holder;
-        trendHolder.init((FeedBean) getDataList().get(position));
+        trendHolder.setData(getDataList().get(position));
     }
 
 
     @Override
     public List onLoadData(int page) {
-        HttpRequest<List<FeedBean>> request = Requests.getCommunity(comid, page, 5);
-
-        SyncHttpHandler<List<FeedBean>> httpHandler = new SyncHttpHandler<List<FeedBean>>(request);
-        HttpManager.getInstance().postSync(getContext(), httpHandler);
-        return httpHandler.getResult();
+        return null;
     }
 }

@@ -42,9 +42,10 @@ public class TrendDetailActivity extends BaseActivity {
     private ActivityDetailBinding binder;
     private CommentWindow commentWindow;
 
-    public static void start(Context context, String tid) {
+    public static void start(Context context, String tid,boolean showComment) {
         Intent starter = new Intent(context, TrendDetailActivity.class);
         starter.putExtra("tid", tid);
+        starter.putExtra("showComment", showComment);
         context.startActivity(starter);
     }
 
@@ -59,6 +60,9 @@ public class TrendDetailActivity extends BaseActivity {
         findViewById(R.id.v_comment).setOnClickListener(this);
         ImageLoader.getInstance().displayImage(
                 getUserData(HabitatApp.ACCOUNT_AVATAR), iv_user_avatar, ImageOptions.options());
+        if (getIntent().getBooleanExtra("showComment",false)){
+            showComment();
+        }
         getDetail();
     }
 
@@ -124,25 +128,32 @@ public class TrendDetailActivity extends BaseActivity {
         super.onClick(v);
         switch (v.getId()) {
             case R.id.v_comment: {
-                if (commentWindow == null) {
-                    commentWindow = new CommentWindow(this) {
-                        @Override
-                        protected void onCommit(String text) {
-                            HttpRequest<Object> request = Requests.submitComment(mDetailBean.id, text, "", "");
-
-                            HttpManager.getInstance().post(getContext(), new JsonHttpHandler<Object>(request) {
-                                @Override
-                                public void onSuccess(HttpResponse response, HttpRequest<Object> request, Object bean) {
-
-                                }
-                            });
-                        }
-                    };
-                }
-                commentWindow.show();
+                showComment();
                 break;
             }
         }
+    }
+
+    private void showComment() {
+        if (commentWindow == null) {
+            commentWindow = new CommentWindow(this) {
+                @Override
+                protected void onCommit(String text) {
+                    HttpRequest<Object> request = Requests.submitComment(mDetailBean.id, text, "", "");
+
+                    HttpManager.getInstance().post(getContext(), new JsonHttpHandler<Object>(request) {
+                        @Override
+                        public void onSuccess(HttpResponse response, HttpRequest<Object> request, Object bean) {
+                            ToastUtil.toast(TrendDetailActivity.this,response.msg);
+                            getDetail();
+                            dismiss();
+
+                        }
+                    });
+                }
+            };
+        }
+        commentWindow.show();
     }
 
     @Override

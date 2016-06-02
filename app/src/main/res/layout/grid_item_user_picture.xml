@@ -1,19 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
+<com.sumauto.widget.SupperLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:orientation="vertical">
-    <com.sumauto.widget.SupperLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    app:layout_height_units="1"
+    app:layout_width_units="1">
+
+    <ImageView
+        android:id="@+id/iv_image"
         android:layout_width="match_parent"
-        app:layout_width_units="1"
-        app:layout_height_units="1"
-        android:layout_height="wrap_content">
-        <ImageView
-            android:scaleType="centerCrop"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:src="@drawable/test_image_01"/>
-    </com.sumauto.widget.SupperLayout>
-</LinearLayout>
+        android:layout_height="match_parent"
+        android:scaleType="centerCrop"
+        android:src="@drawable/test_image_01"/>
+</com.sumauto.widget.SupperLayout>

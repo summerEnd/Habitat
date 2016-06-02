@@ -5,9 +5,7 @@ import android.graphics.BitmapFactory;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.sumauto.habitat.R;
 
-/**
- * Created by Lincoln on 16/3/30.
- */
+
 public class ImageOptions {
     public static DisplayImageOptions options(){
         return new DisplayImageOptions.Builder()
@@ -27,6 +25,15 @@ public class ImageOptions {
                 .showImageForEmptyUri(R.mipmap.image_loading)
                 .showImageOnLoading(R.mipmap.image_loading)
                 .showImageOnFail(R.mipmap.image_loading)
+                .build();
+    }
+    public static DisplayImageOptions optionsAvatar(){
+
+        return new DisplayImageOptions.Builder()
+                .cacheOnDisk(true)
+                .showImageForEmptyUri(R.mipmap.default_avatar)
+                .showImageOnLoading(R.mipmap.default_avatar)
+                .showImageOnFail(R.mipmap.default_avatar)
                 .build();
     }
 }

@@ -14,17 +14,15 @@ import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
 import android.widget.TextView;
 
-import com.sumauto.habitat.HabitatApp;
 import com.sumauto.habitat.R;
 import com.sumauto.habitat.activity.fragment.BaseFragment;
 import com.sumauto.habitat.activity.fragment.SearchFragment;
-import com.sumauto.habitat.activity.fragment.TrendListFragment;
 import com.sumauto.habitat.callback.ViewId;
 import com.sumauto.util.ViewUtil;
 
 import java.util.ArrayList;
 
-public class SearchActivity extends BaseActivity implements TrendListFragment.Callback {
+public class SearchActivity extends BaseActivity {
 
     @ViewId EditText edit_search;
     @ViewId View iv_clearEdit;
@@ -109,11 +107,6 @@ public class SearchActivity extends BaseActivity implements TrendListFragment.Ca
         SearchFragment searchFragment = SearchFragment.newInstance(keyword, type);
         searchFragment.setTitle(title);
         return searchFragment;
-    }
-
-    @Override
-    public String getComId() {
-        return getUserData(HabitatApp.ACCOUNT_COMMID);
     }
 
     private class Adapter extends FragmentPagerAdapter {

@@ -1,9 +1,9 @@
 <android.support.design.widget.CoordinatorLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:tools="http://schemas.android.com/tools"
     >
 
     <android.support.design.widget.AppBarLayout
@@ -25,7 +25,9 @@
 
             <FrameLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:measureAllChildren="true"
+                android:layout_height="match_parent">
+
 
                 <FrameLayout
                     android:layout_width="match_parent"
@@ -35,9 +37,9 @@
                     <ImageView
                         android:id="@+id/iv_mine_bg"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
+                        android:layout_height="match_parent"
                         android:scaleType="centerCrop"
-                        android:src="@drawable/test_image_01"
+                        android:src="@mipmap/mine_center_bg"
                         app:layout_collapseMode="parallax"/>
                 </FrameLayout>
 
@@ -52,7 +54,7 @@
                         android:layout_width="@dimen/dimen_76"
                         android:layout_height="@dimen/dimen_76"
                         android:layout_marginTop="@dimen/toolbarHeight"
-                        android:src="@drawable/test_image_01"
+                        android:src="@mipmap/default_avatar"
                         app:border_color="@color/white"
                         app:border_width="2dp"/>
 
@@ -61,18 +63,18 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="11dp"
-                        tools:text="小笼包"
                         android:textColor="@color/white"
-                        android:textSize="@dimen/text_17"/>
+                        android:textSize="@dimen/text_17"
+                        tools:text="小笼包"/>
 
                     <TextView
                         android:id="@+id/tv_from"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="11dp"
-                        tools:text="来自:  桃花源 小区"
                         android:textColor="@color/white"
-                        android:textSize="@dimen/text_13"/>
+                        android:textSize="@dimen/text_13"
+                        tools:text="来自:  桃花源 小区"/>
 
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -104,9 +106,12 @@
                     </LinearLayout>
 
                     <LinearLayout
-                        android:layout_marginBottom="@dimen/dimen_23"
+                        android:id="@+id/btn_attention"
+                        android:onClick="onAttentionClick"
+                        android:clickable="true"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:layout_marginBottom="@dimen/dimen_23"
                         android:layout_marginLeft="@dimen/dimen_41"
                         android:layout_marginRight="@dimen/dimen_41"
                         android:layout_marginTop="@dimen/dimen_20"
@@ -116,12 +121,14 @@
                         android:paddingTop="@dimen/view_spacing_2">
 
                         <ImageView
+                            android:id="@+id/iv_attention_state"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:contentDescription="@string/attention"
                             android:src="@mipmap/ic_attentioned"/>
 
                         <TextView
+                            android:id="@+id/tv_attention_state"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginLeft="@dimen/dp_10_in_xhdpi"
@@ -171,8 +178,8 @@
                     android:gravity="center"
                     android:src="@mipmap/ic_logo"
                     android:text="@string/app_name"
-                    android:visibility="invisible"
                     android:textColor="@color/textBlack"
+                    android:visibility="invisible"
                     />
 
                 <TextView
@@ -180,8 +187,8 @@
                     style="@style/toolBar_clickedItem"
                     android:layout_gravity="right"
                     android:layout_marginRight="@dimen/dp_10_in_xhdpi"
-                    android:text="@string/see_detail"
                     android:onClick="onSeeDataClick"
+                    android:text="@string/see_detail"
                     android:textColor="@color/white"/>
 
             </android.support.v7.widget.Toolbar>

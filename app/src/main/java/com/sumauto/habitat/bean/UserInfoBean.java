@@ -30,6 +30,7 @@ public class UserInfoBean {
     public String community;
     public String signature;
     public String title;
+    public String isfriend;
     private boolean isAttention;
     private String nameFirstLetter;//名称首字母
 
@@ -50,7 +51,13 @@ public class UserInfoBean {
         return SUtils.getShortOfString(nickname);
     }
 
+    public boolean isFriend(){
+        return "1".equals(isfriend);
+    }
 
+    public boolean isBoy(){
+        return "男".equals(sex);
+    }
 
     public String getNick() {
         return nickname;

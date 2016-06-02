@@ -19,11 +19,12 @@ import com.sumauto.widget.CheckableLinearLayout;
  * 用户item
  */
 public class ContactsHolder extends BaseViewHolder implements View.OnClickListener {
-    public final TextView tv_attention,tv_nick,tv_address;
+    public final TextView tv_attention, tv_nick, tv_address;
     public final ImageView iv_avatar;
-    private UserInfoBean bean;
+    public UserInfoBean bean;
     Drawable d;
     private final CheckableLinearLayout btn_attention;
+    private String status = "";
 
     public ContactsHolder(ViewGroup parent) {
         super(parent, R.layout.list_item_user);
@@ -39,30 +40,41 @@ public class ContactsHolder extends BaseViewHolder implements View.OnClickListen
     @Override
     protected void onInit(Object data) {
         this.bean = (UserInfoBean) data;
-        initAttentionButton();
-        ViewUtil.registerOnClickListener(this, btn_attention);
+
         tv_nick.setText(bean.nickname);
-        if (!TextUtils.isEmpty(bean.title)){
+        if (!TextUtils.isEmpty(bean.title)) {
             tv_address.setText(bean.title);
-        }else{
+        } else {
             tv_address.setText(bean.phone);
         }
-        ImageLoader.getInstance().displayImage(bean.headimg,iv_avatar, ImageOptions.options());
+        ImageLoader.getInstance().displayImage(bean.headimg, iv_avatar, ImageOptions.options());
     }
 
 
-    @Override
-    public void onClick(View v) {
-        bean.setIsAttention(!bean.isAttention());
-        initAttentionButton();
-    }
-
-    void initAttentionButton() {
-        btn_attention.setChecked(bean.isAttention());
-        if (bean.isAttention()) {
-            tv_attention.setText(R.string.attention_already);
-        } else {
-            tv_attention.setText(R.string.attention);
+    public void setStatus(String status) {
+        if (status == null) {
+            status = "";
         }
+        this.status = status;
+        switch (status){
+            case "1":{
+                tv_attention.setText(R.string.attention);
+                btn_attention.setChecked(true);
+                break;
+            }
+            case "2":{
+                tv_attention.setText(R.string.attention_already);
+                btn_attention.setChecked(false);
+                break;
+            }
+            default:{
+                tv_attention.setText("邀请");
+                btn_attention.setChecked(true);
+            }
+        }
+
     }
+
+
+
 }

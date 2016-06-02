@@ -1,7 +1,6 @@
 package com.sumauto.habitat.activity;
 
 import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -11,7 +10,7 @@ import android.util.Log;
 import android.view.View;
 
 import com.sumauto.habitat.R;
-import com.sumauto.habitat.adapter.ChooseUserAdapter;
+import com.sumauto.habitat.adapter.FriendListAdapter;
 import com.sumauto.habitat.adapter.HeaderDecor;
 import com.sumauto.habitat.bean.UserInfoBean;
 import com.sumauto.habitat.callback.ViewId;
@@ -25,7 +24,7 @@ import java.util.Map;
 import java.util.Set;
 
 public class NoticeFriendListActivity extends BaseActivity {
-    private ChooseUserAdapter adapter;
+    private FriendListAdapter adapter;
     @ViewId RecyclerView recyclerView;
 
     public static void start(Activity context, int requestCode) {
@@ -38,7 +37,7 @@ public class NoticeFriendListActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_notice_friend_list);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        adapter = new ChooseUserAdapter(getData());
+        adapter = new FriendListAdapter(this);
         recyclerView.setAdapter(adapter);
         recyclerView.addItemDecoration(new DividerDecoration(Color.parseColor("#e5e5e5")));
         recyclerView.addItemDecoration(new HeaderDecor());
@@ -47,26 +46,20 @@ public class NoticeFriendListActivity extends BaseActivity {
             @Override
             public void onClick(View v) {
                 Set<UserInfoBean> selectedUser = adapter.getSelectedUser();
-                StringBuilder nameBuilder = new StringBuilder();
                 StringBuilder idBuilder = new StringBuilder();
                 int selectCount = selectedUser.size();
                 if (selectCount != 0) {
-                    nameBuilder.append(selectCount).append(" users is select \n");
                     for (UserInfoBean bean : selectedUser) {
-                        nameBuilder.append(bean.getNick());
-                        nameBuilder.append("\n");
                         idBuilder.append(",").append(bean.id);
                     }
+
                     Intent intent = new Intent();
                     intent.putExtra("ids", idBuilder.toString().substring(1));
                     setResult(RESULT_OK, intent);
-                    DialogUtils.show(NoticeFriendListActivity.this, nameBuilder);
-                    Log.d(TAG, nameBuilder.toString());
+                    finish();
+                    //DialogUtils.show(NoticeFriendListActivity.this, nameBuilder);
+                    Log.d(TAG, idBuilder.toString());
                 }
-
-                finish();
-
-
             }
         });
     }

@@ -36,7 +36,7 @@
                 android:layout_width="@dimen/dimen_33"
                 android:layout_height="@dimen/dimen_33"
                 android:layout_gravity="right|center_vertical"
-                android:src="@drawable/test_image_01"/>
+                android:src="@mipmap/default_avatar"/>
         </FrameLayout>
 
         <View

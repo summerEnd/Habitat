@@ -1,13 +1,12 @@
 package com.sumauto.habitat.activity;
 
-import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.TextView;
 
 import com.sumauto.habitat.R;
-import com.sumauto.habitat.bean.FeedBean;
 import com.sumauto.habitat.bean.UserInfoBean;
 import com.sumauto.habitat.callback.ViewId;
 import com.sumauto.habitat.http.HttpManager;
@@ -15,23 +14,12 @@ import com.sumauto.habitat.http.HttpRequest;
 import com.sumauto.habitat.http.JsonHttpHandler;
 import com.sumauto.habitat.http.Requests;
 
-import java.util.List;
-
 public class UserDetailActivity extends BaseActivity {
     @ViewId TextView tv_signature;
     @ViewId TextView tv_commit_name;
     @ViewId TextView tv_birthday;
     @ViewId TextView tv_gender;
     @ViewId TextView tv_nick;
-
-    public static void start(Context context, String uid) {
-
-        Intent intent = new Intent(Intent.ACTION_VIEW);
-        String url = "habitat://user/data?"
-                + "uid=" + uid;
-        intent.setData(Uri.parse(url));
-        context.startActivity(intent);
-    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,4 +46,7 @@ public class UserDetailActivity extends BaseActivity {
         }
     }
 
+    public void onAddComm(View view) {
+
+    }
 }

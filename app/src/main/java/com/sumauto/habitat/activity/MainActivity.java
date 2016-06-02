@@ -7,23 +7,20 @@ import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.view.View;
 
-import com.sumauto.habitat.HabitatApp;
 import com.sumauto.habitat.R;
 import com.sumauto.habitat.activity.fragment.BaseFragment;
 import com.sumauto.habitat.activity.fragment.MainFragment;
 import com.sumauto.habitat.activity.fragment.MainMineFragment;
 import com.sumauto.habitat.activity.fragment.MainSearchFragment;
 import com.sumauto.habitat.activity.fragment.MainTrendFragment;
-import com.sumauto.habitat.activity.fragment.TrendListFragment;
 import com.sumauto.habitat.callback.ListCallback;
 import com.sumauto.habitat.callback.Scrollable;
 import com.sumauto.habitat.utils.BroadCastManager;
 import com.sumauto.habitat.utils.BroadCastManager.LoginStateReceiver;
 import com.sumauto.widget.CheckableLinearLayout;
-import com.umeng.socialize.UMShareAPI;
 
 
-public class MainActivity extends BaseActivity implements ViewPager.OnPageChangeListener, ListCallback, TrendListFragment.Callback {
+public class MainActivity extends BaseActivity implements ViewPager.OnPageChangeListener, ListCallback{
 
     CheckableLinearLayout mCheckedTab;
     final BaseFragment FRAGMENTS[] = new BaseFragment[]{new MainFragment(), new MainSearchFragment(), new MainTrendFragment(), new MainMineFragment()};
@@ -157,13 +154,7 @@ public class MainActivity extends BaseActivity implements ViewPager.OnPageChange
     }
 
     @Override
-    public String getComId() {
-        return getUserData(HabitatApp.ACCOUNT_COMMID);
-    }
-
-    @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        UMShareAPI.get( this ).onActivityResult( requestCode, resultCode, data);
     }
 }

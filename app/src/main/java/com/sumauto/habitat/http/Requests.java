@@ -1,6 +1,8 @@
 package com.sumauto.habitat.http;
 
 import android.os.Bundle;
+import android.support.v4.util.ArrayMap;
+import android.text.TextUtils;
 
 import com.loopj.android.http.RequestParams;
 import com.sumauto.habitat.HabitatApp;
@@ -24,6 +26,7 @@ import org.json.JSONObject;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Set;
 
@@ -48,6 +51,10 @@ public class Requests {
         } catch (NotLoginException e) {
             return "";
         }
+    }
+
+    public static String getShareUrl(String tid){
+        return "http://120.76.138.41/qixidi/Index/article/id/"+tid+".html";
     }
 
     public static HttpRequest<String> getUploadUrl(final File file) {
@@ -145,10 +152,9 @@ public class Requests {
      */
     public static HttpRequest<User> getThirdLogin(String nickname, String headimg, String snsaccount) {
         return new SimpleHttpRequest<User>("getThirdLogin",
-                "nickname", nickname, "headimg", headimg,"snsaccount", snsaccount) {
+                "nickname", nickname, "headimg", headimg, "snsaccount", snsaccount) {
             @Override
             public User parser(String jsonString) throws JSONException {
-                User user=new User();
 
                 return JsonUtil.get(new JSONObject(jsonString), User.class);
             }
@@ -304,13 +310,13 @@ public class Requests {
      * @param tid 评论id
      */
     @SuppressWarnings("unused")
-    public static HttpRequest<?> delComment(String tid) {
+    public static HttpRequest<String> delComment(String tid) {
         String id = getUid();
-        return new SimpleHttpRequest<Object>("delComment",
+        return new SimpleHttpRequest<String>("delComment",
                 "uid", id, "tid", tid) {
             @Override
-            public Object parser(String jsonString) throws JSONException {
-                return null;
+            public String parser(String jsonString) throws JSONException {
+                return jsonString;
             }
         };
     }
@@ -552,7 +558,7 @@ public class Requests {
 
     public static HttpRequest<UserInfoBean> getFriendInfo(String uid) {
         return new SimpleHttpRequest<UserInfoBean>("getFriendinfo",
-                "fid", uid) {
+                "uid", getUid(), "fid", uid) {
             @Override
             public UserInfoBean parser(String jsonString) throws JSONException {
                 return JsonUtil.get(new JSONObject(jsonString), UserInfoBean.class);
@@ -568,36 +574,40 @@ public class Requests {
                 "uid", getUid(), "pageid", page, "pagesize", 10) {
             @Override
             public List<AttentionBean> parser(String jsonString) throws JSONException {
-                JSONArray data = new JSONArray(jsonString);
-                int length = data.length();
                 List<AttentionBean> attentionBeanList = new ArrayList<>();
-                for (int i = 0; i < length; i++) {
-                    JSONObject opt = data.optJSONObject(i);
-                    if (opt != null) {
 
-                        AttentionBean bean = JsonUtil.get(
-                                opt.getJSONObject("userinfo"),
-                                AttentionBean.class);
+                if (JsonUtil.isJsonArray(jsonString)){
+                    JSONArray data = new JSONArray(jsonString);
+                    int length = data.length();
+                    for (int i = 0; i < length; i++) {
+                        JSONObject opt = data.optJSONObject(i);
+                        if (opt != null) {
 
-                        JSONArray articlelist = opt.optJSONArray("articlelist");
-                        if (articlelist != null) {
-                            int articleNum = articlelist.length();
+                            AttentionBean bean = JsonUtil.get(
+                                    opt.getJSONObject("userinfo"),
+                                    AttentionBean.class);
+
+                            JSONArray articlelist = opt.optJSONArray("articlelist");
                             bean.articleList = new ArrayList<>();
-                            for (int j = 0; j < articleNum; j++) {
-                                ImageBean imageBean = new ImageBean();
-                                JSONObject article = articlelist.getJSONObject(i);
-                                imageBean.id = article.optString("tid");
-                                imageBean.img = article.optString("timg");
-                                bean.articleList.add(imageBean);
+                            if (articlelist != null) {
+                                int articleNum = articlelist.length();
+                                for (int j = 0; j < articleNum; j++) {
+                                    ImageBean imageBean = new ImageBean();
+                                    JSONObject article = articlelist.getJSONObject(i);
+                                    imageBean.id = article.optString("tid");
+                                    imageBean.img = article.optString("timg");
+                                    bean.articleList.add(imageBean);
+                                }
+                            } else {
+                                SLog.e("erro", "articlelist is " + opt.optString("articlelist"));
                             }
-                        } else {
-                            SLog.e("erro", "articlelist is " + opt.optString("articlelist"));
+
+
+                            attentionBeanList.add(bean);
                         }
-
-
-                        attentionBeanList.add(bean);
                     }
                 }
+
                 return attentionBeanList;
             }
         };
@@ -607,9 +617,9 @@ public class Requests {
      * 30.	获取关于我的消息列表接口：
      * pageid
      */
-    public static HttpRequest<List<AboutBean>> getUserMessage(int pageid) {
+    public static HttpRequest<List<AboutBean>> getUserMessage(int pageid,String fid) {
         return new SimpleHttpRequest<List<AboutBean>>("getUserMessage",
-                "uid", getUid(), "pageid", pageid, "pagesize", 10) {
+                "uid", getUid(),"fid",fid, "pageid", pageid, "pagesize", 10) {
             @Override
             public List<AboutBean> parser(String jsonString) throws JSONException {
                 return JsonUtil.getArray(new JSONArray(jsonString), AboutBean.class);
@@ -620,12 +630,19 @@ public class Requests {
     /**
      * 31.	获取用户微博流图片列表接口：
      */
-    public static HttpRequest<List<UserInfoBean>> getImgList(int pageid, int pagesize) {
-        return new SimpleHttpRequest<List<UserInfoBean>>("getImgList",
-                "uid", getUid()) {
+    public static HttpRequest<List<JSONObject>> getImgList(String uid, int pageid, int pagesize) {
+        return new SimpleHttpRequest<List<JSONObject>>("getImgList",
+                "uid", getUid(), "fid", uid, "pageid", pageid, "pagesize", pagesize) {
             @Override
-            public List<UserInfoBean> parser(String jsonString) throws JSONException {
-                return null;
+            public List<JSONObject> parser(String jsonString) throws JSONException {
+                ArrayList<JSONObject> arrayMap = new ArrayList<>();
+                JSONArray array = new JSONArray(jsonString);
+                int length = array.length();
+                for (int i = 0; i < length; i++) {
+                    JSONObject jsonObject = array.getJSONObject(i);
+                    arrayMap.add(jsonObject);
+                }
+                return arrayMap;
             }
         };
     }
@@ -638,7 +655,7 @@ public class Requests {
                 "uid", getUid()) {
             @Override
             public List<UserInfoBean> parser(String jsonString) throws JSONException {
-                return null;
+                return JsonUtil.getArray(new JSONArray(jsonString), UserInfoBean.class);
             }
         };
     }
@@ -646,12 +663,21 @@ public class Requests {
     /**
      * 33.	检测通讯录中的好友状态，是否已注册账号，已注册的是否为好友：
      */
-    public static HttpRequest<List<UserInfoBean>> chargeListStatus() {
-        return new SimpleHttpRequest<List<UserInfoBean>>("chargeListStatus",
-                "uid", getUid()) {
+    public static HttpRequest<HashMap<String, String>> chargeListStatus(String phones) {
+        return new SimpleHttpRequest<HashMap<String, String>>("chargeListStatus",
+                "uid", getUid(), "phones", phones) {
             @Override
-            public List<UserInfoBean> parser(String jsonString) throws JSONException {
-                return null;
+            public HashMap<String, String> parser(String jsonString) throws JSONException {
+                JSONArray statusList = new JSONArray(jsonString);
+                HashMap<String, String> map = new HashMap<>();
+                int length = statusList.length();
+                for (int i = 0; i < length; i++) {
+                    JSONObject data = statusList.getJSONObject(i);
+                    //（0->未注册，1->已注册未关注，2->已关注）
+                    map.put(data.getString("phone"), data.getString("status"));
+
+                }
+                return map;
             }
         };
     }
@@ -659,25 +685,26 @@ public class Requests {
     /**
      * 34.	用户删除帖子接口
      */
-    public static HttpRequest<List<UserInfoBean>> delSubject() {
-        return new SimpleHttpRequest<List<UserInfoBean>>("delSubject",
-                "uid", getUid()) {
+    public static HttpRequest<String> delSubject(String tid) {
+        return new SimpleHttpRequest<String>("delSubject",
+                "uid", getUid(), "tid", tid) {
             @Override
-            public List<UserInfoBean> parser(String jsonString) throws JSONException {
-                return null;
+            public String parser(String jsonString) throws JSONException {
+                return jsonString;
             }
         };
     }
 
     /**
-     * 35.	获取好友动态接口：
+     * 35.	获取我的好友动态接口：
      */
-    public static HttpRequest<List<UserInfoBean>> getFriendActive() {
-        return new SimpleHttpRequest<List<UserInfoBean>>("getFriendActive",
-                "uid", getUid()) {
+    public static HttpRequest<List<FeedBean>> getMyFriendActive(String uid, int page) {
+        return new SimpleHttpRequest<List<FeedBean>>("getFriendActive",
+                "uid", uid, "pageid", page, "pagesize", 5) {
             @Override
-            public List<UserInfoBean> parser(String jsonString) throws JSONException {
-                return null;
+            public List<FeedBean> parser(String jsonString) throws JSONException {
+                return JsonUtil.getArray(
+                        new JSONObject(jsonString).getJSONArray("articlelist"), FeedBean.class);
             }
         };
     }
@@ -691,6 +718,99 @@ public class Requests {
             @Override
             public List<UserInfoBean> parser(String jsonString) throws JSONException {
                 return null;
+            }
+        };
+    }
+
+    /**
+     * 36.	38.	获取好友的用户中心个人信息接口：：
+     */
+    public static HttpRequest<UserInfoBean> getFriendUserinfo(String fid) {
+        return new SimpleHttpRequest<UserInfoBean>("getFriendUserinfo",
+                "uid", getUid(), "fid", fid) {
+            @Override
+            public UserInfoBean parser(String jsonString) throws JSONException {
+                return null;
+            }
+        };
+    }
+
+    /**
+     * 39.	获取获取黑名单列表接口：：
+     * 可以查看别人的黑名单
+     */
+    public static HttpRequest<List<UserInfoBean>> getBlackList(String fid) {
+        return new SimpleHttpRequest<List<UserInfoBean>>("getBlackList",
+                "uid", getUid(), "fid", fid) {
+            @Override
+            public List<UserInfoBean> parser(String jsonString) throws JSONException {
+                return JsonUtil.getArray(new JSONArray(jsonString),UserInfoBean.class);
+            }
+        };
+    }
+
+    /**
+
+     */
+    public static HttpRequest<UserInfoBean> updateUserLocation(String fid) {
+        return new SimpleHttpRequest<UserInfoBean>("updateUserLocation",
+                "uid", getUid(), "fid", fid) {
+            @Override
+            public UserInfoBean parser(String jsonString) throws JSONException {
+                return null;
+            }
+        };
+    }
+
+    public static HttpRequest<List<FeedBean>> getNearBy(int page, double latitude, double longitude) {
+        return new SimpleHttpRequest<List<FeedBean>>("getNearBy",
+                "uid", getUid(), "pageid", page, "latitude", latitude, "longitude", longitude) {
+            @Override
+            public List<FeedBean> parser(String jsonString) throws JSONException {
+                return JsonUtil.getArray(new JSONObject(jsonString).getJSONArray("articlelist"),FeedBean.class);
+            }
+        };
+    }
+
+    public static HttpRequest<List<UserInfoBean>> getMyFriends(int page, String fid) {
+        return new SimpleHttpRequest<List<UserInfoBean>>("getMyFriends",
+                "uid", getUid(), "pageid", page, "fid", fid) {
+            @Override
+            public List<UserInfoBean> parser(String jsonString) throws JSONException {
+                return JsonUtil.getArray(new JSONArray(jsonString), UserInfoBean.class);
+            }
+        };
+    }
+
+    public static HttpRequest<List<UserInfoBean>> getMyFans(int page, String fid) {
+        // FIXME: 16/5/31 万恶的接口写反了
+        String uid = getUid();
+        //fid = getUid();
+        return new SimpleHttpRequest<List<UserInfoBean>>("getMyFans",
+                "uid", uid, "fid", fid, "pageid", page) {
+            @Override
+            public List<UserInfoBean> parser(String jsonString) throws JSONException {
+                return JsonUtil.getArray(new JSONArray(jsonString), UserInfoBean.class);
+            }
+        };
+    }
+
+    public static HttpRequest<List<FeedBean>> getMyActive(int page, String fid) {
+        return new SimpleHttpRequest<List<FeedBean>>("getMyActive",
+                "uid", getUid(), "fid", fid, "pageid", page) {
+            @Override
+            public List<FeedBean> parser(String jsonString) throws JSONException {
+                return JsonUtil.getArray(new JSONObject(jsonString).getJSONArray("articlelist"), FeedBean.class);
+            }
+        };
+    }
+
+    public static HttpRequest<String> removeFriendFromBlack(String fid) {
+        return new SimpleHttpRequest<String>("removeFriendFromBlack",
+                "uid", getUid(), "fid", fid) {
+            @Override
+            public String parser(String jsonString) throws JSONException {
+                return jsonString;
             }
         };
     }

@@ -20,6 +20,10 @@
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
+    <uses-permission android:name="android.permission.RECEIVE_SMS">
+    </uses-permission>
+    <uses-permission android:name="android.permission.READ_SMS">
+    </uses-permission>
 
     <application
         android:name=".HabitatApp"
@@ -74,9 +78,9 @@
                 <category android:name="android.intent.category.DEFAULT"/>
 
                 <data
-                    android:host="user"
+                    android:host="${USER_HOST}"
                     android:path="/home"
-                    android:scheme="habitat"/>
+                    android:scheme="${SCHEMA}"/>
             </intent-filter>
         </activity>
         <activity
@@ -99,32 +103,6 @@
             android:name=".activity.ForgetPassword"
             android:screenOrientation="portrait">
         </activity>
-        <!--微博-->
-        <activity
-            android:name=".wxapi.WBShareActivity"
-            android:configChanges="keyboardHidden|orientation"
-            android:screenOrientation="portrait" >
-            <intent-filter>
-                <action android:name="com.sina.weibo.sdk.action.ACTION_SDK_REQ_ACTIVITY" />
-                <category android:name="android.intent.category.DEFAULT" />
-            </intent-filter>
-        </activity>
-        <activity
-            android:name="com.sina.weibo.sdk.component.WeiboSdkBrowser"
-            android:configChanges="keyboardHidden|orientation"
-            android:windowSoftInputMode="adjustResize"
-            android:exported="false" >
-        </activity>
-        <service
-            android:name="com.sina.weibo.sdk.net.DownloadService"
-            android:exported="false">
-        </service>
-        <!-- ###################注册SDK使用的Activity###################### -->
-        <!-- 分享编辑页 -->
-        <activity
-            android:name="com.umeng.socialize.editorpage.ShareActivity"
-            android:excludeFromRecents="true"
-            android:theme="@style/Theme.UMDefault"/>
 
         <!-- ############ QQ空间和QQ SSO授权的Activity注册 ############ -->
         <activity
@@ -153,6 +131,15 @@
             android:screenOrientation="portrait"
             android:theme="@android:style/Theme.Translucent.NoTitleBar"/>
         <!-- ###################添加UmengAppkey###################### -->
+        <activity
+            android:name="com.umeng.socialize.view.ShareActivity"
+            android:configChanges="orientation|keyboard"
+            android:launchMode="singleTask"
+            android:noHistory="true"
+            android:theme="@style/Theme.UMDialog"
+            android:windowSoftInputMode="stateVisible|adjustResize">
+        </activity>
+
         <meta-data
             android:name="UMENG_APPKEY"
             android:value="${UM_KEY}">
@@ -197,9 +184,9 @@
                 <category android:name="android.intent.category.DEFAULT"/>
 
                 <data
-                    android:host="user"
+                    android:host="${USER_HOST}"
                     android:path="/data"
-                    android:scheme="habitat"/>
+                    android:scheme="${SCHEMA}"/>
             </intent-filter>
         </activity>
         <activity
@@ -209,8 +196,64 @@
         <activity
             android:name=".activity.BlackNoteActivity"
             android:screenOrientation="portrait">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW"/>
+
+                <category android:name="android.intent.category.DEFAULT"/>
+
+                <data
+                    android:host="${USER_HOST}"
+                    android:path="/black"
+                    android:scheme="${SCHEMA}"/>
+            </intent-filter>
         </activity>
 
+        <receiver android:name=".callback.SmsReceiver">
+            <intent-filter android:priority="999">
+                <action android:name="android.provider.Telephony.SMS_RECEIVED"/>
+            </intent-filter>
+        </receiver>
+
+        <activity android:name=".activity.UserTrendActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW"/>
+
+                <category android:name="android.intent.category.DEFAULT"/>
+
+                <data
+                    android:host="${USER_HOST}"
+                    android:path="/trend"
+                    android:scheme="${SCHEMA}"/>
+            </intent-filter>
+        </activity>
+        <activity android:name=".activity.UserFollowActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW"/>
+
+                <category android:name="android.intent.category.DEFAULT"/>
+
+                <data
+                    android:host="${USER_HOST}"
+                    android:path="/follow"
+                    android:scheme="${SCHEMA}"/>
+            </intent-filter>
+        </activity>
+        <activity android:name=".activity.UserFansActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW"/>
+
+                <category android:name="android.intent.category.DEFAULT"/>
+
+                <data
+                    android:host="${USER_HOST}"
+                    android:path="/fans"
+                    android:scheme="${SCHEMA}"/>
+            </intent-filter>
+        </activity>
+        <activity android:name=".activity.ShareActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/translucent">
+        </activity>
     </application>
 
 </manifest>

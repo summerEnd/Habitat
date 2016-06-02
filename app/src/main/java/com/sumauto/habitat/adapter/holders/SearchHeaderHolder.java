@@ -11,6 +11,7 @@ import com.sumauto.habitat.R;
 import com.sumauto.habitat.bean.ImageBean;
 import com.sumauto.habitat.bean.UserInfoBean;
 import com.sumauto.habitat.utils.ImageOptions;
+import com.sumauto.habitat.utils.Navigator;
 import com.sumauto.widget.pager.BannerPager;
 import com.sumauto.widget.recycler.ItemPaddingDecoration;
 
@@ -70,7 +71,9 @@ public class SearchHeaderHolder extends BaseViewHolder {
 
         @Override
         public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-            return new ViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.grid_item_recommend_user, parent, false));
+            View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.grid_item_recommend_user, parent, false);
+
+            return new ViewHolder(itemView);
         }
 
         @Override
@@ -89,6 +92,15 @@ public class SearchHeaderHolder extends BaseViewHolder {
 
         public ViewHolder(View itemView) {
             super(itemView);
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    int adapterPosition = getAdapterPosition();
+                    if (adapterPosition>=0){
+                        Navigator.viewUser(v.getContext(),Navigator.PATH_HOME,userInfoBeans.get(adapterPosition).id);
+                    }
+                }
+            });
         }
     }
 }

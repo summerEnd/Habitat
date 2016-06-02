@@ -3,7 +3,6 @@ package com.sumauto.habitat.adapter;
 import android.view.ViewGroup;
 
 import com.sumauto.habitat.activity.BaseActivity;
-import com.sumauto.habitat.activity.fragment.TrendListFragment;
 import com.sumauto.habitat.adapter.holders.TrendHolder;
 import com.sumauto.habitat.bean.FeedBean;
 import com.sumauto.habitat.http.HttpManager;
@@ -32,7 +31,7 @@ public class CollectAdapter extends LoadMoreAdapter {
     @Override
     public void onBindHolder(BaseHolder holder, int position) {
         TrendHolder trendHolder = (TrendHolder) holder;
-        trendHolder.init((FeedBean) getDataList().get(position));
+        trendHolder.setData(getDataList().get(position));
     }
 
 

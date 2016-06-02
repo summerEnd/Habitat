@@ -1,27 +1,36 @@
 package com.sumauto.habitat.adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.database.Cursor;
 import android.provider.ContactsContract.CommonDataKinds.Phone;
+import android.provider.Telephony;
 import android.support.v7.widget.RecyclerView;
+import android.text.SpannableStringBuilder;
+import android.text.Spanned;
 import android.text.TextUtils;
-import android.util.Log;
+import android.text.style.ImageSpan;
+import android.view.View;
 import android.view.ViewGroup;
 
+import com.sumauto.habitat.R;
 import com.sumauto.habitat.adapter.holders.AddressBookTitleHolder;
 import com.sumauto.habitat.adapter.holders.ContactsHolder;
-import com.sumauto.habitat.adapter.holders.UserListHolder;
 import com.sumauto.habitat.bean.UserInfoBean;
 import com.sumauto.habitat.http.HttpManager;
 import com.sumauto.habitat.http.HttpRequest;
 import com.sumauto.habitat.http.JsonHttpHandler;
 import com.sumauto.habitat.http.Requests;
-import com.sumauto.util.SUtils;
+import com.sumauto.habitat.utils.SortUtils;
+import com.sumauto.util.IntentUtils;
+import com.sumauto.util.ToastUtil;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 
 /**
@@ -30,45 +39,23 @@ import java.util.List;
  */
 public class AddressBookAdapter extends RecyclerView.Adapter implements HeaderDecor.Callback {
 
-    private List<Object> beans = new ArrayList<>();
+    private Map<String, String> statusList = new HashMap<>();
+    private List<Object> mBeans = new ArrayList<>();
     private Context context;
+    private RecyclerView mRecyclerView;
+    String phones = "";
+
     public AddressBookAdapter(Context context) {
-        this.context=context;
-        String[] projections = new String[]{Phone.NUMBER, Phone.DISPLAY_NAME, Phone.PHOTO_URI};
+        this.context = context;
 
-        Cursor query = context.getContentResolver()
-                .query(Phone.CONTENT_URI, projections, "", null, Phone.DISPLAY_NAME + " DESC");
 
-        ArrayList<UserInfoBean> userInfoBeans = new ArrayList<>();
-        while (query.moveToNext()) {
-            Log.d("--->", "ls:" + query.getString(0) + " " + query.getString(1) + " " + query.getString(2));
-            UserInfoBean userInfoBean = new UserInfoBean();
-            userInfoBean.phone = query.getString(0);
-            userInfoBean.nickname = query.getString(1);
-            userInfoBean.headimg = query.getString(2);
-            userInfoBeans.add(userInfoBean);
-        }
-        query.close();
-
-        //按首字母排序
-        Collections.sort(userInfoBeans, new Comparator<UserInfoBean>() {
-            @Override
-            public int compare(UserInfoBean lhs, UserInfoBean rhs) {
-                return lhs.getNameSort().compareTo(rhs.getNameSort());
-            }
-        });
-        //按拼音分组，并插入组标
-        String groupName = "";
-        for (UserInfoBean bean : userInfoBeans) {
-            String firstLetter = bean.getNameFirstLetter().toUpperCase();
-            if (!TextUtils.equals(groupName, firstLetter)) {
-                //组标发生变化
-                beans.add(firstLetter);
-                groupName = firstLetter;
-            }
-            beans.add(bean);
-        }
         getData();
+    }
+
+    @Override
+    public void onAttachedToRecyclerView(RecyclerView recyclerView) {
+        super.onAttachedToRecyclerView(recyclerView);
+        mRecyclerView = recyclerView;
     }
 
     @Override
@@ -77,17 +64,59 @@ public class AddressBookAdapter extends RecyclerView.Adapter implements HeaderDe
             return new AddressBookTitleHolder(parent);
 
         } else {
-            return new ContactsHolder(parent);
+            ContactsHolder contactsHolder = new ContactsHolder(parent);
+
+            contactsHolder.tv_attention.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    ContactsHolder holder = (ContactsHolder) v.getTag();
+                    UserInfoBean bean = holder.bean;
+
+                    if (bean != null) {
+                        String status = statusList.get(bean.phone);
+                        if (status == null) status = "0";//以防万一为空
+                        switch (status) {
+                            case "1": {//未关注
+                                statusList.put(bean.phone, "2");
+                                holder.setStatus("2");
+                                // TODO: 16/5/25 关注
+                                break;
+                            }
+                            case "2": {//已关注
+                                // TODO: 16/5/25 取消关注
+                                statusList.put(bean.phone, "1");
+                                holder.setStatus("1");
+                                break;
+                            }
+                            default: {
+                                // TODO: 16/5/25 邀请好友 发送短信
+                                holder.setStatus("0");
+                                ToastUtil.toast(context, "do invite stuffs");
+                                IntentUtils.sendSms(context, bean.phone, context.getString(R.string.share_content));
+
+                            }
+                        }
+
+                    }
+
+
+                }
+            });
+            return contactsHolder;
         }
     }
 
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
 
+        Object data = mBeans.get(position);
         if (holder instanceof AddressBookTitleHolder) {
-            ((AddressBookTitleHolder) holder).setData(beans.get(position).toString());
+            ((AddressBookTitleHolder) holder).setData(data.toString());
         } else if (holder instanceof ContactsHolder) {
-            ((ContactsHolder) holder).setData(beans.get(position));
+            ContactsHolder contactsHolder = (ContactsHolder) holder;
+            contactsHolder.tv_attention.setTag(contactsHolder);
+            contactsHolder.setStatus(statusList.get(((UserInfoBean) data).phone));
+            contactsHolder.setData(data);
         }
     }
 
@@ -95,18 +124,18 @@ public class AddressBookAdapter extends RecyclerView.Adapter implements HeaderDe
     @Override
     public int getItemViewType(int position) {
 
-        return beans.get(position) instanceof String ? 0 : 1;
+        return mBeans.get(position) instanceof String ? 0 : 1;
     }
 
     @Override
     public int getItemCount() {
 
-        return beans.size();
+        return mBeans.size();
     }
 
     @Override
     public int getHeaderForPosition(int position) {
-        int count = beans.size();
+        int count = mBeans.size();
         if (position < count) {
             for (int i = position; i >= 0; i--) {
                 if (getItemViewType(i) == 0) {
@@ -122,15 +151,53 @@ public class AddressBookAdapter extends RecyclerView.Adapter implements HeaderDe
         return holder instanceof AddressBookTitleHolder;
     }
 
-    void getData(){
-        HttpRequest<List<UserInfoBean>> request = Requests.getUserFriends();
+    void getData() {
 
-        HttpManager.getInstance().post(context, new JsonHttpHandler<List<UserInfoBean>>(request) {
-            @Override
-            public void onSuccess(HttpResponse response, HttpRequest<List<UserInfoBean>> request, List<UserInfoBean> bean) {
+        String[] projections = new String[]{Phone.NUMBER, Phone.DISPLAY_NAME, Phone.PHOTO_URI};
+
+        Cursor query = context.getContentResolver()
+                .query(Phone.CONTENT_URI, projections, "", null, Phone.DISPLAY_NAME + " DESC");
+        final ArrayList<UserInfoBean> userInfoBeans = new ArrayList<>();
+
+        if (query.moveToFirst()) {
+
+            UserInfoBean userInfoBean = new UserInfoBean();
+            userInfoBean.phone = query.getString(0);
+            userInfoBean.nickname = query.getString(1);
+            userInfoBean.headimg = query.getString(2);
+            userInfoBeans.add(userInfoBean);
+            phones += userInfoBean.phone;
+
+            while (query.moveToNext()) {
+                userInfoBean = new UserInfoBean();
+                userInfoBean.phone = query.getString(0);
+                userInfoBean.nickname = query.getString(1);
+                userInfoBean.headimg = query.getString(2);
+                userInfoBeans.add(userInfoBean);
+                phones += "," + userInfoBean.phone;
 
             }
+        }
+        query.close();
+
+
+
+
+        HttpRequest<HashMap<String, String>> request = Requests.chargeListStatus(phones);
+
+        HttpManager.getInstance().post(context, new JsonHttpHandler<HashMap<String, String>>(request) {
+            @Override
+            public void onSuccess(HttpResponse response, HttpRequest<HashMap<String, String>> request, HashMap<String, String> bean) {
+                statusList.clear();
+                statusList.putAll(bean);
+                mBeans.clear();
+                mBeans.addAll(SortUtils.insertLetterIn(userInfoBeans));
+
+                notifyDataSetChanged();
+            }
         });
+
+
     }
 
 }

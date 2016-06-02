@@ -1,24 +1,35 @@
 package com.sumauto.habitat;
 
+import android.Manifest;
 import android.accounts.Account;
 import android.accounts.AccountManager;
 import android.annotation.TargetApi;
+import android.app.Activity;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.graphics.PointF;
+import android.location.Location;
+import android.location.LocationManager;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Looper;
 import android.support.annotation.Nullable;
+import android.support.v4.app.ActivityCompat;
 import android.text.TextUtils;
 import android.util.Log;
+import android.widget.Toast;
 
 import com.sumauto.SApplication;
 import com.sumauto.habitat.exception.NotLoginException;
 import com.sumauto.habitat.utils.BroadCastManager;
 import com.sumauto.util.SLog;
-import com.umeng.analytics.MobclickAgent;
-import com.umeng.analytics.MobclickAgent.UMAnalyticsConfig;
-import com.umeng.socialize.PlatformConfig;
 
+import java.util.List;
 import java.util.Set;
+
+import static android.Manifest.permission.ACCESS_COARSE_LOCATION;
+import static android.Manifest.permission.ACCESS_FINE_LOCATION;
+import static android.content.pm.PackageManager.PERMISSION_GRANTED;
 
 public class HabitatApp extends SApplication {
     private static final String TAG = "habitat";
@@ -44,7 +55,6 @@ public class HabitatApp extends SApplication {
         return instance;
     }
 
-    private Account mLoginAccount;
 
     @Override
     public void onCreate() {
@@ -52,13 +62,6 @@ public class HabitatApp extends SApplication {
         instance = this;
         setDebug(BuildConfig.DEBUG);
 
-        MobclickAgent.startWithConfigure(new UMAnalyticsConfig(this, BuildConfig.APP_KEY, BuildConfig.CHANNEL));
-        PlatformConfig.setWeixin("wx967daebe835fbeac", "5bb696d9ccd75a38c8a0bfe0675559b3");//微信 appid appsecret
-        //新浪微博 appkey appsecret
-        PlatformConfig.setSinaWeibo("3397240833", "293cba99c41d4df2694ec4c70e8a87e6");
-        // QQ和Qzone appid appkey
-        PlatformConfig.setQQZone("1105345733", "0nodokOURqi71RPx");
-        mLoginAccount = getLoginAccount();
     }
 
     /**
@@ -73,7 +76,7 @@ public class HabitatApp extends SApplication {
         if (TextUtils.isEmpty(uid))
             throw new IllegalStateException("must have a uid");
 
-        if (TextUtils.isEmpty(nick)){
+        if (TextUtils.isEmpty(nick)) {
             nick = data.getString(ACCOUNT_PHONE);
         }
 
@@ -99,13 +102,11 @@ public class HabitatApp extends SApplication {
                 accountManager.setPassword(account, pwd);//密码不一样
             }
         }
-
+        //账号不存在，或者被删除了
         if (account == null) {
             account = new Account(accountName, BuildConfig.ACCOUNT_TYPE);
             accountManager.addAccountExplicitly(account, pwd, data);
-            this.mLoginAccount = account;
         } else {
-            this.mLoginAccount = account;
             setLoginUserData(data);
         }
 
@@ -126,7 +127,6 @@ public class HabitatApp extends SApplication {
         }
     }
 
-
     private void saveLastLogin(String uid) {
         //保存登录id
         getSharedPreferences(PREFERANCE_NAME, MODE_PRIVATE).edit().putString("last_login", uid).apply();
@@ -143,27 +143,24 @@ public class HabitatApp extends SApplication {
      */
     @Nullable
     public Account getLoginAccount() {
-        if (mLoginAccount == null) {
 
-            String uid = getSharedPreferences(PREFERANCE_NAME, MODE_PRIVATE)
-                    .getString("last_login", "");
+        String uid = getSharedPreferences(PREFERANCE_NAME, MODE_PRIVATE)
+                .getString("last_login", "");
 
-            if (TextUtils.isEmpty(uid)) {
-                return null;
-            }
+        if (TextUtils.isEmpty(uid)) {
+            return null;
+        }
 
-            AccountManager manager = (AccountManager) getSystemService(ACCOUNT_SERVICE);
-            Account[] accounts = manager.getAccountsByType(BuildConfig.ACCOUNT_TYPE);
-            for (Account account : accounts) {
-                String accountUserId = manager.getUserData(account, ACCOUNT_UID);
-                if (TextUtils.equals(uid, accountUserId)) {
-                    mLoginAccount = account;
-                    break;
-                }
+        AccountManager manager = (AccountManager) getSystemService(ACCOUNT_SERVICE);
+        Account[] accounts = manager.getAccountsByType(BuildConfig.ACCOUNT_TYPE);
+        for (Account account : accounts) {
+            String accountUserId = manager.getUserData(account, ACCOUNT_UID);
+            if (TextUtils.equals(uid, accountUserId)) {
+                return account;
             }
         }
 
-        return mLoginAccount;
+        return null;
     }
 
     public boolean isLogin() {
@@ -180,19 +177,19 @@ public class HabitatApp extends SApplication {
     }
 
     public void setLoginUserData(String key, String value) {
-        if (mLoginAccount != null) {
+        Account account = getLoginAccount();
+        if (account != null) {
             AccountManager manager = (AccountManager) getSystemService(ACCOUNT_SERVICE);
-            manager.setUserData(mLoginAccount, key, value);
+            manager.setUserData(account, key, value);
         } else {
             Log.e("", "not login!");
         }
-
     }
 
     public void setLoginUserData(Bundle data) {
-
-        if (mLoginAccount != null) {
-            setUserData(mLoginAccount, data);
+        Account account = getLoginAccount();
+        if (account != null) {
+            setUserData(account, data);
         } else {
             Log.e("", "not login!");
         }
@@ -206,4 +203,46 @@ public class HabitatApp extends SApplication {
             manager.setUserData(account, key, data.getString(key));
         }
     }
+
+    public Location getPosition() {
+        try {
+            LocationManager locationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
+            //获取所有可用的位置提供器
+            List<String> providers = locationManager.getProviders(true);
+            String locationProvider;
+            if (providers.contains(LocationManager.GPS_PROVIDER)) {
+                //如果是GPS
+                locationProvider = LocationManager.GPS_PROVIDER;
+            } else if (providers.contains(LocationManager.NETWORK_PROVIDER)) {
+                //如果是Network
+                locationProvider = LocationManager.NETWORK_PROVIDER;
+            } else {
+                SLog.e("App","get location failed");
+                Location l = new Location("");
+                return l;
+            }
+            //获取Location
+            if (ActivityCompat.checkSelfPermission(this, ACCESS_FINE_LOCATION) != PERMISSION_GRANTED
+                    && ActivityCompat.checkSelfPermission(this, ACCESS_COARSE_LOCATION) != PERMISSION_GRANTED) {
+                // TODO: Consider calling
+                //    ActivityCompat#requestPermissions
+                // here to request the missing permissions, and then overriding
+                //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+                //                                          int[] grantResults)
+                // to handle the case where the user grants the permission. See the documentation
+                // for ActivityCompat#requestPermissions for more details.
+                return new Location("");
+            }
+            Location location = locationManager.getLastKnownLocation(locationProvider);
+            if (location == null) {
+                SLog.e("App","get location failed");
+                return new Location("");
+            }
+            return location;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new Location("");
+        }
+    }
+
 }

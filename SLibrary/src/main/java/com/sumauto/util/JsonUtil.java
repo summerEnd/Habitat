@@ -1,5 +1,6 @@
 package com.sumauto.util;
 
+import android.text.TextUtils;
 import android.util.Log;
 
 import com.google.gson.Gson;
@@ -80,6 +81,10 @@ public class JsonUtil {
                 }
             }
         }
+    }
+
+    public static boolean isJsonArray(String json){
+        return !TextUtils.isEmpty(json)&&json.startsWith("[");
     }
 
 }

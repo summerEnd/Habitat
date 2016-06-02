@@ -1,41 +1,43 @@
-import java.text.SimpleDateFormat
+import com.google.gson.internal.LinkedTreeMap
 
 apply plugin: 'com.android.application'
+
 def versionMajor = 1
 def versionMinor = 0
 def versionPatch = 0
 def versionBuild = 0
 
-def APP_KEY = "5715a08ae0f55a777f000137";
+Properties configs = new Properties()
+configs.load(new FileInputStream(file("config.properties")))
 
-def buildTime() {
-    def df = new SimpleDateFormat("yyyyMMddHHmm")
-    return df.format(new Date())
-}
+String APP_KEY = configs['UM_APP_KEY']
+String SCHEMA = configs['SCHEMA']
+String USER_HOST = configs['USER_HOST']
+String ACCOUNT_TYPE = configs['ACCOUNT_TYPE']
 
 android {
 
     compileSdkVersion 23
-    buildToolsVersion '23.0.1'
+    buildToolsVersion '23.0.3'
 
     defaultConfig {
+        renderscriptTargetApi 22
+        renderscriptSupportModeEnabled true
         applicationId "com.sumauto.habitat"
         minSdkVersion 15
         targetSdkVersion 23
         versionName "${versionMajor}.${versionMinor}.${versionPatch}"
         versionCode 1
-        resValue "integer" ,'versionCode', "$versionCode"
-        resValue "string" ,'versionName', "$versionName"
-        resValue "string" ,'account_type', "com.sumauto.habitat.accountTypee"
+        resValue "integer", 'versionCode', "$versionCode"
+        resValue "string", 'versionName', versionName
+        resValue "string", 'account_type', ACCOUNT_TYPE
 
-        buildConfigField "String", "ACCOUNT_TYPE", "\"com.sumauto.habitat.accountTypee\""
-        buildConfigField "String", "BUILD_TIME", "\"${buildTime()}\""
-        buildConfigField "String", "APP_KEY", "\"$APP_KEY\""
-        buildConfigField "String", "CHANNEL", "\"\""
-        manifestPlaceholders = [UM_KEY: APP_KEY,UM_CHN: '0001']
-
-
+        configs.keySet().each {key->
+            buildConfigField "String", key, "\"${configs.get(key)}\""
+        }
+        manifestPlaceholders = [UM_KEY: APP_KEY, UM_CHN: '0001', USER_HOST: USER_HOST, SCHEMA: SCHEMA]
     }
+
     dataBinding {
         enabled = true
     }
@@ -54,17 +56,13 @@ android {
             signingConfig signingConfigs.config
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
-            buildConfigField "boolean", "USE_DEMO_USER", "false"
         }
         debug {
             signingConfig signingConfigs.config
-            buildConfigField "boolean", "USE_DEMO_USER", "false"
         }
         fast_debug {
             signingConfig signingConfigs.config
-            buildConfigField "boolean", "USE_DEMO_USER", "true"
             debuggable true
-            applicationIdSuffix '.fast'
         }
     }
 
@@ -78,18 +76,22 @@ android {
             output.outputFile = new File(oldFile.parent, releaseName);
         }
     }
-    productFlavors {
-    }
+
+
+
+
 }
+
 
 dependencies {
     //noinspection GroovyAssignabilityCheck
     compile fileTree(dir: 'libs', include: ['*.jar'])
+    compile fileTree(dir: 'libs/api', include: ['*.jar'])
     compile project(':SLibrary')
     testCompile 'junit:junit:4.12'
     compile('com.android.support:design:23.3.0', 'com.android.support:support-v4:23.3.0')
 
-    compile 'com.umeng.analytics:analytics:latest.integration'
+    //compile 'com.umeng.analytics:analytics:latest.integration'
     //compile 'com.eftimoff:android-pathview:1.0.8@aar'
     compile 'jp.wasabeef:blurry:2.0.0'
     //compile 'com.bigkoo:pickerview:2.0.8'

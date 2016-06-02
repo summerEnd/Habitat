@@ -9,6 +9,7 @@ import android.widget.TextView;
 import com.sumauto.habitat.HabitatApp;
 import com.sumauto.habitat.R;
 import com.sumauto.habitat.callback.ViewId;
+import com.sumauto.habitat.utils.Navigator;
 import com.sumauto.util.FileUtil;
 import com.sumauto.util.ToastUtil;
 
@@ -36,7 +37,7 @@ public class SettingActivity extends BaseActivity {
     }
 
     public void onBlackListClick(View view) {
-        to(BlackNoteActivity.class);
+        Navigator.viewUser(this,Navigator.PATH_BLACK,getUserData(HabitatApp.ACCOUNT_UID));
     }
 
     public void onClearCache(View view) {

@@ -30,7 +30,7 @@ public class MainSearchFragment extends ListFragment {
     private RecyclerView rv_search_list;
 
     @Override
-    public View onCreateContentView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_search, container, false);
     }
@@ -65,6 +65,7 @@ public class MainSearchFragment extends ListFragment {
             }
         });
         processListBottomMargins(rv_search_list);
+        rv_search_list.setAdapter(new SearchFragmentAdapter(getActivity()));
     }
 
     @Override
@@ -74,12 +75,5 @@ public class MainSearchFragment extends ListFragment {
         }
     }
 
-    @Override
-    public void activityCallRefresh() {
-        Assert.assertNotNull(rv_search_list);
-        if (rv_search_list.getAdapter()!=null){
-            return;
-        }
-        rv_search_list.setAdapter(new SearchFragmentAdapter(getActivity()));
-    }
+
 }

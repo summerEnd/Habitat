@@ -46,7 +46,7 @@ public class SearchFragmentAdapter extends LoadMoreAdapter {
         Object o = getDataList().get(position);
 
         if (holder instanceof TrendHolder) {
-            ((TrendHolder) holder).init((FeedBean) o);
+            ((TrendHolder) holder).setData( o);
         } else if (holder instanceof SearchHeaderHolder) {
             HashMap<String, ArrayList> header= (HashMap<String, ArrayList>) o;
             ((SearchHeaderHolder) holder).init(header.get("banner"), header.get("user"));

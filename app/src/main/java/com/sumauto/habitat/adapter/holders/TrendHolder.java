@@ -18,8 +18,8 @@ import com.sumauto.habitat.HabitatApp;
 import com.sumauto.habitat.R;
 import com.sumauto.habitat.activity.BaseActivity;
 import com.sumauto.habitat.activity.LoginActivity;
+import com.sumauto.habitat.activity.ShareActivity;
 import com.sumauto.habitat.activity.TrendDetailActivity;
-import com.sumauto.habitat.activity.UserCenterActivity;
 import com.sumauto.habitat.bean.FeedBean;
 import com.sumauto.habitat.databinding.ListItemNewsFeedBinding;
 import com.sumauto.habitat.exception.NotLoginException;
@@ -28,12 +28,10 @@ import com.sumauto.habitat.http.HttpRequest;
 import com.sumauto.habitat.http.JsonHttpHandler;
 import com.sumauto.habitat.http.Requests;
 import com.sumauto.habitat.utils.ImageOptions;
+import com.sumauto.habitat.utils.Navigator;
 import com.sumauto.habitat.widget.IosListDialog;
 import com.sumauto.util.ToastUtil;
 import com.sumauto.util.ViewUtil;
-import com.umeng.socialize.ShareAction;
-import com.umeng.socialize.UMShareListener;
-import com.umeng.socialize.bean.SHARE_MEDIA;
 
 import java.lang.ref.WeakReference;
 
@@ -43,6 +41,7 @@ import java.lang.ref.WeakReference;
  */
 public class TrendHolder extends BaseViewHolder implements View.OnClickListener {
     public final ImageView iv_avatar, iv_image, iv_heart, iv_comment, iv_collect, iv_more;
+    private Callback mCallback;
     private FeedBean feedBean;
     private WeakReference<BaseActivity> mActivity;
     private WeakReference<ImageView> iv_heartWeak;
@@ -63,53 +62,58 @@ public class TrendHolder extends BaseViewHolder implements View.OnClickListener 
 
     @Override
     protected void onInit(Object data) {
-        init((FeedBean) data);
-    }
-
-    public void init(FeedBean bean) {
-        this.feedBean = bean;
+        this.feedBean = (FeedBean) data;
         iv_heartWeak = new WeakReference<>(iv_heart);
         iv_collectWeak = new WeakReference<>(iv_collect);
 
         ViewUtil.registerOnClickListener(this,
-                itemView, iv_image, iv_heart, iv_comment, iv_collect, iv_more, iv_avatar);
-        iv_heart.setImageResource(bean.isNice() ? R.mipmap.ic_heart_checked : R.mipmap.ic_heart);
-        iv_collect.setImageResource(bean.isCollection() ? R.mipmap.ic_collect_checked : R.mipmap.ic_collect);
-        binding.setBean(bean);
-        ImageLoader.getInstance().displayImage(bean.headimg, iv_avatar, ImageOptions.options());
-        ImageLoader.getInstance().displayImage(bean.img, iv_image, ImageOptions.options());
+                iv_image, iv_heart, iv_comment, iv_collect, iv_more, iv_avatar);
+        iv_heart.setImageResource(feedBean.isNice() ? R.mipmap.ic_heart_checked : R.mipmap.ic_heart);
+        iv_collect.setImageResource(feedBean.isCollection() ? R.mipmap.ic_collect_checked : R.mipmap.ic_collect);
+        binding.setBean(feedBean);
+        ImageLoader.getInstance().displayImage(feedBean.headimg, iv_avatar, ImageOptions.optionsAvatar());
+        ImageLoader.getInstance().displayImage(feedBean.img, iv_image, ImageOptions.options());
+    }
+
+
+    public void setCallback(Callback callback) {
+        this.mCallback = callback;
     }
 
     @Override
     public void onClick(View v) {
 
-        if (v == itemView) {
-            TrendDetailActivity.start(v.getContext(), feedBean.id);
-            //startActivity(intentActivity(TrendDetailActivity.class));
-            return;
-        }
 
         int id = v.getId();
-        Context context = v.getContext();
+        final Context context = v.getContext();
+        //这里是不需要登录的事件
         switch (id) {
             case R.id.iv_image: {
-                TrendDetailActivity.start(v.getContext(), feedBean.id);
+                TrendDetailActivity.start(v.getContext(), feedBean.id,false);
                 break;
             }
 
             case R.id.iv_avatar: {
-                UserCenterActivity.start(v.getContext(), feedBean.uid);
+
+                Navigator.viewUserHome(v.getContext(), feedBean.uid, feedBean.headimg);
+                break;
+            }
+
+            case R.id.iv_comment:{
+                TrendDetailActivity.start(context,feedBean.id,true);
                 break;
             }
 
             case R.id.iv_more: {
                 String loginId = null;
+
                 try {
                     loginId = HabitatApp.getInstance().getLoginUserData(HabitatApp.ACCOUNT_UID);
                 } catch (NotLoginException e) {
                     e.printStackTrace();
                 }
-                CharSequence items[];
+
+                final CharSequence items[];
                 if (loginId != null && TextUtils.equals(loginId, feedBean.uid)) {
 
                     SpannableStringBuilder sb = new SpannableStringBuilder("删除");
@@ -119,122 +123,100 @@ public class TrendHolder extends BaseViewHolder implements View.OnClickListener 
                             tp.setColor(Color.RED);
                         }
                     }, 0, sb.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+                    items = new CharSequence[]{sb, "分享给好友", "分享到其他平台", "举报"};
 
-                    new IosListDialog(context).listener(new IosListDialog.Listener() {
-                        @Override
-                        public void onClick(IosListDialog dialog, int position) {
-
-                            if (position == 1) {
-                                startShare();
-                            }
-
-                        }
-                    }).show(sb, "分享给好友", "分享到其他平台", "举报");
                 } else {
-                    new IosListDialog(context).listener(new IosListDialog.Listener() {
-                        @Override
-                        public void onClick(IosListDialog dialog, int position) {
-
-                            if (position == 1) {
-                                startShare();
-                            }
-
-                        }
-                    }).show("分享给好友", "分享到其他平台", "举报");
+                    items = new CharSequence[]{"分享给好友", "分享到其他平台", "举报"};
                 }
+                IosListDialog dialog = new IosListDialog(context);
+                dialog.listener(new IosListDialog.Listener() {
+                    @Override
+                    public void onClick(IosListDialog dialog, int position) {
+
+                        CharSequence item = items[position];
+                        Context ctx = itemView.getContext();
+                        if ("分享给好友".equals(item)) {
+                            ShareActivity.start(ctx, feedBean.content, Requests.getShareUrl(feedBean.id));
+                        } else if ("分享到其他平台".equals(item)) {
+                            ShareActivity.start(ctx, feedBean.content, Requests.getShareUrl(feedBean.id));
+                        } else if ("举报".equals(item)) {
+                            // TODO: 16/5/25 举报
+                        } else if (item instanceof SpannableStringBuilder) {
+                            //删除
+                            HttpRequest<String> request = Requests.delSubject(feedBean.id);
+
+                            HttpManager.getInstance().post(context, new JsonHttpHandler<String>(request) {
+                                @Override
+                                public void onSuccess(HttpResponse response, HttpRequest<String> request, String bean) {
+                                    if (mCallback != null) {
+                                        mCallback.onDelete(TrendHolder.this);
+                                    }
+                                }
+                            });
+                        }
+                    }
+                }).show(items);
+                break;
+            }
+        }
+
+
+        if (!HabitatApp.getInstance().isLogin()) {
+            startActivity(new Intent(context, LoginActivity.class));
+            return;
+        }
+
+        String tid = feedBean.id;
+        //这里是需要登录的
+        switch (id) {
+            case R.id.iv_heart: {
+                HttpRequest<String> request = feedBean.isNice() ? Requests.unniceSubject(tid) :
+                        Requests.niceSubject(tid);
+                HttpManager.getInstance().post(context, new JsonHttpHandler<String>(request) {
+                    @Override
+                    public void onSuccess(HttpResponse response, HttpRequest<String> request, String bean) {
+                        feedBean.setIsNice(!feedBean.isNice());
+                        ImageView iv_heart = iv_heartWeak.get();
+                        if (iv_heart != null) {
+                            ToastUtil.toast(iv_heart.getContext(), response.msg);
+                            iv_heart.setImageResource(feedBean.isNice() ? R.mipmap.ic_heart_checked :
+                                    R.mipmap.ic_heart);
+                        }
+                    }
+                });
+
+
+                break;
+            }
+            case R.id.iv_comment: {
+                break;
+            }
+            case R.id.iv_collect: {
+                HttpRequest<String> request = feedBean.isCollection() ? Requests.uncollectSubject(tid) :
+                        Requests.collectSubject(tid);
+
+                HttpManager.getInstance().post(context, new JsonHttpHandler<String>(request) {
+                    @Override
+                    public void onSuccess(HttpResponse response, HttpRequest<String> request, String bean) {
+                        feedBean.setIsCollection(!feedBean.isCollection());
+                        ImageView iv_collect = iv_collectWeak.get();
+                        if (iv_collect != null) {
+                            ToastUtil.toast(iv_collect.getContext(), response.msg);
+
+                            iv_collect.setImageResource(feedBean.isCollection() ? R.mipmap.ic_collect_checked :
+                                    R.mipmap.ic_collect);
+                        }
+                    }
+                });
 
                 break;
             }
 
-            default: {
-                //这里是需要登录的
-                if (!HabitatApp.getInstance().isLogin()) {
-                    startActivity(new Intent(context, LoginActivity.class));
-                    return;
-                }
-
-                String tid = feedBean.id;
-                switch (id) {
-                    case R.id.iv_heart: {
-                        HttpRequest<String> request = feedBean.isNice() ? Requests.unniceSubject(tid) :
-                                Requests.niceSubject(tid);
-                        HttpManager.getInstance().post(context, new JsonHttpHandler<String>(request) {
-                            @Override
-                            public void onSuccess(HttpResponse response, HttpRequest<String> request, String bean) {
-                                feedBean.setIsNice(!feedBean.isNice());
-                                ImageView iv_heart = iv_heartWeak.get();
-                                if (iv_heart != null) {
-                                    ToastUtil.toast(iv_heart.getContext(), response.msg);
-
-                                    iv_heart.setImageResource(feedBean.isNice() ? R.mipmap.ic_heart_checked :
-                                            R.mipmap.ic_heart);
-                                }
-                            }
-                        });
-
-
-                        break;
-                    }
-                    case R.id.iv_comment: {
-                        break;
-                    }
-                    case R.id.iv_collect: {
-                        HttpRequest<String> request = feedBean.isCollection() ? Requests.uncollectSubject(tid) :
-                                Requests.collectSubject(tid);
-
-                        HttpManager.getInstance().post(context, new JsonHttpHandler<String>(request) {
-                            @Override
-                            public void onSuccess(HttpResponse response, HttpRequest<String> request, String bean) {
-                                feedBean.setIsCollection(!feedBean.isCollection());
-                                ImageView iv_collect = iv_collectWeak.get();
-                                if (iv_collect != null) {
-                                    ToastUtil.toast(iv_collect.getContext(), response.msg);
-
-                                    iv_collect.setImageResource(feedBean.isCollection() ? R.mipmap.ic_collect_checked :
-                                            R.mipmap.ic_collect);
-                                }
-                            }
-                        });
-
-                        break;
-                    }
-
-                }
-            }
         }
     }
 
-    private void startShare() {
-
-        BaseActivity activity = mActivity.get();
-        if (activity != null) {
-            new ShareAction(activity).setDisplayList(
-                    SHARE_MEDIA.WEIXIN, SHARE_MEDIA.WEIXIN_CIRCLE, SHARE_MEDIA.SINA,
-                    SHARE_MEDIA.QQ, SHARE_MEDIA.QZONE
-            )
-                    .withText("呵呵")
-                    .withTitle("title")
-                    .withTargetUrl("http://www.baidu.com")
-                    //.withMedia( image )
-                    .setListenerList(new UMShareListener() {
-                        @Override
-                        public void onResult(SHARE_MEDIA share_media) {
-
-                        }
-
-                        @Override
-                        public void onError(SHARE_MEDIA share_media, Throwable throwable) {
-
-                        }
-
-                        @Override
-                        public void onCancel(SHARE_MEDIA share_media) {
-
-                        }
-                    })
-                    .open();
-        }
-
+    public interface Callback {
+        void onDelete(TrendHolder holder);
     }
 
 }

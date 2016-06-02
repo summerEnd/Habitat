@@ -16,14 +16,17 @@ import com.sumauto.widget.recycler.DividerDecoration;
  * 黑名单
  */
 public class BlackNoteActivity extends BaseActivity {
-
+    String fid;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_black_note);
+
+        fid=getIntent().getData().getQueryParameter("uid");
+
         RecyclerView recyclerView = (RecyclerView) findViewById(R.id.recyclerView);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        BlackNoteAdapter adapter = new BlackNoteAdapter();
+        BlackNoteAdapter adapter = new BlackNoteAdapter(this,fid);
         recyclerView.addItemDecoration(new DividerDecoration(Color.parseColor("#e5e5e5")));
         recyclerView.addItemDecoration(new HeaderDecor());
         recyclerView.setAdapter(adapter);

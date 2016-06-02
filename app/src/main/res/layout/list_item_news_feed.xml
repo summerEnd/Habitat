@@ -1,15 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto">
+<layout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
+
         <variable
             name="bean"
             type="com.sumauto.habitat.bean.FeedBean"/>
     </data>
 
     <RelativeLayout
-
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/white"
@@ -30,7 +31,7 @@
                 android:layout_height="@dimen/dimen_291"
                 android:contentDescription="@string/image"
                 android:scaleType="centerCrop"
-                android:src="@drawable/test_image_01"
+                android:src="@mipmap/image_loading"
                 app:heightUnits="58"/>
         </com.sumauto.widget.SupperLayout>
 
@@ -47,7 +48,7 @@
                 android:id="@+id/iv_avatar"
                 android:layout_width="@dimen/avatarSize"
                 android:layout_height="@dimen/avatarSize"
-                android:src="@drawable/test_image_01"
+                android:src="@mipmap/default_avatar"
                 app:border_color="@color/white"
                 app:border_width="3dp"
                 app:imageUrl="dfdf"/>
@@ -124,6 +125,8 @@
             <ImageView
                 android:id="@+id/iv_more"
                 android:layout_width="@dimen/dimen_23"
+                android:paddingTop="10dp"
+                android:paddingBottom="10dp"
                 android:layout_height="wrap_content"
                 android:contentDescription="@string/more"
                 android:src="@mipmap/ic_more"/>
