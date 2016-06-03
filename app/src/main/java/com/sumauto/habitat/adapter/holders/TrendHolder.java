@@ -18,6 +18,7 @@ import com.sumauto.habitat.HabitatApp;
 import com.sumauto.habitat.R;
 import com.sumauto.habitat.activity.BaseActivity;
 import com.sumauto.habitat.activity.LoginActivity;
+import com.sumauto.habitat.activity.MoreWindow;
 import com.sumauto.habitat.activity.ShareActivity;
 import com.sumauto.habitat.activity.TrendDetailActivity;
 import com.sumauto.habitat.bean.FeedBean;
@@ -89,7 +90,7 @@ public class TrendHolder extends BaseViewHolder implements View.OnClickListener 
         //这里是不需要登录的事件
         switch (id) {
             case R.id.iv_image: {
-                TrendDetailActivity.start(v.getContext(), feedBean.id,false);
+                TrendDetailActivity.start(v.getContext(), feedBean.id, false);
                 break;
             }
 
@@ -99,63 +100,20 @@ public class TrendHolder extends BaseViewHolder implements View.OnClickListener 
                 break;
             }
 
-            case R.id.iv_comment:{
-                TrendDetailActivity.start(context,feedBean.id,true);
+            case R.id.iv_comment: {
+                TrendDetailActivity.start(context, feedBean.id, true);
                 break;
             }
 
             case R.id.iv_more: {
-                String loginId = null;
-
-                try {
-                    loginId = HabitatApp.getInstance().getLoginUserData(HabitatApp.ACCOUNT_UID);
-                } catch (NotLoginException e) {
-                    e.printStackTrace();
-                }
-
-                final CharSequence items[];
-                if (loginId != null && TextUtils.equals(loginId, feedBean.uid)) {
-
-                    SpannableStringBuilder sb = new SpannableStringBuilder("删除");
-                    sb.setSpan(new CharacterStyle() {
-                        @Override
-                        public void updateDrawState(TextPaint tp) {
-                            tp.setColor(Color.RED);
-                        }
-                    }, 0, sb.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-                    items = new CharSequence[]{sb, "分享给好友", "分享到其他平台", "举报"};
-
-                } else {
-                    items = new CharSequence[]{"分享给好友", "分享到其他平台", "举报"};
-                }
-                IosListDialog dialog = new IosListDialog(context);
-                dialog.listener(new IosListDialog.Listener() {
+                new MoreWindow(context) {
                     @Override
-                    public void onClick(IosListDialog dialog, int position) {
-
-                        CharSequence item = items[position];
-                        Context ctx = itemView.getContext();
-                        if ("分享给好友".equals(item)) {
-                            ShareActivity.start(ctx, feedBean.content, Requests.getShareUrl(feedBean.id));
-                        } else if ("分享到其他平台".equals(item)) {
-                            ShareActivity.start(ctx, feedBean.content, Requests.getShareUrl(feedBean.id));
-                        } else if ("举报".equals(item)) {
-                            // TODO: 16/5/25 举报
-                        } else if (item instanceof SpannableStringBuilder) {
-                            //删除
-                            HttpRequest<String> request = Requests.delSubject(feedBean.id);
-
-                            HttpManager.getInstance().post(context, new JsonHttpHandler<String>(request) {
-                                @Override
-                                public void onSuccess(HttpResponse response, HttpRequest<String> request, String bean) {
-                                    if (mCallback != null) {
-                                        mCallback.onDelete(TrendHolder.this);
-                                    }
-                                }
-                            });
+                    public void onDeleteSuccess() {
+                        if (mCallback != null) {
+                            mCallback.onDelete(TrendHolder.this);
                         }
                     }
-                }).show(items);
+                }.showMoreFor(feedBean);
                 break;
             }
         }

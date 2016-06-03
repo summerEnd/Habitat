@@ -805,6 +805,19 @@ public class Requests {
         };
     }
 
+    /**
+     * 举报
+     */
+    public static HttpRequest<String> reportIllegal(String tid){
+        return new SimpleHttpRequest<String>("reportIllegal",
+                "uid", getUid(), "tid", tid) {
+            @Override
+            public String parser(String jsonString) throws JSONException {
+                return jsonString;
+            }
+        };
+    }
+
     public static HttpRequest<String> removeFriendFromBlack(String fid) {
         return new SimpleHttpRequest<String>("removeFriendFromBlack",
                 "uid", getUid(), "fid", fid) {
